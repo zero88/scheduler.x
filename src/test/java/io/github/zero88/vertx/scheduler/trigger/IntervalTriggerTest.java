@@ -11,10 +11,31 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 class IntervalTriggerTest {
 
     @Test
+    void test_compare() throws JsonProcessingException {
+        final IntervalTrigger trigger1 = IntervalTrigger.builder()
+                                                        .initialDelay(30)
+                                                        .interval(5)
+                                                        .intervalTimeUnit(TimeUnit.SECONDS)
+                                                        .repeat(10)
+                                                        .build();
+        final String data = "{\"initialDelayTimeUnit\":\"SECONDS\",\"initialDelay\":30,\"repeat\":10," +
+                            "\"intervalTimeUnit\":\"SECONDS\",\"interval\":5}";
+        final IntervalTrigger trigger2 = new ObjectMapper().readValue(data, IntervalTrigger.class);
+        Assertions.assertEquals(trigger2, trigger1);
+    }
+
+    @Test
     void test_serialize() throws JsonProcessingException {
-        final IntervalTrigger trigger = IntervalTrigger.builder().interval(10).intervalTimeUnit(TimeUnit.DAYS).build();
+        final IntervalTrigger trigger = IntervalTrigger.builder()
+                                                       .initialDelay(1)
+                                                       .interval(10)
+                                                       .intervalTimeUnit(TimeUnit.DAYS)
+                                                       .repeat(3)
+                                                       .build();
+        Assertions.assertFalse(trigger.noDelay());
+        Assertions.assertTrue(trigger.noRepeatIndefinitely());
         final String json = new ObjectMapper().writeValueAsString(trigger);
-        Assertions.assertEquals("{\"initialDelayTimeUnit\":\"SECONDS\",\"initialDelay\":0,\"repeat\":-1," +
+        Assertions.assertEquals("{\"initialDelayTimeUnit\":\"SECONDS\",\"initialDelay\":1,\"repeat\":3," +
                                 "\"intervalTimeUnit\":\"DAYS\",\"interval\":10}", json);
     }
 
@@ -28,6 +49,9 @@ class IntervalTriggerTest {
         Assertions.assertEquals(TimeUnit.DAYS, trigger.getIntervalTimeUnit());
         Assertions.assertEquals(0, trigger.getInitialDelay());
         Assertions.assertEquals(TimeUnit.SECONDS, trigger.getInitialDelayTimeUnit());
+        Assertions.assertEquals(-1, trigger.getRepeat());
+        Assertions.assertFalse(trigger.noRepeatIndefinitely());
+        Assertions.assertTrue(trigger.noDelay());
     }
 
     @Test
@@ -38,7 +62,8 @@ class IntervalTriggerTest {
         final IntervalTrigger trigger = objectMapper.readValue(data, IntervalTrigger.class);
         Assertions.assertThrows(IllegalArgumentException.class, trigger::getInterval, "Invalid interval value");
         Assertions.assertThrows(IllegalArgumentException.class, trigger::getRepeat, "Invalid repeat value");
-        Assertions.assertThrows(IllegalArgumentException.class, trigger::getInitialDelay, "Invalid initial delay value");
+        Assertions.assertThrows(IllegalArgumentException.class, trigger::getInitialDelay,
+                                "Invalid initial delay value");
     }
 
 }

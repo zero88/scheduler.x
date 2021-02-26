@@ -171,7 +171,7 @@ import java.util.TreeSet;
  * @author Contributions from Mads Henderson
  * @author Refactoring from CronTrigger to CronExpression by Aaron Craven
  */
-public final class CronExpression implements Serializable, Cloneable {
+public final class CronExpression implements Serializable {
 
     public static final int MAX_YEAR = Calendar.getInstance().get(Calendar.YEAR) + 100;
     protected static final int SECOND = 0;
@@ -1125,8 +1125,8 @@ public final class CronExpression implements Serializable, Cloneable {
                 return null;
             }
 
-            SortedSet<Integer> st = null;
-            int t = 0;
+            SortedSet<Integer> st;
+            int t;
 
             int sec = cl.get(Calendar.SECOND);
             int min = cl.get(Calendar.MINUTE);
@@ -1574,12 +1574,6 @@ public final class CronExpression implements Serializable, Cloneable {
             buildExpression(cronExpression);
         } catch (Exception ignore) {
         } // never happens
-    }
-
-    @Override
-    @Deprecated
-    public Object clone() {
-        return new CronExpression(this);
     }
 
     /**

@@ -12,20 +12,32 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 class CronTriggerTest {
 
     @Test
+    void test_compare() throws JsonProcessingException {
+        final CronTrigger t1 = CronTrigger.builder()
+                                          .expression("0 0/2 0 ? * * *")
+                                          .timeZone(TimeZone.getTimeZone("EST"))
+                                          .build();
+        final String data = "{\"expression\":\"0 0/2 0 ? * * *\",\"timeZone\":\"EST\"}";
+        final CronTrigger t2 = new ObjectMapper().readValue(data, CronTrigger.class);
+        Assertions.assertEquals(t2, t1);
+    }
+
+    @Test
     void test_invalid_trigger() {
         final CronTrigger trigger = CronTrigger.builder().expression("a 0/2 0 ? * * *").build();
-        Assertions.assertThrows(IllegalArgumentException.class, trigger::getCronExpression);
+        Assertions.assertThrows(IllegalArgumentException.class, trigger::toCronExpression);
     }
 
     @Test
     void test_trigger() {
         final CronTrigger trigger = CronTrigger.builder().expression("0 0/2 0 ? * * *").build();
-        final CronExpression cronExpression = trigger.getCronExpression();
+        final CronExpression cronExpression = trigger.toCronExpression();
         final Instant parse = Instant.parse("2021-02-25T00:00:00Z");
 
         Assertions.assertEquals("GMT", trigger.getTimeZone().getID());
         Assertions.assertEquals(cronExpression.getTimeZone(), trigger.getTimeZone());
         Assertions.assertEquals(2 * 60 * 1000, trigger.nextTriggerAfter(parse));
+        Assertions.assertThrows(NullPointerException.class, () -> trigger.nextTriggerAfter(null));
     }
 
     @Test

@@ -13,7 +13,9 @@ import io.github.zero88.vertx.scheduler.Task;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Builder.Default;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.EqualsAndHashCode.Exclude;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
@@ -24,9 +26,9 @@ import lombok.extern.jackson.Jacksonized;
  *
  * @since 1.0.0
  */
-@Data
-@SuperBuilder
 @Jacksonized
+@SuperBuilder
+@EqualsAndHashCode
 public class CronTrigger implements Trigger {
 
     /**
@@ -34,20 +36,24 @@ public class CronTrigger implements Trigger {
      *
      * @see CronExpression
      */
+    @Getter
     @NonNull
     private final String expression;
 
     /**
      * Returns the time zone for which the {@code cronExpression} of this {@code CronTrigger} will be resolved.
      */
+    @Getter
+    @NonNull
     @Default
     private final TimeZone timeZone = TimeZone.getTimeZone(ZoneOffset.UTC.getId());
 
+    @Exclude
     @JsonIgnore
     private CronExpression cronExpression;
 
     @JsonIgnore
-    public CronExpression getCronExpression() {
+    public CronExpression toCronExpression() {
         if (Objects.nonNull(cronExpression)) {
             return cronExpression;
         }
@@ -59,8 +65,16 @@ public class CronTrigger implements Trigger {
     }
 
     public long nextTriggerAfter(@NonNull Instant current) {
-        final Instant next = getCronExpression().getNextValidTimeAfter(Date.from(current)).toInstant();
+        final Instant next = toCronExpression().getNextValidTimeAfter(Date.from(current)).toInstant();
         return Math.max(1, ChronoUnit.MILLIS.between(current, next));
+    }
+
+    public static abstract class CronTriggerBuilder<C extends CronTrigger, B extends CronTriggerBuilder<C, B>> {
+
+        private B cronExpression(CronExpression cronExpression) {
+            return self();
+        }
+
     }
 
 }

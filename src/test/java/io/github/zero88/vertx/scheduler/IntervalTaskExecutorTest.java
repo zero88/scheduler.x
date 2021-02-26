@@ -89,7 +89,7 @@ class IntervalTaskExecutorTest {
                             .vertx(vertx)
                             .trigger(IntervalTrigger.builder().interval(2).repeat(3).build())
                             .task((jobData, ctx) -> {
-                                sleep(4000, testContext);
+                                sleep(3000, testContext);
                                 checkpoint.flag();
                             })
                             .monitor(TaskExecutorAsserter.builder().testContext(testContext).completed(c).build())
@@ -114,6 +114,7 @@ class IntervalTaskExecutorTest {
             }
         };
         final Consumer<TaskResult> e = result -> {
+            Assertions.assertNull(result.data());
             if (result.round() == 2) {
                 Assertions.assertTrue(result.isError());
                 Assertions.assertNotNull(result.error());
