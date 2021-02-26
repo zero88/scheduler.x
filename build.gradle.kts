@@ -75,6 +75,6 @@ nexusStaging {
 }
 
 sonarqube {
-    dependsOn("jacocoTestReport")
+    dependsOn(jacocoTestReport)
 }
 
