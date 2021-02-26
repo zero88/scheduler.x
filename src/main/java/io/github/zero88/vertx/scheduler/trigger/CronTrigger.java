@@ -12,10 +12,10 @@ import io.github.zero88.vertx.scheduler.Task;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Builder;
 import lombok.Builder.Default;
 import lombok.Data;
 import lombok.NonNull;
+import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 
 /**
@@ -25,9 +25,9 @@ import lombok.extern.jackson.Jacksonized;
  * @since 1.0.0
  */
 @Data
-@Builder
+@SuperBuilder
 @Jacksonized
-public final class CronTrigger implements Trigger {
+public class CronTrigger implements Trigger {
 
     /**
      * Returns the cron expression

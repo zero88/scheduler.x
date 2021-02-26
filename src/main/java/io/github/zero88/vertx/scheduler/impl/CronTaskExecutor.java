@@ -11,7 +11,7 @@ import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
-public final class CronTaskExecutor extends AbstractTaskExecutor<CronTrigger> {
+public class CronTaskExecutor extends AbstractTaskExecutor<CronTrigger> {
 
     @Override
     protected @NonNull Future<Long> addTimer(@NonNull Promise<Long> promise, WorkerExecutor workerExecutor) {
