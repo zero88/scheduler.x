@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import io.github.zero88.qwe.TestHelper;
-import io.github.zero88.qwe.exceptions.CarlException;
 import io.github.zero88.vertx.scheduler.impl.IntervalTaskExecutor;
 import io.github.zero88.vertx.scheduler.trigger.IntervalTrigger;
 import io.vertx.core.Vertx;
@@ -18,6 +16,14 @@ import io.vertx.junit5.VertxTestContext;
 
 @ExtendWith(VertxExtension.class)
 class IntervalTaskExecutorTest {
+
+    static void sleep(int millis, VertxTestContext testContext) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            testContext.failNow(e);
+        }
+    }
 
     @Test
     void test_run_task_unable_schedule_due_to_interval(Vertx vertx, VertxTestContext testContext) {
@@ -83,7 +89,7 @@ class IntervalTaskExecutorTest {
                             .vertx(vertx)
                             .trigger(IntervalTrigger.builder().interval(2).repeat(3).build())
                             .task((jobData, ctx) -> {
-                                TestHelper.sleep(4000);
+                                sleep(4000, testContext);
                                 checkpoint.flag();
                             })
                             .monitor(TaskExecutorAsserter.builder().testContext(testContext).completed(c).build())
@@ -101,7 +107,7 @@ class IntervalTaskExecutorTest {
                 throw new RuntimeException("xx");
             }
             if (round == 4) {
-                throw new CarlException("yy");
+                throw new IllegalArgumentException("yy");
             }
             if (round == 5) {
                 ctx.forceStopExecution();
@@ -116,7 +122,7 @@ class IntervalTaskExecutorTest {
             if (result.round() == 4) {
                 Assertions.assertTrue(result.isError());
                 Assertions.assertNotNull(result.error());
-                Assertions.assertTrue(result.error() instanceof CarlException);
+                Assertions.assertTrue(result.error() instanceof IllegalArgumentException);
             }
         };
         final Consumer<TaskResult> c = result -> {

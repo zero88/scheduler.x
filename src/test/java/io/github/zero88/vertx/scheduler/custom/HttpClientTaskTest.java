@@ -3,11 +3,9 @@ package io.github.zero88.vertx.scheduler.custom;
 import java.util.function.Consumer;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import io.github.zero88.qwe.TestHelper;
 import io.github.zero88.vertx.scheduler.TaskExecutorAsserter;
 import io.github.zero88.vertx.scheduler.TaskResult;
 import io.github.zero88.vertx.scheduler.impl.IntervalTaskExecutor;
@@ -20,11 +18,6 @@ import io.vertx.junit5.VertxTestContext;
 
 @ExtendWith(VertxExtension.class)
 class HttpClientTaskTest {
-
-    @BeforeAll
-    static void setup() {
-        TestHelper.setup();
-    }
 
     @Test
     void test_http_task(Vertx vertx, VertxTestContext testContext) {

@@ -3,11 +3,9 @@ package io.github.zero88.vertx.scheduler;
 import java.util.function.Consumer;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import io.github.zero88.qwe.TestHelper;
 import io.github.zero88.vertx.scheduler.impl.CronTaskExecutor;
 import io.github.zero88.vertx.scheduler.trigger.CronTrigger;
 import io.vertx.core.Vertx;
@@ -17,11 +15,6 @@ import io.vertx.junit5.VertxTestContext;
 
 @ExtendWith(VertxExtension.class)
 class CronTaskExecutorTest {
-
-    @BeforeAll
-    static void setup() {
-        TestHelper.setup();
-    }
 
     @Test
     void test_unable_schedule_due_to_initial(Vertx vertx, VertxTestContext testContext) {
