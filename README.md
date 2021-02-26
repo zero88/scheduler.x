@@ -52,10 +52,10 @@ api("io.github.zero88:vertx-scheduler:1.0.0")
 IntervalTaskExecutor.builder()
     .vertx(vertx)
     .trigger(IntervalTrigger.builder().interval(1).repeat(10).build())
-    .task((jobData,ctx)->{
-    if(ctx.round()==5){
-    ctx.forceStopExecution();
-    }
+    .task((jobData, ctx) -> {
+        if(ctx.round()==5) {
+           ctx.forceStopExecution();
+        }
     })
     .build()
     .start()
@@ -65,7 +65,7 @@ IntervalTaskExecutor.builder()
 CronTaskExecutor.builder()
     .vertx(vertx)
     .trigger(CronTrigger.builder().expression("0/5 * * ? * * *").build())
-    .task((jobData,ctx)->{})
+    .task((jobData, ctx) -> {})
     .build()
     .start(vertx.createSharedWorkerExecutor("TEST_CRON",3));
 ```
@@ -165,7 +165,8 @@ public class HttpClientTask implements Task {
 ## TODO
 
 - [ ] Cron task with repeating until a given time / date
-- [ ] Async query job data
+- [ ] Async query job data in execution
+- [ ] Optimize `CronExpression`
 
 ## Disclaim and Disclosure
 
