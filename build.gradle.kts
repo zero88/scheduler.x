@@ -75,7 +75,7 @@ nexusStaging {
 }
 
 project.tasks["sonarqube"].group = "analysis"
-project.tasks["sonarqube"].dependsOn("build", "jacocoTestReport")
+project.tasks["sonarqube"].dependsOn("jar", "jacocoTestReport")
 sonarqube {
     properties {
         property("jacocoHtml", "false")
