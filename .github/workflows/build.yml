@@ -155,7 +155,7 @@ jobs:
 
       - name: SonarQube
         if: needs.context.outputs.shouldPublish == 'true' && env.ENABLE_SONAR == 'true'
-        run: ./gradlew sonarqube -x test -Dsonar.login=${{ secrets.OSS_SONARQUBE_TOKEN }} -Dsonar.branch.name=${{ needs.context.outputs.branch }}
+        run: ./gradlew sonarqube -x test --info -Dsonar.login=${{ secrets.OSS_SONARQUBE_TOKEN }} -Dsonar.branch.name=${{ needs.context.outputs.branch }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

@@ -74,12 +74,22 @@ nexusStaging {
     password = project.property("nexus.password") as String?
 }
 
-project.tasks["sonarqube"].group = "analysis"
-project.tasks["sonarqube"].dependsOn("jar", "jacocoTestReport")
 sonarqube {
     properties {
-        property("jacocoHtml", "false")
         property("sonar.sourceEncoding", "UTF-8")
-        property("sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/coverage.xml")
+        property("sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml")
     }
+}
+
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
+}
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.isEnabled = true
+    }
+}
+tasks.sonarqube {
+    dependsOn(tasks.jacocoTestReport)
 }
