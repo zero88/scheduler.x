@@ -1,6 +1,6 @@
 # Vertx Scheduler
 
-A `lightweight plugable scheduler` based on plain [Vertx](https://vertx.io/) core without any external lib dependencies
+A `lightweight plugable scheduler` based on plain [Vert.x](https://vertx.io/) core without any external libs for scheduling with _cron-style_ and _interval_ timers with a detail _monitor_ on both sync and async task.
 
 - `Scheduling` with:
     - `cron-style` based on [Quartz](http://www.quartz-scheduler.org/) - `Unix` cron expression and `timezone` available
