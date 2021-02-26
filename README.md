@@ -1,13 +1,24 @@
 # Vertx Scheduler
 
+![build](https://github.com/zero88/vertx-scheduler/workflows/build-release/badge.svg?branch=main)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/zero88/vertx-scheduler?sort=semver)
+![Sonatype Nexus (Releases)](https://img.shields.io/nexus/r/io.github.zero88/vertx-scheduler?server=https%3A%2F%2Foss.sonatype.org%2F)
+![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/io.github.zero88/vertx-scheduler?server=https%3A%2F%2Foss.sonatype.org%2F)
+
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=zero88_vertx-scheduler&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=zero88_vertx-scheduler)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=zero88_vertx-scheduler&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=zero88_vertx-scheduler)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=zero88_vertx-scheduler&metric=security_rating)](https://sonarcloud.io/dashboard?id=zero88_vertx-scheduler)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=zero88_vertx-scheduler&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=zero88_vertx-scheduler)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=zero88_vertx-scheduler&metric=coverage)](https://sonarcloud.io/dashboard?id=zero88_vertx-scheduler)
+
 A `lightweight plugable scheduler` based on plain [Vert.x](https://vertx.io/) core without any external libs for scheduling with _cron-style_ and _interval_ timers with a detail _monitor_ on both sync and async task.
 
 - `Scheduling` with:
-    - `cron-style` based on [Quartz](http://www.quartz-scheduler.org/) - `Unix` cron expression and `timezone` available
-      on `JVM`
-    - `interval` with given `time interval`, given `initial delay time` and `repeating` a given number of times or
-      repeating infinitely
-    - able to `cancel` schedule event
+  - `cron-style` based on [Quartz](http://www.quartz-scheduler.org/) - `Unix` cron expression and `timezone` available
+    on `JVM`
+  - `interval` with given `time interval`, given `initial delay time` and `repeating` a given number of times or
+    repeating infinitely
+  - able to `cancel` schedule event
 - Support `synchronize` task and `async` task
 - Run on `vertx-worker-thread` or dedicated `vertx thread-pool`
 - Monitor `executor event` includes `fire counting`, `fired round`, `event time`, `task result data`, `task error` on
