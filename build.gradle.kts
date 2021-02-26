@@ -74,4 +74,10 @@ nexusStaging {
     password = project.property("nexus.password") as String?
 }
 
+sonarqube {
+    dependsOn("jacocoTestReport")
+    properties {
+        property "sonar.sources", "src"
+    }
+}
 
