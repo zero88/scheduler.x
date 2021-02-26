@@ -1,5 +1,6 @@
 plugins {
     id("io.github.zero88.qwe.gradle.oss") version "1.0.0"
+    id("io.github.zero88.qwe.gradle.root") version "1.0.0"
     id("io.codearte.nexus-staging") version "0.22.0"
     id("eclipse")
     id("idea")
