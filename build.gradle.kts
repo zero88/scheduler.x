@@ -76,8 +76,5 @@ nexusStaging {
 
 sonarqube {
     dependsOn("jacocoTestReport")
-    properties {
-        property "sonar.sources", "src"
-    }
 }
 
