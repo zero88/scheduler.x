@@ -1,15 +1,15 @@
-# Vertx Scheduler
+# Scheduler.x
 
-![build](https://github.com/zero88/vertx-scheduler/workflows/build-release/badge.svg?branch=main)
-![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/zero88/vertx-scheduler?sort=semver)
-![Sonatype Nexus (Releases)](https://img.shields.io/nexus/r/io.github.zero88/vertx-scheduler?server=https%3A%2F%2Foss.sonatype.org%2F)
-![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/io.github.zero88/vertx-scheduler?server=https%3A%2F%2Foss.sonatype.org%2F)
+![build](https://github.com/zero88/scheduler.x/workflows/build-release/badge.svg?branch=main)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/zero88/scheduler.x?sort=semver)
+![Sonatype Nexus (Releases)](https://img.shields.io/nexus/r/io.github.zero88/scheduler.x?server=https%3A%2F%2Foss.sonatype.org%2F)
+![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/io.github.zero88/scheduler.x?server=https%3A%2F%2Foss.sonatype.org%2F)
 
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=zero88_vertx-scheduler&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=zero88_vertx-scheduler)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=zero88_vertx-scheduler&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=zero88_vertx-scheduler)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=zero88_vertx-scheduler&metric=security_rating)](https://sonarcloud.io/dashboard?id=zero88_vertx-scheduler)
-[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=zero88_vertx-scheduler&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=zero88_vertx-scheduler)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=zero88_vertx-scheduler&metric=coverage)](https://sonarcloud.io/dashboard?id=zero88_vertx-scheduler)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=zero88_schedulerx&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=zero88_schedulerx)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=zero88_schedulerx&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=zero88_schedulerx)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=zero88_schedulerx&metric=security_rating)](https://sonarcloud.io/dashboard?id=zero88_schedulerx)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=zero88_schedulerx&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=zero88_schedulerx)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=zero88_schedulerx&metric=coverage)](https://sonarcloud.io/dashboard?id=zero88_schedulerx)
 
 A `lightweight plugable scheduler` based on plain [Vert.x](https://vertx.io/) core without any external libs for scheduling with _cron-style_ and _interval_ timers with a detail _monitor_ on both sync and async task.
 
@@ -33,7 +33,7 @@ A `lightweight plugable scheduler` based on plain [Vert.x](https://vertx.io/) co
 
 <dependency>
     <groupId>io.github.zero88</groupId>
-    <artifactId>vertx-scheduler</artifactId>
+    <artifactId>scheduler.x</artifactId>
     <version>1.0.0</version>
 </dependency>
 ```
@@ -41,7 +41,7 @@ A `lightweight plugable scheduler` based on plain [Vert.x](https://vertx.io/) co
 ### Gradle Dependency
 
 ```groovy
-api("io.github.zero88:vertx-scheduler:1.0.0")
+api("io.github.zero88:schedulerx:1.0.0")
 ```
 
 ## How To
@@ -73,7 +73,7 @@ CronTaskExecutor.builder()
 ### Monitor
 
 Please
-check [TaskExecutorMonitor](https://github.com/zero88/vertx-scheduler/blob/62d8feb265f45afad2626886c24f2899346f46b1/src/main/java/io/github/zero88/vertx/scheduler/TaskExecutorMonitor.java)
+check [TaskExecutorMonitor](https://github.com/zero88/scheduler.x/blob/62d8feb265f45afad2626886c24f2899346f46b1/src/main/java/io/github/zero88/vertx/scheduler/TaskExecutorMonitor.java)
 . Example:
 
 ```java
@@ -118,9 +118,9 @@ public interface TaskExecutorLogMonitor extends TaskExecutorMonitor {
 ### Custom task
 
 Please
-check [HttpClientTask](https://github.com/zero88/vertx-scheduler/blob/62d8feb265f45afad2626886c24f2899346f46b1/src/test/java/io/github/zero88/vertx/scheduler/custom/HttpClientTask.java)
+check [HttpClientTask](https://github.com/zero88/scheduler.x/blob/62d8feb265f45afad2626886c24f2899346f46b1/src/test/java/io/github/zero88/vertx/scheduler/custom/HttpClientTask.java)
 and
-its [test](https://github.com/zero88/vertx-scheduler/blob/62d8feb265f45afad2626886c24f2899346f46b1/src/test/java/io/github/zero88/vertx/scheduler/custom/HttpClientTaskTest.java)
+its [test](https://github.com/zero88/scheduler.x/blob/62d8feb265f45afad2626886c24f2899346f46b1/src/test/java/io/github/zero88/vertx/scheduler/custom/HttpClientTaskTest.java)
 for `async` task
 
 ```java
