@@ -1,3 +1,0 @@
-* xref:index.adoc[Welcome]
-* xref:features.adoc[Features]
-include::partial$nav-javadoc.adoc[]
