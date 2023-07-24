@@ -1,0 +1,37 @@
+= Bean.x
+zero88
+
+The project template
+
+== Installation
+
+`Maven` (in your `pom.xml`):
+
+[source,xml,subs="attributes,verbatim"]
+----
+<dependencies>
+    <dependency>
+        <groupId>{project-group}</groupId>
+        <artifactId>{project-name}</artifactId>
+        <version>{project-version}</version>
+    </dependency>
+</dependencies>
+----
+
+`Gradle` (in your `build.gradle`):
+
+[source,groovy,subs="attributes,verbatim"]
+----
+dependencies {
+    api '{project-group}:{project-name}:{project-version}'
+}
+----
+
+`Gradle` (in your `build.gradle.kts`):
+
+[source,groovy,subs="attributes,verbatim"]
+----
+dependencies {
+  api("{project-group}:{project-name}:{project-version}")
+}
+----

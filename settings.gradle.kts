@@ -13,5 +13,34 @@ pluginManagement {
     }
 }
 val projectName = "schedulerx"
+val profile: String by settings
+val pools = mutableMapOf(
+    projectName to arrayOf(":core"),
+    "sample" to emptyArray(),
+    "integtest" to emptyArray()
+)
+val docs = arrayOf(":docs")
+val excludeCISonar = docs
+val excludeCIBuild = pools["sample"]!! + pools["integtest"]!! + excludeCISonar
+pools.putAll(
+    mapOf(
+        "$projectName:docs" to pools[projectName]!!.plus(docs)
+    )
+)
 
-rootProject.name = "$projectName"
+fun flatten(): List<String> = pools.values.toTypedArray().flatten()
+
+rootProject.name = "$projectName-parent"
+when {
+    profile.isBlank() || profile == "all" -> flatten().toTypedArray()
+    profile == "ciBuild"                  -> flatten().filter { !excludeCIBuild.contains(it) }.toTypedArray()
+    profile == "ciSonar"                  -> flatten().filter { !excludeCISonar.contains(it) }.toTypedArray()
+    else                                  -> pools.getOrElse(profile) { throw IllegalArgumentException("Not found profile[$profile]") }
+}.forEach { include(it) }
+
+if (gradle is ExtensionAware) {
+    val extensions = (gradle as ExtensionAware).extensions
+    extensions.add("BASE_NAME", projectName)
+    extensions.add("PROJECT_POOL", pools.toMap())
+    extensions.add("SKIP_PUBLISH", excludeCIBuild + arrayOf(":docs", ":sample", ":integtest"))
+}
