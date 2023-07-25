@@ -6,15 +6,15 @@ import io.github.zero88.schedulerx.trigger.Trigger;
 import io.vertx.core.Vertx;
 
 /**
- * @param <TRIGGER>
- * @param <CTX>
- * @param <EXECUTOR>
- * @param <SELF>
+ * @param <TRIGGER>  Type of Trigger
+ * @param <EXECUTOR> Type of Trigger Task Executor
+ * @param <SELF>     Type of Executor Builder
+ * @see Trigger
+ * @see TriggerTaskExecutor
  * @since 2.0.0
  */
-public interface TriggerTaskExecutorBuilder<TRIGGER extends Trigger, CTX extends TaskExecutionContext,
-                                               EXECUTOR extends TriggerTaskExecutor<TRIGGER>,
-                                               SELF extends TriggerTaskExecutorBuilder<TRIGGER, CTX, EXECUTOR, SELF>> {
+public interface TriggerTaskExecutorBuilder<TRIGGER extends Trigger, EXECUTOR extends TriggerTaskExecutor<TRIGGER>,
+                                               SELF extends TriggerTaskExecutorBuilder<TRIGGER, EXECUTOR, SELF>> {
 
     @NotNull SELF setVertx(@NotNull Vertx vertx);
 

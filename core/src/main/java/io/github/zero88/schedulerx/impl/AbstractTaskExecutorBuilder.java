@@ -14,8 +14,9 @@ import io.github.zero88.schedulerx.trigger.Trigger;
 import io.vertx.core.Vertx;
 
 @SuppressWarnings("unchecked")
-abstract class AbstractTaskExecutorBuilder<T extends Trigger, E extends TriggerTaskExecutor<T>, B extends AbstractTaskExecutorBuilder<T, E, B>>
-    implements TriggerTaskExecutorBuilder<T, TaskExecutionContextInternal, E, B> {
+abstract class AbstractTaskExecutorBuilder<T extends Trigger, E extends TriggerTaskExecutor<T>,
+                                              B extends AbstractTaskExecutorBuilder<T, E, B>>
+    implements TriggerTaskExecutorBuilder<T, E, B> {
 
     private Vertx vertx;
     private TaskExecutorMonitor monitor = TaskExecutorLogMonitor.LOG_MONITOR;
@@ -24,48 +25,43 @@ abstract class AbstractTaskExecutorBuilder<T extends Trigger, E extends TriggerT
     private T trigger;
 
     public @NotNull B setVertx(@NotNull Vertx vertx) {
-        this.vertx = Objects.requireNonNull(vertx);
+        this.vertx = Objects.requireNonNull(vertx, "Vertx instance is required");
         return (B) this;
     }
 
     public @NotNull B setMonitor(@NotNull TaskExecutorMonitor monitor) {
-        this.monitor = Objects.requireNonNull(monitor);
+        this.monitor = Objects.requireNonNull(monitor, "TaskExecutorMonitor is required");
         return (B) this;
     }
 
     public @NotNull B setJobData(@NotNull JobData jobData) {
-        this.jobData = jobData;
+        this.jobData = Objects.requireNonNull(jobData, "JobData is required");
         return (B) this;
     }
 
     public @NotNull B setTask(@NotNull Task task) {
-        this.task = task;
+        this.task = Objects.requireNonNull(task, "Task is required");
         return (B) this;
     }
 
     public @NotNull B setTrigger(@NotNull T trigger) {
-        this.trigger = trigger;
+        this.trigger = Objects.requireNonNull(trigger, "Trigger is required");
         return (B) this;
     }
 
-    @NotNull
     @Override
-    public Vertx vertx() { return vertx; }
+    public @NotNull Vertx vertx() { return vertx; }
 
-    @NotNull
     @Override
-    public TaskExecutorMonitor monitor() { return monitor; }
+    public @NotNull TaskExecutorMonitor monitor() { return monitor; }
 
-    @NotNull
     @Override
-    public JobData jobData() { return jobData; }
+    public @NotNull T trigger() { return trigger; }
 
-    @NotNull
     @Override
-    public Task task() { return task; }
+    public @NotNull Task task() { return task; }
 
-    @NotNull
     @Override
-    public T trigger() { return trigger; }
+    public @NotNull JobData jobData() { return jobData; }
 
 }

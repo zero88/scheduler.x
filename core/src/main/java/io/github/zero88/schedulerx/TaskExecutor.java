@@ -28,11 +28,17 @@ public interface TaskExecutor {
     @NotNull TaskExecutorState state();
 
     /**
+     * Defines a task executor monitor
+     *
+     * @return task executor monitor
+     * @see TaskExecutorMonitor
+     */
+    @NotNull TaskExecutorMonitor monitor();
+
+    /**
      * Start and run in {@code Vertx worker thread pool}
      */
-    default void start() {
-        start(null);
-    }
+    default void start() { start(null); }
 
     /**
      * Start and run in a dedicated thread pool that is provided by a customized worker executor

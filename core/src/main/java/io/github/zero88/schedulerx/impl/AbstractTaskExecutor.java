@@ -48,17 +48,19 @@ public abstract class AbstractTaskExecutor<T extends Trigger> implements Trigger
     }
 
     @Override
-    public @NotNull TaskExecutorState state() {
-        return state;
-    }
+    public @NotNull TaskExecutorState state() { return state; }
 
-    public @NotNull Vertx vertx()                 { return this.vertx; }
+    @Override
+    public @NotNull Vertx vertx() { return this.vertx; }
 
+    @Override
     public @NotNull TaskExecutorMonitor monitor() { return this.monitor; }
 
-    public @NotNull JobData jobData()             { return this.jobData; }
+    @Override
+    public @NotNull JobData jobData() { return this.jobData; }
 
-    public @NotNull Task task()                   { return this.task; }
+    @Override
+    public @NotNull Task task() { return this.task; }
 
     public @NotNull T trigger()                   { return this.trigger; }
 
@@ -91,6 +93,7 @@ public abstract class AbstractTaskExecutor<T extends Trigger> implements Trigger
         }
     }
 
+    @Override
     public void cancel() {
         if (!state().completed()) {
             debug(state().tick(), state().round(), Instant.now(), "Canceling task");
