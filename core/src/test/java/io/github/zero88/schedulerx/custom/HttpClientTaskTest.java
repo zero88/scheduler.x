@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import io.github.zero88.schedulerx.IntervalTaskExecutor;
 import io.github.zero88.schedulerx.TaskExecutorAsserter;
 import io.github.zero88.schedulerx.TaskResult;
-import io.github.zero88.schedulerx.impl.IntervalTaskExecutor;
 import io.github.zero88.schedulerx.trigger.IntervalTrigger;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
@@ -36,11 +36,11 @@ class HttpClientTaskTest {
                                                                  .each(verification)
                                                                  .build();
         IntervalTaskExecutor.builder()
-                            .vertx(vertx)
-                            .trigger(IntervalTrigger.builder().interval(3).repeat(2).build())
-                            .task(new HttpClientTask())
-                            .monitor(monitor)
-                            .jobData(() -> new JsonObject().put("host", host).put("path", path))
+                            .setVertx(vertx)
+                            .setTrigger(IntervalTrigger.builder().interval(3).repeat(2).build())
+                            .setTask(new HttpClientTask())
+                            .setMonitor(monitor)
+                            .setJobData(() -> new JsonObject().put("host", host).put("path", path))
                             .build()
                             .start();
     }

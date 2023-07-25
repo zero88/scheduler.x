@@ -1,8 +1,9 @@
 package io.github.zero88.schedulerx.impl;
 
-import io.github.zero88.schedulerx.TaskExecutorState;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import lombok.NonNull;
+import io.github.zero88.schedulerx.TaskExecutorState;
 
 public interface TaskExecutorStateInternal extends TaskExecutorState {
 
@@ -12,7 +13,7 @@ public interface TaskExecutorStateInternal extends TaskExecutorState {
      * @param timerId timer id
      * @return this for fluent api
      */
-    @NonNull TaskExecutorStateInternal timerId(long timerId);
+    @NotNull TaskExecutorStateInternal timerId(long timerId);
 
     /**
      * Mark task is available to execute
@@ -20,7 +21,7 @@ public interface TaskExecutorStateInternal extends TaskExecutorState {
      * @return this for fluent api
      * @see #pending()
      */
-    @NonNull TaskExecutorStateInternal markAvailable();
+    @NotNull TaskExecutorStateInternal markAvailable();
 
     /**
      * Mark task is executing
@@ -28,7 +29,7 @@ public interface TaskExecutorStateInternal extends TaskExecutorState {
      * @return this for fluent api
      * @see #executing()
      */
-    @NonNull TaskExecutorStateInternal markExecuting();
+    @NotNull TaskExecutorStateInternal markExecuting();
 
     /**
      * Mark task is idle
@@ -36,7 +37,7 @@ public interface TaskExecutorStateInternal extends TaskExecutorState {
      * @return this for fluent api
      * @see #idle()
      */
-    @NonNull TaskExecutorStateInternal markIdle();
+    @NotNull TaskExecutorStateInternal markIdle();
 
     /**
      * Mark state is completed
@@ -44,7 +45,7 @@ public interface TaskExecutorStateInternal extends TaskExecutorState {
      * @return this for fluent api
      * @see #completed()
      */
-    @NonNull TaskExecutorStateInternal markCompleted();
+    @NotNull TaskExecutorStateInternal markCompleted();
 
     /**
      * Increase tick
@@ -67,7 +68,7 @@ public interface TaskExecutorStateInternal extends TaskExecutorState {
      * @param data  data
      * @return current result data, might be {@code null}
      */
-    Object addData(long round, Object data);
+    @Nullable Object addData(long round, @Nullable Object data);
 
     /**
      * Add error when executing task per round
@@ -76,6 +77,6 @@ public interface TaskExecutorStateInternal extends TaskExecutorState {
      * @param error error when executing task
      * @return current error, might be {@code null}
      */
-    Throwable addError(long round, Throwable error);
+    @Nullable Throwable addError(long round, @Nullable Throwable error);
 
 }

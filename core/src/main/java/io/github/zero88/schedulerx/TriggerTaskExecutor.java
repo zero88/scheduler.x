@@ -1,19 +1,24 @@
 package io.github.zero88.schedulerx;
 
-import io.github.zero88.schedulerx.trigger.Trigger;
+import org.jetbrains.annotations.NotNull;
 
-import lombok.NonNull;
+import io.github.zero88.schedulerx.trigger.Trigger;
 
 /**
  * Represents for an executor run task based on particular trigger
  *
  * @param <T> Type of Trigger
- * @param <C> Type of Task Execution context
  * @see Trigger
- * @see TaskExecutionContext
  * @since 1.0.0
  */
-public interface TriggerTaskExecutor<T extends Trigger, C extends TaskExecutionContext> extends TaskExecutor<C> {
+public interface TriggerTaskExecutor<T extends Trigger> extends TaskExecutor {
+
+    /**
+     * Trigger type
+     *
+     * @return trigger
+     */
+    @NotNull T trigger();
 
     /**
      * Task to execute per round
@@ -21,14 +26,7 @@ public interface TriggerTaskExecutor<T extends Trigger, C extends TaskExecutionC
      * @return task
      * @see Task
      */
-    @NonNull Task task();
-
-    /**
-     * Trigger type
-     *
-     * @return trigger
-     */
-    @NonNull T trigger();
+    @NotNull Task task();
 
     /**
      * Defines job data as input task data
@@ -36,14 +34,6 @@ public interface TriggerTaskExecutor<T extends Trigger, C extends TaskExecutionC
      * @return job data
      * @see JobData
      */
-    @NonNull JobData jobData();
-
-    /**
-     * Defines a task executor monitor
-     *
-     * @return task executor monitor
-     * @see TaskExecutorMonitor
-     */
-    @NonNull TaskExecutorMonitor monitor();
+    @NotNull JobData jobData();
 
 }

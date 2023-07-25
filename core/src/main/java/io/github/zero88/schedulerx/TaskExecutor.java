@@ -1,39 +1,44 @@
 package io.github.zero88.schedulerx;
 
+import org.jetbrains.annotations.NotNull;
+
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
-
-import lombok.NonNull;
 
 /**
  * Represents for an executor run {@code task} in conditional loop
  *
- * @param <C> Type of TaskExecutionContext
  * @see TriggerTaskExecutor
  * @since 1.0.0
  */
-public interface TaskExecutor<C extends TaskExecutionContext> {
+public interface TaskExecutor {
 
     /**
      * Vertx
      *
      * @return vertx
      */
-    @NonNull Vertx vertx();
+    @NotNull Vertx vertx();
 
     /**
      * Task executor state
      *
      * @return task executor state
      */
-    @NonNull TaskExecutorState state();
+    @NotNull TaskExecutorState state();
+
+    /**
+     * Defines a task executor monitor
+     *
+     * @return task executor monitor
+     * @see TaskExecutorMonitor
+     */
+    @NotNull TaskExecutorMonitor monitor();
 
     /**
      * Start and run in {@code Vertx worker thread pool}
      */
-    default void start() {
-        start(null);
-    }
+    default void start() { start(null); }
 
     /**
      * Start and run in a dedicated thread pool that is provided by a customized worker executor
@@ -48,7 +53,7 @@ public interface TaskExecutor<C extends TaskExecutionContext> {
      *
      * @param executionContext execution context
      */
-    void executeTask(@NonNull C executionContext);
+    void executeTask(@NotNull TaskExecutionContext executionContext);
 
     /**
      * Cancel executor

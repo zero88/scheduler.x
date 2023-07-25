@@ -3,6 +3,10 @@ package io.github.zero88.schedulerx;
 import java.time.Instant;
 import java.util.Objects;
 
+import org.jetbrains.annotations.Nullable;
+
+import io.github.zero88.schedulerx.impl.TaskResultBuilder;
+
 /**
  * Represents for task result will be pass on each event of {@link TaskExecutorMonitor}
  *
@@ -10,6 +14,8 @@ import java.util.Objects;
  * @since 1.0.0
  */
 public interface TaskResult {
+
+    static TaskResultBuilder builder() { return new TaskResultBuilder(); }
 
     /**
      * Only {@code not null} in {@link TaskExecutorMonitor#onUnableSchedule(TaskResult)}
@@ -80,14 +86,14 @@ public interface TaskResult {
      *
      * @return task result data, might be null
      */
-    Object data();
+    @Nullable Object data();
 
     /**
      * Task result error per each round or latest result error when {@code isCompleted = true}
      *
      * @return task result error, might be null
      */
-    Throwable error();
+    @Nullable Throwable error();
 
     /**
      * Identify task executor is completed by cancel event or reach to limit round
@@ -101,17 +107,13 @@ public interface TaskResult {
      *
      * @return {@code true} if error
      */
-    default boolean isError() {
-        return Objects.nonNull(error());
-    }
+    default boolean isError() { return Objects.nonNull(error()); }
 
     /**
      * Identify task is reschedule or not
      *
      * @return {@code true} if reschedule
      */
-    default boolean isReschedule() {
-        return Objects.nonNull(rescheduledAt()) && round() > 0;
-    }
+    default boolean isReschedule() { return Objects.nonNull(rescheduledAt()) && round() > 0; }
 
 }

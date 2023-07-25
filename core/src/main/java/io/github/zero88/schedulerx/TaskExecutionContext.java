@@ -2,10 +2,10 @@ package io.github.zero88.schedulerx;
 
 import java.time.Instant;
 
-import io.vertx.core.Promise;
-import io.vertx.core.Vertx;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import lombok.NonNull;
+import io.vertx.core.Vertx;
 
 /**
  * Represents for a context per each execution round
@@ -15,23 +15,11 @@ import lombok.NonNull;
 public interface TaskExecutionContext {
 
     /**
-     * Setup task execution context
-     *
-     * @param promise    promise
-     * @param executedAt execution at time
-     * @return a reference to this for fluent API
-     * @apiNote It will be invoked by system. In any attempts invoking, {@link IllegalStateException} will be
-     *     thrown
-     * @see Promise
-     */
-    @NonNull TaskExecutionContext setup(@NonNull Promise<Object> promise, @NonNull Instant executedAt);
-
-    /**
      * Current vertx
      *
      * @return vertx
      */
-    @NonNull Vertx vertx();
+    @NotNull Vertx vertx();
 
     /**
      * Current execution round
@@ -45,14 +33,14 @@ public interface TaskExecutionContext {
      *
      * @return triggeredAt
      */
-    @NonNull Instant triggeredAt();
+    @NotNull Instant triggeredAt();
 
     /**
      * Executed at time
      *
      * @return executedAt
      */
-    @NonNull Instant executedAt();
+    @NotNull Instant executedAt();
 
     /**
      * Check whether force stop execution or not
@@ -72,7 +60,7 @@ public interface TaskExecutionContext {
      * @param data object data
      * @apiNote if task is {@code async} then it should be invoked in handling async result stage
      */
-    void complete(Object data);
+    void complete(@Nullable Object data);
 
     /**
      * Failed execution with error per each round
@@ -80,6 +68,6 @@ public interface TaskExecutionContext {
      * @param throwable execution error
      * @apiNote if task is {@code async} then it should be invoked in handling async result stage
      */
-    void fail(Throwable throwable);
+    void fail(@Nullable Throwable throwable);
 
 }

@@ -2,6 +2,8 @@ package io.github.zero88.schedulerx;
 
 import java.time.Instant;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Represents for current Task executor state
  *
@@ -73,13 +75,13 @@ public interface TaskExecutorState {
      *
      * @return latest data
      */
-    Object lastData();
+    @Nullable Object lastData();
 
     /**
      * Latest error of previous round
      *
      * @return latest error
      */
-    Throwable lastError();
+    @Nullable Throwable lastError();
 
 }

@@ -10,11 +10,8 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BinaryOperator;
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.experimental.Accessors;
+import org.jetbrains.annotations.NotNull;
 
-@Accessors(fluent = true)
 public final class TaskExecutorStateImpl implements TaskExecutorStateInternal {
 
     private final AtomicReference<Instant> availableAt = new AtomicReference<>();
@@ -25,7 +22,6 @@ public final class TaskExecutorStateImpl implements TaskExecutorStateInternal {
     private final AtomicBoolean pending = new AtomicBoolean(true);
     private final AtomicReference<Entry<Long, Object>> data = new AtomicReference<>(new SimpleEntry<>(0L, null));
     private final AtomicReference<Entry<Long, Throwable>> error = new AtomicReference<>(new SimpleEntry<>(0L, null));
-    @Getter
     private long timerId;
 
     @Override
@@ -78,33 +74,35 @@ public final class TaskExecutorStateImpl implements TaskExecutorStateInternal {
         return round.incrementAndGet();
     }
 
+    public long timerId() { return this.timerId; }
+
     @Override
-    public @NonNull TaskExecutorStateInternal timerId(long timerId) {
+    public @NotNull TaskExecutorStateInternal timerId(long timerId) {
         this.timerId = timerId;
         return this;
     }
 
     @Override
-    public @NonNull TaskExecutorStateInternal markAvailable() {
+    public @NotNull TaskExecutorStateInternal markAvailable() {
         pending.set(false);
         availableAt.set(Instant.now());
         return this;
     }
 
     @Override
-    public TaskExecutorStateInternal markExecuting() {
+    public @NotNull TaskExecutorStateInternal markExecuting() {
         executing.set(true);
         return this;
     }
 
     @Override
-    public TaskExecutorStateInternal markIdle() {
+    public @NotNull TaskExecutorStateInternal markIdle() {
         executing.set(false);
         return this;
     }
 
     @Override
-    public TaskExecutorStateInternal markCompleted() {
+    public @NotNull TaskExecutorStateInternal markCompleted() {
         completed.set(true);
         return this;
     }

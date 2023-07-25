@@ -4,9 +4,12 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 class IntervalTriggerTest {
 
@@ -35,8 +38,8 @@ class IntervalTriggerTest {
         Assertions.assertFalse(trigger.noDelay());
         Assertions.assertTrue(trigger.noRepeatIndefinitely());
         final String json = new ObjectMapper().writeValueAsString(trigger);
-        Assertions.assertEquals("{\"initialDelayTimeUnit\":\"SECONDS\",\"initialDelay\":1,\"repeat\":3," +
-                                "\"intervalTimeUnit\":\"DAYS\",\"interval\":10}", json);
+        Assertions.assertEquals("{\"repeat\":3,\"initialDelay\":1,\"initialDelayTimeUnit\":\"SECONDS\"," +
+                                "\"interval\":10,\"intervalTimeUnit\":\"DAYS\"}", json);
     }
 
     @Test
@@ -54,16 +57,24 @@ class IntervalTriggerTest {
         Assertions.assertTrue(trigger.noDelay());
     }
 
-    @Test
-    void test_deserialize_invalid() throws JsonProcessingException {
+    @ParameterizedTest
+    @CsvSource(value = {
+        "{\"repeat\":0}|Invalid repeat value", "{\"interval\":10,\"initialDelay\":-1}|Invalid initial delay value",
+        "{\"interval\":-1}|Invalid interval value", "{\"initialDelayTimeUnit\":\"SECONDS\"}|Invalid interval value",
+    }, delimiter = '|')
+    void test_deserialize_invalid_value(String input, String expected) throws JsonProcessingException {
         final ObjectMapper objectMapper = new ObjectMapper();
-        final String data = "{\"initialDelayTimeUnit\":\"SECONDS\",\"initialDelay\":-1,\"repeat\":0," +
-                            "\"intervalTimeUnit\":\"DAYS\",\"interval\":-1}";
-        final IntervalTrigger trigger = objectMapper.readValue(data, IntervalTrigger.class);
-        Assertions.assertThrows(IllegalArgumentException.class, trigger::getInterval, "Invalid interval value");
-        Assertions.assertThrows(IllegalArgumentException.class, trigger::getRepeat, "Invalid repeat value");
-        Assertions.assertThrows(IllegalArgumentException.class, trigger::getInitialDelay,
-                                "Invalid initial delay value");
+        final IntervalTrigger intervalTrigger = objectMapper.readValue(input, IntervalTrigger.class);
+        Throwable cause = Assertions.assertThrows(IllegalArgumentException.class, intervalTrigger::validate);
+        Assertions.assertEquals(expected, cause.getMessage());
+    }
+
+    @ParameterizedTest
+    @CsvSource({ "{\"initialDelayTimeUnit\":\"SECONDS1\"}" })
+    void test_deserialize_invalid_format(String input) {
+        final ObjectMapper objectMapper = new ObjectMapper();
+        Assertions.assertThrows(InvalidFormatException.class,
+                                () -> objectMapper.readValue(input, IntervalTrigger.class));
     }
 
 }

@@ -12,4 +12,12 @@ import io.github.zero88.schedulerx.Task;
  */
 public interface Trigger {
 
+    /**
+     * Do validate trigger in runtime
+     *
+     * @return this for fluent API
+     * @throws IllegalArgumentException if any configuration is wrong
+     */
+    Trigger validate();
+
 }
