@@ -51,13 +51,16 @@ public final class CronTrigger implements Trigger {
 
     public @NotNull TimeZone getTimeZone() { return this.timeZone; }
 
+    @JsonIgnore
+    public CronExpression getCronExpression() { return cronExpression; }
+
     public long nextTriggerAfter(@NotNull Instant current) {
-        final Instant next = toCronExpression().getNextValidTimeAfter(Date.from(current)).toInstant();
+        final Instant next = validate().cronExpression.getNextValidTimeAfter(Date.from(current)).toInstant();
         return Math.max(1, ChronoUnit.MILLIS.between(current, next));
     }
 
-    @JsonIgnore
-    public CronExpression toCronExpression() {
+    @Override
+    public CronTrigger validate() {
         if (Objects.isNull(cronExpression)) {
             try {
                 this.cronExpression = new CronExpression(expression).setTimeZone(timeZone);
@@ -65,7 +68,7 @@ public final class CronTrigger implements Trigger {
                 throw new IllegalArgumentException("Cannot parse cron expression", e);
             }
         }
-        return cronExpression;
+        return this;
     }
 
     public static CronTriggerBuilder builder() { return new CronTriggerBuilder(); }

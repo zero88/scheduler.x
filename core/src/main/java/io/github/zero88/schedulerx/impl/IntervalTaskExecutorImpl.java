@@ -24,12 +24,13 @@ final class IntervalTaskExecutorImpl extends AbstractTaskExecutor<IntervalTrigge
 
     protected @NotNull Future<Long> addTimer(@NotNull Promise<Long> promise, WorkerExecutor workerExecutor) {
         try {
-            LongSupplier supplier = () -> vertx().setPeriodic(trigger().intervalInMilliseconds(),
+            final IntervalTrigger trigger = trigger();
+            LongSupplier supplier = () -> vertx().setPeriodic(trigger.intervalInMilliseconds(),
                                                               timerId -> run(workerExecutor));
-            if (trigger().noDelay()) {
+            if (trigger.noDelay()) {
                 promise.complete(supplier.getAsLong());
             } else {
-                final long delay = trigger().delayInMilliseconds();
+                final long delay = trigger.delayInMilliseconds();
                 debug(-1, -1, Instant.now(), "delay [" + delay + "ms] then register task in schedule");
                 vertx().setTimer(delay, ignore -> promise.complete(supplier.getAsLong()));
             }
@@ -41,7 +42,8 @@ final class IntervalTaskExecutorImpl extends AbstractTaskExecutor<IntervalTrigge
 
     @Override
     protected boolean shouldCancel(long round) {
-        return trigger().noRepeatIndefinitely() && round >= trigger().getRepeat();
+        final IntervalTrigger trigger = trigger();
+        return trigger.noRepeatIndefinitely() && round >= trigger.getRepeat();
     }
 
 }

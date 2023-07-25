@@ -62,7 +62,9 @@ public abstract class AbstractTaskExecutor<T extends Trigger> implements Trigger
     @Override
     public @NotNull Task task() { return this.task; }
 
-    public @NotNull T trigger()                   { return this.trigger; }
+    @Override
+    @SuppressWarnings("unchecked")
+    public @NotNull T trigger() { return (T) this.trigger.validate(); }
 
     @Override
     public void start(WorkerExecutor workerExecutor) {

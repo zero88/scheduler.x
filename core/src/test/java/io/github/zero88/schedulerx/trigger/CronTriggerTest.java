@@ -25,13 +25,13 @@ class CronTriggerTest {
     @Test
     void test_invalid_trigger() {
         final CronTrigger trigger = CronTrigger.builder().expression("a 0/2 0 ? * * *").build();
-        Assertions.assertThrows(IllegalArgumentException.class, trigger::toCronExpression);
+        Assertions.assertThrows(IllegalArgumentException.class, trigger::validate);
     }
 
     @Test
     void test_trigger() {
-        final CronTrigger trigger = CronTrigger.builder().expression("0 0/2 0 ? * * *").build();
-        final CronExpression cronExpression = trigger.toCronExpression();
+        final CronTrigger trigger = CronTrigger.builder().expression("0 0/2 0 ? * * *").build().validate();
+        final CronExpression cronExpression = trigger.getCronExpression();
         final Instant parse = Instant.parse("2021-02-25T00:00:00Z");
 
         Assertions.assertEquals("GMT", trigger.getTimeZone().getID());

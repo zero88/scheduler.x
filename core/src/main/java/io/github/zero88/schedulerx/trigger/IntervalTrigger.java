@@ -63,15 +63,17 @@ public final class IntervalTrigger implements Trigger {
         this.interval             = interval;
     }
 
-    public long getRepeat()                            { return repeat; }
+    public long getRepeat()       { return repeat; }
 
-    public long getInitialDelay()                      { return initialDelay; }
+    public long getInitialDelay() { return initialDelay; }
 
-    public @NotNull TimeUnit getInitialDelayTimeUnit() { return this.initialDelayTimeUnit; }
+    @NotNull
+    public TimeUnit getInitialDelayTimeUnit() { return this.initialDelayTimeUnit; }
 
-    public long getInterval()                          { return interval; }
+    public long getInterval() { return interval; }
 
-    public @NotNull TimeUnit getIntervalTimeUnit()     { return this.intervalTimeUnit; }
+    @NotNull
+    public TimeUnit getIntervalTimeUnit() { return this.intervalTimeUnit; }
 
     public long intervalInMilliseconds() {
         return TimeUnit.MILLISECONDS.convert(interval, intervalTimeUnit);
@@ -120,6 +122,21 @@ public final class IntervalTrigger implements Trigger {
                ", repeat=" + repeat + ", intervalTimeUnit=" + intervalTimeUnit + ", interval=" + interval + ")";
     }
 
+    @Override
+    public IntervalTrigger validate() {
+        validate(repeat, false, true, "repeat");
+        validate(interval, false, false, "interval");
+        validate(initialDelay, true, false, "initial delay");
+        return this;
+    }
+
+    static void validate(long number, boolean allowZero, boolean allowIndefinitely, String msg) {
+        if (number > 0 || (allowZero && number == 0) || (allowIndefinitely && number == REPEAT_INDEFINITELY)) {
+            return;
+        }
+        throw new IllegalArgumentException("Invalid " + msg + " value");
+    }
+
     @JsonPOJOBuilder(withPrefix = "")
     public static class IntervalTriggerBuilder {
 
@@ -155,16 +172,7 @@ public final class IntervalTrigger implements Trigger {
         }
 
         public IntervalTrigger build() {
-            return new IntervalTrigger(initialDelayTimeUnit, validate(initialDelay, true, false, "initial delay"),
-                                       validate(repeat, false, true, "repeat"), intervalTimeUnit,
-                                       validate(interval, false, false, "interval"));
-        }
-
-        static long validate(long number, boolean allowZero, boolean allowIndefinitely, String msg) {
-            if (number > 0 || (allowZero && number == 0) || (allowIndefinitely && number == REPEAT_INDEFINITELY)) {
-                return number;
-            }
-            throw new IllegalArgumentException("Invalid " + msg + " value");
+            return new IntervalTrigger(initialDelayTimeUnit, initialDelay, repeat, intervalTimeUnit, interval);
         }
 
     }
