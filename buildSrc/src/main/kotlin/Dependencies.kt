@@ -15,6 +15,16 @@ object PlayioPlugin {
     const val codegen = "cloud.playio.gradle.codegen"
 }
 
+object UtilLibs {
+
+    object Version {
+
+        const val jetbrainsAnnotations = "20.1.0"
+    }
+
+    const val jetbrainsAnnotations = "org.jetbrains:annotations:${Version.jetbrainsAnnotations}"
+}
+
 object JacksonLibs {
 
     object Version {

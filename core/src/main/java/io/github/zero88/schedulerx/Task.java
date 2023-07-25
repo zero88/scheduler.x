@@ -1,8 +1,8 @@
 package io.github.zero88.schedulerx;
 
-import io.github.zero88.schedulerx.trigger.Trigger;
+import org.jetbrains.annotations.NotNull;
 
-import lombok.NonNull;
+import io.github.zero88.schedulerx.trigger.Trigger;
 
 /**
  * Represents for Task to run on each trigger time
@@ -31,6 +31,6 @@ public interface Task {
      * @param executionContext task execution context
      * @see TaskExecutionContext
      */
-    void execute(@NonNull JobData jobData, @NonNull TaskExecutionContext executionContext);
+    void execute(@NotNull JobData jobData, @NotNull TaskExecutionContext executionContext);
 
 }

@@ -20,10 +20,10 @@ class CronTaskExecutorTest {
     void test_unable_schedule_due_to_initial(Vertx vertx, VertxTestContext testContext) {
         final Checkpoint checkpoint = testContext.checkpoint(2);
         CronTaskExecutor.builder()
-                        .vertx(vertx)
-                        .trigger(CronTrigger.builder().expression("0/").build())
-                        .task((jobData, ctx) -> {})
-                        .monitor(TaskExecutorAsserter.unableScheduleAsserter(testContext, checkpoint))
+                        .setVertx(vertx)
+                        .setTrigger(CronTrigger.builder().expression("0/").build())
+                        .setTask((jobData, ctx) -> { })
+                        .setMonitor(TaskExecutorAsserter.unableScheduleAsserter(testContext, checkpoint))
                         .build()
                         .start();
     }
@@ -47,19 +47,19 @@ class CronTaskExecutorTest {
             Assertions.assertFalse(result.isError());
         };
         CronTaskExecutor.builder()
-                        .vertx(vertx)
-                        .trigger(CronTrigger.builder().expression("0/5 * * ? * * *").build())
-                        .task((jobData, ctx) -> {
+                        .setVertx(vertx)
+                        .setTrigger(CronTrigger.builder().expression("0/5 * * ? * * *").build())
+                        .setTask((jobData, ctx) -> {
                             checkpoint.flag();
                             if (ctx.round() == 2) {
                                 ctx.forceStopExecution();
                             }
                         })
-                        .monitor(TaskExecutorAsserter.builder()
-                                                     .testContext(testContext)
-                                                     .schedule(schedule)
-                                                     .completed(completed)
-                                                     .build())
+                        .setMonitor(TaskExecutorAsserter.builder()
+                                                        .testContext(testContext)
+                                                        .schedule(schedule)
+                                                        .completed(completed)
+                                                        .build())
                         .build()
                         .start();
     }

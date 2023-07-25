@@ -36,11 +36,11 @@ class HttpClientTaskTest {
                                                                  .each(verification)
                                                                  .build();
         IntervalTaskExecutor.builder()
-                            .vertx(vertx)
-                            .trigger(IntervalTrigger.builder().interval(3).repeat(2).build())
-                            .task(new HttpClientTask())
-                            .monitor(monitor)
-                            .jobData(() -> new JsonObject().put("host", host).put("path", path))
+                            .setVertx(vertx)
+                            .setTrigger(IntervalTrigger.builder().interval(3).repeat(2).build())
+                            .setTask(new HttpClientTask())
+                            .setMonitor(monitor)
+                            .setJobData(() -> new JsonObject().put("host", host).put("path", path))
                             .build()
                             .start();
     }

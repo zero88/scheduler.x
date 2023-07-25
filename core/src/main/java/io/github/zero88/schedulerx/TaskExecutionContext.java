@@ -2,10 +2,11 @@ package io.github.zero88.schedulerx;
 
 import java.time.Instant;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
-
-import lombok.NonNull;
 
 /**
  * Represents for a context per each execution round
@@ -24,14 +25,14 @@ public interface TaskExecutionContext {
      *     thrown
      * @see Promise
      */
-    @NonNull TaskExecutionContext setup(@NonNull Promise<Object> promise, @NonNull Instant executedAt);
+    @NotNull TaskExecutionContext setup(@NotNull Promise<Object> promise, @NotNull Instant executedAt);
 
     /**
      * Current vertx
      *
      * @return vertx
      */
-    @NonNull Vertx vertx();
+    @NotNull Vertx vertx();
 
     /**
      * Current execution round
@@ -45,14 +46,14 @@ public interface TaskExecutionContext {
      *
      * @return triggeredAt
      */
-    @NonNull Instant triggeredAt();
+    @NotNull Instant triggeredAt();
 
     /**
      * Executed at time
      *
      * @return executedAt
      */
-    @NonNull Instant executedAt();
+    @NotNull Instant executedAt();
 
     /**
      * Check whether force stop execution or not
@@ -72,7 +73,7 @@ public interface TaskExecutionContext {
      * @param data object data
      * @apiNote if task is {@code async} then it should be invoked in handling async result stage
      */
-    void complete(Object data);
+    void complete(@Nullable Object data);
 
     /**
      * Failed execution with error per each round
@@ -80,6 +81,6 @@ public interface TaskExecutionContext {
      * @param throwable execution error
      * @apiNote if task is {@code async} then it should be invoked in handling async result stage
      */
-    void fail(Throwable throwable);
+    void fail(@Nullable Throwable throwable);
 
 }

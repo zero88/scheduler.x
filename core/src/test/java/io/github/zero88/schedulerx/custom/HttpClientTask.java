@@ -9,7 +9,7 @@ import io.vertx.core.http.HttpClientResponse;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 
-import lombok.NonNull;
+import org.jetbrains.annotations.NotNull;
 
 public class HttpClientTask implements Task {
 
@@ -19,7 +19,7 @@ public class HttpClientTask implements Task {
     }
 
     @Override
-    public void execute(@NonNull JobData jobData, @NonNull TaskExecutionContext executionContext) {
+    public void execute(@NotNull JobData jobData, @NotNull TaskExecutionContext executionContext) {
         final Vertx vertx = executionContext.vertx();
         JsonObject url = (JsonObject) jobData.get();
         vertx.createHttpClient().request(HttpMethod.GET, url.getString("host"), url.getString("path"), ar1 -> {

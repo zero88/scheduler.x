@@ -1,9 +1,9 @@
 package io.github.zero88.schedulerx;
 
+import org.jetbrains.annotations.NotNull;
+
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
-
-import lombok.NonNull;
 
 /**
  * Represents for an executor run {@code task} in conditional loop
@@ -19,14 +19,14 @@ public interface TaskExecutor<C extends TaskExecutionContext> {
      *
      * @return vertx
      */
-    @NonNull Vertx vertx();
+    @NotNull Vertx vertx();
 
     /**
      * Task executor state
      *
      * @return task executor state
      */
-    @NonNull TaskExecutorState state();
+    @NotNull TaskExecutorState state();
 
     /**
      * Start and run in {@code Vertx worker thread pool}
@@ -48,7 +48,7 @@ public interface TaskExecutor<C extends TaskExecutionContext> {
      *
      * @param executionContext execution context
      */
-    void executeTask(@NonNull C executionContext);
+    void executeTask(@NotNull C executionContext);
 
     /**
      * Cancel executor

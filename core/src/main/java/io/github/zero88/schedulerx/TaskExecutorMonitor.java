@@ -1,6 +1,6 @@
 package io.github.zero88.schedulerx;
 
-import lombok.NonNull;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents for monitor that watches lifecycle event in executor
@@ -16,34 +16,34 @@ public interface TaskExecutorMonitor {
      * @param result task result
      * @see TaskResult
      */
-    void onUnableSchedule(@NonNull TaskResult result);
+    void onUnableSchedule(@NotNull TaskResult result);
 
     /**
      * Invoke after executor is scheduled or rescheduled
      *
      * @param result task result
      */
-    void onSchedule(@NonNull TaskResult result);
+    void onSchedule(@NotNull TaskResult result);
 
     /**
      * Invoke when misfire the execution, one reason is due to task is still running when trigger a new round execution
      *
      * @param result task result
      */
-    void onMisfire(@NonNull TaskResult result);
+    void onMisfire(@NotNull TaskResult result);
 
     /**
      * Invoke after each round is finished regardless a round execution is success or fail
      *
      * @param result task result
      */
-    void onEach(@NonNull TaskResult result);
+    void onEach(@NotNull TaskResult result);
 
     /**
      * Invoke after executor is completed
      *
      * @param result task result
      */
-    void onCompleted(@NonNull TaskResult result);
+    void onCompleted(@NotNull TaskResult result);
 
 }
