@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import io.github.zero88.schedulerx.impl.IntervalTaskExecutor;
 import io.github.zero88.schedulerx.trigger.IntervalTrigger;
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
@@ -31,7 +30,7 @@ class IntervalTaskExecutorTest {
         IntervalTaskExecutor.builder()
                             .setVertx(vertx)
                             .setTrigger(IntervalTrigger.builder().interval(-1).build())
-                            .setTask((jobData, ctx) -> {})
+                            .setTask((jobData, ctx) -> { })
                             .setMonitor(TaskExecutorAsserter.unableScheduleAsserter(testContext, checkpoint))
                             .build()
                             .start();
@@ -43,7 +42,7 @@ class IntervalTaskExecutorTest {
         IntervalTaskExecutor.builder()
                             .setVertx(vertx)
                             .setTrigger(IntervalTrigger.builder().initialDelay(-1).build())
-                            .setTask((jobData, ctx) -> {})
+                            .setTask((jobData, ctx) -> { })
                             .setMonitor(TaskExecutorAsserter.unableScheduleAsserter(testContext, checkpoint))
                             .build()
                             .start();
@@ -69,8 +68,9 @@ class IntervalTaskExecutorTest {
         IntervalTaskExecutor.builder()
                             .setVertx(vertx)
                             .setTrigger(IntervalTrigger.builder().initialDelay(2).interval(2).repeat(2).build())
-                            .setTask((jobData, context) -> {})
-                            .setMonitor(TaskExecutorAsserter.builder().testContext(ctx).schedule(s).completed(c).build())
+                            .setTask((jobData, context) -> { })
+                            .setMonitor(
+                                TaskExecutorAsserter.builder().testContext(ctx).schedule(s).completed(c).build())
                             .build()
                             .start(worker);
     }
@@ -135,7 +135,8 @@ class IntervalTaskExecutorTest {
                             .setVertx(vertx)
                             .setTrigger(IntervalTrigger.builder().interval(1).repeat(10).build())
                             .setTask(task)
-                            .setMonitor(TaskExecutorAsserter.builder().testContext(context).each(e).completed(c).build())
+                            .setMonitor(
+                                TaskExecutorAsserter.builder().testContext(context).each(e).completed(c).build())
                             .build()
                             .start();
     }

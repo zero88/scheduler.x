@@ -8,11 +8,10 @@ import io.vertx.core.WorkerExecutor;
 /**
  * Represents for an executor run {@code task} in conditional loop
  *
- * @param <C> Type of TaskExecutionContext
  * @see TriggerTaskExecutor
  * @since 1.0.0
  */
-public interface TaskExecutor<C extends TaskExecutionContext> {
+public interface TaskExecutor {
 
     /**
      * Vertx
@@ -48,7 +47,7 @@ public interface TaskExecutor<C extends TaskExecutionContext> {
      *
      * @param executionContext execution context
      */
-    void executeTask(@NotNull C executionContext);
+    void executeTask(@NotNull TaskExecutionContext executionContext);
 
     /**
      * Cancel executor

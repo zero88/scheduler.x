@@ -5,6 +5,7 @@ import java.util.function.LongSupplier;
 
 import org.jetbrains.annotations.NotNull;
 
+import io.github.zero88.schedulerx.IntervalTaskExecutor;
 import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.TaskExecutorMonitor;
@@ -14,14 +15,12 @@ import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
 
-public final class IntervalTaskExecutor extends AbstractTaskExecutor<IntervalTrigger> {
+final class IntervalTaskExecutorImpl extends AbstractTaskExecutor<IntervalTrigger> implements IntervalTaskExecutor {
 
-    private IntervalTaskExecutor(@NotNull Vertx vertx, @NotNull TaskExecutorMonitor monitor, @NotNull JobData jobData,
-                                 @NotNull Task task, @NotNull IntervalTrigger trigger) {
+    IntervalTaskExecutorImpl(@NotNull Vertx vertx, @NotNull TaskExecutorMonitor monitor, @NotNull JobData jobData,
+                             @NotNull Task task, @NotNull IntervalTrigger trigger) {
         super(vertx, monitor, jobData, task, trigger);
     }
-
-    public static IntervalTaskExecutorBuilder builder() { return new IntervalTaskExecutorBuilder(); }
 
     protected @NotNull Future<Long> addTimer(@NotNull Promise<Long> promise, WorkerExecutor workerExecutor) {
         try {
@@ -43,15 +42,6 @@ public final class IntervalTaskExecutor extends AbstractTaskExecutor<IntervalTri
     @Override
     protected boolean shouldCancel(long round) {
         return trigger().noRepeatIndefinitely() && round >= trigger().getRepeat();
-    }
-
-    public static class IntervalTaskExecutorBuilder
-        extends AbstractTaskExecutorBuilder<IntervalTrigger, IntervalTaskExecutor, IntervalTaskExecutorBuilder> {
-
-        public @NotNull IntervalTaskExecutor build() {
-            return new IntervalTaskExecutor(vertx(), monitor(), jobData(), task(), trigger());
-        }
-
     }
 
 }

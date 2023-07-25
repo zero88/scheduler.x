@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.Task;
+import io.github.zero88.schedulerx.TaskExecutionContext;
 import io.github.zero88.schedulerx.TaskExecutor;
 import io.github.zero88.schedulerx.TaskExecutorMonitor;
 import io.github.zero88.schedulerx.TaskExecutorState;
@@ -20,8 +21,7 @@ import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
 
-public abstract class AbstractTaskExecutor<T extends Trigger>
-    implements TriggerTaskExecutor<T, TaskExecutionContextInternal> {
+public abstract class AbstractTaskExecutor<T extends Trigger> implements TriggerTaskExecutor<T> {
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(TaskExecutor.class);
     @NotNull
@@ -76,12 +76,12 @@ public abstract class AbstractTaskExecutor<T extends Trigger>
     }
 
     @Override
-    public void executeTask(@NotNull TaskExecutionContextInternal executionContext) {
+    public void executeTask(@NotNull TaskExecutionContext executionContext) {
         try {
             debug(state().tick(), state.round(), executionContext.executedAt(), "Executing task");
             task.execute(jobData(), executionContext);
             if (!task.isAsync()) {
-                executionContext.internalComplete();
+                ((TaskExecutionContextInternal) executionContext).internalComplete();
             }
             if (executionContext.isForceStop()) {
                 cancel();
@@ -157,7 +157,7 @@ public abstract class AbstractTaskExecutor<T extends Trigger>
     private TaskExecutionContextInternal setupContext(@NotNull Promise<Object> promise,
                                                       @NotNull TaskExecutionContextInternal executionContext) {
         state.markExecuting();
-        return (TaskExecutionContextInternal) executionContext.setup(promise, Instant.now());
+        return executionContext.setup(promise, Instant.now());
     }
 
     protected void onResult(@NotNull AsyncResult<Object> asyncResult) {

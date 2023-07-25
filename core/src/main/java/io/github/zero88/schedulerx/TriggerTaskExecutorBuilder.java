@@ -13,7 +13,7 @@ import io.vertx.core.Vertx;
  * @since 2.0.0
  */
 public interface TriggerTaskExecutorBuilder<TRIGGER extends Trigger, CTX extends TaskExecutionContext,
-                                               EXECUTOR extends TriggerTaskExecutor<TRIGGER, CTX>,
+                                               EXECUTOR extends TriggerTaskExecutor<TRIGGER>,
                                                SELF extends TriggerTaskExecutorBuilder<TRIGGER, CTX, EXECUTOR, SELF>> {
 
     @NotNull SELF setVertx(@NotNull Vertx vertx);

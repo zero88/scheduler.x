@@ -5,7 +5,6 @@ import java.time.Instant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 
 /**
@@ -14,18 +13,6 @@ import io.vertx.core.Vertx;
  * @since 1.0.0
  */
 public interface TaskExecutionContext {
-
-    /**
-     * Setup task execution context
-     *
-     * @param promise    promise
-     * @param executedAt execution at time
-     * @return a reference to this for fluent API
-     * @apiNote It will be invoked by system. In any attempts invoking, {@link IllegalStateException} will be
-     *     thrown
-     * @see Promise
-     */
-    @NotNull TaskExecutionContext setup(@NotNull Promise<Object> promise, @NotNull Instant executedAt);
 
     /**
      * Current vertx
