@@ -19,62 +19,62 @@ public final class TaskResultBuilder {
     Throwable error;
     Object data;
 
-    public TaskResultBuilder unscheduledAt(Instant unscheduledAt) {
+    public TaskResultBuilder setUnscheduledAt(Instant unscheduledAt) {
         this.unscheduledAt = unscheduledAt;
         return this;
     }
 
-    public TaskResultBuilder rescheduledAt(Instant rescheduledAt) {
+    public TaskResultBuilder setRescheduledAt(Instant rescheduledAt) {
         this.rescheduledAt = rescheduledAt;
         return this;
     }
 
-    public TaskResultBuilder availableAt(Instant availableAt) {
+    public TaskResultBuilder setAvailableAt(Instant availableAt) {
         this.availableAt = availableAt;
         return this;
     }
 
-    public TaskResultBuilder triggeredAt(Instant triggeredAt) {
+    public TaskResultBuilder setTriggeredAt(Instant triggeredAt) {
         this.triggeredAt = triggeredAt;
         return this;
     }
 
-    public TaskResultBuilder executedAt(Instant executedAt) {
+    public TaskResultBuilder setExecutedAt(Instant executedAt) {
         this.executedAt = executedAt;
         return this;
     }
 
-    public TaskResultBuilder finishedAt(Instant finishedAt) {
+    public TaskResultBuilder setFinishedAt(Instant finishedAt) {
         this.finishedAt = finishedAt;
         return this;
     }
 
-    public TaskResultBuilder completedAt(Instant completedAt) {
+    public TaskResultBuilder setCompletedAt(Instant completedAt) {
         this.completedAt = completedAt;
         return this;
     }
 
-    public TaskResultBuilder tick(long tick) {
+    public TaskResultBuilder setTick(long tick) {
         this.tick = tick;
         return this;
     }
 
-    public TaskResultBuilder round(long round) {
+    public TaskResultBuilder setRound(long round) {
         this.round = round;
         return this;
     }
 
-    public TaskResultBuilder completed(boolean completed) {
+    public TaskResultBuilder setCompleted(boolean completed) {
         this.completed = completed;
         return this;
     }
 
-    public TaskResultBuilder error(Throwable error) {
+    public TaskResultBuilder setError(Throwable error) {
         this.error = error;
         return this;
     }
 
-    public TaskResultBuilder data(Object data) {
+    public TaskResultBuilder setData(Object data) {
         this.data = data;
         return this;
     }

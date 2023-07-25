@@ -107,17 +107,13 @@ public interface TaskResult {
      *
      * @return {@code true} if error
      */
-    default boolean isError() {
-        return Objects.nonNull(error());
-    }
+    default boolean isError() { return Objects.nonNull(error()); }
 
     /**
      * Identify task is reschedule or not
      *
      * @return {@code true} if reschedule
      */
-    default boolean isReschedule() {
-        return Objects.nonNull(rescheduledAt()) && round() > 0;
-    }
+    default boolean isReschedule() { return Objects.nonNull(rescheduledAt()) && round() > 0; }
 
 }

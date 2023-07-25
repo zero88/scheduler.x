@@ -34,28 +34,28 @@ public final class TaskResultImpl implements TaskResult {
         this.data          = builder.data;
     }
 
-    public Instant unscheduledAt()            { return this.unscheduledAt; }
+    public Instant unscheduledAt() { return this.unscheduledAt; }
 
-    public Instant rescheduledAt()            { return this.rescheduledAt; }
+    public Instant rescheduledAt() { return this.rescheduledAt; }
 
-    public Instant availableAt()              { return this.availableAt; }
+    public Instant availableAt()   { return this.availableAt; }
 
-    public Instant triggeredAt()              { return this.triggeredAt; }
+    public Instant triggeredAt()   { return this.triggeredAt; }
 
-    public Instant executedAt()               { return this.executedAt; }
+    public Instant executedAt()    { return this.executedAt; }
 
-    public Instant finishedAt()               { return this.finishedAt; }
+    public Instant finishedAt()    { return this.finishedAt; }
 
-    public Instant completedAt()              { return this.completedAt; }
+    public Instant completedAt()   { return this.completedAt; }
 
-    public long tick()                        { return this.tick; }
+    public long tick()             { return this.tick; }
 
-    public long round()                       { return this.round; }
+    public long round()            { return this.round; }
 
-    public boolean isCompleted()              { return this.completed; }
+    public boolean isCompleted()   { return this.completed; }
 
-    public Throwable error()                  { return this.error; }
+    public Throwable error()       { return this.error; }
 
-    public Object data()                      { return this.data; }
+    public Object data()           { return this.data; }
 
 }

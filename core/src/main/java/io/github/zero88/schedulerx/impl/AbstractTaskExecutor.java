@@ -67,11 +67,11 @@ public abstract class AbstractTaskExecutor<T extends Trigger> implements Trigger
         this.addTimer(Promise.promise(), workerExecutor)
             .onSuccess(this::onReceiveTimer)
             .onFailure(t -> monitor().onUnableSchedule(TaskResult.builder()
-                                                                 .tick(state().tick())
-                                                                 .round(state().round())
-                                                                 .availableAt(state().availableAt())
-                                                                 .unscheduledAt(Instant.now())
-                                                                 .error(t)
+                                                                 .setTick(state().tick())
+                                                                 .setRound(state().round())
+                                                                 .setAvailableAt(state().availableAt())
+                                                                 .setUnscheduledAt(Instant.now())
+                                                                 .setError(t)
                                                                  .build()));
     }
 
@@ -112,13 +112,13 @@ public abstract class AbstractTaskExecutor<T extends Trigger> implements Trigger
     protected void onReceiveTimer(long timerId) {
         TaskResult result;
         if (state().pending()) {
-            result = TaskResult.builder().availableAt(state.timerId(timerId).markAvailable().availableAt()).build();
+            result = TaskResult.builder().setAvailableAt(state.timerId(timerId).markAvailable().availableAt()).build();
         } else {
             result = TaskResult.builder()
-                               .tick(state.timerId(timerId).tick())
-                               .round(state().round())
-                               .availableAt(state().availableAt())
-                               .rescheduledAt(Instant.now())
+                               .setTick(state.timerId(timerId).tick())
+                               .setRound(state().round())
+                               .setAvailableAt(state().availableAt())
+                               .setRescheduledAt(Instant.now())
                                .build();
         }
         monitor().onSchedule(result);
@@ -146,9 +146,9 @@ public abstract class AbstractTaskExecutor<T extends Trigger> implements Trigger
         if (state().executing()) {
             debug(tick, state().round(), triggerAt, "Skip execution due to task is still running");
             monitor().onMisfire(TaskResult.builder()
-                                          .availableAt(state().availableAt())
-                                          .tick(state().tick())
-                                          .triggeredAt(triggerAt)
+                                          .setAvailableAt(state().availableAt())
+                                          .setTick(state().tick())
+                                          .setTriggeredAt(triggerAt)
                                           .build());
         }
         return state().idle();
@@ -171,15 +171,15 @@ public abstract class AbstractTaskExecutor<T extends Trigger> implements Trigger
             final TaskExecutionContextInternal result = (TaskExecutionContextInternal) asyncResult.result();
             debug(state().tick(), result.round(), finishedAt, "Handling task result");
             monitor().onEach(TaskResult.builder()
-                                       .availableAt(state().availableAt())
-                                       .tick(state().tick())
-                                       .round(result.round())
-                                       .triggeredAt(result.triggeredAt())
-                                       .executedAt(result.executedAt())
-                                       .finishedAt(finishedAt)
-                                       .data(state.addData(result.round(), result.data()))
-                                       .error(state.addError(result.round(), result.error()))
-                                       .completed(state().completed())
+                                       .setAvailableAt(state().availableAt())
+                                       .setTick(state().tick())
+                                       .setRound(result.round())
+                                       .setTriggeredAt(result.triggeredAt())
+                                       .setExecutedAt(result.executedAt())
+                                       .setFinishedAt(finishedAt)
+                                       .setData(state.addData(result.round(), result.data()))
+                                       .setError(state.addError(result.round(), result.error()))
+                                       .setCompleted(state().completed())
                                        .build());
         }
         if (shouldCancel(state().round())) {
@@ -192,13 +192,13 @@ public abstract class AbstractTaskExecutor<T extends Trigger> implements Trigger
         final Instant completedAt = Instant.now();
         debug(state().tick(), state().round(), completedAt, "Execution is completed");
         monitor().onCompleted(TaskResult.builder()
-                                        .availableAt(state().availableAt())
-                                        .tick(state().tick())
-                                        .round(state().round())
-                                        .completed(state().completed())
-                                        .completedAt(completedAt)
-                                        .data(state().lastData())
-                                        .error(state().lastError())
+                                        .setAvailableAt(state().availableAt())
+                                        .setTick(state().tick())
+                                        .setRound(state().round())
+                                        .setCompleted(state().completed())
+                                        .setCompletedAt(completedAt)
+                                        .setData(state().lastData())
+                                        .setError(state().lastError())
                                         .build());
     }
 
