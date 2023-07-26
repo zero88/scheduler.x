@@ -1,0 +1,5 @@
+[source,java,subs="attributes,verbatim"]
+----
+
+----
+<1> Do something

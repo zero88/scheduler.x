@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"io.github.zero88.schedulerx"},{"l":"io.github.zero88.schedulerx.impl"},{"l":"io.github.zero88.schedulerx.trigger"}];updateSearchResults();
