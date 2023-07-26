@@ -1,5 +1,3 @@
-package io.github.zero88.schedulerx.trigger;
-
 /*
  * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
  *
@@ -16,6 +14,8 @@ package io.github.zero88.schedulerx.trigger;
  * under the License.
  *
  */
+
+package io.github.zero88.schedulerx.trigger;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -500,7 +500,7 @@ public final class CronExpression implements Serializable {
                     c = s.charAt(i + 3);
                     if (c == '-') {
                         i += 4;
-                        sub = s.substring(i, i + 3);
+                        sub  = s.substring(i, i + 3);
                         eval = getMonthNumber(sub) + 1;
                         if (eval <= 0) {
                             throw new ParseException("Invalid Month value: '" + sub + "'", i);
@@ -516,7 +516,7 @@ public final class CronExpression implements Serializable {
                     c = s.charAt(i + 3);
                     if (c == '-') {
                         i += 4;
-                        sub = s.substring(i, i + 3);
+                        sub  = s.substring(i, i + 3);
                         eval = getDayOfWeekNumber(sub);
                         if (eval < 0) {
                             throw new ParseException("Invalid Day-of-Week value: '" + sub + "'", i);
@@ -631,7 +631,7 @@ public final class CronExpression implements Serializable {
                 if (c >= '0' && c <= '9') {
                     ValueSet vs = getValue(val, s, i);
                     val = vs.value;
-                    i = vs.pos;
+                    i   = vs.pos;
                 }
                 i = checkNext(i, s, val, type);
                 return i;
@@ -734,7 +734,7 @@ public final class CronExpression implements Serializable {
             if (c >= '0' && c <= '9') {
                 ValueSet vs = getValue(v, s, i);
                 end = vs.value;
-                i = vs.pos;
+                i   = vs.pos;
             }
             if (i < s.length() && ((c = s.charAt(i)) == '/')) {
                 i++;
@@ -1074,7 +1074,7 @@ public final class CronExpression implements Serializable {
         }
         ValueSet val = new ValueSet();
 
-        val.pos = (i < s.length()) ? i : i + 1;
+        val.pos   = (i < s.length()) ? i : i + 1;
         val.value = Integer.parseInt(s1.toString());
         return val;
     }
@@ -1150,7 +1150,7 @@ public final class CronExpression implements Serializable {
             // get minute.................................................
             st = minutes.tailSet(min);
             if (st != null && st.size() != 0) {
-                t = min;
+                t   = min;
                 min = st.first();
             } else {
                 min = minutes.first();
@@ -1171,7 +1171,7 @@ public final class CronExpression implements Serializable {
             // get hour...................................................
             st = hours.tailSet(hr);
             if (st != null && st.size() != 0) {
-                t = hr;
+                t  = hr;
                 hr = st.first();
             } else {
                 hr = hours.first();
@@ -1200,20 +1200,20 @@ public final class CronExpression implements Serializable {
                 st = daysOfMonth.tailSet(day);
                 if (lastdayOfMonth) {
                     if (!nearestWeekday) {
-                        t = day;
+                        t   = day;
                         day = getLastDayOfMonth(mon, cl.get(Calendar.YEAR));
                         day -= lastdayOffset;
                         if (t > day) {
                             mon++;
                             if (mon > 12) {
-                                mon = 1;
+                                mon  = 1;
                                 tmon = 3333; // ensure test of mon != tmon further below fails
                                 cl.add(Calendar.YEAR, 1);
                             }
                             day = 1;
                         }
                     } else {
-                        t = day;
+                        t   = day;
                         day = getLastDayOfMonth(mon, cl.get(Calendar.YEAR));
                         day -= lastdayOffset;
 
@@ -1250,7 +1250,7 @@ public final class CronExpression implements Serializable {
                         }
                     }
                 } else if (nearestWeekday) {
-                    t = day;
+                    t   = day;
                     day = daysOfMonth.first();
 
                     java.util.Calendar tcal = java.util.Calendar.getInstance(getTimeZone());
@@ -1285,7 +1285,7 @@ public final class CronExpression implements Serializable {
                         mon++;
                     }
                 } else if (st != null && st.size() != 0) {
-                    t = day;
+                    t   = day;
                     day = st.first();
                     // make sure we don't over-run a short month, such as february
                     int lastDay = getLastDayOfMonth(mon, cl.get(Calendar.YEAR));
@@ -1453,7 +1453,7 @@ public final class CronExpression implements Serializable {
             // get month...................................................
             st = months.tailSet(mon);
             if (st != null && st.size() != 0) {
-                t = mon;
+                t   = mon;
                 mon = st.first();
             } else {
                 mon = months.first();
@@ -1475,12 +1475,12 @@ public final class CronExpression implements Serializable {
             // 1-based
 
             year = cl.get(Calendar.YEAR);
-            t = -1;
+            t    = -1;
 
             // get year...................................................
             st = years.tailSet(year);
             if (st != null && st.size() != 0) {
-                t = year;
+                t    = year;
                 year = st.first();
             } else {
                 return null; // ran out of years...

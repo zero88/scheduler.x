@@ -87,7 +87,7 @@ public final class TaskExecutorAsserter implements TaskExecutorMonitor {
     }
 
     @SuppressWarnings("java:S5960")
-    static TaskExecutorMonitor unableScheduleAsserter(VertxTestContext testContext, Checkpoint checkpoint) {
+    public static TaskExecutorMonitor unableScheduleAsserter(VertxTestContext testContext, Checkpoint checkpoint) {
         return TaskExecutorAsserter.builder().setTestContext(testContext).setUnableSchedule(result -> {
             checkpoint.flag();
             Assertions.assertNotNull(result.unscheduledAt());

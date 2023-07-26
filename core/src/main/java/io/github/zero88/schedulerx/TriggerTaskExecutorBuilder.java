@@ -6,6 +6,8 @@ import io.github.zero88.schedulerx.trigger.Trigger;
 import io.vertx.core.Vertx;
 
 /**
+ * Represents for the high level of a builder that construct {@code TriggerTaskExecutor}
+ *
  * @param <TRIGGER>  Type of Trigger
  * @param <EXECUTOR> Type of Trigger Task Executor
  * @param <SELF>     Type of Executor Builder

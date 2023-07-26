@@ -12,7 +12,7 @@ import java.util.function.BinaryOperator;
 
 import org.jetbrains.annotations.NotNull;
 
-public final class TaskExecutorStateImpl implements TaskExecutorStateInternal {
+final class TaskExecutorStateImpl implements TaskExecutorStateInternal {
 
     private final AtomicReference<Instant> availableAt = new AtomicReference<>();
     private final AtomicLong tick = new AtomicLong(0);

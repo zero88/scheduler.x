@@ -1,5 +1,7 @@
 package io.github.zero88.schedulerx.custom;
 
+import org.jetbrains.annotations.NotNull;
+
 import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.TaskExecutionContext;
@@ -8,8 +10,6 @@ import io.vertx.core.http.HttpClientRequest;
 import io.vertx.core.http.HttpClientResponse;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
-
-import org.jetbrains.annotations.NotNull;
 
 public class HttpClientTask implements Task {
 

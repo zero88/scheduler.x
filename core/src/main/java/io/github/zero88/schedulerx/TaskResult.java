@@ -5,8 +5,6 @@ import java.util.Objects;
 
 import org.jetbrains.annotations.Nullable;
 
-import io.github.zero88.schedulerx.impl.TaskResultBuilder;
-
 /**
  * Represents for task result will be pass on each event of {@link TaskExecutorMonitor}
  *
@@ -14,8 +12,6 @@ import io.github.zero88.schedulerx.impl.TaskResultBuilder;
  * @since 1.0.0
  */
 public interface TaskResult {
-
-    static TaskResultBuilder builder() { return new TaskResultBuilder(); }
 
     /**
      * Only {@code not null} in {@link TaskExecutorMonitor#onUnableSchedule(TaskResult)}

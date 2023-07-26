@@ -13,9 +13,12 @@ import io.github.zero88.schedulerx.TriggerTaskExecutorBuilder;
 import io.github.zero88.schedulerx.trigger.Trigger;
 import io.vertx.core.Vertx;
 
+/**
+ * The base task executor builder
+ */
 @SuppressWarnings("unchecked")
-abstract class AbstractTaskExecutorBuilder<T extends Trigger, E extends TriggerTaskExecutor<T>,
-                                              B extends AbstractTaskExecutorBuilder<T, E, B>>
+public abstract class AbstractTaskExecutorBuilder<T extends Trigger, E extends TriggerTaskExecutor<T>,
+                                                     B extends AbstractTaskExecutorBuilder<T, E, B>>
     implements TriggerTaskExecutorBuilder<T, E, B> {
 
     private Vertx vertx;
