@@ -69,8 +69,11 @@ class IntervalTaskExecutorTest {
                             .setVertx(vertx)
                             .setTrigger(IntervalTrigger.builder().initialDelay(2).interval(2).repeat(2).build())
                             .setTask((jobData, context) -> { })
-                            .setMonitor(
-                                TaskExecutorAsserter.builder().testContext(ctx).schedule(s).completed(c).build())
+                            .setMonitor(TaskExecutorAsserter.builder()
+                                                            .setTestContext(ctx)
+                                                            .setSchedule(s)
+                                                            .setCompleted(c)
+                                                            .build())
                             .build()
                             .start(worker);
     }
@@ -92,7 +95,8 @@ class IntervalTaskExecutorTest {
                                 sleep(3000, testContext);
                                 checkpoint.flag();
                             })
-                            .setMonitor(TaskExecutorAsserter.builder().testContext(testContext).completed(c).build())
+                            .setMonitor(
+                                TaskExecutorAsserter.builder().setTestContext(testContext).setCompleted(c).build())
                             .build()
                             .start(worker);
     }
@@ -135,8 +139,11 @@ class IntervalTaskExecutorTest {
                             .setVertx(vertx)
                             .setTrigger(IntervalTrigger.builder().interval(1).repeat(10).build())
                             .setTask(task)
-                            .setMonitor(
-                                TaskExecutorAsserter.builder().testContext(context).each(e).completed(c).build())
+                            .setMonitor(TaskExecutorAsserter.builder()
+                                                            .setTestContext(context)
+                                                            .setEach(e)
+                                                            .setCompleted(c)
+                                                            .build())
                             .build()
                             .start();
     }

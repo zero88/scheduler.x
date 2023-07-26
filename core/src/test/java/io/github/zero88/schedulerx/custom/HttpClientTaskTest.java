@@ -32,8 +32,8 @@ class HttpClientTaskTest {
             Assertions.assertEquals("http://" + host + path, response.getJsonObject("response").getString("url"));
         };
         final TaskExecutorAsserter monitor = TaskExecutorAsserter.builder()
-                                                                 .testContext(testContext)
-                                                                 .each(verification)
+                                                                 .setTestContext(testContext)
+                                                                 .setEach(verification)
                                                                  .build();
         IntervalTaskExecutor.builder()
                             .setVertx(vertx)

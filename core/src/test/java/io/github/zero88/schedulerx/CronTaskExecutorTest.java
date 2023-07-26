@@ -55,9 +55,9 @@ class CronTaskExecutorTest {
                             }
                         })
                         .setMonitor(TaskExecutorAsserter.builder()
-                                                        .testContext(testContext)
-                                                        .schedule(schedule)
-                                                        .completed(completed)
+                                                        .setTestContext(testContext)
+                                                        .setSchedule(schedule)
+                                                        .setCompleted(completed)
                                                         .build())
                         .build()
                         .start();
