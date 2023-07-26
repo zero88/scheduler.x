@@ -3,8 +3,6 @@ package io.github.zero88.schedulerx.impl;
 import java.time.Instant;
 
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.Task;
@@ -20,9 +18,12 @@ import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
+import io.vertx.core.impl.logging.Logger;
+import io.vertx.core.impl.logging.LoggerFactory;
 
 public abstract class AbstractTaskExecutor<T extends Trigger> implements TriggerTaskExecutor<T> {
 
+    @SuppressWarnings("java:S3416")
     protected static final Logger LOGGER = LoggerFactory.getLogger(TaskExecutor.class);
     @NotNull
     private final Vertx vertx;
@@ -110,7 +111,7 @@ public abstract class AbstractTaskExecutor<T extends Trigger> implements Trigger
 
     protected void debug(long tick, long round, @NotNull Instant at, @NotNull String event) {
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("TaskExecutor[{}][{}][{}]::{}", tick, round, at, event);
+            LOGGER.debug("TaskExecutor[" + tick + "][" + round + "][" + at + "]::" + event);
         }
     }
 
@@ -169,8 +170,8 @@ public abstract class AbstractTaskExecutor<T extends Trigger> implements Trigger
         state.markIdle();
         final Instant finishedAt = Instant.now();
         if (asyncResult.failed()) {
-            LOGGER.warn("TaskExecutor[{}][{}][{}]::{}", state().tick(), state().round(), finishedAt,
-                        "Internal execution error", asyncResult.cause());
+            LOGGER.warn("TaskExecutor[" + state().tick() + "][" + state().round() + "][" + finishedAt + "]" +
+                        "::Internal execution error", asyncResult.cause());
         }
         if (asyncResult.succeeded()) {
             final TaskExecutionContextInternal result = (TaskExecutionContextInternal) asyncResult.result();

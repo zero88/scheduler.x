@@ -3,7 +3,7 @@ package io.github.zero88.schedulerx;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents for monitor that watches lifecycle event in executor
+ * Represents for a monitor that watches lifecycle event in executor
  *
  * @see TaskResult
  * @since 1.0.0

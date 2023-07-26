@@ -7,28 +7,21 @@ oss {
     baseName.set("schedulerx")
     title.set("Scheduler.x")
 }
-val vertxVersion = "4.0.0"
-val vertxCore = "io.vertx:vertx-core:${vertxVersion}"
-val vertx5Junit = "io.vertx:vertx-junit5:${vertxVersion}"
 
 dependencies {
-    api(vertxCore)
-    api("org.slf4j:slf4j-api:1.7.30")
+    api(VertxLibs.core)
+    compileOnly(JacksonLibs.annotations)
     compileOnly(JacksonLibs.databind)
     compileOnly(UtilLibs.jetbrainsAnnotations)
-    annotationProcessor(UtilLibs.jetbrainsAnnotations)
 
-    testImplementation(vertx5Junit)
     testImplementation(TestLibs.junit5Params)
     testImplementation(JacksonLibs.databind)
-    testImplementation("ch.qos.logback:logback-classic:1.2.3")
+    testImplementation(LogLibs.logback)
     testCompileOnly(UtilLibs.jetbrainsAnnotations)
-    testAnnotationProcessor(UtilLibs.jetbrainsAnnotations)
 
     testFixturesApi(TestLibs.junit5Api)
     testFixturesApi(TestLibs.junit5Engine)
     testFixturesApi(TestLibs.junit5Vintage)
-    testFixturesApi(vertx5Junit)
+    testFixturesApi(VertxLibs.junit5)
     testFixturesCompileOnly(UtilLibs.jetbrainsAnnotations)
-    testFixturesAnnotationProcessor(UtilLibs.jetbrainsAnnotations)
 }
