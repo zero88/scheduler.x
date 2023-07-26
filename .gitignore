@@ -1,5 +1,6 @@
-**/*
-!antora/
+*
+!*/
+!/antora/**
 !README.adoc
 !.gitattributes
 !.editorconfig
