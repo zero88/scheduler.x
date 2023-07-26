@@ -1,6 +1,8 @@
 package io.github.zero88.schedulerx.impl;
 
 import java.time.Instant;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -42,6 +44,9 @@ public abstract class AbstractTaskExecutor<T extends Trigger> implements Trigger
     private final Task task;
     @NotNull
     private final T trigger;
+    private final Lock lock = new ReentrantLock();
+    private boolean didTriggerValidation = false;
+    private IllegalArgumentException invalidTrigger;
 
     protected AbstractTaskExecutor(@NotNull Vertx vertx, @NotNull TaskExecutorMonitor monitor, @NotNull JobData jobData,
                                    @NotNull Task task, @NotNull T trigger) {
@@ -69,8 +74,26 @@ public abstract class AbstractTaskExecutor<T extends Trigger> implements Trigger
     public final @NotNull Task task() { return this.task; }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public @NotNull T trigger() { return (T) this.trigger.validate(); }
+    public final @NotNull T trigger() {
+        lock.lock();
+        try {
+            if (didTriggerValidation) {
+                if (invalidTrigger == null) { return trigger; }
+                throw invalidTrigger;
+            }
+            try {
+                //noinspection unchecked
+                return (T) this.trigger.validate();
+            } catch (IllegalArgumentException ex) {
+                this.invalidTrigger = ex;
+                throw ex;
+            } finally {
+                didTriggerValidation = true;
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
 
     @Override
     public final void start(WorkerExecutor workerExecutor) {
