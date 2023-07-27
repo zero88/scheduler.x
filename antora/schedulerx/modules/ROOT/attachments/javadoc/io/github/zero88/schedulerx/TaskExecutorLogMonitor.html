@@ -78,7 +78,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">TaskExecutorLogMonitor</span><span class="extends-implements">
 extends <a href="TaskExecutorMonitor.html" title="interface in io.github.zero88.schedulerx">TaskExecutorMonitor</a></span></div>
-<div class="block">Represents for log monitor</div>
+<div class="block">Represents for a log monitor that observes and do log on each lifecycle event of the task executor.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>1.0.0</dd>
@@ -95,10 +95,10 @@ extends <a href="TaskExecutorMonitor.html" title="interface in io.github.zero88.
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static final <a href="TaskExecutorMonitor.html" title="interface in io.github.zero88.schedulerx">TaskExecutorMonitor</a></code></div>
+<div class="col-first even-row-color"><code>static final <a href="TaskExecutorLogMonitor.html" title="interface in io.github.zero88.schedulerx">TaskExecutorLogMonitor</a></code></div>
 <div class="col-second even-row-color"><code><a href="#LOG_MONITOR" class="member-name-link">LOG_MONITOR</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>static final org.slf4j.Logger</code></div>
+<div class="col-first odd-row-color"><code>static final io.vertx.core.impl.logging.Logger</code></div>
 <div class="col-second odd-row-color"><code><a href="#LOGGER" class="member-name-link">LOGGER</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 </div>
@@ -157,13 +157,13 @@ extends <a href="TaskExecutorMonitor.html" title="interface in io.github.zero88.
 <li>
 <section class="detail" id="LOGGER">
 <h3>LOGGER</h3>
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type">org.slf4j.Logger</span>&nbsp;<span class="element-name">LOGGER</span></div>
+<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type">io.vertx.core.impl.logging.Logger</span>&nbsp;<span class="element-name">LOGGER</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="LOG_MONITOR">
 <h3>LOG_MONITOR</h3>
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="TaskExecutorMonitor.html" title="interface in io.github.zero88.schedulerx">TaskExecutorMonitor</a></span>&nbsp;<span class="element-name">LOG_MONITOR</span></div>
+<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="TaskExecutorLogMonitor.html" title="interface in io.github.zero88.schedulerx">TaskExecutorLogMonitor</a></span>&nbsp;<span class="element-name">LOG_MONITOR</span></div>
 </section>
 </li>
 </ul>

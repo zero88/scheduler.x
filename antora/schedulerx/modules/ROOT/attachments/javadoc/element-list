@@ -1,3 +1,7 @@
 io.github.zero88.schedulerx
 io.github.zero88.schedulerx.impl
+io.github.zero88.schedulerx.mutiny
+io.github.zero88.schedulerx.mutiny.trigger
+io.github.zero88.schedulerx.rxjava3
+io.github.zero88.schedulerx.rxjava3.trigger
 io.github.zero88.schedulerx.trigger

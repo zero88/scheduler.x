@@ -78,11 +78,21 @@ loadScripts(document, 'script');</script>
 <dd><code>SELF</code> - Type of Executor Builder</dd>
 </dl>
 <dl class="notes">
+<dt>All Superinterfaces:</dt>
+<dd><code><a href="TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx">TaskExecutorProperties</a></code></dd>
+</dl>
+<dl class="notes">
+<dt>All Known Subinterfaces:</dt>
+<dd><code><a href="trigger/CronTriggerExecutorBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">CronTriggerExecutorBuilder</a></code>, <code><a href="trigger/IntervalTriggerExecutorBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTriggerExecutorBuilder</a></code></dd>
+</dl>
+<dl class="notes">
 <dt>All Known Implementing Classes:</dt>
-<dd><code><a href="impl/CronTaskExecutorBuilder.html" title="class in io.github.zero88.schedulerx.impl">CronTaskExecutorBuilder</a></code>, <code><a href="impl/IntervalTaskExecutorBuilder.html" title="class in io.github.zero88.schedulerx.impl">IntervalTaskExecutorBuilder</a></code></dd>
+<dd><code><a href="impl/AbstractTaskExecutorBuilder.html" title="class in io.github.zero88.schedulerx.impl">AbstractTaskExecutorBuilder</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">TriggerTaskExecutorBuilder&lt;TRIGGER extends <a href="trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a>,<wbr>EXECUTOR extends <a href="TriggerTaskExecutor.html" title="interface in io.github.zero88.schedulerx">TriggerTaskExecutor</a>&lt;TRIGGER&gt;,<wbr>SELF extends TriggerTaskExecutorBuilder&lt;TRIGGER,<wbr>EXECUTOR,<wbr>SELF&gt;&gt;</span></div>
+<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">TriggerTaskExecutorBuilder&lt;TRIGGER extends <a href="trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a>,<wbr>EXECUTOR extends <a href="TriggerTaskExecutor.html" title="interface in io.github.zero88.schedulerx">TriggerTaskExecutor</a>&lt;TRIGGER&gt;,<wbr>SELF extends TriggerTaskExecutorBuilder&lt;TRIGGER,<wbr>EXECUTOR,<wbr>SELF&gt;&gt;</span><span class="extends-implements">
+extends <a href="TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx">TaskExecutorProperties</a></span></div>
+<div class="block">Represents for the high level of a builder that construct <code>TriggerTaskExecutor</code></div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>2.0.0</dd>
@@ -111,12 +121,6 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="TriggerTaskExecutorBuilder.html" title="type parameter in TriggerTaskExecutorBuilder">EXECUTOR</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#build()" class="member-name-link">build</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#jobData()" class="member-name-link">jobData</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="TaskExecutorMonitor.html" title="interface in io.github.zero88.schedulerx">TaskExecutorMonitor</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#monitor()" class="member-name-link">monitor</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="TriggerTaskExecutorBuilder.html" title="type parameter in TriggerTaskExecutorBuilder">SELF</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setJobData(io.github.zero88.schedulerx.JobData)" class="member-name-link">setJobData</a><wbr>(@NotNull <a href="JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&nbsp;jobData)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
@@ -132,18 +136,15 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="TriggerTaskExecutorBuilder.html" title="type parameter in TriggerTaskExecutorBuilder">SELF</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setVertx(io.vertx.core.Vertx)" class="member-name-link">setVertx</a><wbr>(@NotNull io.vertx.core.Vertx&nbsp;vertx)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="Task.html" title="interface in io.github.zero88.schedulerx">Task</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#task()" class="member-name-link">task</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="TriggerTaskExecutorBuilder.html" title="type parameter in TriggerTaskExecutorBuilder">TRIGGER</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#trigger()" class="member-name-link">trigger</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull io.vertx.core.Vertx</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#vertx()" class="member-name-link">vertx</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="TriggerTaskExecutorBuilder.html" title="type parameter in TriggerTaskExecutorBuilder">TRIGGER</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#trigger()" class="member-name-link">trigger</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 </div>
 </div>
 </div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-io.github.zero88.schedulerx.TaskExecutorProperties">Methods inherited from interface&nbsp;io.github.zero88.schedulerx.<a href="TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx">TaskExecutorProperties</a></h3>
+<code><a href="TaskExecutorProperties.html#jobData()">jobData</a>, <a href="TaskExecutorProperties.html#monitor()">monitor</a>, <a href="TaskExecutorProperties.html#task()">task</a>, <a href="TaskExecutorProperties.html#vertx()">vertx</a></code></div>
 </section>
 </li>
 </ul>
@@ -155,6 +156,13 @@ loadScripts(document, 'script');</script>
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="trigger()">
+<h3>trigger</h3>
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="return-type"><a href="TriggerTaskExecutorBuilder.html" title="type parameter in TriggerTaskExecutorBuilder">TRIGGER</a></span>&nbsp;<span class="element-name">trigger</span>()</div>
+</section>
+</li>
 <li>
 <section class="detail" id="setVertx(io.vertx.core.Vertx)">
 <h3>setVertx</h3>
@@ -193,41 +201,6 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="return-type"><a href="TriggerTaskExecutorBuilder.html" title="type parameter in TriggerTaskExecutorBuilder">SELF</a></span>&nbsp;<span class="element-name">setMonitor</span><wbr><span class="parameters">(@NotNull
  @NotNull <a href="TaskExecutorMonitor.html" title="interface in io.github.zero88.schedulerx">TaskExecutorMonitor</a>&nbsp;monitor)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="vertx()">
-<h3>vertx</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="return-type">@NotNull io.vertx.core.Vertx</span>&nbsp;<span class="element-name">vertx</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="task()">
-<h3>task</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="return-type">@NotNull <a href="Task.html" title="interface in io.github.zero88.schedulerx">Task</a></span>&nbsp;<span class="element-name">task</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="trigger()">
-<h3>trigger</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="return-type"><a href="TriggerTaskExecutorBuilder.html" title="type parameter in TriggerTaskExecutorBuilder">TRIGGER</a></span>&nbsp;<span class="element-name">trigger</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="jobData()">
-<h3>jobData</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="return-type">@NotNull <a href="JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a></span>&nbsp;<span class="element-name">jobData</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="monitor()">
-<h3>monitor</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="return-type">@NotNull <a href="TaskExecutorMonitor.html" title="interface in io.github.zero88.schedulerx">TaskExecutorMonitor</a></span>&nbsp;<span class="element-name">monitor</span>()</div>
 </section>
 </li>
 <li>
