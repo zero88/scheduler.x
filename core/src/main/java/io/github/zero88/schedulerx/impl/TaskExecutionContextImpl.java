@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 
-public final class TaskExecutionContextImpl implements TaskExecutionContextInternal {
+final class TaskExecutionContextImpl implements TaskExecutionContextInternal {
 
     private final Vertx vertx;
     private final long round;
@@ -57,13 +57,13 @@ public final class TaskExecutionContextImpl implements TaskExecutionContextInter
     @Override
     public void complete(Object data) {
         this.data = data;
-        promise.tryComplete(this);
+        this.internalComplete();
     }
 
     @Override
     public void fail(Throwable throwable) {
         this.error = throwable;
-        promise.tryComplete(this);
+        this.internalComplete();
     }
 
     @Override

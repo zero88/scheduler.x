@@ -1,4 +1,4 @@
-private fun Map<Int, List<Int>>.ver(minor: Int, patch: Int):String = "${minor}.${this[minor]?.get(patch)}"
+private fun Map<Int, List<Int>>.ver(minor: Int, patch: Int): String = "${minor}.${this[minor]?.get(patch)}"
 
 object PlayioPlugin {
 
@@ -25,6 +25,16 @@ object UtilLibs {
     const val jetbrainsAnnotations = "org.jetbrains:annotations:${Version.jetbrainsAnnotations}"
 }
 
+object LogLibs {
+
+    object Version {
+
+        const val logback = "1.4.8"
+    }
+
+    const val logback = "ch.qos.logback:logback-classic:${Version.logback}"
+}
+
 object JacksonLibs {
 
     object Version {
@@ -34,7 +44,6 @@ object JacksonLibs {
 
     const val annotations = "com.fasterxml.jackson.core:jackson-annotations:${Version.jackson}"
     const val databind = "com.fasterxml.jackson.core:jackson-databind:${Version.jackson}"
-    const val datetime = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${Version.jackson}"
 }
 
 object TestLibs {
@@ -55,22 +64,20 @@ object VertxLibs {
 
     object Version {
 
-        private val pool = mapOf(2 to (0..7).toList(), 3 to (0..6).toList(), 4 to (0..0).toList())
-        @JvmField val vertxCore = "4.${pool.ver(3, 5)}"
-        @JvmField val vertxSQL = "4.${pool.ver(3, 5)}"
-        const val vertxJunit = "4.2.5"
+        private val pool = mapOf(2 to (0..7).toList(), 3 to (0..6).toList(), 4 to (0..4).toList())
+        @JvmField val defaultVersion = "4.${pool.ver(4, 4)}"
     }
 
-    @JvmField val core = "io.vertx:vertx-core:${Version.vertxCore}"
-    @JvmField val junit5 = "io.vertx:vertx-junit5:${Version.vertxJunit}"
+    @JvmField val core = "io.vertx:vertx-core:${Version.defaultVersion}"
+    @JvmField val junit5 = "io.vertx:vertx-junit5:${Version.defaultVersion}"
+    @JvmField val rx3 = "io.vertx:vertx-rx-java3:${Version.defaultVersion}"
 }
 
-object ValidationLibs {
+object MutinyLibs {
     object Version {
-        const val api = "3.0.2"
-        const val hibernate = "8.0.0.Final"
+
+        const val mutiny = "2.27.0"
     }
 
-    const val api = "jakarta.validation:jakarta.validation-api:${Version.api}"
-    const val hibernate = "org.hibernate.validator:hibernate-validator:${Version.hibernate}"
+    const val core = "io.smallrye.reactive:smallrye-mutiny-vertx-core:${Version.mutiny}"
 }

@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import io.github.zero88.schedulerx.IntervalTaskExecutor;
 import io.github.zero88.schedulerx.TaskExecutorAsserter;
 import io.github.zero88.schedulerx.TaskResult;
+import io.github.zero88.schedulerx.trigger.IntervalTriggerExecutor;
 import io.github.zero88.schedulerx.trigger.IntervalTrigger;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
@@ -32,17 +32,17 @@ class HttpClientTaskTest {
             Assertions.assertEquals("http://" + host + path, response.getJsonObject("response").getString("url"));
         };
         final TaskExecutorAsserter monitor = TaskExecutorAsserter.builder()
-                                                                 .testContext(testContext)
-                                                                 .each(verification)
+                                                                 .setTestContext(testContext)
+                                                                 .setEach(verification)
                                                                  .build();
-        IntervalTaskExecutor.builder()
-                            .setVertx(vertx)
-                            .setTrigger(IntervalTrigger.builder().interval(3).repeat(2).build())
-                            .setTask(new HttpClientTask())
-                            .setMonitor(monitor)
-                            .setJobData(() -> new JsonObject().put("host", host).put("path", path))
-                            .build()
-                            .start();
+        IntervalTriggerExecutor.builder()
+                               .setVertx(vertx)
+                               .setTrigger(IntervalTrigger.builder().interval(3).repeat(2).build())
+                               .setTask(new HttpClientTask())
+                               .setMonitor(monitor)
+                               .setJobData(() -> new JsonObject().put("host", host).put("path", path))
+                               .build()
+                               .start();
     }
 
 }

@@ -137,6 +137,9 @@ public final class IntervalTrigger implements Trigger {
         throw new IllegalArgumentException("Invalid " + msg + " value");
     }
 
+    /**
+     * Represents a builder that constructs {@link IntervalTrigger}
+     */
     @JsonPOJOBuilder(withPrefix = "")
     public static class IntervalTriggerBuilder {
 

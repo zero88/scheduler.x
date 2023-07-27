@@ -93,6 +93,9 @@ public final class CronTrigger implements Trigger {
         return "CronTrigger(expression=" + expression + ", timeZone=" + timeZone + ')';
     }
 
+    /**
+     * Represents a builder that constructs {@link CronTrigger}
+     */
     @JsonPOJOBuilder(withPrefix = "")
     public static class CronTriggerBuilder {
 

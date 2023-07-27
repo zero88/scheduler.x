@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import io.github.zero88.schedulerx.TaskExecutionContext;
 import io.vertx.core.Promise;
 
-public interface TaskExecutionContextInternal extends TaskExecutionContext {
+interface TaskExecutionContextInternal extends TaskExecutionContext {
 
     /**
      * Setup task execution context

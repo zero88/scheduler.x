@@ -1,23 +1,23 @@
-package io.github.zero88.schedulerx.impl;
+package io.github.zero88.schedulerx.trigger;
 
 import java.time.Instant;
 
 import org.jetbrains.annotations.NotNull;
 
-import io.github.zero88.schedulerx.CronTaskExecutor;
 import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.TaskExecutorMonitor;
-import io.github.zero88.schedulerx.trigger.CronTrigger;
+import io.github.zero88.schedulerx.impl.AbstractTaskExecutor;
+import io.github.zero88.schedulerx.impl.AbstractTaskExecutorBuilder;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
 
-final class CronTaskExecutorImpl extends AbstractTaskExecutor<CronTrigger> implements CronTaskExecutor {
+final class CronTriggerExecutorImpl extends AbstractTaskExecutor<CronTrigger> implements CronTriggerExecutor {
 
-    CronTaskExecutorImpl(@NotNull Vertx vertx, @NotNull TaskExecutorMonitor monitor, @NotNull JobData jobData,
-                         @NotNull Task task, @NotNull CronTrigger trigger) {
+    CronTriggerExecutorImpl(@NotNull Vertx vertx, @NotNull TaskExecutorMonitor monitor, @NotNull JobData jobData,
+                            @NotNull Task task, @NotNull CronTrigger trigger) {
         super(vertx, monitor, jobData, task, trigger);
     }
 
@@ -38,6 +38,16 @@ final class CronTaskExecutorImpl extends AbstractTaskExecutor<CronTrigger> imple
     @Override
     protected boolean shouldCancel(long round) {
         return false;
+    }
+
+    static final class CronTriggerExecutorBuilderImpl
+        extends AbstractTaskExecutorBuilder<CronTrigger, CronTriggerExecutor, CronTriggerExecutorBuilder>
+        implements CronTriggerExecutorBuilder {
+
+        public @NotNull CronTriggerExecutor build() {
+            return new CronTriggerExecutorImpl(vertx(), monitor(), jobData(), task(), trigger());
+        }
+
     }
 
 }

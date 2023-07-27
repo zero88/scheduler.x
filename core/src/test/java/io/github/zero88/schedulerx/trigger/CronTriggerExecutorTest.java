@@ -1,4 +1,4 @@
-package io.github.zero88.schedulerx;
+package io.github.zero88.schedulerx.trigger;
 
 import java.util.function.Consumer;
 
@@ -6,25 +6,26 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import io.github.zero88.schedulerx.trigger.CronTrigger;
+import io.github.zero88.schedulerx.TaskExecutorAsserter;
+import io.github.zero88.schedulerx.TaskResult;
 import io.vertx.core.Vertx;
 import io.vertx.junit5.Checkpoint;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
 
 @ExtendWith(VertxExtension.class)
-class CronTaskExecutorTest {
+class CronTriggerExecutorTest {
 
     @Test
     void test_unable_schedule_due_to_initial(Vertx vertx, VertxTestContext testContext) {
         final Checkpoint checkpoint = testContext.checkpoint(2);
-        CronTaskExecutor.builder()
-                        .setVertx(vertx)
-                        .setTrigger(CronTrigger.builder().expression("0/").build())
-                        .setTask((jobData, ctx) -> { })
-                        .setMonitor(TaskExecutorAsserter.unableScheduleAsserter(testContext, checkpoint))
-                        .build()
-                        .start();
+        CronTriggerExecutor.builder()
+                           .setVertx(vertx)
+                           .setTrigger(CronTrigger.builder().expression("0/").build())
+                           .setTask((jobData, ctx) -> { })
+                           .setMonitor(TaskExecutorAsserter.unableScheduleAsserter(testContext, checkpoint))
+                           .build()
+                           .start();
     }
 
     @Test
@@ -45,22 +46,22 @@ class CronTaskExecutorTest {
             Assertions.assertTrue(result.isCompleted());
             Assertions.assertFalse(result.isError());
         };
-        CronTaskExecutor.builder()
-                        .setVertx(vertx)
-                        .setTrigger(CronTrigger.builder().expression("0/5 * * ? * * *").build())
-                        .setTask((jobData, ctx) -> {
+        CronTriggerExecutor.builder()
+                           .setVertx(vertx)
+                           .setTrigger(CronTrigger.builder().expression("0/5 * * ? * * *").build())
+                           .setTask((jobData, ctx) -> {
                             checkpoint.flag();
                             if (ctx.round() == 2) {
                                 ctx.forceStopExecution();
                             }
                         })
-                        .setMonitor(TaskExecutorAsserter.builder()
-                                                        .testContext(testContext)
-                                                        .schedule(schedule)
-                                                        .completed(completed)
+                           .setMonitor(TaskExecutorAsserter.builder()
+                                                        .setTestContext(testContext)
+                                                        .setSchedule(schedule)
+                                                        .setCompleted(completed)
                                                         .build())
-                        .build()
-                        .start();
+                           .build()
+                           .start();
     }
 
 }

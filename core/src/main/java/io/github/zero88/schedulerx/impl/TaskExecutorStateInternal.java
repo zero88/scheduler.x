@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 import io.github.zero88.schedulerx.TaskExecutorState;
 
-public interface TaskExecutorStateInternal extends TaskExecutorState {
+interface TaskExecutorStateInternal extends TaskExecutorState {
 
     /**
      * Add timer id
