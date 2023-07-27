@@ -70,4 +70,14 @@ object VertxLibs {
 
     @JvmField val core = "io.vertx:vertx-core:${Version.defaultVersion}"
     @JvmField val junit5 = "io.vertx:vertx-junit5:${Version.defaultVersion}"
+    @JvmField val rx3 = "io.vertx:vertx-rx-java3:${Version.defaultVersion}"
+}
+
+object MutinyLibs {
+    object Version {
+
+        const val mutiny = "2.27.0"
+    }
+
+    const val core = "io.smallrye.reactive:smallrye-mutiny-vertx-core:${Version.mutiny}"
 }

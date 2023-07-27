@@ -16,7 +16,10 @@ import io.vertx.core.Vertx;
  * @since 2.0.0
  */
 public interface TriggerTaskExecutorBuilder<TRIGGER extends Trigger, EXECUTOR extends TriggerTaskExecutor<TRIGGER>,
-                                               SELF extends TriggerTaskExecutorBuilder<TRIGGER, EXECUTOR, SELF>> {
+                                               SELF extends TriggerTaskExecutorBuilder<TRIGGER, EXECUTOR, SELF>>
+    extends TaskExecutorProperties {
+
+    @NotNull TRIGGER trigger();
 
     @NotNull SELF setVertx(@NotNull Vertx vertx);
 
@@ -27,16 +30,6 @@ public interface TriggerTaskExecutorBuilder<TRIGGER extends Trigger, EXECUTOR ex
     @NotNull SELF setJobData(@NotNull JobData jobData);
 
     @NotNull SELF setMonitor(@NotNull TaskExecutorMonitor monitor);
-
-    @NotNull Vertx vertx();
-
-    @NotNull Task task();
-
-    @NotNull TRIGGER trigger();
-
-    @NotNull JobData jobData();
-
-    @NotNull TaskExecutorMonitor monitor();
 
     @NotNull EXECUTOR build();
 

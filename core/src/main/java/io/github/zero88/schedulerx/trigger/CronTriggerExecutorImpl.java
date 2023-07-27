@@ -8,6 +8,7 @@ import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.TaskExecutorMonitor;
 import io.github.zero88.schedulerx.impl.AbstractTaskExecutor;
+import io.github.zero88.schedulerx.impl.AbstractTaskExecutorBuilder;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
@@ -37,6 +38,16 @@ final class CronTriggerExecutorImpl extends AbstractTaskExecutor<CronTrigger> im
     @Override
     protected boolean shouldCancel(long round) {
         return false;
+    }
+
+    static final class CronTriggerExecutorBuilderImpl
+        extends AbstractTaskExecutorBuilder<CronTrigger, CronTriggerExecutor, CronTriggerExecutorBuilder>
+        implements CronTriggerExecutorBuilder {
+
+        public @NotNull CronTriggerExecutor build() {
+            return new CronTriggerExecutorImpl(vertx(), monitor(), jobData(), task(), trigger());
+        }
+
     }
 
 }

@@ -3,7 +3,9 @@ package io.github.zero88.schedulerx;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents for a monitor that watches lifecycle event in executor
+ * Represents for a monitor that watches lifecycle event in executor.
+ * <p/>
+ * It can be used to persist or distribute the task result per each round.
  *
  * @see TaskResult
  * @since 1.0.0

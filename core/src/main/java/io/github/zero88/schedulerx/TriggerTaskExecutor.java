@@ -9,6 +9,7 @@ import io.github.zero88.schedulerx.trigger.Trigger;
  *
  * @param <T> Type of Trigger
  * @see Trigger
+ * @see TaskExecutor
  * @since 1.0.0
  */
 public interface TriggerTaskExecutor<T extends Trigger> extends TaskExecutor {
@@ -19,21 +20,5 @@ public interface TriggerTaskExecutor<T extends Trigger> extends TaskExecutor {
      * @return trigger
      */
     @NotNull T trigger();
-
-    /**
-     * Task to execute per round
-     *
-     * @return task
-     * @see Task
-     */
-    @NotNull Task task();
-
-    /**
-     * Defines job data as input task data
-     *
-     * @return job data
-     * @see JobData
-     */
-    @NotNull JobData jobData();
 
 }

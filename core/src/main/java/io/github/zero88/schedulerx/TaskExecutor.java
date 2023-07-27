@@ -2,38 +2,25 @@ package io.github.zero88.schedulerx;
 
 import org.jetbrains.annotations.NotNull;
 
-import io.vertx.core.Vertx;
+import io.vertx.codegen.annotations.GenIgnore;
+import io.vertx.codegen.annotations.VertxGen;
 import io.vertx.core.WorkerExecutor;
 
 /**
  * Represents for an executor run {@code task} in conditional loop
  *
- * @see TriggerTaskExecutor
  * @since 1.0.0
  */
-public interface TaskExecutor {
-
-    /**
-     * Vertx
-     *
-     * @return vertx
-     */
-    @NotNull Vertx vertx();
+@VertxGen(concrete = false)
+public interface TaskExecutor extends TaskExecutorProperties {
 
     /**
      * Task executor state
      *
      * @return task executor state
      */
+    @GenIgnore(GenIgnore.PERMITTED_TYPE)
     @NotNull TaskExecutorState state();
-
-    /**
-     * Defines a task executor monitor
-     *
-     * @return task executor monitor
-     * @see TaskExecutorMonitor
-     */
-    @NotNull TaskExecutorMonitor monitor();
 
     /**
      * Start and run in {@code Vertx worker thread pool}
@@ -53,6 +40,7 @@ public interface TaskExecutor {
      *
      * @param executionContext execution context
      */
+    @GenIgnore(GenIgnore.PERMITTED_TYPE)
     void executeTask(@NotNull TaskExecutionContext executionContext);
 
     /**

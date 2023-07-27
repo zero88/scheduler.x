@@ -9,13 +9,14 @@ import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.TaskExecutorMonitor;
 import io.github.zero88.schedulerx.impl.AbstractTaskExecutor;
+import io.github.zero88.schedulerx.impl.AbstractTaskExecutorBuilder;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
 
-final class IntervalTriggerExecutorImpl extends AbstractTaskExecutor<IntervalTrigger> implements
-                                                                                      IntervalTriggerExecutor {
+final class IntervalTriggerExecutorImpl extends AbstractTaskExecutor<IntervalTrigger>
+    implements IntervalTriggerExecutor {
 
     IntervalTriggerExecutorImpl(@NotNull Vertx vertx, @NotNull TaskExecutorMonitor monitor, @NotNull JobData jobData,
                                 @NotNull Task task, @NotNull IntervalTrigger trigger) {
@@ -42,6 +43,16 @@ final class IntervalTriggerExecutorImpl extends AbstractTaskExecutor<IntervalTri
     @Override
     protected boolean shouldCancel(long round) {
         return trigger().noRepeatIndefinitely() && round >= trigger().getRepeat();
+    }
+
+    static final class IntervalTriggerExecutorBuilderImpl
+        extends AbstractTaskExecutorBuilder<IntervalTrigger, IntervalTriggerExecutor, IntervalTriggerExecutorBuilder>
+        implements IntervalTriggerExecutorBuilder {
+
+        public @NotNull IntervalTriggerExecutor build() {
+            return new IntervalTriggerExecutorImpl(vertx(), monitor(), jobData(), task(), trigger());
+        }
+
     }
 
 }

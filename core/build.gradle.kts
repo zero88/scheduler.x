@@ -1,5 +1,8 @@
+import cloud.playio.gradle.generator.codegen.SourceSetName
+
 plugins {
     `java-test-fixtures`
+    id(PlayioPlugin.codegen)
 }
 
 
@@ -8,11 +11,20 @@ oss {
     title.set("Scheduler.x")
 }
 
+codegen {
+    vertx {
+        version.set(VertxLibs.Version.defaultVersion)
+        sources.addAll(arrayOf(SourceSetName.MAIN))
+    }
+}
+
 dependencies {
     api(VertxLibs.core)
     compileOnly(JacksonLibs.annotations)
     compileOnly(JacksonLibs.databind)
     compileOnly(UtilLibs.jetbrainsAnnotations)
+    codeGenerator(VertxLibs.rx3)
+    codeGenerator(MutinyLibs.core)
 
     testImplementation(TestLibs.junit5Params)
     testImplementation(JacksonLibs.databind)
