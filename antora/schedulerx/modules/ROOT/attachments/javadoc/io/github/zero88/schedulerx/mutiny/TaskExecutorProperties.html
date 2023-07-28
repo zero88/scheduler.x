@@ -68,16 +68,18 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">io.github.zero88.schedulerx.mutiny</a></div>
-<h1 title="Interface TaskExecutorProperties" class="title">Interface TaskExecutorProperties</h1>
+<h1 title="Interface TaskExecutorProperties" class="title">Interface TaskExecutorProperties&lt;INPUT,<wbr>OUTPUT&gt;</h1>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Known Subinterfaces:</dt>
-<dd><code><a href="TaskExecutor.html" title="interface in io.github.zero88.schedulerx.mutiny">TaskExecutor</a></code></dd>
+<dd><code><a href="TaskExecutor.html" title="interface in io.github.zero88.schedulerx.mutiny">TaskExecutor</a>&lt;INPUT,<wbr>OUTPUT&gt;</code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">TaskExecutorProperties</span></div>
-<div class="block">Shared immutable fields between TaskExecutor and its builder
+<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">TaskExecutorProperties&lt;INPUT,<wbr>OUTPUT&gt;</span></div>
+<div class="block">Shared immutable fields between TaskExecutor and its builder.
+ <p/>
+ This class is designed to internal usage, don't refer it in your code.
 
  <p/>
  NOTE: This class has been automatically generated from the <a href="../TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx"><code>original</code></a> non Mutiny-ified interface using Vert.x codegen.</div>
@@ -98,21 +100,28 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx">TaskExecutorProperties</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getDelegate()" class="member-name-link">getDelegate</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;<a href="TaskExecutorProperties.html" title="type parameter in TaskExecutorProperties">INPUT</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#jobData()" class="member-name-link">jobData</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../TaskExecutorMonitor.html" title="interface in io.github.zero88.schedulerx">TaskExecutorMonitor</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../TaskExecutorMonitor.html" title="interface in io.github.zero88.schedulerx">TaskExecutorMonitor</a>&lt;<a href="TaskExecutorProperties.html" title="type parameter in TaskExecutorProperties">OUTPUT</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#monitor()" class="member-name-link">monitor</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1"><code>static <a href="TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx.mutiny">TaskExecutorProperties</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1"><code>static &lt;INPUT,<wbr>
+OUTPUT&gt;<br><a href="TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx.mutiny">TaskExecutorProperties</a>&lt;INPUT,<wbr>OUTPUT&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#newInstance(io.github.zero88.schedulerx.TaskExecutorProperties)" class="member-name-link">newInstance</a><wbr>(<a href="../TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx">TaskExecutorProperties</a>&nbsp;arg)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../Task.html" title="interface in io.github.zero88.schedulerx">Task</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#task()" class="member-name-link">task</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>io.vertx.mutiny.core.Vertx</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#vertx()" class="member-name-link">vertx</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1"><code>static &lt;INPUT,<wbr>
+OUTPUT&gt;<br><a href="TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx.mutiny">TaskExecutorProperties</a>&lt;INPUT,<wbr>OUTPUT&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#newInstance(io.github.zero88.schedulerx.TaskExecutorProperties,io.smallrye.mutiny.vertx.TypeArg,io.smallrye.mutiny.vertx.TypeArg)" class="member-name-link">newInstance</a><wbr>(<a href="../TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx">TaskExecutorProperties</a>&nbsp;arg,
+ io.smallrye.mutiny.vertx.TypeArg&lt;INPUT&gt;&nbsp;__typeArg_INPUT,
+ io.smallrye.mutiny.vertx.TypeArg&lt;OUTPUT&gt;&nbsp;__typeArg_OUTPUT)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../Task.html" title="interface in io.github.zero88.schedulerx">Task</a>&lt;<a href="TaskExecutorProperties.html" title="type parameter in TaskExecutorProperties">INPUT</a>,<wbr><a href="TaskExecutorProperties.html" title="type parameter in TaskExecutorProperties">OUTPUT</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#task()" class="member-name-link">task</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>io.vertx.mutiny.core.Vertx</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#vertx()" class="member-name-link">vertx</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -146,7 +155,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="monitor()">
 <h3>monitor</h3>
-<div class="member-signature"><span class="return-type"><a href="../TaskExecutorMonitor.html" title="interface in io.github.zero88.schedulerx">TaskExecutorMonitor</a></span>&nbsp;<span class="element-name">monitor</span>()</div>
+<div class="member-signature"><span class="return-type"><a href="../TaskExecutorMonitor.html" title="interface in io.github.zero88.schedulerx">TaskExecutorMonitor</a>&lt;<a href="TaskExecutorProperties.html" title="type parameter in TaskExecutorProperties">OUTPUT</a>&gt;</span>&nbsp;<span class="element-name">monitor</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>task executor monitor</dd>
@@ -156,7 +165,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="task()">
 <h3>task</h3>
-<div class="member-signature"><span class="return-type"><a href="../Task.html" title="interface in io.github.zero88.schedulerx">Task</a></span>&nbsp;<span class="element-name">task</span>()</div>
+<div class="member-signature"><span class="return-type"><a href="../Task.html" title="interface in io.github.zero88.schedulerx">Task</a>&lt;<a href="TaskExecutorProperties.html" title="type parameter in TaskExecutorProperties">INPUT</a>,<wbr><a href="TaskExecutorProperties.html" title="type parameter in TaskExecutorProperties">OUTPUT</a>&gt;</span>&nbsp;<span class="element-name">task</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>task</dd>
@@ -166,7 +175,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="jobData()">
 <h3>jobData</h3>
-<div class="member-signature"><span class="return-type"><a href="../JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a></span>&nbsp;<span class="element-name">jobData</span>()</div>
+<div class="member-signature"><span class="return-type"><a href="../JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;<a href="TaskExecutorProperties.html" title="type parameter in TaskExecutorProperties">INPUT</a>&gt;</span>&nbsp;<span class="element-name">jobData</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>job data</dd>
@@ -176,7 +185,19 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="newInstance(io.github.zero88.schedulerx.TaskExecutorProperties)">
 <h3>newInstance</h3>
-<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx.mutiny">TaskExecutorProperties</a></span>&nbsp;<span class="element-name">newInstance</span><wbr><span class="parameters">(<a href="../TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx">TaskExecutorProperties</a>&nbsp;arg)</span></div>
+<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;INPUT,<wbr>
+OUTPUT&gt;</span>
+<span class="return-type"><a href="TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx.mutiny">TaskExecutorProperties</a>&lt;INPUT,<wbr>OUTPUT&gt;</span>&nbsp;<span class="element-name">newInstance</span><wbr><span class="parameters">(<a href="../TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx">TaskExecutorProperties</a>&nbsp;arg)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="newInstance(io.github.zero88.schedulerx.TaskExecutorProperties,io.smallrye.mutiny.vertx.TypeArg,io.smallrye.mutiny.vertx.TypeArg)">
+<h3>newInstance</h3>
+<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;INPUT,<wbr>
+OUTPUT&gt;</span>
+<span class="return-type"><a href="TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx.mutiny">TaskExecutorProperties</a>&lt;INPUT,<wbr>OUTPUT&gt;</span>&nbsp;<span class="element-name">newInstance</span><wbr><span class="parameters">(<a href="../TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx">TaskExecutorProperties</a>&nbsp;arg,
+ io.smallrye.mutiny.vertx.TypeArg&lt;INPUT&gt;&nbsp;__typeArg_INPUT,
+ io.smallrye.mutiny.vertx.TypeArg&lt;OUTPUT&gt;&nbsp;__typeArg_OUTPUT)</span></div>
 </section>
 </li>
 </ul>

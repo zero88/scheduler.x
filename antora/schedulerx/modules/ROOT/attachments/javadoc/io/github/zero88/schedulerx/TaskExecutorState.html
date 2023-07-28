@@ -68,11 +68,15 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">io.github.zero88.schedulerx</a></div>
-<h1 title="Interface TaskExecutorState" class="title">Interface TaskExecutorState</h1>
+<h1 title="Interface TaskExecutorState" class="title">Interface TaskExecutorState&lt;OUTPUT&gt;</h1>
 </div>
 <section class="class-description" id="class-description">
+<dl class="notes">
+<dt>Type Parameters:</dt>
+<dd><code>OUTPUT</code> - Type of Result data</dd>
+</dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">TaskExecutorState</span></div>
+<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">TaskExecutorState&lt;OUTPUT&gt;</span></div>
 <div class="block">Represents for current Task executor state</div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -113,7 +117,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Check whether <code>executor</code> is <code>idle</code> state that means is in <code>scheduler</code> but in <code>break-time</code>
  between 2 executions</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="TaskExecutorState.html" title="type parameter in TaskExecutorState">OUTPUT</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#lastData()" class="member-name-link">lastData</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Latest data of previous round</div>
@@ -250,7 +254,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="lastData()">
 <h3>lastData</h3>
 <div class="member-signature"><span class="annotations">@Nullable
-</span><span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span>&nbsp;<span class="element-name">lastData</span>()</div>
+</span><span class="return-type"><a href="TaskExecutorState.html" title="type parameter in TaskExecutorState">OUTPUT</a></span>&nbsp;<span class="element-name">lastData</span>()</div>
 <div class="block">Latest data of previous round</div>
 <dl class="notes">
 <dt>Returns:</dt>

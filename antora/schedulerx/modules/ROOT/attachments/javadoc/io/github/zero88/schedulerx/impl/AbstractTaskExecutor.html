@@ -68,24 +68,26 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">io.github.zero88.schedulerx.impl</a></div>
-<h1 title="Class AbstractTaskExecutor" class="title">Class AbstractTaskExecutor&lt;T extends <a href="../trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a>&gt;</h1>
+<h1 title="Class AbstractTaskExecutor" class="title">Class AbstractTaskExecutor&lt;IN,<wbr>OUT,<wbr>T extends <a href="../trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a>&gt;</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">io.github.zero88.schedulerx.impl.AbstractTaskExecutor&lt;T&gt;</div>
+<div class="inheritance">io.github.zero88.schedulerx.impl.AbstractTaskExecutor&lt;IN,<wbr>OUT,<wbr>T&gt;</div>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>Type Parameters:</dt>
+<dd><code>IN</code> - Type of input data</dd>
+<dd><code>OUT</code> - Type of output data</dd>
 <dd><code>T</code> - Type of trigger</dd>
 </dl>
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="../TaskExecutor.html" title="interface in io.github.zero88.schedulerx">TaskExecutor</a></code>, <code><a href="../TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx">TaskExecutorProperties</a></code>, <code><a href="../TriggerTaskExecutor.html" title="interface in io.github.zero88.schedulerx">TriggerTaskExecutor</a>&lt;T&gt;</code></dd>
+<dd><code><a href="../TaskExecutor.html" title="interface in io.github.zero88.schedulerx">TaskExecutor</a>&lt;IN,<wbr>OUT&gt;</code>, <code><a href="../TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx">TaskExecutorProperties</a>&lt;IN,<wbr>OUT&gt;</code>, <code><a href="../TriggerTaskExecutor.html" title="interface in io.github.zero88.schedulerx">TriggerTaskExecutor</a>&lt;IN,<wbr>OUT,<wbr>T&gt;</code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">AbstractTaskExecutor&lt;T extends <a href="../trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a>&gt;</span>
+<div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">AbstractTaskExecutor&lt;IN,<wbr>OUT,<wbr>T extends <a href="../trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a>&gt;</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
-implements <a href="../TriggerTaskExecutor.html" title="interface in io.github.zero88.schedulerx">TriggerTaskExecutor</a>&lt;T&gt;</span></div>
+implements <a href="../TriggerTaskExecutor.html" title="interface in io.github.zero88.schedulerx">TriggerTaskExecutor</a>&lt;IN,<wbr>OUT,<wbr>T&gt;</span></div>
 <div class="block">The base task executor</div>
 </section>
 <section class="summary">
@@ -116,9 +118,9 @@ implements <a href="../TriggerTaskExecutor.html" title="interface in io.github.z
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>protected </code></div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.vertx.core.Vertx,io.github.zero88.schedulerx.TaskExecutorMonitor,io.github.zero88.schedulerx.JobData,io.github.zero88.schedulerx.Task,T)" class="member-name-link">AbstractTaskExecutor</a><wbr>(@NotNull io.vertx.core.Vertx&nbsp;vertx,
- @NotNull <a href="../TaskExecutorMonitor.html" title="interface in io.github.zero88.schedulerx">TaskExecutorMonitor</a>&nbsp;monitor,
- @NotNull <a href="../JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&nbsp;jobData,
- @NotNull <a href="../Task.html" title="interface in io.github.zero88.schedulerx">Task</a>&nbsp;task,
+ @NotNull <a href="../TaskExecutorMonitor.html" title="interface in io.github.zero88.schedulerx">TaskExecutorMonitor</a>&lt;<a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">OUT</a>&gt;&nbsp;monitor,
+ @NotNull <a href="../JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;<a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">IN</a>&gt;&nbsp;jobData,
+ @NotNull <a href="../Task.html" title="interface in io.github.zero88.schedulerx">Task</a>&lt;<a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">IN</a>,<wbr><a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">OUT</a>&gt;&nbsp;task,
  <a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">T</a>&nbsp;trigger)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
@@ -151,16 +153,16 @@ implements <a href="../TriggerTaskExecutor.html" title="interface in io.github.z
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;event)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#executeTask(io.github.zero88.schedulerx.TaskExecutionContext)" class="member-name-link">executeTask</a><wbr>(@NotNull <a href="../TaskExecutionContext.html" title="interface in io.github.zero88.schedulerx">TaskExecutionContext</a>&nbsp;executionContext)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#executeTask(io.github.zero88.schedulerx.TaskExecutionContext)" class="member-name-link">executeTask</a><wbr>(@NotNull <a href="../TaskExecutionContext.html" title="interface in io.github.zero88.schedulerx">TaskExecutionContext</a>&lt;<a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">OUT</a>&gt;&nbsp;executionContext)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Execute task</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final @NotNull <a href="../JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final @NotNull <a href="../JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;<a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">IN</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jobData()" class="member-name-link">jobData</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Defines job data as input task data</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final @NotNull <a href="../TaskExecutorMonitor.html" title="interface in io.github.zero88.schedulerx">TaskExecutorMonitor</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final @NotNull <a href="../TaskExecutorMonitor.html" title="interface in io.github.zero88.schedulerx">TaskExecutorMonitor</a>&lt;<a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">OUT</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#monitor()" class="member-name-link">monitor</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Defines a task executor monitor</div>
@@ -188,12 +190,12 @@ implements <a href="../TriggerTaskExecutor.html" title="interface in io.github.z
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Start and run in a dedicated thread pool that is provided by a customized worker executor</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final @NotNull <a href="../TaskExecutorState.html" title="interface in io.github.zero88.schedulerx">TaskExecutorState</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final @NotNull <a href="../TaskExecutorState.html" title="interface in io.github.zero88.schedulerx">TaskExecutorState</a>&lt;<a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">OUT</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#state()" class="member-name-link">state</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Task executor state</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final @NotNull <a href="../Task.html" title="interface in io.github.zero88.schedulerx">Task</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final @NotNull <a href="../Task.html" title="interface in io.github.zero88.schedulerx">Task</a>&lt;<a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">IN</a>,<wbr><a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">OUT</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#task()" class="member-name-link">task</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Task to execute per round</div>
@@ -248,11 +250,11 @@ implements <a href="../TriggerTaskExecutor.html" title="interface in io.github.z
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">AbstractTaskExecutor</span><wbr><span class="parameters">(@NotNull
  @NotNull io.vertx.core.Vertx&nbsp;vertx,
  @NotNull
- @NotNull <a href="../TaskExecutorMonitor.html" title="interface in io.github.zero88.schedulerx">TaskExecutorMonitor</a>&nbsp;monitor,
+ @NotNull <a href="../TaskExecutorMonitor.html" title="interface in io.github.zero88.schedulerx">TaskExecutorMonitor</a>&lt;<a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">OUT</a>&gt;&nbsp;monitor,
  @NotNull
- @NotNull <a href="../JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&nbsp;jobData,
+ @NotNull <a href="../JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;<a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">IN</a>&gt;&nbsp;jobData,
  @NotNull
- @NotNull <a href="../Task.html" title="interface in io.github.zero88.schedulerx">Task</a>&nbsp;task,
+ @NotNull <a href="../Task.html" title="interface in io.github.zero88.schedulerx">Task</a>&lt;<a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">IN</a>,<wbr><a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">OUT</a>&gt;&nbsp;task,
  @NotNull
  <a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">T</a>&nbsp;trigger)</span></div>
 </section>
@@ -269,12 +271,12 @@ implements <a href="../TriggerTaskExecutor.html" title="interface in io.github.z
 <section class="detail" id="state()">
 <h3>state</h3>
 <div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public final</span>&nbsp;<span class="return-type">@NotNull <a href="../TaskExecutorState.html" title="interface in io.github.zero88.schedulerx">TaskExecutorState</a></span>&nbsp;<span class="element-name">state</span>()</div>
+</span><span class="modifiers">public final</span>&nbsp;<span class="return-type">@NotNull <a href="../TaskExecutorState.html" title="interface in io.github.zero88.schedulerx">TaskExecutorState</a>&lt;<a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">OUT</a>&gt;</span>&nbsp;<span class="element-name">state</span>()</div>
 <div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../TaskExecutor.html#state()">TaskExecutor</a></code></span></div>
 <div class="block">Task executor state</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../TaskExecutor.html#state()">state</a></code>&nbsp;in interface&nbsp;<code><a href="../TaskExecutor.html" title="interface in io.github.zero88.schedulerx">TaskExecutor</a></code></dd>
+<dd><code><a href="../TaskExecutor.html#state()">state</a></code>&nbsp;in interface&nbsp;<code><a href="../TaskExecutor.html" title="interface in io.github.zero88.schedulerx">TaskExecutor</a>&lt;<a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">IN</a>,<wbr><a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">OUT</a>&gt;</code></dd>
 <dt>Returns:</dt>
 <dd>task executor state</dd>
 </dl>
@@ -289,7 +291,7 @@ implements <a href="../TriggerTaskExecutor.html" title="interface in io.github.z
 <div class="block">Vertx</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../TaskExecutorProperties.html#vertx()">vertx</a></code>&nbsp;in interface&nbsp;<code><a href="../TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx">TaskExecutorProperties</a></code></dd>
+<dd><code><a href="../TaskExecutorProperties.html#vertx()">vertx</a></code>&nbsp;in interface&nbsp;<code><a href="../TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx">TaskExecutorProperties</a>&lt;<a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">IN</a>,<wbr><a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">OUT</a>&gt;</code></dd>
 <dt>Returns:</dt>
 <dd>vertx</dd>
 </dl>
@@ -299,12 +301,12 @@ implements <a href="../TriggerTaskExecutor.html" title="interface in io.github.z
 <section class="detail" id="monitor()">
 <h3>monitor</h3>
 <div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public final</span>&nbsp;<span class="return-type">@NotNull <a href="../TaskExecutorMonitor.html" title="interface in io.github.zero88.schedulerx">TaskExecutorMonitor</a></span>&nbsp;<span class="element-name">monitor</span>()</div>
+</span><span class="modifiers">public final</span>&nbsp;<span class="return-type">@NotNull <a href="../TaskExecutorMonitor.html" title="interface in io.github.zero88.schedulerx">TaskExecutorMonitor</a>&lt;<a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">OUT</a>&gt;</span>&nbsp;<span class="element-name">monitor</span>()</div>
 <div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../TaskExecutorProperties.html#monitor()">TaskExecutorProperties</a></code></span></div>
 <div class="block">Defines a task executor monitor</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../TaskExecutorProperties.html#monitor()">monitor</a></code>&nbsp;in interface&nbsp;<code><a href="../TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx">TaskExecutorProperties</a></code></dd>
+<dd><code><a href="../TaskExecutorProperties.html#monitor()">monitor</a></code>&nbsp;in interface&nbsp;<code><a href="../TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx">TaskExecutorProperties</a>&lt;<a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">IN</a>,<wbr><a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">OUT</a>&gt;</code></dd>
 <dt>Returns:</dt>
 <dd>task executor monitor</dd>
 <dt>See Also:</dt>
@@ -320,12 +322,12 @@ implements <a href="../TriggerTaskExecutor.html" title="interface in io.github.z
 <section class="detail" id="jobData()">
 <h3>jobData</h3>
 <div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public final</span>&nbsp;<span class="return-type">@NotNull <a href="../JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a></span>&nbsp;<span class="element-name">jobData</span>()</div>
+</span><span class="modifiers">public final</span>&nbsp;<span class="return-type">@NotNull <a href="../JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;<a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">IN</a>&gt;</span>&nbsp;<span class="element-name">jobData</span>()</div>
 <div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../TaskExecutorProperties.html#jobData()">TaskExecutorProperties</a></code></span></div>
 <div class="block">Defines job data as input task data</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../TaskExecutorProperties.html#jobData()">jobData</a></code>&nbsp;in interface&nbsp;<code><a href="../TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx">TaskExecutorProperties</a></code></dd>
+<dd><code><a href="../TaskExecutorProperties.html#jobData()">jobData</a></code>&nbsp;in interface&nbsp;<code><a href="../TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx">TaskExecutorProperties</a>&lt;<a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">IN</a>,<wbr><a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">OUT</a>&gt;</code></dd>
 <dt>Returns:</dt>
 <dd>job data</dd>
 <dt>See Also:</dt>
@@ -341,12 +343,12 @@ implements <a href="../TriggerTaskExecutor.html" title="interface in io.github.z
 <section class="detail" id="task()">
 <h3>task</h3>
 <div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public final</span>&nbsp;<span class="return-type">@NotNull <a href="../Task.html" title="interface in io.github.zero88.schedulerx">Task</a></span>&nbsp;<span class="element-name">task</span>()</div>
+</span><span class="modifiers">public final</span>&nbsp;<span class="return-type">@NotNull <a href="../Task.html" title="interface in io.github.zero88.schedulerx">Task</a>&lt;<a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">IN</a>,<wbr><a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">OUT</a>&gt;</span>&nbsp;<span class="element-name">task</span>()</div>
 <div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../TaskExecutorProperties.html#task()">TaskExecutorProperties</a></code></span></div>
 <div class="block">Task to execute per round</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../TaskExecutorProperties.html#task()">task</a></code>&nbsp;in interface&nbsp;<code><a href="../TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx">TaskExecutorProperties</a></code></dd>
+<dd><code><a href="../TaskExecutorProperties.html#task()">task</a></code>&nbsp;in interface&nbsp;<code><a href="../TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx">TaskExecutorProperties</a>&lt;<a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">IN</a>,<wbr><a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">OUT</a>&gt;</code></dd>
 <dt>Returns:</dt>
 <dd>task</dd>
 <dt>See Also:</dt>
@@ -367,7 +369,7 @@ implements <a href="../TriggerTaskExecutor.html" title="interface in io.github.z
 <div class="block">Trigger type</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../TriggerTaskExecutor.html#trigger()">trigger</a></code>&nbsp;in interface&nbsp;<code><a href="../TriggerTaskExecutor.html" title="interface in io.github.zero88.schedulerx">TriggerTaskExecutor</a>&lt;<a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">T</a> extends <a href="../trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a>&gt;</code></dd>
+<dd><code><a href="../TriggerTaskExecutor.html#trigger()">trigger</a></code>&nbsp;in interface&nbsp;<code><a href="../TriggerTaskExecutor.html" title="interface in io.github.zero88.schedulerx">TriggerTaskExecutor</a>&lt;<a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">IN</a>,<wbr><a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">OUT</a>,<wbr><a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">T</a> extends <a href="../trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a>&gt;</code></dd>
 <dt>Returns:</dt>
 <dd>trigger</dd>
 </dl>
@@ -381,7 +383,7 @@ implements <a href="../TriggerTaskExecutor.html" title="interface in io.github.z
 <div class="block">Start and run in a dedicated thread pool that is provided by a customized worker executor</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../TaskExecutor.html#start(io.vertx.core.WorkerExecutor)">start</a></code>&nbsp;in interface&nbsp;<code><a href="../TaskExecutor.html" title="interface in io.github.zero88.schedulerx">TaskExecutor</a></code></dd>
+<dd><code><a href="../TaskExecutor.html#start(io.vertx.core.WorkerExecutor)">start</a></code>&nbsp;in interface&nbsp;<code><a href="../TaskExecutor.html" title="interface in io.github.zero88.schedulerx">TaskExecutor</a>&lt;<a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">IN</a>,<wbr><a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">OUT</a>&gt;</code></dd>
 <dt>Parameters:</dt>
 <dd><code>workerExecutor</code> - worker executor</dd>
 <dt>See Also:</dt>
@@ -397,12 +399,12 @@ implements <a href="../TriggerTaskExecutor.html" title="interface in io.github.z
 <section class="detail" id="executeTask(io.github.zero88.schedulerx.TaskExecutionContext)">
 <h3>executeTask</h3>
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">executeTask</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="../TaskExecutionContext.html" title="interface in io.github.zero88.schedulerx">TaskExecutionContext</a>&nbsp;executionContext)</span></div>
+ @NotNull <a href="../TaskExecutionContext.html" title="interface in io.github.zero88.schedulerx">TaskExecutionContext</a>&lt;<a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">OUT</a>&gt;&nbsp;executionContext)</span></div>
 <div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../TaskExecutor.html#executeTask(io.github.zero88.schedulerx.TaskExecutionContext)">TaskExecutor</a></code></span></div>
 <div class="block">Execute task</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../TaskExecutor.html#executeTask(io.github.zero88.schedulerx.TaskExecutionContext)">executeTask</a></code>&nbsp;in interface&nbsp;<code><a href="../TaskExecutor.html" title="interface in io.github.zero88.schedulerx">TaskExecutor</a></code></dd>
+<dd><code><a href="../TaskExecutor.html#executeTask(io.github.zero88.schedulerx.TaskExecutionContext)">executeTask</a></code>&nbsp;in interface&nbsp;<code><a href="../TaskExecutor.html" title="interface in io.github.zero88.schedulerx">TaskExecutor</a>&lt;<a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">IN</a>,<wbr><a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">OUT</a>&gt;</code></dd>
 <dt>Parameters:</dt>
 <dd><code>executionContext</code> - execution context</dd>
 </dl>
@@ -416,7 +418,7 @@ implements <a href="../TriggerTaskExecutor.html" title="interface in io.github.z
 <div class="block">Cancel executor</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../TaskExecutor.html#cancel()">cancel</a></code>&nbsp;in interface&nbsp;<code><a href="../TaskExecutor.html" title="interface in io.github.zero88.schedulerx">TaskExecutor</a></code></dd>
+<dd><code><a href="../TaskExecutor.html#cancel()">cancel</a></code>&nbsp;in interface&nbsp;<code><a href="../TaskExecutor.html" title="interface in io.github.zero88.schedulerx">TaskExecutor</a>&lt;<a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">IN</a>,<wbr><a href="AbstractTaskExecutor.html" title="type parameter in AbstractTaskExecutor">OUT</a>&gt;</code></dd>
 </dl>
 </section>
 </li>

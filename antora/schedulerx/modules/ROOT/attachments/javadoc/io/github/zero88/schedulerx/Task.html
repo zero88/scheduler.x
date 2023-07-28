@@ -68,21 +68,20 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">io.github.zero88.schedulerx</a></div>
-<h1 title="Interface Task" class="title">Interface Task</h1>
+<h1 title="Interface Task" class="title">Interface Task&lt;INPUT,<wbr>OUTPUT&gt;</h1>
 </div>
 <section class="class-description" id="class-description">
+<dl class="notes">
+<dt>Type Parameters:</dt>
+<dd><code>INPUT</code> - Type of input data</dd>
+<dd><code>OUTPUT</code> - Type of Result data</dd>
+</dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">Task</span></div>
+<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">Task&lt;INPUT,<wbr>OUTPUT&gt;</span></div>
 <div class="block">Represents for Task to run on each trigger time</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>1.0.0</dd>
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger"><code>Trigger</code></a></li>
-</ul>
-</dd>
 </dl>
 </section>
 <section class="summary">
@@ -99,10 +98,10 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#execute(io.github.zero88.schedulerx.JobData,io.github.zero88.schedulerx.TaskExecutionContext)" class="member-name-link">execute</a><wbr>(@NotNull <a href="JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&nbsp;jobData,
- @NotNull <a href="TaskExecutionContext.html" title="interface in io.github.zero88.schedulerx">TaskExecutionContext</a>&nbsp;executionContext)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#execute(io.github.zero88.schedulerx.JobData,io.github.zero88.schedulerx.TaskExecutionContext)" class="member-name-link">execute</a><wbr>(@NotNull <a href="JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;<a href="Task.html" title="type parameter in Task">INPUT</a>&gt;&nbsp;jobData,
+ @NotNull <a href="TaskExecutionContext.html" title="interface in io.github.zero88.schedulerx">TaskExecutionContext</a>&lt;<a href="Task.html" title="type parameter in Task">OUTPUT</a>&gt;&nbsp;executionContext)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Execute task</div>
+<div class="block">Execute task.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#isAsync()" class="member-name-link">isAsync</a>()</code></div>
@@ -129,7 +128,7 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isAsync</span>()</div>
 <div class="block">Identify task is async or not
  <p>
- If async task, then in execution time, task must use <a href="TaskExecutionContext.html#complete(java.lang.Object)"><code>TaskExecutionContext.complete(Object)</code></a>} or <a href="TaskExecutionContext.html#fail(java.lang.Throwable)"><code>TaskExecutionContext.fail(Throwable)</code></a> when handling an async result</div>
+ If async task, then in execution time, task must use <a href="TaskExecutionContext.html#complete(OUTPUT)"><code>TaskExecutionContext.complete(Object)</code></a>} or <a href="TaskExecutionContext.html#fail(java.lang.Throwable)"><code>TaskExecutionContext.fail(Throwable)</code></a> when handling an async result</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>true if it is async task</dd>
@@ -140,10 +139,16 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="execute(io.github.zero88.schedulerx.JobData,io.github.zero88.schedulerx.TaskExecutionContext)">
 <h3>execute</h3>
 <div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">execute</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&nbsp;jobData,
+ @NotNull <a href="JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;<a href="Task.html" title="type parameter in Task">INPUT</a>&gt;&nbsp;jobData,
  @NotNull
- @NotNull <a href="TaskExecutionContext.html" title="interface in io.github.zero88.schedulerx">TaskExecutionContext</a>&nbsp;executionContext)</span></div>
-<div class="block">Execute task</div>
+ @NotNull <a href="TaskExecutionContext.html" title="interface in io.github.zero88.schedulerx">TaskExecutionContext</a>&lt;<a href="Task.html" title="type parameter in Task">OUTPUT</a>&gt;&nbsp;executionContext)</span></div>
+<div class="block">Execute task.
+ <p/>
+ After executed task, please remember to:
+ <ul>
+     <li>set value in case of task is success via <a href="TaskExecutionContext.html#complete(OUTPUT)"><code>TaskExecutionContext.complete(Object)</code></a></li>
+     <li>set error in case of task is failed via <a href="TaskExecutionContext.html#fail(java.lang.Throwable)"><code>TaskExecutionContext.fail(Throwable)</code></a></li>
+ </ul></div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>jobData</code> - job data</dd>
@@ -151,6 +156,7 @@ loadScripts(document, 'script');</script>
 <dt>See Also:</dt>
 <dd>
 <ul class="see-list">
+<li><a href="JobData.html" title="interface in io.github.zero88.schedulerx"><code>JobData</code></a></li>
 <li><a href="TaskExecutionContext.html" title="interface in io.github.zero88.schedulerx"><code>TaskExecutionContext</code></a></li>
 </ul>
 </dd>

@@ -68,16 +68,16 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">io.github.zero88.schedulerx.rxjava3</a></div>
-<h1 title="Interface TaskExecutor" class="title">Interface TaskExecutor</h1>
+<h1 title="Interface TaskExecutor" class="title">Interface TaskExecutor&lt;INPUT,<wbr>OUTPUT&gt;</h1>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Superinterfaces:</dt>
-<dd><code><a href="TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx.rxjava3">TaskExecutorProperties</a></code></dd>
+<dd><code><a href="TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx.rxjava3">TaskExecutorProperties</a>&lt;INPUT,<wbr>OUTPUT&gt;</code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">TaskExecutor</span><span class="extends-implements">
-extends <a href="TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx.rxjava3">TaskExecutorProperties</a></span></div>
+<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">TaskExecutor&lt;INPUT,<wbr>OUTPUT&gt;</span><span class="extends-implements">
+extends <a href="TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx.rxjava3">TaskExecutorProperties</a>&lt;INPUT,<wbr>OUTPUT&gt;</span></div>
 <div class="block">Represents for an executor run <code>task</code> in conditional loop
 
  <p/>
@@ -104,22 +104,29 @@ extends <a href="TaskExecutorProperties.html" title="interface in io.github.zero
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../TaskExecutor.html" title="interface in io.github.zero88.schedulerx">TaskExecutor</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getDelegate()" class="member-name-link">getDelegate</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1"><code>static <a href="TaskExecutor.html" title="interface in io.github.zero88.schedulerx.rxjava3">TaskExecutor</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1"><code>static &lt;INPUT,<wbr>
+OUTPUT&gt;<br><a href="TaskExecutor.html" title="interface in io.github.zero88.schedulerx.rxjava3">TaskExecutor</a>&lt;INPUT,<wbr>OUTPUT&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#newInstance(io.github.zero88.schedulerx.TaskExecutor)" class="member-name-link">newInstance</a><wbr>(<a href="../TaskExecutor.html" title="interface in io.github.zero88.schedulerx">TaskExecutor</a>&nbsp;arg)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#start()" class="member-name-link">start</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1"><code>static &lt;INPUT,<wbr>
+OUTPUT&gt;<br><a href="TaskExecutor.html" title="interface in io.github.zero88.schedulerx.rxjava3">TaskExecutor</a>&lt;INPUT,<wbr>OUTPUT&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#newInstance(io.github.zero88.schedulerx.TaskExecutor,io.vertx.lang.rx.TypeArg,io.vertx.lang.rx.TypeArg)" class="member-name-link">newInstance</a><wbr>(<a href="../TaskExecutor.html" title="interface in io.github.zero88.schedulerx">TaskExecutor</a>&nbsp;arg,
+ io.vertx.lang.rx.TypeArg&lt;INPUT&gt;&nbsp;__typeArg_INPUT,
+ io.vertx.lang.rx.TypeArg&lt;OUTPUT&gt;&nbsp;__typeArg_OUTPUT)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#start()" class="member-name-link">start</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Start and run in <code>Vertx worker thread pool</code></div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#start(io.vertx.rxjava3.core.WorkerExecutor)" class="member-name-link">start</a><wbr>(io.vertx.rxjava3.core.WorkerExecutor&nbsp;workerExecutor)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#start(io.vertx.rxjava3.core.WorkerExecutor)" class="member-name-link">start</a><wbr>(io.vertx.rxjava3.core.WorkerExecutor&nbsp;workerExecutor)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Start and run in a dedicated thread pool that is provided by a customized worker executor</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>io.vertx.rxjava3.core.Vertx</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#vertx()" class="member-name-link">vertx</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>io.vertx.rxjava3.core.Vertx</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#vertx()" class="member-name-link">vertx</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Vertx</div>
 </div>
 </div>
@@ -142,7 +149,7 @@ extends <a href="TaskExecutorProperties.html" title="interface in io.github.zero
 <div class="member-signature"><span class="return-type"><a href="../TaskExecutor.html" title="interface in io.github.zero88.schedulerx">TaskExecutor</a></span>&nbsp;<span class="element-name">getDelegate</span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="TaskExecutorProperties.html#getDelegate()">getDelegate</a></code>&nbsp;in interface&nbsp;<code><a href="TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx.rxjava3">TaskExecutorProperties</a></code></dd>
+<dd><code><a href="TaskExecutorProperties.html#getDelegate()">getDelegate</a></code>&nbsp;in interface&nbsp;<code><a href="TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx.rxjava3">TaskExecutorProperties</a>&lt;<a href="TaskExecutor.html" title="type parameter in TaskExecutor">INPUT</a>,<wbr><a href="TaskExecutor.html" title="type parameter in TaskExecutor">OUTPUT</a>&gt;</code></dd>
 </dl>
 </section>
 </li>
@@ -153,7 +160,7 @@ extends <a href="TaskExecutorProperties.html" title="interface in io.github.zero
 <div class="block">Vertx</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="TaskExecutorProperties.html#vertx()">vertx</a></code>&nbsp;in interface&nbsp;<code><a href="TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx.rxjava3">TaskExecutorProperties</a></code></dd>
+<dd><code><a href="TaskExecutorProperties.html#vertx()">vertx</a></code>&nbsp;in interface&nbsp;<code><a href="TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx.rxjava3">TaskExecutorProperties</a>&lt;<a href="TaskExecutor.html" title="type parameter in TaskExecutor">INPUT</a>,<wbr><a href="TaskExecutor.html" title="type parameter in TaskExecutor">OUTPUT</a>&gt;</code></dd>
 <dt>Returns:</dt>
 <dd>vertx</dd>
 </dl>
@@ -187,7 +194,17 @@ extends <a href="TaskExecutorProperties.html" title="interface in io.github.zero
 <li>
 <section class="detail" id="newInstance(io.github.zero88.schedulerx.TaskExecutor)">
 <h3>newInstance</h3>
-<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="TaskExecutor.html" title="interface in io.github.zero88.schedulerx.rxjava3">TaskExecutor</a></span>&nbsp;<span class="element-name">newInstance</span><wbr><span class="parameters">(<a href="../TaskExecutor.html" title="interface in io.github.zero88.schedulerx">TaskExecutor</a>&nbsp;arg)</span></div>
+<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;INPUT,<wbr>
+OUTPUT&gt;</span>&nbsp;<span class="return-type"><a href="TaskExecutor.html" title="interface in io.github.zero88.schedulerx.rxjava3">TaskExecutor</a>&lt;INPUT,<wbr>OUTPUT&gt;</span>&nbsp;<span class="element-name">newInstance</span><wbr><span class="parameters">(<a href="../TaskExecutor.html" title="interface in io.github.zero88.schedulerx">TaskExecutor</a>&nbsp;arg)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="newInstance(io.github.zero88.schedulerx.TaskExecutor,io.vertx.lang.rx.TypeArg,io.vertx.lang.rx.TypeArg)">
+<h3>newInstance</h3>
+<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;INPUT,<wbr>
+OUTPUT&gt;</span>&nbsp;<span class="return-type"><a href="TaskExecutor.html" title="interface in io.github.zero88.schedulerx.rxjava3">TaskExecutor</a>&lt;INPUT,<wbr>OUTPUT&gt;</span>&nbsp;<span class="element-name">newInstance</span><wbr><span class="parameters">(<a href="../TaskExecutor.html" title="interface in io.github.zero88.schedulerx">TaskExecutor</a>&nbsp;arg,
+ io.vertx.lang.rx.TypeArg&lt;INPUT&gt;&nbsp;__typeArg_INPUT,
+ io.vertx.lang.rx.TypeArg&lt;OUTPUT&gt;&nbsp;__typeArg_OUTPUT)</span></div>
 </section>
 </li>
 </ul>

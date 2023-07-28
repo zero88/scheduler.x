@@ -68,14 +68,14 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">io.github.zero88.schedulerx.mutiny.trigger</a></div>
-<h1 title="Class IntervalTriggerExecutor" class="title">Class IntervalTriggerExecutor</h1>
+<h1 title="Class IntervalTriggerExecutor" class="title">Class IntervalTriggerExecutor&lt;INPUT,<wbr>OUTPUT&gt;</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">io.github.zero88.schedulerx.mutiny.trigger.IntervalTriggerExecutor</div>
+<div class="inheritance">io.github.zero88.schedulerx.mutiny.trigger.IntervalTriggerExecutor&lt;INPUT,<wbr>OUTPUT&gt;</div>
 </div>
 <section class="class-description" id="class-description">
 <hr>
-<div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">IntervalTriggerExecutor</span>
+<div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">IntervalTriggerExecutor&lt;INPUT,<wbr>OUTPUT&gt;</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">Represents for the task executor has an execution loop based on interval.
 
@@ -96,6 +96,12 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code>static final io.smallrye.mutiny.vertx.TypeArg&lt;<a href="IntervalTriggerExecutor.html" title="class in io.github.zero88.schedulerx.mutiny.trigger">IntervalTriggerExecutor</a>&gt;</code></div>
 <div class="col-second even-row-color"><code><a href="#__TYPE_ARG" class="member-name-link">__TYPE_ARG</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>final io.smallrye.mutiny.vertx.TypeArg&lt;<a href="IntervalTriggerExecutor.html" title="type parameter in IntervalTriggerExecutor">INPUT</a>&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#__typeArg_0" class="member-name-link">__typeArg_0</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>final io.smallrye.mutiny.vertx.TypeArg&lt;<a href="IntervalTriggerExecutor.html" title="type parameter in IntervalTriggerExecutor">OUTPUT</a>&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#__typeArg_1" class="member-name-link">__typeArg_1</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -109,8 +115,14 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.github.zero88.schedulerx.trigger.IntervalTriggerExecutor)" class="member-name-link">IntervalTriggerExecutor</a><wbr>(<a href="../../trigger/IntervalTriggerExecutor.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTriggerExecutor</a>&nbsp;delegate)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.Object)" class="member-name-link">IntervalTriggerExecutor</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;delegate)</code></div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(io.github.zero88.schedulerx.trigger.IntervalTriggerExecutor,io.smallrye.mutiny.vertx.TypeArg,io.smallrye.mutiny.vertx.TypeArg)" class="member-name-link">IntervalTriggerExecutor</a><wbr>(<a href="../../trigger/IntervalTriggerExecutor.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTriggerExecutor</a>&nbsp;delegate,
+ io.smallrye.mutiny.vertx.TypeArg&lt;<a href="IntervalTriggerExecutor.html" title="type parameter in IntervalTriggerExecutor">INPUT</a>&gt;&nbsp;typeArg_0,
+ io.smallrye.mutiny.vertx.TypeArg&lt;<a href="IntervalTriggerExecutor.html" title="type parameter in IntervalTriggerExecutor">OUTPUT</a>&gt;&nbsp;typeArg_1)</code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.Object,io.smallrye.mutiny.vertx.TypeArg,io.smallrye.mutiny.vertx.TypeArg)" class="member-name-link">IntervalTriggerExecutor</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;delegate,
+ io.smallrye.mutiny.vertx.TypeArg&lt;<a href="IntervalTriggerExecutor.html" title="type parameter in IntervalTriggerExecutor">INPUT</a>&gt;&nbsp;typeArg_0,
+ io.smallrye.mutiny.vertx.TypeArg&lt;<a href="IntervalTriggerExecutor.html" title="type parameter in IntervalTriggerExecutor">OUTPUT</a>&gt;&nbsp;typeArg_1)</code></div>
+<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -125,7 +137,8 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="IntervalTriggerExecutorBuilder.html" title="class in io.github.zero88.schedulerx.mutiny.trigger">IntervalTriggerExecutorBuilder</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;IN,<wbr>
+OUT&gt;&nbsp;<a href="IntervalTriggerExecutorBuilder.html" title="class in io.github.zero88.schedulerx.mutiny.trigger">IntervalTriggerExecutorBuilder</a>&lt;IN,<wbr>OUT&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#builder()" class="member-name-link">builder</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
@@ -135,7 +148,7 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#executeTask(io.github.zero88.schedulerx.TaskExecutionContext)" class="member-name-link">executeTask</a><wbr>(<a href="../../TaskExecutionContext.html" title="interface in io.github.zero88.schedulerx">TaskExecutionContext</a>&nbsp;executionContext)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#executeTask(io.github.zero88.schedulerx.TaskExecutionContext)" class="member-name-link">executeTask</a><wbr>(<a href="../../TaskExecutionContext.html" title="interface in io.github.zero88.schedulerx">TaskExecutionContext</a>&lt;<a href="IntervalTriggerExecutor.html" title="type parameter in IntervalTriggerExecutor">OUTPUT</a>&gt;&nbsp;executionContext)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../trigger/IntervalTriggerExecutor.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTriggerExecutor</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDelegate()" class="member-name-link">getDelegate</a>()</code></div>
@@ -143,36 +156,43 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;<a href="IntervalTriggerExecutor.html" title="type parameter in IntervalTriggerExecutor">INPUT</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jobData()" class="member-name-link">jobData</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../TaskExecutorMonitor.html" title="interface in io.github.zero88.schedulerx">TaskExecutorMonitor</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../TaskExecutorMonitor.html" title="interface in io.github.zero88.schedulerx">TaskExecutorMonitor</a>&lt;<a href="IntervalTriggerExecutor.html" title="type parameter in IntervalTriggerExecutor">OUTPUT</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#monitor()" class="member-name-link">monitor</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="IntervalTriggerExecutor.html" title="class in io.github.zero88.schedulerx.mutiny.trigger">IntervalTriggerExecutor</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;INPUT,<wbr>
+OUTPUT&gt;<br><a href="IntervalTriggerExecutor.html" title="class in io.github.zero88.schedulerx.mutiny.trigger">IntervalTriggerExecutor</a>&lt;INPUT,<wbr>OUTPUT&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#newInstance(io.github.zero88.schedulerx.trigger.IntervalTriggerExecutor)" class="member-name-link">newInstance</a><wbr>(<a href="../../trigger/IntervalTriggerExecutor.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTriggerExecutor</a>&nbsp;arg)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#start()" class="member-name-link">start</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;INPUT,<wbr>
+OUTPUT&gt;<br><a href="IntervalTriggerExecutor.html" title="class in io.github.zero88.schedulerx.mutiny.trigger">IntervalTriggerExecutor</a>&lt;INPUT,<wbr>OUTPUT&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#newInstance(io.github.zero88.schedulerx.trigger.IntervalTriggerExecutor,io.smallrye.mutiny.vertx.TypeArg,io.smallrye.mutiny.vertx.TypeArg)" class="member-name-link">newInstance</a><wbr>(<a href="../../trigger/IntervalTriggerExecutor.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTriggerExecutor</a>&nbsp;arg,
+ io.smallrye.mutiny.vertx.TypeArg&lt;INPUT&gt;&nbsp;__typeArg_INPUT,
+ io.smallrye.mutiny.vertx.TypeArg&lt;OUTPUT&gt;&nbsp;__typeArg_OUTPUT)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#start(io.vertx.mutiny.core.WorkerExecutor)" class="member-name-link">start</a><wbr>(io.vertx.mutiny.core.WorkerExecutor&nbsp;workerExecutor)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#start()" class="member-name-link">start</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../TaskExecutorState.html" title="interface in io.github.zero88.schedulerx">TaskExecutorState</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#state()" class="member-name-link">state</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#start(io.vertx.mutiny.core.WorkerExecutor)" class="member-name-link">start</a><wbr>(io.vertx.mutiny.core.WorkerExecutor&nbsp;workerExecutor)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../Task.html" title="interface in io.github.zero88.schedulerx">Task</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#task()" class="member-name-link">task</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../TaskExecutorState.html" title="interface in io.github.zero88.schedulerx">TaskExecutorState</a>&lt;<a href="IntervalTriggerExecutor.html" title="type parameter in IntervalTriggerExecutor">OUTPUT</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#state()" class="member-name-link">state</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../Task.html" title="interface in io.github.zero88.schedulerx">Task</a>&lt;<a href="IntervalTriggerExecutor.html" title="type parameter in IntervalTriggerExecutor">INPUT</a>,<wbr><a href="IntervalTriggerExecutor.html" title="type parameter in IntervalTriggerExecutor">OUTPUT</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#task()" class="member-name-link">task</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../trigger/IntervalTrigger.html" title="class in io.github.zero88.schedulerx.trigger">IntervalTrigger</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#trigger()" class="member-name-link">trigger</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>io.vertx.mutiny.core.Vertx</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#vertx()" class="member-name-link">vertx</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../trigger/IntervalTrigger.html" title="class in io.github.zero88.schedulerx.trigger">IntervalTrigger</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#trigger()" class="member-name-link">trigger</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>io.vertx.mutiny.core.Vertx</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#vertx()" class="member-name-link">vertx</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -196,6 +216,18 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">io.smallrye.mutiny.vertx.TypeArg&lt;<a href="IntervalTriggerExecutor.html" title="class in io.github.zero88.schedulerx.mutiny.trigger">IntervalTriggerExecutor</a>&gt;</span>&nbsp;<span class="element-name">__TYPE_ARG</span></div>
 </section>
 </li>
+<li>
+<section class="detail" id="__typeArg_0">
+<h3>__typeArg_0</h3>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">io.smallrye.mutiny.vertx.TypeArg&lt;<a href="IntervalTriggerExecutor.html" title="type parameter in IntervalTriggerExecutor">INPUT</a>&gt;</span>&nbsp;<span class="element-name">__typeArg_0</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="__typeArg_1">
+<h3>__typeArg_1</h3>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">io.smallrye.mutiny.vertx.TypeArg&lt;<a href="IntervalTriggerExecutor.html" title="type parameter in IntervalTriggerExecutor">OUTPUT</a>&gt;</span>&nbsp;<span class="element-name">__typeArg_1</span></div>
+</section>
+</li>
 </ul>
 </section>
 </li>
@@ -211,9 +243,19 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="&lt;init&gt;(java.lang.Object)">
+<section class="detail" id="&lt;init&gt;(java.lang.Object,io.smallrye.mutiny.vertx.TypeArg,io.smallrye.mutiny.vertx.TypeArg)">
 <h3>IntervalTriggerExecutor</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">IntervalTriggerExecutor</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;delegate)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">IntervalTriggerExecutor</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;delegate,
+ io.smallrye.mutiny.vertx.TypeArg&lt;<a href="IntervalTriggerExecutor.html" title="type parameter in IntervalTriggerExecutor">INPUT</a>&gt;&nbsp;typeArg_0,
+ io.smallrye.mutiny.vertx.TypeArg&lt;<a href="IntervalTriggerExecutor.html" title="type parameter in IntervalTriggerExecutor">OUTPUT</a>&gt;&nbsp;typeArg_1)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(io.github.zero88.schedulerx.trigger.IntervalTriggerExecutor,io.smallrye.mutiny.vertx.TypeArg,io.smallrye.mutiny.vertx.TypeArg)">
+<h3>IntervalTriggerExecutor</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">IntervalTriggerExecutor</span><wbr><span class="parameters">(<a href="../../trigger/IntervalTriggerExecutor.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTriggerExecutor</a>&nbsp;delegate,
+ io.smallrye.mutiny.vertx.TypeArg&lt;<a href="IntervalTriggerExecutor.html" title="type parameter in IntervalTriggerExecutor">INPUT</a>&gt;&nbsp;typeArg_0,
+ io.smallrye.mutiny.vertx.TypeArg&lt;<a href="IntervalTriggerExecutor.html" title="type parameter in IntervalTriggerExecutor">OUTPUT</a>&gt;&nbsp;typeArg_1)</span></div>
 </section>
 </li>
 </ul>
@@ -295,13 +337,15 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="builder()">
 <h3>builder</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="IntervalTriggerExecutorBuilder.html" title="class in io.github.zero88.schedulerx.mutiny.trigger">IntervalTriggerExecutorBuilder</a></span>&nbsp;<span class="element-name">builder</span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;IN,<wbr>
+OUT&gt;</span>
+<span class="return-type"><a href="IntervalTriggerExecutorBuilder.html" title="class in io.github.zero88.schedulerx.mutiny.trigger">IntervalTriggerExecutorBuilder</a>&lt;IN,<wbr>OUT&gt;</span>&nbsp;<span class="element-name">builder</span>()</div>
 </section>
 </li>
 <li>
 <section class="detail" id="monitor()">
 <h3>monitor</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../TaskExecutorMonitor.html" title="interface in io.github.zero88.schedulerx">TaskExecutorMonitor</a></span>&nbsp;<span class="element-name">monitor</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../TaskExecutorMonitor.html" title="interface in io.github.zero88.schedulerx">TaskExecutorMonitor</a>&lt;<a href="IntervalTriggerExecutor.html" title="type parameter in IntervalTriggerExecutor">OUTPUT</a>&gt;</span>&nbsp;<span class="element-name">monitor</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>task executor monitor</dd>
@@ -311,7 +355,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="task()">
 <h3>task</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../Task.html" title="interface in io.github.zero88.schedulerx">Task</a></span>&nbsp;<span class="element-name">task</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../Task.html" title="interface in io.github.zero88.schedulerx">Task</a>&lt;<a href="IntervalTriggerExecutor.html" title="type parameter in IntervalTriggerExecutor">INPUT</a>,<wbr><a href="IntervalTriggerExecutor.html" title="type parameter in IntervalTriggerExecutor">OUTPUT</a>&gt;</span>&nbsp;<span class="element-name">task</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>task</dd>
@@ -321,7 +365,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="jobData()">
 <h3>jobData</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a></span>&nbsp;<span class="element-name">jobData</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;<a href="IntervalTriggerExecutor.html" title="type parameter in IntervalTriggerExecutor">INPUT</a>&gt;</span>&nbsp;<span class="element-name">jobData</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>job data</dd>
@@ -331,7 +375,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="state()">
 <h3>state</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../TaskExecutorState.html" title="interface in io.github.zero88.schedulerx">TaskExecutorState</a></span>&nbsp;<span class="element-name">state</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../TaskExecutorState.html" title="interface in io.github.zero88.schedulerx">TaskExecutorState</a>&lt;<a href="IntervalTriggerExecutor.html" title="type parameter in IntervalTriggerExecutor">OUTPUT</a>&gt;</span>&nbsp;<span class="element-name">state</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>task executor state</dd>
@@ -341,7 +385,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="executeTask(io.github.zero88.schedulerx.TaskExecutionContext)">
 <h3>executeTask</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">executeTask</span><wbr><span class="parameters">(<a href="../../TaskExecutionContext.html" title="interface in io.github.zero88.schedulerx">TaskExecutionContext</a>&nbsp;executionContext)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">executeTask</span><wbr><span class="parameters">(<a href="../../TaskExecutionContext.html" title="interface in io.github.zero88.schedulerx">TaskExecutionContext</a>&lt;<a href="IntervalTriggerExecutor.html" title="type parameter in IntervalTriggerExecutor">OUTPUT</a>&gt;&nbsp;executionContext)</span></div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>executionContext</code> - execution context</dd>
@@ -357,7 +401,19 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="newInstance(io.github.zero88.schedulerx.trigger.IntervalTriggerExecutor)">
 <h3>newInstance</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="IntervalTriggerExecutor.html" title="class in io.github.zero88.schedulerx.mutiny.trigger">IntervalTriggerExecutor</a></span>&nbsp;<span class="element-name">newInstance</span><wbr><span class="parameters">(<a href="../../trigger/IntervalTriggerExecutor.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTriggerExecutor</a>&nbsp;arg)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;INPUT,<wbr>
+OUTPUT&gt;</span>
+<span class="return-type"><a href="IntervalTriggerExecutor.html" title="class in io.github.zero88.schedulerx.mutiny.trigger">IntervalTriggerExecutor</a>&lt;INPUT,<wbr>OUTPUT&gt;</span>&nbsp;<span class="element-name">newInstance</span><wbr><span class="parameters">(<a href="../../trigger/IntervalTriggerExecutor.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTriggerExecutor</a>&nbsp;arg)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="newInstance(io.github.zero88.schedulerx.trigger.IntervalTriggerExecutor,io.smallrye.mutiny.vertx.TypeArg,io.smallrye.mutiny.vertx.TypeArg)">
+<h3>newInstance</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;INPUT,<wbr>
+OUTPUT&gt;</span>
+<span class="return-type"><a href="IntervalTriggerExecutor.html" title="class in io.github.zero88.schedulerx.mutiny.trigger">IntervalTriggerExecutor</a>&lt;INPUT,<wbr>OUTPUT&gt;</span>&nbsp;<span class="element-name">newInstance</span><wbr><span class="parameters">(<a href="../../trigger/IntervalTriggerExecutor.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTriggerExecutor</a>&nbsp;arg,
+ io.smallrye.mutiny.vertx.TypeArg&lt;INPUT&gt;&nbsp;__typeArg_INPUT,
+ io.smallrye.mutiny.vertx.TypeArg&lt;OUTPUT&gt;&nbsp;__typeArg_OUTPUT)</span></div>
 </section>
 </li>
 </ul>

@@ -68,11 +68,15 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">io.github.zero88.schedulerx</a></div>
-<h1 title="Interface TaskResult" class="title">Interface TaskResult</h1>
+<h1 title="Interface TaskResult" class="title">Interface TaskResult&lt;OUTPUT&gt;</h1>
 </div>
 <section class="class-description" id="class-description">
+<dl class="notes">
+<dt>Type Parameters:</dt>
+<dd><code>OUTPUT</code> - Type of Result data</dd>
+</dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">TaskResult</span></div>
+<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">TaskResult&lt;OUTPUT&gt;</span></div>
 <div class="block">Represents for task result will be pass on each event of <a href="TaskExecutorMonitor.html" title="interface in io.github.zero88.schedulerx"><code>TaskExecutorMonitor</code></a></div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -108,7 +112,7 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Task executor completes at time</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="TaskResult.html" title="type parameter in TaskResult">OUTPUT</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#data()" class="member-name-link">data</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Task result data per each round or latest result data when <code>isCompleted = true</code></div>
@@ -291,7 +295,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="data()">
 <h3>data</h3>
 <div class="member-signature"><span class="annotations">@Nullable
-</span><span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span>&nbsp;<span class="element-name">data</span>()</div>
+</span><span class="return-type"><a href="TaskResult.html" title="type parameter in TaskResult">OUTPUT</a></span>&nbsp;<span class="element-name">data</span>()</div>
 <div class="block">Task result data per each round or latest result data when <code>isCompleted = true</code></div>
 <dl class="notes">
 <dt>Returns:</dt>

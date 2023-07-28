@@ -68,11 +68,15 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">io.github.zero88.schedulerx</a></div>
-<h1 title="Interface TaskExecutionContext" class="title">Interface TaskExecutionContext</h1>
+<h1 title="Interface TaskExecutionContext" class="title">Interface TaskExecutionContext&lt;OUTPUT&gt;</h1>
 </div>
 <section class="class-description" id="class-description">
+<dl class="notes">
+<dt>Type Parameters:</dt>
+<dd><code>OUTPUT</code> - Type of Result data</dd>
+</dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">TaskExecutionContext</span></div>
+<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">TaskExecutionContext&lt;OUTPUT&gt;</span></div>
 <div class="block">Represents for a context per each execution round</div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -93,7 +97,7 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#complete(java.lang.Object)" class="member-name-link">complete</a><wbr>(@Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;data)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#complete(OUTPUT)" class="member-name-link">complete</a><wbr>(<a href="TaskExecutionContext.html" title="type parameter in TaskExecutionContext">OUTPUT</a>&nbsp;data)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Completed execution with result data per each round</div>
 </div>
@@ -212,10 +216,10 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="complete(java.lang.Object)">
-<h3>complete</h3>
+<section class="detail" id="complete(OUTPUT)">
+<h3 id="complete(java.lang.Object)">complete</h3>
 <div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">complete</span><wbr><span class="parameters">(@Nullable
- @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;data)</span></div>
+ <a href="TaskExecutionContext.html" title="type parameter in TaskExecutionContext">OUTPUT</a>&nbsp;data)</span></div>
 <div class="block">Completed execution with result data per each round</div>
 <dl class="notes">
 <dt>Parameters:</dt>
