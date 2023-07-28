@@ -14,26 +14,28 @@ import io.vertx.junit5.VertxTestContext;
 /**
  * Represents for the executor monitor that able to do test assert.
  *
+ * @param <OUTPUT> Type of Result data
  * @see TaskExecutorMonitor
  * @since 1.0.0
  */
-public final class TaskExecutorAsserter implements TaskExecutorMonitor {
+public final class TaskExecutorAsserter<OUTPUT> implements TaskExecutorMonitor<OUTPUT> {
 
     @NotNull
     private final VertxTestContext testContext;
     @NotNull
-    private final TaskExecutorMonitor logMonitor;
-    private final Consumer<TaskResult> unableSchedule;
-    private final Consumer<TaskResult> schedule;
-    private final Consumer<TaskResult> misfire;
-    private final Consumer<TaskResult> each;
-    private final Consumer<TaskResult> completed;
+    private final TaskExecutorMonitor<OUTPUT> logMonitor;
+    private final Consumer<TaskResult<OUTPUT>> unableSchedule;
+    private final Consumer<TaskResult<OUTPUT>> schedule;
+    private final Consumer<TaskResult<OUTPUT>> misfire;
+    private final Consumer<TaskResult<OUTPUT>> each;
+    private final Consumer<TaskResult<OUTPUT>> completed;
 
-    TaskExecutorAsserter(@NotNull VertxTestContext testContext, @Nullable TaskExecutorMonitor logMonitor,
-                         Consumer<TaskResult> unableSchedule, Consumer<TaskResult> schedule,
-                         Consumer<TaskResult> misfire, Consumer<TaskResult> each, Consumer<TaskResult> completed) {
+    TaskExecutorAsserter(@NotNull VertxTestContext testContext, @Nullable TaskExecutorMonitor<OUTPUT> logMonitor,
+                         Consumer<TaskResult<OUTPUT>> unableSchedule, Consumer<TaskResult<OUTPUT>> schedule,
+                         Consumer<TaskResult<OUTPUT>> misfire, Consumer<TaskResult<OUTPUT>> each,
+                         Consumer<TaskResult<OUTPUT>> completed) {
         this.testContext    = Objects.requireNonNull(testContext, "Vertx Test context is required");
-        this.logMonitor     = Optional.ofNullable(logMonitor).orElse(TaskExecutorLogMonitor.LOG_MONITOR);
+        this.logMonitor     = Optional.ofNullable(logMonitor).orElse(TaskExecutorLogMonitor.create());
         this.unableSchedule = unableSchedule;
         this.schedule       = schedule;
         this.misfire        = misfire;
@@ -41,34 +43,32 @@ public final class TaskExecutorAsserter implements TaskExecutorMonitor {
         this.completed      = completed;
     }
 
-    public static TaskExecutorAsserterBuilder builder() { return new TaskExecutorAsserterBuilder(); }
-
     @Override
-    public void onUnableSchedule(@NotNull TaskResult result) {
+    public void onUnableSchedule(@NotNull TaskResult<OUTPUT> result) {
         logMonitor.onUnableSchedule(result);
         verify(result, unableSchedule);
     }
 
     @Override
-    public void onSchedule(@NotNull TaskResult result) {
+    public void onSchedule(@NotNull TaskResult<OUTPUT> result) {
         logMonitor.onSchedule(result);
         verify(result, schedule);
     }
 
     @Override
-    public void onMisfire(@NotNull TaskResult result) {
+    public void onMisfire(@NotNull TaskResult<OUTPUT> result) {
         logMonitor.onMisfire(result);
         verify(result, misfire);
     }
 
     @Override
-    public void onEach(@NotNull TaskResult result) {
+    public void onEach(@NotNull TaskResult<OUTPUT> result) {
         logMonitor.onEach(result);
         verify(result, each);
     }
 
     @Override
-    public void onCompleted(@NotNull TaskResult result) {
+    public void onCompleted(@NotNull TaskResult<OUTPUT> result) {
         logMonitor.onCompleted(result);
         verify(result, r -> {
             completed.accept(r);
@@ -76,7 +76,7 @@ public final class TaskExecutorAsserter implements TaskExecutorMonitor {
         });
     }
 
-    private void verify(@NotNull TaskResult result, Consumer<TaskResult> verification) {
+    private void verify(@NotNull TaskResult<OUTPUT> result, Consumer<TaskResult<OUTPUT>> verification) {
         try {
             if (Objects.nonNull(verification)) {
                 testContext.verify(() -> verification.accept(result));
@@ -86,127 +86,18 @@ public final class TaskExecutorAsserter implements TaskExecutorMonitor {
         }
     }
 
+    public static <OUT> TaskExecutorAsserterBuilder<OUT> builder() { return new TaskExecutorAsserterBuilder<>(); }
+
     @SuppressWarnings("java:S5960")
-    public static TaskExecutorMonitor unableScheduleAsserter(VertxTestContext testContext, Checkpoint checkpoint) {
-        return TaskExecutorAsserter.builder().setTestContext(testContext).setUnableSchedule(result -> {
+    public static <OUT> TaskExecutorMonitor<OUT> unableScheduleAsserter(VertxTestContext testContext,
+                                                                        Checkpoint checkpoint) {
+        return TaskExecutorAsserter.<OUT>builder().setTestContext(testContext).setUnableSchedule(result -> {
             checkpoint.flag();
             Assertions.assertNotNull(result.unscheduledAt());
             Assertions.assertNull(result.availableAt());
             Assertions.assertTrue(result.error() instanceof IllegalArgumentException);
             testContext.completeNow();
         }).build();
-    }
-
-    public static class TaskExecutorAsserterBuilder {
-
-        private VertxTestContext testContext;
-        private TaskExecutorMonitor logMonitor;
-        private Consumer<TaskResult> unableSchedule;
-        private Consumer<TaskResult> schedule;
-        private Consumer<TaskResult> misfire;
-        private Consumer<TaskResult> each;
-        private Consumer<TaskResult> completed;
-
-        /**
-         * Set Vertx test context
-         *
-         * @param testContext test context
-         * @return this for fluent API
-         * @see VertxTestContext
-         */
-        public TaskExecutorAsserterBuilder setTestContext(@NotNull VertxTestContext testContext) {
-            this.testContext = testContext;
-            return this;
-        }
-
-        /**
-         * Set log monitor
-         *
-         * @param logMonitor a log monitor
-         * @return this for fluent API
-         * @see TaskExecutorMonitor
-         * @since 2.0.0
-         */
-        public TaskExecutorAsserterBuilder setLogMonitor(TaskExecutorMonitor logMonitor) {
-            this.logMonitor = logMonitor;
-            return this;
-        }
-
-        /**
-         * Set a task result verification when unable to schedule task
-         *
-         * @param unableSchedule a verification when unable to schedule task
-         * @return this for fluent API
-         * @see TaskResult
-         * @see TaskExecutorMonitor#onUnableSchedule(TaskResult)
-         */
-        public TaskExecutorAsserterBuilder setUnableSchedule(Consumer<TaskResult> unableSchedule) {
-            this.unableSchedule = unableSchedule;
-            return this;
-        }
-
-        /**
-         * Set a task result verification when schedule task
-         *
-         * @param schedule a verification when schedule task
-         * @return this for fluent API
-         * @see TaskResult
-         * @see TaskExecutorMonitor#onSchedule(TaskResult)
-         */
-        public TaskExecutorAsserterBuilder setSchedule(Consumer<TaskResult> schedule) {
-            this.schedule = schedule;
-            return this;
-        }
-
-        /**
-         * Set a task result verification when misfire task
-         *
-         * @param misfire a verification when misfire task
-         * @return this for fluent API
-         * @see TaskResult
-         * @see TaskExecutorMonitor#onMisfire(TaskResult)
-         */
-        public TaskExecutorAsserterBuilder setMisfire(Consumer<TaskResult> misfire) {
-            this.misfire = misfire;
-            return this;
-        }
-
-        /**
-         * Set a task result verification when each round is finished
-         *
-         * @param each a verification when each round is finished of schedule
-         * @return this for fluent API
-         * @see TaskResult
-         * @see TaskExecutorMonitor#onEach(TaskResult)
-         */
-        public TaskExecutorAsserterBuilder setEach(Consumer<TaskResult> each) {
-            this.each = each;
-            return this;
-        }
-
-        /**
-         * Set a task result verification when execution is completed
-         *
-         * @param completed a verification when execution is completed
-         * @return this for fluent API
-         * @see TaskResult
-         * @see TaskExecutorMonitor#onCompleted(TaskResult)
-         */
-        public TaskExecutorAsserterBuilder setCompleted(Consumer<TaskResult> completed) {
-            this.completed = completed;
-            return this;
-        }
-
-        /**
-         * Build an asserter
-         *
-         * @return TaskExecutorAsserter
-         */
-        public TaskExecutorAsserter build() {
-            return new TaskExecutorAsserter(testContext, logMonitor, unableSchedule, schedule, misfire, each,
-                                            completed);
-        }
-
     }
 
 }

@@ -10,9 +10,10 @@ import io.vertx.core.Vertx;
 /**
  * Represents for a context per each execution round
  *
+ * @param <OUTPUT> Type of Result data
  * @since 1.0.0
  */
-public interface TaskExecutionContext {
+public interface TaskExecutionContext<OUTPUT> {
 
     /**
      * Current vertx
@@ -60,7 +61,7 @@ public interface TaskExecutionContext {
      * @param data object data
      * @apiNote if task is {@code async} then it should be invoked in handling async result stage
      */
-    void complete(@Nullable Object data);
+    void complete(@Nullable OUTPUT data);
 
     /**
      * Failed execution with error per each round

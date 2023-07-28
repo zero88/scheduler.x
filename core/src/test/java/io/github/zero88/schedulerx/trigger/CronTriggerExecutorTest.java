@@ -31,7 +31,7 @@ class CronTriggerExecutorTest {
     @Test
     void test_run_task_by_cron(Vertx vertx, VertxTestContext testContext) {
         final Checkpoint checkpoint = testContext.checkpoint(3);
-        final Consumer<TaskResult> schedule = result -> {
+        final Consumer<TaskResult<Void>> schedule = result -> {
             if (!result.isReschedule()) {
                 Assertions.assertNotNull(result.availableAt());
                 Assertions.assertEquals(0, result.tick());
@@ -41,25 +41,25 @@ class CronTriggerExecutorTest {
                 Assertions.assertTrue(result.isReschedule());
             }
         };
-        final Consumer<TaskResult> completed = result -> {
+        final Consumer<TaskResult<Void>> completed = result -> {
             Assertions.assertEquals(2, result.round());
             Assertions.assertTrue(result.isCompleted());
             Assertions.assertFalse(result.isError());
         };
-        CronTriggerExecutor.builder()
+        CronTriggerExecutor.<Void, Void>builder()
                            .setVertx(vertx)
                            .setTrigger(CronTrigger.builder().expression("0/5 * * ? * * *").build())
                            .setTask((jobData, ctx) -> {
-                            checkpoint.flag();
-                            if (ctx.round() == 2) {
-                                ctx.forceStopExecution();
-                            }
-                        })
-                           .setMonitor(TaskExecutorAsserter.builder()
-                                                        .setTestContext(testContext)
-                                                        .setSchedule(schedule)
-                                                        .setCompleted(completed)
-                                                        .build())
+                               checkpoint.flag();
+                               if (ctx.round() == 2) {
+                                   ctx.forceStopExecution();
+                               }
+                           })
+                           .setMonitor(TaskExecutorAsserter.<Void>builder()
+                                                           .setTestContext(testContext)
+                                                           .setSchedule(schedule)
+                                                           .setCompleted(completed)
+                                                           .build())
                            .build()
                            .start();
     }

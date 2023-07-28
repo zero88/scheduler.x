@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import io.github.zero88.schedulerx.TaskExecutionContext;
 import io.vertx.core.Promise;
 
-interface TaskExecutionContextInternal extends TaskExecutionContext {
+interface TaskExecutionContextInternal<OUTPUT> extends TaskExecutionContext<OUTPUT> {
 
     /**
      * Setup task execution context
@@ -20,11 +20,11 @@ interface TaskExecutionContextInternal extends TaskExecutionContext {
      *     thrown
      * @see Promise
      */
-    @NotNull TaskExecutionContextInternal setup(@NotNull Promise<Object> promise, @NotNull Instant executedAt);
+    @NotNull TaskExecutionContextInternal<OUTPUT> setup(@NotNull Promise<Object> promise, @NotNull Instant executedAt);
 
     void internalComplete();
 
-    @Nullable Object data();
+    @Nullable OUTPUT data();
 
     @Nullable Throwable error();
 

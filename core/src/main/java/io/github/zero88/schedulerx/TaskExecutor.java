@@ -9,10 +9,12 @@ import io.vertx.core.WorkerExecutor;
 /**
  * Represents for an executor run {@code task} in conditional loop
  *
+ * @param <INPUT>  Type of input data
+ * @param <OUTPUT> Type of Result data
  * @since 1.0.0
  */
 @VertxGen(concrete = false)
-public interface TaskExecutor extends TaskExecutorProperties {
+public interface TaskExecutor<INPUT, OUTPUT> extends TaskExecutorProperties<INPUT, OUTPUT> {
 
     /**
      * Task executor state
@@ -20,7 +22,7 @@ public interface TaskExecutor extends TaskExecutorProperties {
      * @return task executor state
      */
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull TaskExecutorState state();
+    @NotNull TaskExecutorState<OUTPUT> state();
 
     /**
      * Start and run in {@code Vertx worker thread pool}
@@ -41,7 +43,7 @@ public interface TaskExecutor extends TaskExecutorProperties {
      * @param executionContext execution context
      */
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    void executeTask(@NotNull TaskExecutionContext executionContext);
+    void executeTask(@NotNull TaskExecutionContext<OUTPUT> executionContext);
 
     /**
      * Cancel executor

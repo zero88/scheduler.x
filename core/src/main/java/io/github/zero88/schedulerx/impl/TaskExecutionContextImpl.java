@@ -8,14 +8,14 @@ import org.jetbrains.annotations.NotNull;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 
-final class TaskExecutionContextImpl implements TaskExecutionContextInternal {
+final class TaskExecutionContextImpl<OUTPUT> implements TaskExecutionContextInternal<OUTPUT> {
 
     private final Vertx vertx;
     private final long round;
     private final Instant triggeredAt;
     private Instant executedAt;
     private Promise<Object> promise;
-    private Object data;
+    private OUTPUT data;
     private Throwable error;
     private boolean forceStop = false;
 
@@ -26,7 +26,8 @@ final class TaskExecutionContextImpl implements TaskExecutionContextInternal {
     }
 
     @Override
-    public @NotNull TaskExecutionContextInternal setup(@NotNull Promise<Object> promise, @NotNull Instant executedAt) {
+    public @NotNull TaskExecutionContextInternal<OUTPUT> setup(@NotNull Promise<Object> promise,
+                                                               @NotNull Instant executedAt) {
         if (Objects.nonNull(this.promise)) {
             throw new IllegalStateException("TaskExecutionContext is already setup");
         }
@@ -43,7 +44,7 @@ final class TaskExecutionContextImpl implements TaskExecutionContextInternal {
 
     public long round()                   { return this.round; }
 
-    public Object data()                  { return this.data; }
+    public OUTPUT data()                  { return this.data; }
 
     public Throwable error()              { return this.error; }
 
@@ -55,7 +56,7 @@ final class TaskExecutionContextImpl implements TaskExecutionContextInternal {
     }
 
     @Override
-    public void complete(Object data) {
+    public void complete(OUTPUT data) {
         this.data = data;
         this.internalComplete();
     }

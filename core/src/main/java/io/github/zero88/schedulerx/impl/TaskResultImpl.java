@@ -4,7 +4,7 @@ import java.time.Instant;
 
 import io.github.zero88.schedulerx.TaskResult;
 
-final class TaskResultImpl implements TaskResult {
+final class TaskResultImpl<OUTPUT> implements TaskResult<OUTPUT> {
 
     private final Instant unscheduledAt;
     private final Instant rescheduledAt;
@@ -17,9 +17,9 @@ final class TaskResultImpl implements TaskResult {
     private final long round;
     private final boolean completed;
     private final Throwable error;
-    private final Object data;
+    private final OUTPUT data;
 
-    TaskResultImpl(TaskResultBuilder builder) {
+    TaskResultImpl(TaskResultBuilder<OUTPUT> builder) {
         this.unscheduledAt = builder.unscheduledAt;
         this.rescheduledAt = builder.rescheduledAt;
         this.availableAt   = builder.availableAt;
@@ -56,21 +56,21 @@ final class TaskResultImpl implements TaskResult {
 
     public Throwable error()       { return this.error; }
 
-    public Object data()           { return this.data; }
+    public OUTPUT data()           { return this.data; }
 
     /**
      * Create builder
      *
      * @return TaskResultBuilder
      */
-    static TaskResultBuilder builder() { return new TaskResultBuilder(); }
+    static <OUT> TaskResultBuilder<OUT> builder() { return new TaskResultBuilder<>(); }
 
     /**
      * Represents a builder that constructs {@link TaskResult}
      *
      * @see TaskResult
      */
-    static final class TaskResultBuilder {
+    static final class TaskResultBuilder<OUTPUT> {
 
         Instant unscheduledAt;
         Instant rescheduledAt;
@@ -83,69 +83,69 @@ final class TaskResultImpl implements TaskResult {
         long round;
         boolean completed;
         Throwable error;
-        Object data;
+        OUTPUT data;
 
-        public TaskResultBuilder setUnscheduledAt(Instant unscheduledAt) {
+        public TaskResultBuilder<OUTPUT> setUnscheduledAt(Instant unscheduledAt) {
             this.unscheduledAt = unscheduledAt;
             return this;
         }
 
-        public TaskResultBuilder setRescheduledAt(Instant rescheduledAt) {
+        public TaskResultBuilder<OUTPUT> setRescheduledAt(Instant rescheduledAt) {
             this.rescheduledAt = rescheduledAt;
             return this;
         }
 
-        public TaskResultBuilder setAvailableAt(Instant availableAt) {
+        public TaskResultBuilder<OUTPUT> setAvailableAt(Instant availableAt) {
             this.availableAt = availableAt;
             return this;
         }
 
-        public TaskResultBuilder setTriggeredAt(Instant triggeredAt) {
+        public TaskResultBuilder<OUTPUT> setTriggeredAt(Instant triggeredAt) {
             this.triggeredAt = triggeredAt;
             return this;
         }
 
-        public TaskResultBuilder setExecutedAt(Instant executedAt) {
+        public TaskResultBuilder<OUTPUT> setExecutedAt(Instant executedAt) {
             this.executedAt = executedAt;
             return this;
         }
 
-        public TaskResultBuilder setFinishedAt(Instant finishedAt) {
+        public TaskResultBuilder<OUTPUT> setFinishedAt(Instant finishedAt) {
             this.finishedAt = finishedAt;
             return this;
         }
 
-        public TaskResultBuilder setCompletedAt(Instant completedAt) {
+        public TaskResultBuilder<OUTPUT> setCompletedAt(Instant completedAt) {
             this.completedAt = completedAt;
             return this;
         }
 
-        public TaskResultBuilder setTick(long tick) {
+        public TaskResultBuilder<OUTPUT> setTick(long tick) {
             this.tick = tick;
             return this;
         }
 
-        public TaskResultBuilder setRound(long round) {
+        public TaskResultBuilder<OUTPUT> setRound(long round) {
             this.round = round;
             return this;
         }
 
-        public TaskResultBuilder setCompleted(boolean completed) {
+        public TaskResultBuilder<OUTPUT> setCompleted(boolean completed) {
             this.completed = completed;
             return this;
         }
 
-        public TaskResultBuilder setError(Throwable error) {
+        public TaskResultBuilder<OUTPUT> setError(Throwable error) {
             this.error = error;
             return this;
         }
 
-        public TaskResultBuilder setData(Object data) {
+        public TaskResultBuilder<OUTPUT> setData(OUTPUT data) {
             this.data = data;
             return this;
         }
 
-        public TaskResult build() { return new TaskResultImpl(this); }
+        public TaskResult<OUTPUT> build() { return new TaskResultImpl<>(this); }
 
     }
 

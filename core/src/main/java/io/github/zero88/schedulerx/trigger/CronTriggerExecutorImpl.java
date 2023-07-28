@@ -14,10 +14,11 @@ import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
 
-final class CronTriggerExecutorImpl extends AbstractTaskExecutor<CronTrigger> implements CronTriggerExecutor {
+final class CronTriggerExecutorImpl<IN, OUT> extends AbstractTaskExecutor<IN, OUT, CronTrigger>
+    implements CronTriggerExecutor<IN, OUT> {
 
-    CronTriggerExecutorImpl(@NotNull Vertx vertx, @NotNull TaskExecutorMonitor monitor, @NotNull JobData jobData,
-                            @NotNull Task task, @NotNull CronTrigger trigger) {
+    CronTriggerExecutorImpl(@NotNull Vertx vertx, @NotNull TaskExecutorMonitor<OUT> monitor,
+                            @NotNull JobData<IN> jobData, @NotNull Task<IN, OUT> task, @NotNull CronTrigger trigger) {
         super(vertx, monitor, jobData, task, trigger);
     }
 
@@ -40,12 +41,14 @@ final class CronTriggerExecutorImpl extends AbstractTaskExecutor<CronTrigger> im
         return false;
     }
 
-    static final class CronTriggerExecutorBuilderImpl
-        extends AbstractTaskExecutorBuilder<CronTrigger, CronTriggerExecutor, CronTriggerExecutorBuilder>
-        implements CronTriggerExecutorBuilder {
+    static final class CronTriggerExecutorBuilderImpl<IN, OUT> extends
+                                                               AbstractTaskExecutorBuilder<IN, OUT, CronTrigger,
+                                                                                              CronTriggerExecutor<IN,
+                                                                                                                     OUT>, CronTriggerExecutorBuilder<IN, OUT>>
+        implements CronTriggerExecutorBuilder<IN, OUT> {
 
-        public @NotNull CronTriggerExecutor build() {
-            return new CronTriggerExecutorImpl(vertx(), monitor(), jobData(), task(), trigger());
+        public @NotNull CronTriggerExecutor<IN, OUT> build() {
+            return new CronTriggerExecutorImpl<>(vertx(), monitor(), jobData(), task(), trigger());
         }
 
     }

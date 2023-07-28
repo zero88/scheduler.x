@@ -8,10 +8,11 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Represents for task result will be pass on each event of {@link TaskExecutorMonitor}
  *
+ * @param <OUTPUT> Type of Result data
  * @see TaskExecutorMonitor
  * @since 1.0.0
  */
-public interface TaskResult {
+public interface TaskResult<OUTPUT> {
 
     /**
      * Only {@code not null} in {@link TaskExecutorMonitor#onUnableSchedule(TaskResult)}
@@ -82,7 +83,7 @@ public interface TaskResult {
      *
      * @return task result data, might be null
      */
-    @Nullable Object data();
+    @Nullable OUTPUT data();
 
     /**
      * Task result error per each round or latest result error when {@code isCompleted = true}

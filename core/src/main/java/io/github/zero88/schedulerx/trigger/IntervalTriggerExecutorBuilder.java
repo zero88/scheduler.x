@@ -17,32 +17,33 @@ import io.vertx.core.Vertx;
  * @since 2.0.0
  */
 @VertxGen
-public interface IntervalTriggerExecutorBuilder
-    extends TriggerTaskExecutorBuilder<IntervalTrigger, IntervalTriggerExecutor, IntervalTriggerExecutorBuilder> {
+public interface IntervalTriggerExecutorBuilder<IN, OUT>
+    extends TriggerTaskExecutorBuilder<IN, OUT, IntervalTrigger, IntervalTriggerExecutor<IN, OUT>,
+                                          IntervalTriggerExecutorBuilder<IN, OUT>> {
 
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
     @NotNull IntervalTrigger trigger();
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull IntervalTriggerExecutorBuilder setVertx(@NotNull Vertx vertx);
+    @NotNull IntervalTriggerExecutorBuilder<IN, OUT> setVertx(@NotNull Vertx vertx);
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull IntervalTriggerExecutorBuilder setTask(@NotNull Task task);
+    @NotNull IntervalTriggerExecutorBuilder<IN, OUT> setTask(@NotNull Task<IN, OUT> task);
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull IntervalTriggerExecutorBuilder setTrigger(@NotNull IntervalTrigger trigger);
+    @NotNull IntervalTriggerExecutorBuilder<IN, OUT> setTrigger(@NotNull IntervalTrigger trigger);
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull IntervalTriggerExecutorBuilder setJobData(@NotNull JobData jobData);
+    @NotNull IntervalTriggerExecutorBuilder<IN, OUT> setJobData(@NotNull JobData<IN> jobData);
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull IntervalTriggerExecutorBuilder setMonitor(@NotNull TaskExecutorMonitor monitor);
+    @NotNull IntervalTriggerExecutorBuilder<IN, OUT> setMonitor(@NotNull TaskExecutorMonitor<OUT> monitor);
 
-    @NotNull IntervalTriggerExecutor build();
+    @NotNull IntervalTriggerExecutor<IN, OUT> build();
 
 }

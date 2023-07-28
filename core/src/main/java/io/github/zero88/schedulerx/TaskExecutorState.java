@@ -7,9 +7,10 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Represents for current Task executor state
  *
+ * @param <OUTPUT> Type of Result data
  * @since 1.0.0
  */
-public interface TaskExecutorState {
+public interface TaskExecutorState<OUTPUT> {
 
     /**
      * Timer id
@@ -75,7 +76,7 @@ public interface TaskExecutorState {
      *
      * @return latest data
      */
-    @Nullable Object lastData();
+    @Nullable OUTPUT lastData();
 
     /**
      * Latest error of previous round

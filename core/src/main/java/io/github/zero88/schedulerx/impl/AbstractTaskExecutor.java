@@ -26,52 +26,54 @@ import io.vertx.core.impl.logging.LoggerFactory;
 /**
  * The base task executor
  *
- * @param <T> Type of trigger
+ * @param <IN>  Type of input data
+ * @param <OUT> Type of output data
+ * @param <T>   Type of trigger
  */
-public abstract class AbstractTaskExecutor<T extends Trigger> implements TriggerTaskExecutor<T> {
+public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implements TriggerTaskExecutor<IN, OUT, T> {
 
     @SuppressWarnings("java:S3416")
     protected static final Logger LOGGER = LoggerFactory.getLogger(TaskExecutor.class);
     @NotNull
     private final Vertx vertx;
     @NotNull
-    private final TaskExecutorStateInternal state;
+    private final TaskExecutorStateInternal<OUT> state;
     @NotNull
-    private final TaskExecutorMonitor monitor;
+    private final TaskExecutorMonitor<OUT> monitor;
     @NotNull
-    private final JobData jobData;
+    private final JobData<IN> jobData;
     @NotNull
-    private final Task task;
+    private final Task<IN, OUT> task;
     @NotNull
     private final T trigger;
     private final Lock lock = new ReentrantLock();
     private boolean didTriggerValidation = false;
     private IllegalArgumentException invalidTrigger;
 
-    protected AbstractTaskExecutor(@NotNull Vertx vertx, @NotNull TaskExecutorMonitor monitor, @NotNull JobData jobData,
-                                   @NotNull Task task, @NotNull T trigger) {
+    protected AbstractTaskExecutor(@NotNull Vertx vertx, @NotNull TaskExecutorMonitor<OUT> monitor,
+                                   @NotNull JobData<IN> jobData, @NotNull Task<IN, OUT> task, @NotNull T trigger) {
         this.vertx   = vertx;
         this.monitor = monitor;
         this.jobData = jobData;
         this.task    = task;
         this.trigger = trigger;
-        this.state   = new TaskExecutorStateImpl();
+        this.state   = new TaskExecutorStateImpl<>();
     }
 
     @Override
-    public final @NotNull TaskExecutorState state() { return state; }
+    public final @NotNull TaskExecutorState<OUT> state() { return state; }
 
     @Override
     public final @NotNull Vertx vertx() { return this.vertx; }
 
     @Override
-    public final @NotNull TaskExecutorMonitor monitor() { return this.monitor; }
+    public final @NotNull TaskExecutorMonitor<OUT> monitor() { return this.monitor; }
 
     @Override
-    public final @NotNull JobData jobData() { return this.jobData; }
+    public final @NotNull JobData<IN> jobData() { return this.jobData; }
 
     @Override
-    public final @NotNull Task task() { return this.task; }
+    public final @NotNull Task<IN, OUT> task() { return this.task; }
 
     @Override
     public final @NotNull T trigger() {
@@ -99,7 +101,7 @@ public abstract class AbstractTaskExecutor<T extends Trigger> implements Trigger
     public final void start(WorkerExecutor workerExecutor) {
         this.addTimer(Promise.promise(), workerExecutor)
             .onSuccess(this::onReceiveTimer)
-            .onFailure(t -> monitor().onUnableSchedule(TaskResultImpl.builder()
+            .onFailure(t -> monitor().onUnableSchedule(TaskResultImpl.<OUT>builder()
                                                                      .setTick(state().tick())
                                                                      .setRound(state().round())
                                                                      .setAvailableAt(state().availableAt())
@@ -109,12 +111,12 @@ public abstract class AbstractTaskExecutor<T extends Trigger> implements Trigger
     }
 
     @Override
-    public final void executeTask(@NotNull TaskExecutionContext executionContext) {
+    public final void executeTask(@NotNull TaskExecutionContext<OUT> executionContext) {
         try {
             debug(state().tick(), state.round(), executionContext.executedAt(), "Executing task");
             task.execute(jobData(), executionContext);
             if (!task.isAsync()) {
-                ((TaskExecutionContextInternal) executionContext).internalComplete();
+                ((TaskExecutionContextInternal<OUT>) executionContext).internalComplete();
             }
             if (executionContext.isForceStop()) {
                 cancel();
@@ -144,13 +146,13 @@ public abstract class AbstractTaskExecutor<T extends Trigger> implements Trigger
     }
 
     protected final void onReceiveTimer(long timerId) {
-        TaskResult result;
+        TaskResult<OUT> result;
         if (state().pending()) {
-            result = TaskResultImpl.builder()
+            result = TaskResultImpl.<OUT>builder()
                                    .setAvailableAt(state.timerId(timerId).markAvailable().availableAt())
                                    .build();
         } else {
-            result = TaskResultImpl.builder()
+            result = TaskResultImpl.<OUT>builder()
                                    .setTick(state.timerId(timerId).tick())
                                    .setRound(state().round())
                                    .setAvailableAt(state().availableAt())
@@ -163,7 +165,8 @@ public abstract class AbstractTaskExecutor<T extends Trigger> implements Trigger
     protected final void run(WorkerExecutor workerExecutor) {
         final Instant triggerAt = Instant.now();
         if (shouldRun(triggerAt)) {
-            TaskExecutionContextInternal ctx = new TaskExecutionContextImpl(vertx(), state.increaseRound(), triggerAt);
+            TaskExecutionContextInternal<OUT> ctx = new TaskExecutionContextImpl<>(vertx(), state.increaseRound(),
+                                                                                   triggerAt);
             debug(state().tick(), ctx.round(), triggerAt, "Trigger executing task");
             if (workerExecutor != null) {
                 workerExecutor.executeBlocking(promise -> executeTask(setupContext(promise, ctx)), this::onResult);
@@ -180,7 +183,7 @@ public abstract class AbstractTaskExecutor<T extends Trigger> implements Trigger
         }
         if (state().executing()) {
             debug(tick, state().round(), triggerAt, "Skip execution due to task is still running");
-            monitor().onMisfire(TaskResultImpl.builder()
+            monitor().onMisfire(TaskResultImpl.<OUT>builder()
                                               .setAvailableAt(state().availableAt())
                                               .setTick(state().tick())
                                               .setTriggeredAt(triggerAt)
@@ -189,8 +192,8 @@ public abstract class AbstractTaskExecutor<T extends Trigger> implements Trigger
         return state().idle();
     }
 
-    private TaskExecutionContextInternal setupContext(@NotNull Promise<Object> promise,
-                                                      @NotNull TaskExecutionContextInternal executionContext) {
+    private TaskExecutionContextInternal<OUT> setupContext(@NotNull Promise<Object> promise,
+                                                           @NotNull TaskExecutionContextInternal<OUT> executionContext) {
         state.markExecuting();
         return executionContext.setup(promise, Instant.now());
     }
@@ -203,9 +206,10 @@ public abstract class AbstractTaskExecutor<T extends Trigger> implements Trigger
                         "::Internal execution error", asyncResult.cause());
         }
         if (asyncResult.succeeded()) {
-            final TaskExecutionContextInternal result = (TaskExecutionContextInternal) asyncResult.result();
+            @SuppressWarnings("unchecked")
+            TaskExecutionContextInternal<OUT> result = (TaskExecutionContextInternal<OUT>) asyncResult.result();
             debug(state().tick(), result.round(), finishedAt, "Handling task result");
-            monitor().onEach(TaskResultImpl.builder()
+            monitor().onEach(TaskResultImpl.<OUT>builder()
                                            .setAvailableAt(state().availableAt())
                                            .setTick(state().tick())
                                            .setRound(result.round())
@@ -226,7 +230,7 @@ public abstract class AbstractTaskExecutor<T extends Trigger> implements Trigger
         state.markCompleted();
         final Instant completedAt = Instant.now();
         debug(state().tick(), state().round(), completedAt, "Execution is completed");
-        monitor().onCompleted(TaskResultImpl.builder()
+        monitor().onCompleted(TaskResultImpl.<OUT>builder()
                                             .setAvailableAt(state().availableAt())
                                             .setTick(state().tick())
                                             .setRound(state().round())
