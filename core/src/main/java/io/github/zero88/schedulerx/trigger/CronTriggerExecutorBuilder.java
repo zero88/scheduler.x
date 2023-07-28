@@ -14,34 +14,37 @@ import io.vertx.core.Vertx;
 /**
  * Represents a builder that constructs {@link CronTriggerExecutor}
  *
+ * @param <INPUT> Type of Input data
  * @since 2.0.0
  */
 @VertxGen
-public interface CronTriggerExecutorBuilder
-    extends TriggerTaskExecutorBuilder<CronTrigger, CronTriggerExecutor, CronTriggerExecutorBuilder> {
+public interface CronTriggerExecutorBuilder<INPUT> extends
+                                                   TriggerTaskExecutorBuilder<INPUT, CronTrigger,
+                                                                                 CronTriggerExecutor<INPUT>,
+                                                                                 CronTriggerExecutorBuilder<INPUT>> {
 
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
     @NotNull CronTrigger trigger();
 
     @Fluent
-    @NotNull CronTriggerExecutorBuilder setVertx(@NotNull Vertx vertx);
+    @NotNull CronTriggerExecutorBuilder<INPUT> setVertx(@NotNull Vertx vertx);
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull CronTriggerExecutorBuilder setTask(@NotNull Task task);
+    @NotNull CronTriggerExecutorBuilder<INPUT> setTask(@NotNull Task<INPUT> task);
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull CronTriggerExecutorBuilder setTrigger(@NotNull CronTrigger trigger);
+    @NotNull CronTriggerExecutorBuilder<INPUT> setTrigger(@NotNull CronTrigger trigger);
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull CronTriggerExecutorBuilder setJobData(@NotNull JobData jobData);
+    @NotNull CronTriggerExecutorBuilder<INPUT> setJobData(@NotNull JobData<INPUT> jobData);
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull CronTriggerExecutorBuilder setMonitor(@NotNull TaskExecutorMonitor monitor);
+    @NotNull CronTriggerExecutorBuilder<INPUT> setMonitor(@NotNull TaskExecutorMonitor monitor);
 
-    @NotNull CronTriggerExecutor build();
+    @NotNull CronTriggerExecutor<INPUT> build();
 
 }

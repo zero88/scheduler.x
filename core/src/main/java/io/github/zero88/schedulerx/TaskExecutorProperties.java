@@ -10,11 +10,12 @@ import io.vertx.core.Vertx;
 /**
  * Shared immutable fields between TaskExecutor and its builder
  *
+ * @param <INPUT> Type of input data
  * @since 2.0.0
  */
 @Internal
 @VertxGen(concrete = false)
-public interface TaskExecutorProperties {
+public interface TaskExecutorProperties<INPUT> {
 
     /**
      * Vertx
@@ -39,7 +40,7 @@ public interface TaskExecutorProperties {
      * @see Task
      */
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull Task task();
+    @NotNull Task<INPUT> task();
 
     /**
      * Defines job data as input task data
@@ -48,6 +49,6 @@ public interface TaskExecutorProperties {
      * @see JobData
      */
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull JobData jobData();
+    @NotNull JobData<INPUT> jobData();
 
 }

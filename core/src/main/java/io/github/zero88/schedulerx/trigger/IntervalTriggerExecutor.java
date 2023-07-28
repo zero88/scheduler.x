@@ -9,13 +9,16 @@ import io.vertx.codegen.annotations.VertxGen;
 /**
  * Represents for the task executor has an execution loop based on interval.
  *
+ * @param <INPUT> Type of job input data
  * @see IntervalTrigger
  * @since 2.0.0
  */
 @VertxGen
-public interface IntervalTriggerExecutor extends TriggerTaskExecutor<IntervalTrigger> {
+public interface IntervalTriggerExecutor<INPUT> extends TriggerTaskExecutor<INPUT, IntervalTrigger> {
 
-    static IntervalTriggerExecutorBuilder builder() { return new IntervalTriggerExecutorImpl.IntervalTriggerExecutorBuilderImpl(); }
+    static <T> IntervalTriggerExecutorBuilder<T> builder() {
+        return new IntervalTriggerExecutorImpl.IntervalTriggerExecutorBuilderImpl<>();
+    }
 
     @Override
     @GenIgnore(GenIgnore.PERMITTED_TYPE)

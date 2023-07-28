@@ -8,8 +8,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import io.github.zero88.schedulerx.TaskExecutorAsserter;
 import io.github.zero88.schedulerx.TaskResult;
-import io.github.zero88.schedulerx.trigger.IntervalTriggerExecutor;
 import io.github.zero88.schedulerx.trigger.IntervalTrigger;
+import io.github.zero88.schedulerx.trigger.IntervalTriggerExecutor;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.junit5.Checkpoint;
@@ -35,7 +35,7 @@ class HttpClientTaskTest {
                                                                  .setTestContext(testContext)
                                                                  .setEach(verification)
                                                                  .build();
-        IntervalTriggerExecutor.builder()
+        IntervalTriggerExecutor.<JsonObject>builder()
                                .setVertx(vertx)
                                .setTrigger(IntervalTrigger.builder().interval(3).repeat(2).build())
                                .setTask(new HttpClientTask())

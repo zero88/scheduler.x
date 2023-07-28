@@ -9,13 +9,16 @@ import io.vertx.codegen.annotations.VertxGen;
 /**
  * Represents for the task executor has an execution loop based on the timer of cron expressions.
  *
+ * @param <INPUT> Type of job input data
  * @see CronTrigger
  * @since 2.0.0
  */
 @VertxGen
-public interface CronTriggerExecutor extends TriggerTaskExecutor<CronTrigger> {
+public interface CronTriggerExecutor<INPUT> extends TriggerTaskExecutor<INPUT, CronTrigger> {
 
-    static CronTriggerExecutorBuilder builder() { return new CronTriggerExecutorImpl.CronTriggerExecutorBuilderImpl(); }
+    static <T> CronTriggerExecutorBuilder<T> builder() {
+        return new CronTriggerExecutorImpl.CronTriggerExecutorBuilderImpl<>();
+    }
 
     @Override
     @GenIgnore(GenIgnore.PERMITTED_TYPE)

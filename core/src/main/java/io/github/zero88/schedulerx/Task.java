@@ -2,15 +2,13 @@ package io.github.zero88.schedulerx;
 
 import org.jetbrains.annotations.NotNull;
 
-import io.github.zero88.schedulerx.trigger.Trigger;
-
 /**
  * Represents for Task to run on each trigger time
  *
- * @see Trigger
+ * @param <T> Type of input data
  * @since 1.0.0
  */
-public interface Task {
+public interface Task<T> {
 
     /**
      * Identify task is async or not
@@ -25,12 +23,19 @@ public interface Task {
     }
 
     /**
-     * Execute task
+     * Execute task.
+     * <p/>
+     * After executed task, please remember to:
+     * <ul>
+     *     <li>set value in case of task is success via {@link TaskExecutionContext#complete(Object)}</li>
+     *     <li>set error in case of task is failed via {@link TaskExecutionContext#fail(Throwable)}</li>
+     * </ul>
      *
      * @param jobData          job data
      * @param executionContext task execution context
+     * @see JobData
      * @see TaskExecutionContext
      */
-    void execute(@NotNull JobData jobData, @NotNull TaskExecutionContext executionContext);
+    void execute(@NotNull JobData<T> jobData, @NotNull TaskExecutionContext executionContext);
 
 }

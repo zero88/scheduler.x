@@ -14,10 +14,10 @@ import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
 
-final class CronTriggerExecutorImpl extends AbstractTaskExecutor<CronTrigger> implements CronTriggerExecutor {
+final class CronTriggerExecutorImpl<I> extends AbstractTaskExecutor<I, CronTrigger> implements CronTriggerExecutor<I> {
 
-    CronTriggerExecutorImpl(@NotNull Vertx vertx, @NotNull TaskExecutorMonitor monitor, @NotNull JobData jobData,
-                            @NotNull Task task, @NotNull CronTrigger trigger) {
+    CronTriggerExecutorImpl(@NotNull Vertx vertx, @NotNull TaskExecutorMonitor monitor, @NotNull JobData<I> jobData,
+                            @NotNull Task<I> task, @NotNull CronTrigger trigger) {
         super(vertx, monitor, jobData, task, trigger);
     }
 
@@ -40,12 +40,12 @@ final class CronTriggerExecutorImpl extends AbstractTaskExecutor<CronTrigger> im
         return false;
     }
 
-    static final class CronTriggerExecutorBuilderImpl
-        extends AbstractTaskExecutorBuilder<CronTrigger, CronTriggerExecutor, CronTriggerExecutorBuilder>
-        implements CronTriggerExecutorBuilder {
+    static final class CronTriggerExecutorBuilderImpl<D>
+        extends AbstractTaskExecutorBuilder<D, CronTrigger, CronTriggerExecutor<D>, CronTriggerExecutorBuilder<D>>
+        implements CronTriggerExecutorBuilder<D> {
 
-        public @NotNull CronTriggerExecutor build() {
-            return new CronTriggerExecutorImpl(vertx(), monitor(), jobData(), task(), trigger());
+        public @NotNull CronTriggerExecutor<D> build() {
+            return new CronTriggerExecutorImpl<>(vertx(), monitor(), jobData(), task(), trigger());
         }
 
     }

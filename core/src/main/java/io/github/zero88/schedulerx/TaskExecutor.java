@@ -9,10 +9,11 @@ import io.vertx.core.WorkerExecutor;
 /**
  * Represents for an executor run {@code task} in conditional loop
  *
+ * @param <INPUT> Type of input data
  * @since 1.0.0
  */
 @VertxGen(concrete = false)
-public interface TaskExecutor extends TaskExecutorProperties {
+public interface TaskExecutor<INPUT> extends TaskExecutorProperties<INPUT> {
 
     /**
      * Task executor state

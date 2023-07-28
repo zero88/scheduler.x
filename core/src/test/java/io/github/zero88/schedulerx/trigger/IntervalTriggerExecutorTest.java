@@ -72,10 +72,10 @@ class IntervalTriggerExecutorTest {
                                .setTrigger(IntervalTrigger.builder().initialDelay(2).interval(2).repeat(2).build())
                                .setTask((jobData, context) -> { })
                                .setMonitor(TaskExecutorAsserter.builder()
-                                                            .setTestContext(ctx)
-                                                            .setSchedule(s)
-                                                            .setCompleted(c)
-                                                            .build())
+                                                               .setTestContext(ctx)
+                                                               .setSchedule(s)
+                                                               .setCompleted(c)
+                                                               .build())
                                .build()
                                .start(worker);
     }
@@ -94,11 +94,11 @@ class IntervalTriggerExecutorTest {
                                .setVertx(vertx)
                                .setTrigger(IntervalTrigger.builder().interval(2).repeat(3).build())
                                .setTask((jobData, ctx) -> {
-                                sleep(3000, testContext);
-                                checkpoint.flag();
-                            })
+                                   sleep(3000, testContext);
+                                   checkpoint.flag();
+                               })
                                .setMonitor(
-                                TaskExecutorAsserter.builder().setTestContext(testContext).setCompleted(c).build())
+                                   TaskExecutorAsserter.builder().setTestContext(testContext).setCompleted(c).build())
                                .build()
                                .start(worker);
     }
@@ -142,10 +142,10 @@ class IntervalTriggerExecutorTest {
                                .setTrigger(IntervalTrigger.builder().interval(1).repeat(10).build())
                                .setTask(task)
                                .setMonitor(TaskExecutorAsserter.builder()
-                                                            .setTestContext(context)
-                                                            .setEach(e)
-                                                            .setCompleted(c)
-                                                            .build())
+                                                               .setTestContext(context)
+                                                               .setEach(e)
+                                                               .setCompleted(c)
+                                                               .build())
                                .build()
                                .start();
     }

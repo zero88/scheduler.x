@@ -50,16 +50,16 @@ class CronTriggerExecutorTest {
                            .setVertx(vertx)
                            .setTrigger(CronTrigger.builder().expression("0/5 * * ? * * *").build())
                            .setTask((jobData, ctx) -> {
-                            checkpoint.flag();
-                            if (ctx.round() == 2) {
-                                ctx.forceStopExecution();
-                            }
-                        })
+                               checkpoint.flag();
+                               if (ctx.round() == 2) {
+                                   ctx.forceStopExecution();
+                               }
+                           })
                            .setMonitor(TaskExecutorAsserter.builder()
-                                                        .setTestContext(testContext)
-                                                        .setSchedule(schedule)
-                                                        .setCompleted(completed)
-                                                        .build())
+                                                           .setTestContext(testContext)
+                                                           .setSchedule(schedule)
+                                                           .setCompleted(completed)
+                                                           .build())
                            .build()
                            .start();
     }

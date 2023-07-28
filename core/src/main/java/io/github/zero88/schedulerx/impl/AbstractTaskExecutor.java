@@ -26,9 +26,10 @@ import io.vertx.core.impl.logging.LoggerFactory;
 /**
  * The base task executor
  *
+ * @param <I> Type of input data
  * @param <T> Type of trigger
  */
-public abstract class AbstractTaskExecutor<T extends Trigger> implements TriggerTaskExecutor<T> {
+public abstract class AbstractTaskExecutor<I, T extends Trigger> implements TriggerTaskExecutor<I, T> {
 
     @SuppressWarnings("java:S3416")
     protected static final Logger LOGGER = LoggerFactory.getLogger(TaskExecutor.class);
@@ -39,17 +40,17 @@ public abstract class AbstractTaskExecutor<T extends Trigger> implements Trigger
     @NotNull
     private final TaskExecutorMonitor monitor;
     @NotNull
-    private final JobData jobData;
+    private final JobData<I> jobData;
     @NotNull
-    private final Task task;
+    private final Task<I> task;
     @NotNull
     private final T trigger;
     private final Lock lock = new ReentrantLock();
     private boolean didTriggerValidation = false;
     private IllegalArgumentException invalidTrigger;
 
-    protected AbstractTaskExecutor(@NotNull Vertx vertx, @NotNull TaskExecutorMonitor monitor, @NotNull JobData jobData,
-                                   @NotNull Task task, @NotNull T trigger) {
+    protected AbstractTaskExecutor(@NotNull Vertx vertx, @NotNull TaskExecutorMonitor monitor,
+                                   @NotNull JobData<I> jobData, @NotNull Task<I> task, @NotNull T trigger) {
         this.vertx   = vertx;
         this.monitor = monitor;
         this.jobData = jobData;
@@ -68,10 +69,10 @@ public abstract class AbstractTaskExecutor<T extends Trigger> implements Trigger
     public final @NotNull TaskExecutorMonitor monitor() { return this.monitor; }
 
     @Override
-    public final @NotNull JobData jobData() { return this.jobData; }
+    public final @NotNull JobData<I> jobData() { return this.jobData; }
 
     @Override
-    public final @NotNull Task task() { return this.task; }
+    public final @NotNull Task<I> task() { return this.task; }
 
     @Override
     public final @NotNull T trigger() {

@@ -11,21 +11,19 @@ import io.vertx.core.http.HttpClientRequest;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 
-public class HttpClientTask implements Task {
+public class HttpClientTask implements Task<JsonObject> {
 
     @Override
-    public boolean isAsync() {
-        return true;
-    }
+    public boolean isAsync() { return true; }
 
     @Override
-    public void execute(@NotNull JobData jobData, @NotNull TaskExecutionContext executionContext) {
+    public void execute(@NotNull JobData<JsonObject> jobData, @NotNull TaskExecutionContext executionContext) {
         doExecute(executionContext.vertx(), jobData).onSuccess(executionContext::complete)
                                                     .onFailure(executionContext::fail);
     }
 
-    private Future<JsonObject> doExecute(Vertx vertx, @NotNull JobData jobData) {
-        JsonObject url = (JsonObject) jobData.get();
+    private Future<JsonObject> doExecute(Vertx vertx, @NotNull JobData<JsonObject> jobData) {
+        JsonObject url = jobData.get();
         return vertx.createHttpClient()
                     .request(HttpMethod.GET, url.getString("host"), url.getString("path"))
                     .flatMap(HttpClientRequest::send)

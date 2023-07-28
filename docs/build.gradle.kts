@@ -8,6 +8,8 @@ plugins {
 
 dependencies {
     compileOnly(project(":core"))
+    compileOnly(VertxLibs.rx3)
+    compileOnly(MutinyLibs.core)
 }
 
 documentation {
@@ -22,8 +24,7 @@ documentation {
             )
         )
         javadocTitle.set("${project.ext["title"]} ${project.version} API")
-        javadocProjects.set((extensions["PROJECT_POOL"] as Map<*, Array<String>>)[mainProject]!!.map(project::project)
-        )
+        javadocProjects.set((extensions["PROJECT_POOL"] as Map<*, Array<String>>)[mainProject]!!.map(project::project))
     }
 }
 

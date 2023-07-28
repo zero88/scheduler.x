@@ -15,11 +15,11 @@ import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
 
-final class IntervalTriggerExecutorImpl extends AbstractTaskExecutor<IntervalTrigger>
-    implements IntervalTriggerExecutor {
+final class IntervalTriggerExecutorImpl<D> extends AbstractTaskExecutor<D, IntervalTrigger>
+    implements IntervalTriggerExecutor<D> {
 
-    IntervalTriggerExecutorImpl(@NotNull Vertx vertx, @NotNull TaskExecutorMonitor monitor, @NotNull JobData jobData,
-                                @NotNull Task task, @NotNull IntervalTrigger trigger) {
+    IntervalTriggerExecutorImpl(@NotNull Vertx vertx, @NotNull TaskExecutorMonitor monitor, @NotNull JobData<D> jobData,
+                                @NotNull Task<D> task, @NotNull IntervalTrigger trigger) {
         super(vertx, monitor, jobData, task, trigger);
     }
 
@@ -45,12 +45,13 @@ final class IntervalTriggerExecutorImpl extends AbstractTaskExecutor<IntervalTri
         return trigger().noRepeatIndefinitely() && round >= trigger().getRepeat();
     }
 
-    static final class IntervalTriggerExecutorBuilderImpl
-        extends AbstractTaskExecutorBuilder<IntervalTrigger, IntervalTriggerExecutor, IntervalTriggerExecutorBuilder>
-        implements IntervalTriggerExecutorBuilder {
+    static final class IntervalTriggerExecutorBuilderImpl<D>
+        extends AbstractTaskExecutorBuilder<D, IntervalTrigger, IntervalTriggerExecutor<D>,
+                                               IntervalTriggerExecutorBuilder<D>>
+        implements IntervalTriggerExecutorBuilder<D> {
 
-        public @NotNull IntervalTriggerExecutor build() {
-            return new IntervalTriggerExecutorImpl(vertx(), monitor(), jobData(), task(), trigger());
+        public @NotNull IntervalTriggerExecutor<D> build() {
+            return new IntervalTriggerExecutorImpl<>(vertx(), monitor(), jobData(), task(), trigger());
         }
 
     }
