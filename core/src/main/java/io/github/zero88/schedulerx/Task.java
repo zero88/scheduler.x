@@ -5,10 +5,11 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents for Task to run on each trigger time
  *
- * @param <T> Type of input data
+ * @param <INPUT>  Type of input data
+ * @param <OUTPUT> Type of Result data
  * @since 1.0.0
  */
-public interface Task<T> {
+public interface Task<INPUT, OUTPUT> {
 
     /**
      * Identify task is async or not
@@ -36,6 +37,6 @@ public interface Task<T> {
      * @see JobData
      * @see TaskExecutionContext
      */
-    void execute(@NotNull JobData<T> jobData, @NotNull TaskExecutionContext executionContext);
+    void execute(@NotNull JobData<INPUT> jobData, @NotNull TaskExecutionContext<OUTPUT> executionContext);
 
 }

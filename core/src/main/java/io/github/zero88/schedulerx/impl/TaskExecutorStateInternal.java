@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 import io.github.zero88.schedulerx.TaskExecutorState;
 
-interface TaskExecutorStateInternal extends TaskExecutorState {
+interface TaskExecutorStateInternal<OUTPUT> extends TaskExecutorState<OUTPUT> {
 
     /**
      * Add timer id
@@ -13,7 +13,7 @@ interface TaskExecutorStateInternal extends TaskExecutorState {
      * @param timerId timer id
      * @return this for fluent api
      */
-    @NotNull TaskExecutorStateInternal timerId(long timerId);
+    @NotNull TaskExecutorStateInternal<OUTPUT> timerId(long timerId);
 
     /**
      * Mark task is available to execute
@@ -21,7 +21,7 @@ interface TaskExecutorStateInternal extends TaskExecutorState {
      * @return this for fluent api
      * @see #pending()
      */
-    @NotNull TaskExecutorStateInternal markAvailable();
+    @NotNull TaskExecutorStateInternal<OUTPUT> markAvailable();
 
     /**
      * Mark task is executing
@@ -29,7 +29,7 @@ interface TaskExecutorStateInternal extends TaskExecutorState {
      * @return this for fluent api
      * @see #executing()
      */
-    @NotNull TaskExecutorStateInternal markExecuting();
+    @NotNull TaskExecutorStateInternal<OUTPUT> markExecuting();
 
     /**
      * Mark task is idle
@@ -37,7 +37,7 @@ interface TaskExecutorStateInternal extends TaskExecutorState {
      * @return this for fluent api
      * @see #idle()
      */
-    @NotNull TaskExecutorStateInternal markIdle();
+    @NotNull TaskExecutorStateInternal<OUTPUT> markIdle();
 
     /**
      * Mark state is completed
@@ -45,7 +45,7 @@ interface TaskExecutorStateInternal extends TaskExecutorState {
      * @return this for fluent api
      * @see #completed()
      */
-    @NotNull TaskExecutorStateInternal markCompleted();
+    @NotNull TaskExecutorStateInternal<OUTPUT> markCompleted();
 
     /**
      * Increase tick
@@ -68,7 +68,7 @@ interface TaskExecutorStateInternal extends TaskExecutorState {
      * @param data  data
      * @return current result data, might be {@code null}
      */
-    @Nullable Object addData(long round, @Nullable Object data);
+    @Nullable OUTPUT addData(long round, @Nullable OUTPUT data);
 
     /**
      * Add error when executing task per round

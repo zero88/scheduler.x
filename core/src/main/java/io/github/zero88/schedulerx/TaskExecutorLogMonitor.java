@@ -8,20 +8,24 @@ import io.vertx.core.impl.logging.LoggerFactory;
 /**
  * Represents for a log monitor that observes and do log on each lifecycle event of the task executor.
  *
+ * @param <OUTPUT> Type of Result data
  * @since 1.0.0
  */
-public interface TaskExecutorLogMonitor extends TaskExecutorMonitor {
+public interface TaskExecutorLogMonitor<OUTPUT> extends TaskExecutorMonitor<OUTPUT> {
 
     Logger LOGGER = LoggerFactory.getLogger(TaskExecutorLogMonitor.class);
-    TaskExecutorLogMonitor LOG_MONITOR = new TaskExecutorLogMonitor() { };
+
+    static <OUT> TaskExecutorLogMonitor<OUT> create() {
+        return new TaskExecutorLogMonitor<OUT>() { };
+    }
 
     @Override
-    default void onUnableSchedule(@NotNull TaskResult result) {
+    default void onUnableSchedule(@NotNull TaskResult<OUTPUT> result) {
         LOGGER.error("Unable schedule task at [" + result.unscheduledAt() + "] due to error", result.error());
     }
 
     @Override
-    default void onSchedule(@NotNull TaskResult result) {
+    default void onSchedule(@NotNull TaskResult<OUTPUT> result) {
         if (result.isReschedule()) {
             LOGGER.debug(
                 "TaskExecutor is rescheduled at [" + result.rescheduledAt() + "] round [" + result.round() + "]");
@@ -31,18 +35,18 @@ public interface TaskExecutorLogMonitor extends TaskExecutorMonitor {
     }
 
     @Override
-    default void onMisfire(@NotNull TaskResult result) {
+    default void onMisfire(@NotNull TaskResult<OUTPUT> result) {
         LOGGER.debug("Misfire tick [" + result.tick() + "] at [" + result.triggeredAt() + "]");
     }
 
     @Override
-    default void onEach(@NotNull TaskResult result) {
+    default void onEach(@NotNull TaskResult<OUTPUT> result) {
         LOGGER.debug("Finish round [" + result.round() + "] - Is Error [" + result.isError() + "] | Executed at [" +
                      result.executedAt() + "] - Finished at [" + result.finishedAt() + "]");
     }
 
     @Override
-    default void onCompleted(@NotNull TaskResult result) {
+    default void onCompleted(@NotNull TaskResult<OUTPUT> result) {
         LOGGER.debug("Completed task in round [" + result.round() + "] at [" + result.completedAt() + "]");
     }
 

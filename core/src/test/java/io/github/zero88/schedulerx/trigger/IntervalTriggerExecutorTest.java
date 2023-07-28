@@ -54,28 +54,29 @@ class IntervalTriggerExecutorTest {
     void test_run_task_after_delay(Vertx vertx, VertxTestContext ctx) {
         final Checkpoint checkpoint = ctx.checkpoint(2);
         final WorkerExecutor worker = vertx.createSharedWorkerExecutor("TEST_PERIODIC", 3);
-        final Consumer<TaskResult> s = result -> {
+        final Consumer<TaskResult<Void>> s = result -> {
             checkpoint.flag();
             Assertions.assertNotNull(result.availableAt());
             Assertions.assertEquals(0, result.tick());
             Assertions.assertEquals(0, result.round());
         };
-        final Consumer<TaskResult> c = result -> {
+        final Consumer<TaskResult<Void>> c = result -> {
             checkpoint.flag();
             Assertions.assertEquals(2, result.round());
             Assertions.assertTrue(result.isCompleted());
             Assertions.assertFalse(result.isError());
             ctx.completeNow();
         };
-        IntervalTriggerExecutor.builder()
+        final TaskExecutorAsserter<Void> asserter = TaskExecutorAsserter.<Void>builder()
+                                                                        .setTestContext(ctx)
+                                                                        .setSchedule(s)
+                                                                        .setCompleted(c)
+                                                                        .build();
+        IntervalTriggerExecutor.<Void, Void>builder()
                                .setVertx(vertx)
                                .setTrigger(IntervalTrigger.builder().initialDelay(2).interval(2).repeat(2).build())
-                               .setTask((jobData, context) -> { })
-                               .setMonitor(TaskExecutorAsserter.builder()
-                                                               .setTestContext(ctx)
-                                                               .setSchedule(s)
-                                                               .setCompleted(c)
-                                                               .build())
+                               .setTask((jobData, executionContext) -> { })
+                               .setMonitor(asserter)
                                .build()
                                .start(worker);
     }
@@ -84,21 +85,24 @@ class IntervalTriggerExecutorTest {
     void test_run_blocking_task_in_the_end(Vertx vertx, VertxTestContext testContext) {
         final Checkpoint checkpoint = testContext.checkpoint(3);
         final WorkerExecutor worker = vertx.createSharedWorkerExecutor("TEST_PERIODIC", 3);
-        final Consumer<TaskResult> c = result -> {
+        final Consumer<TaskResult<Void>> c = result -> {
             checkpoint.flag();
             Assertions.assertEquals(3, result.round());
             Assertions.assertTrue(result.isCompleted());
             Assertions.assertFalse(result.isError());
         };
-        IntervalTriggerExecutor.builder()
+        final TaskExecutorAsserter<Void> asserter = TaskExecutorAsserter.<Void>builder()
+                                                                        .setTestContext(testContext)
+                                                                        .setCompleted(c)
+                                                                        .build();
+        IntervalTriggerExecutor.<Void, Void>builder()
                                .setVertx(vertx)
                                .setTrigger(IntervalTrigger.builder().interval(2).repeat(3).build())
                                .setTask((jobData, ctx) -> {
                                    sleep(3000, testContext);
                                    checkpoint.flag();
                                })
-                               .setMonitor(
-                                   TaskExecutorAsserter.builder().setTestContext(testContext).setCompleted(c).build())
+                               .setMonitor(asserter)
                                .build()
                                .start(worker);
     }
@@ -106,7 +110,7 @@ class IntervalTriggerExecutorTest {
     @Test
     void test_cancel_task_in_condition(Vertx vertx, VertxTestContext context) {
         final Checkpoint checkpoint = context.checkpoint(5);
-        final Task task = (jobData, ctx) -> {
+        final Task<Void, Void> task = (jobData, ctx) -> {
             checkpoint.flag();
             final long round = ctx.round();
             if (round == 2) {
@@ -119,7 +123,7 @@ class IntervalTriggerExecutorTest {
                 ctx.forceStopExecution();
             }
         };
-        final Consumer<TaskResult> e = result -> {
+        final Consumer<TaskResult<Void>> e = result -> {
             Assertions.assertNull(result.data());
             if (result.round() == 2) {
                 Assertions.assertTrue(result.isError());
@@ -132,20 +136,21 @@ class IntervalTriggerExecutorTest {
                 Assertions.assertTrue(result.error() instanceof IllegalArgumentException);
             }
         };
-        final Consumer<TaskResult> c = result -> {
+        final Consumer<TaskResult<Void>> c = result -> {
             Assertions.assertEquals(5, result.round());
             Assertions.assertTrue(result.isCompleted());
             Assertions.assertFalse(result.isError());
         };
-        IntervalTriggerExecutor.builder()
+        final TaskExecutorAsserter<Void> asserter = TaskExecutorAsserter.<Void>builder()
+                                                                        .setTestContext(context)
+                                                                        .setEach(e)
+                                                                        .setCompleted(c)
+                                                                        .build();
+        IntervalTriggerExecutor.<Void, Void>builder()
                                .setVertx(vertx)
                                .setTrigger(IntervalTrigger.builder().interval(1).repeat(10).build())
                                .setTask(task)
-                               .setMonitor(TaskExecutorAsserter.builder()
-                                                               .setTestContext(context)
-                                                               .setEach(e)
-                                                               .setCompleted(c)
-                                                               .build())
+                               .setMonitor(asserter)
                                .build()
                                .start();
     }

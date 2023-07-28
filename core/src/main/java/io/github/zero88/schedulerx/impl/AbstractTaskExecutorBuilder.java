@@ -18,14 +18,15 @@ import io.vertx.core.Vertx;
  * The base task executor builder
  */
 @SuppressWarnings("unchecked")
-public abstract class AbstractTaskExecutorBuilder<I, T extends Trigger, E extends TriggerTaskExecutor<I, T>,
-                                                     B extends TriggerTaskExecutorBuilder<I, T, E, B>>
-    implements TriggerTaskExecutorBuilder<I, T, E, B> {
+public abstract class AbstractTaskExecutorBuilder<IN, OUT, T extends Trigger, E extends TriggerTaskExecutor<IN, OUT,
+                                                                                                               T>,
+                                                     B extends TriggerTaskExecutorBuilder<IN, OUT, T, E, B>>
+    implements TriggerTaskExecutorBuilder<IN, OUT, T, E, B> {
 
     private Vertx vertx;
-    private TaskExecutorMonitor monitor = TaskExecutorLogMonitor.LOG_MONITOR;
-    private JobData<I> jobData;
-    private Task<I> task;
+    private TaskExecutorMonitor<OUT> monitor;
+    private JobData<IN> jobData;
+    private Task<IN, OUT> task;
     private T trigger;
 
     @Override
@@ -34,18 +35,18 @@ public abstract class AbstractTaskExecutorBuilder<I, T extends Trigger, E extend
     }
 
     @Override
-    public @NotNull TaskExecutorMonitor monitor() {
-        return Objects.requireNonNull(monitor, "TaskExecutorMonitor is required");
+    public @NotNull TaskExecutorMonitor<OUT> monitor() {
+        return Optional.ofNullable(monitor).orElseGet(TaskExecutorLogMonitor::create);
     }
 
     @Override
     public @NotNull T trigger() { return Objects.requireNonNull(trigger, "Trigger is required"); }
 
     @Override
-    public @NotNull Task<I> task() { return Objects.requireNonNull(task, "Task is required"); }
+    public @NotNull Task<IN, OUT> task() { return Objects.requireNonNull(task, "Task is required"); }
 
     @Override
-    public @NotNull JobData<I> jobData() {
+    public @NotNull JobData<IN> jobData() {
         return Optional.ofNullable(jobData).orElseGet(JobData::empty);
     }
 
@@ -54,7 +55,7 @@ public abstract class AbstractTaskExecutorBuilder<I, T extends Trigger, E extend
         return (B) this;
     }
 
-    public @NotNull B setTask(@NotNull Task<I> task) {
+    public @NotNull B setTask(@NotNull Task<IN, OUT> task) {
         this.task = task;
         return (B) this;
     }
@@ -64,12 +65,12 @@ public abstract class AbstractTaskExecutorBuilder<I, T extends Trigger, E extend
         return (B) this;
     }
 
-    public @NotNull B setMonitor(@NotNull TaskExecutorMonitor monitor) {
+    public @NotNull B setMonitor(@NotNull TaskExecutorMonitor<OUT> monitor) {
         this.monitor = monitor;
         return (B) this;
     }
 
-    public @NotNull B setJobData(@NotNull JobData<I> jobData) {
+    public @NotNull B setJobData(@NotNull JobData<IN> jobData) {
         this.jobData = jobData;
         return (B) this;
     }

@@ -8,14 +8,17 @@ import io.vertx.codegen.annotations.VertxGen;
 import io.vertx.core.Vertx;
 
 /**
- * Shared immutable fields between TaskExecutor and its builder
+ * Shared immutable fields between TaskExecutor and its builder.
+ * <p/>
+ * This class is designed to internal usage, don't refer it in your code.
  *
- * @param <INPUT> Type of input data
+ * @param <INPUT>  Type of input data
+ * @param <OUTPUT> Type of Result data
  * @since 2.0.0
  */
 @Internal
 @VertxGen(concrete = false)
-public interface TaskExecutorProperties<INPUT> {
+public interface TaskExecutorProperties<INPUT, OUTPUT> {
 
     /**
      * Vertx
@@ -31,7 +34,7 @@ public interface TaskExecutorProperties<INPUT> {
      * @see TaskExecutorMonitor
      */
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull TaskExecutorMonitor monitor();
+    @NotNull TaskExecutorMonitor<OUTPUT> monitor();
 
     /**
      * Task to execute per round
@@ -40,7 +43,7 @@ public interface TaskExecutorProperties<INPUT> {
      * @see Task
      */
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull Task<INPUT> task();
+    @NotNull Task<INPUT, OUTPUT> task();
 
     /**
      * Defines job data as input task data

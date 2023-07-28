@@ -11,13 +11,14 @@ import io.vertx.core.http.HttpClientRequest;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 
-public class HttpClientTask implements Task<JsonObject> {
+public class HttpClientTask implements Task<JsonObject, JsonObject> {
 
     @Override
     public boolean isAsync() { return true; }
 
     @Override
-    public void execute(@NotNull JobData<JsonObject> jobData, @NotNull TaskExecutionContext executionContext) {
+    public void execute(@NotNull JobData<JsonObject> jobData,
+                        @NotNull TaskExecutionContext<JsonObject> executionContext) {
         doExecute(executionContext.vertx(), jobData).onSuccess(executionContext::complete)
                                                     .onFailure(executionContext::fail);
     }
