@@ -2,10 +2,15 @@ package io.github.zero88.schedulerx.trigger;
 
 import java.text.ParseException;
 import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.TimeZone;
 
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +19,6 @@ import io.github.zero88.schedulerx.Task;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 /**
  * Represents for inspecting settings specific to a CronTrigger, which is used to fire a <code>{@link Task}</code> at
@@ -22,7 +26,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
  *
  * @since 1.0.0
  */
-@JsonDeserialize(builder = CronTrigger.CronTriggerBuilder.class)
+@JsonDeserialize(builder = CronTriggerBuilder.class)
 public final class CronTrigger implements Trigger {
 
     /**
@@ -42,7 +46,7 @@ public final class CronTrigger implements Trigger {
     @JsonIgnore
     private CronExpression cronExpression;
 
-    private CronTrigger(@NotNull String expression, TimeZone timeZone) {
+    CronTrigger(@NotNull String expression, TimeZone timeZone) {
         this.expression = Objects.requireNonNull(expression, "Cron expression is required");
         this.timeZone   = timeZone == null ? TimeZone.getTimeZone(ZoneOffset.UTC.getId()) : timeZone;
     }
@@ -60,7 +64,7 @@ public final class CronTrigger implements Trigger {
     }
 
     @Override
-    public CronTrigger validate() {
+    public @NotNull CronTrigger validate() {
         if (Objects.isNull(cronExpression)) {
             try {
                 this.cronExpression = new CronExpression(expression).setTimeZone(timeZone);
@@ -69,6 +73,19 @@ public final class CronTrigger implements Trigger {
             }
         }
         return this;
+    }
+
+    @Override
+    public @NotNull List<OffsetDateTime> preview(@NotNull PreviewParameter parameter) {
+        validate();
+        Instant next = parameter.getStartedAt();
+        final ZoneId zoneId = Optional.ofNullable(parameter.getTimeZone()).orElseGet(timeZone::toZoneId);
+        final List<OffsetDateTime> result = new ArrayList<>();
+        do {
+            next = cronExpression.getNextValidTimeAfter(Date.from(next)).toInstant();
+            result.add(next.atZone(zoneId).toOffsetDateTime());
+        } while (result.size() != parameter.getTimes());
+        return result;
     }
 
     public static CronTriggerBuilder builder() { return new CronTriggerBuilder(); }
@@ -91,29 +108,6 @@ public final class CronTrigger implements Trigger {
     @Override
     public String toString() {
         return "CronTrigger(expression=" + expression + ", timeZone=" + timeZone + ')';
-    }
-
-    /**
-     * Represents a builder that constructs {@link CronTrigger}
-     */
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CronTriggerBuilder {
-
-        private String expression;
-        private TimeZone timeZone;
-
-        public CronTriggerBuilder expression(@NotNull String expression) {
-            this.expression = expression;
-            return this;
-        }
-
-        public CronTriggerBuilder timeZone(@NotNull TimeZone timeZone) {
-            this.timeZone = timeZone;
-            return this;
-        }
-
-        public CronTrigger build() { return new CronTrigger(this.expression, this.timeZone); }
-
     }
 
 }

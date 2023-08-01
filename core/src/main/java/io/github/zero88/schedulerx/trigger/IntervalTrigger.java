@@ -1,13 +1,20 @@
 package io.github.zero88.schedulerx.trigger;
 
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import org.jetbrains.annotations.NotNull;
 
 import io.github.zero88.schedulerx.Task;
+import io.github.zero88.schedulerx.impl.Utils;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 /**
  * Represents for inspecting settings specific to an interval trigger, which is used to fire a <code>{@link Task}</code>
@@ -15,7 +22,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
  *
  * @since 1.0.0
  */
-@JsonDeserialize(builder = IntervalTrigger.IntervalTriggerBuilder.class)
+@JsonDeserialize(builder = IntervalTriggerBuilder.class)
 public final class IntervalTrigger implements Trigger {
 
     /**
@@ -123,11 +130,25 @@ public final class IntervalTrigger implements Trigger {
     }
 
     @Override
-    public IntervalTrigger validate() {
+    public @NotNull IntervalTrigger validate() {
         validate(repeat, false, true, "repeat");
         validate(interval, false, false, "interval");
         validate(initialDelay, true, false, "initial delay");
         return this;
+    }
+
+    @Override
+    public @NotNull List<OffsetDateTime> preview(@NotNull PreviewParameter parameter) {
+        final long count = Math.min(repeat, parameter.getTimes());
+        final List<OffsetDateTime> result = new ArrayList<>();
+        final ZoneId zoneId = Optional.ofNullable(parameter.getTimeZone()).orElse(ZoneOffset.UTC);
+        Instant next = parameter.getStartedAt();
+        next = next.plus(initialDelay, Utils.toChronoUnit(initialDelayTimeUnit));
+        do {
+            next = next.plus(interval, Utils.toChronoUnit(intervalTimeUnit));
+            result.add(next.atZone(zoneId).toOffsetDateTime());
+        } while (result.size() != count);
+        return result;
     }
 
     static void validate(long number, boolean allowZero, boolean allowIndefinitely, String msg) {
@@ -135,49 +156,6 @@ public final class IntervalTrigger implements Trigger {
             return;
         }
         throw new IllegalArgumentException("Invalid " + msg + " value");
-    }
-
-    /**
-     * Represents a builder that constructs {@link IntervalTrigger}
-     */
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class IntervalTriggerBuilder {
-
-        private TimeUnit initialDelayTimeUnit = TimeUnit.SECONDS;
-        private long initialDelay = 0;
-        private long repeat = REPEAT_INDEFINITELY;
-        private TimeUnit intervalTimeUnit = TimeUnit.SECONDS;
-        private long interval;
-
-        public IntervalTriggerBuilder initialDelayTimeUnit(@NotNull TimeUnit initialDelayTimeUnit) {
-            this.initialDelayTimeUnit = initialDelayTimeUnit;
-            return this;
-        }
-
-        public IntervalTriggerBuilder initialDelay(long initialDelay) {
-            this.initialDelay = initialDelay;
-            return this;
-        }
-
-        public IntervalTriggerBuilder repeat(long repeat) {
-            this.repeat = repeat;
-            return this;
-        }
-
-        public IntervalTriggerBuilder intervalTimeUnit(@NotNull TimeUnit intervalTimeUnit) {
-            this.intervalTimeUnit = intervalTimeUnit;
-            return this;
-        }
-
-        public IntervalTriggerBuilder interval(long interval) {
-            this.interval = interval;
-            return this;
-        }
-
-        public IntervalTrigger build() {
-            return new IntervalTrigger(initialDelayTimeUnit, initialDelay, repeat, intervalTimeUnit, interval);
-        }
-
     }
 
 }

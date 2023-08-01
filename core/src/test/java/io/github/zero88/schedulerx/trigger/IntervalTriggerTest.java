@@ -1,5 +1,9 @@
 package io.github.zero88.schedulerx.trigger;
 
+import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Assertions;
@@ -75,6 +79,27 @@ class IntervalTriggerTest {
         final ObjectMapper objectMapper = new ObjectMapper();
         Assertions.assertThrows(InvalidFormatException.class,
                                 () -> objectMapper.readValue(input, IntervalTrigger.class));
+    }
+
+    @Test
+    void test_preview_trigger() {
+        final OffsetDateTime startedAt = OffsetDateTime.parse("2023-07-30T18:01+07:00");
+        final List<OffsetDateTime> expected = Arrays.asList(OffsetDateTime.parse("2023-07-30T18:11:10+07:00"),
+                                                            OffsetDateTime.parse("2023-07-30T18:21:10+07:00"),
+                                                            OffsetDateTime.parse("2023-07-30T18:31:10+07:00"));
+
+        final IntervalTrigger trigger = IntervalTrigger.builder()
+                                                       .initialDelay(10)
+                                                       .interval(10)
+                                                       .intervalTimeUnit(TimeUnit.MINUTES)
+                                                       .repeat(3)
+                                                       .build();
+        final PreviewParameter parameter = PreviewParameter.byDefault()
+                                                           .setStartedAt(startedAt.toInstant())
+                                                           .setTimeZone(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
+        final List<OffsetDateTime> result = trigger.preview(parameter);
+        Assertions.assertEquals(3, result.size());
+        Assertions.assertIterableEquals(expected, result);
     }
 
 }
