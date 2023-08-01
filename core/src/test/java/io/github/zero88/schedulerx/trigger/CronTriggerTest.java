@@ -1,6 +1,11 @@
 package io.github.zero88.schedulerx.trigger;
 
 import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.TimeZone;
 
 import org.junit.jupiter.api.Assertions;
@@ -64,6 +69,35 @@ class CronTriggerTest {
         final CronTrigger trigger = objectMapper.readValue(data, CronTrigger.class);
         Assertions.assertEquals("0 0/3 0 ? * * *", trigger.getExpression());
         Assertions.assertEquals(TimeZone.getTimeZone("GMT"), trigger.getTimeZone());
+    }
+
+    @Test
+    void test_preview_trigger_by_default() {
+        final CronTrigger trigger = CronTrigger.builder().expression("0 0/5 * * * ?").build();
+        final PreviewParameter parameter = PreviewParameter.byDefault();
+        final List<OffsetDateTime> result = trigger.preview(parameter);
+        Assertions.assertEquals(10, trigger.preview(parameter).size());
+        Assertions.assertEquals(0, result.stream().filter(Objects::isNull).count());
+    }
+
+    @Test
+    void test_preview_trigger() {
+        final TimeZone timeZone = TimeZone.getTimeZone("Asia/Ho_Chi_Minh");
+        final OffsetDateTime startedAt = OffsetDateTime.parse("2023-07-30T18:01+07:00");
+        final List<OffsetDateTime> expected = Arrays.asList(OffsetDateTime.parse("2023-07-30T11:05Z"),
+                                                            OffsetDateTime.parse("2023-07-30T11:10Z"),
+                                                            OffsetDateTime.parse("2023-07-30T11:15Z"),
+                                                            OffsetDateTime.parse("2023-07-30T11:20Z"),
+                                                            OffsetDateTime.parse("2023-07-30T11:25Z"));
+
+        final CronTrigger trigger = CronTrigger.builder().expression("0 0/5 * * * ?").timeZone(timeZone).build();
+        final PreviewParameter parameter = new PreviewParameter().setStartedAt(startedAt.toInstant())
+                                                                 .setTimes(5)
+                                                                 .setTimeZone(ZoneOffset.UTC);
+        final List<OffsetDateTime> result = trigger.preview(parameter);
+        Assertions.assertEquals(5, result.size());
+        Assertions.assertIterableEquals(expected, result);
+        Assertions.assertEquals(startedAt.toInstant(), parameter.getStartedAt());
     }
 
 }

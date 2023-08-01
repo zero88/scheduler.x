@@ -1,5 +1,10 @@
 package io.github.zero88.schedulerx.trigger;
 
+import java.time.OffsetDateTime;
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
+
 import io.github.zero88.schedulerx.Task;
 
 /**
@@ -18,6 +23,11 @@ public interface Trigger {
      * @return this for fluent API
      * @throws IllegalArgumentException if any configuration is wrong
      */
-    Trigger validate();
+    @NotNull Trigger validate();
+
+    @NotNull
+    default List<OffsetDateTime> preview() { return preview(PreviewParameter.byDefault()); }
+
+    @NotNull List<OffsetDateTime> preview(@NotNull PreviewParameter parameter);
 
 }
