@@ -7,7 +7,7 @@ import io.vertx.codegen.annotations.VertxGen;
 import io.vertx.core.WorkerExecutor;
 
 /**
- * Represents for an executor run {@code task} in conditional loop
+ * Represents for an executor run a {@code task} in conditional loop.
  *
  * @param <INPUT>  Type of input data
  * @param <OUTPUT> Type of Result data
@@ -15,14 +15,6 @@ import io.vertx.core.WorkerExecutor;
  */
 @VertxGen(concrete = false)
 public interface TaskExecutor<INPUT, OUTPUT> extends TaskExecutorProperties<INPUT, OUTPUT> {
-
-    /**
-     * Task executor state
-     *
-     * @return task executor state
-     */
-    @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull TaskExecutorState<OUTPUT> state();
 
     /**
      * Start and run in {@code Vertx worker thread pool}

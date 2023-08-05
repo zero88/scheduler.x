@@ -41,11 +41,11 @@ final class CronTriggerExecutorImpl<IN, OUT> extends AbstractTaskExecutor<IN, OU
         return false;
     }
 
-    static final class CronTriggerExecutorBuilderImpl<IN, OUT> extends
-                                                               AbstractTaskExecutorBuilder<IN, OUT, CronTrigger,
-                                                                                              CronTriggerExecutor<IN,
-                                                                                                                     OUT>, CronTriggerExecutorBuilder<IN, OUT>>
+    // @formatter:off
+    static final class CronTriggerExecutorBuilderImpl<IN, OUT>
+        extends AbstractTaskExecutorBuilder<IN, OUT, CronTrigger, CronTriggerExecutor<IN, OUT>, CronTriggerExecutorBuilder<IN, OUT>>
         implements CronTriggerExecutorBuilder<IN, OUT> {
+    // @formatter:on
 
         public @NotNull CronTriggerExecutor<IN, OUT> build() {
             return new CronTriggerExecutorImpl<>(vertx(), monitor(), jobData(), task(), trigger());

@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import io.vertx.core.Vertx;
 
 /**
- * Represents for a context per each execution round
+ * Represents for a runtime context per each execution round.
  *
  * @param <OUTPUT> Type of Result data
  * @since 1.0.0

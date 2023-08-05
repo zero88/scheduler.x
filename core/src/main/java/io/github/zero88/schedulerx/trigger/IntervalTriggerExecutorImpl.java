@@ -46,10 +46,11 @@ final class IntervalTriggerExecutorImpl<IN, OUT> extends AbstractTaskExecutor<IN
         return trigger().noRepeatIndefinitely() && round >= trigger().getRepeat();
     }
 
+    // @formatter:off
     static final class IntervalTriggerExecutorBuilderImpl<IN, OUT>
-        extends AbstractTaskExecutorBuilder<IN, OUT, IntervalTrigger, IntervalTriggerExecutor<IN, OUT>,
-                                               IntervalTriggerExecutorBuilder<IN, OUT>>
+        extends AbstractTaskExecutorBuilder<IN, OUT, IntervalTrigger, IntervalTriggerExecutor<IN, OUT>, IntervalTriggerExecutorBuilder<IN, OUT>>
         implements IntervalTriggerExecutorBuilder<IN, OUT> {
+    // @formatter:on
 
         public @NotNull IntervalTriggerExecutor<IN, OUT> build() {
             return new IntervalTriggerExecutorImpl<>(vertx(), monitor(), jobData(), task(), trigger());

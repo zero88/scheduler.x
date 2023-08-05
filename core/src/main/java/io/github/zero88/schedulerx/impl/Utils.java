@@ -3,7 +3,7 @@ package io.github.zero88.schedulerx.impl;
 import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 
-public class Utils {
+public final class Utils {
 
     private Utils() { }
 

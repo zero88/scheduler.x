@@ -2,14 +2,16 @@ package io.github.zero88.schedulerx;
 
 import java.time.Instant;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Represents for current Task executor state
+ * Represents for a management state of the execution lifecycle.
  *
  * @param <OUTPUT> Type of Result data
  * @since 1.0.0
  */
+@Internal
 public interface TaskExecutorState<OUTPUT> {
 
     /**

@@ -6,6 +6,8 @@ import io.github.zero88.schedulerx.TaskResult;
 
 final class TaskResultImpl<OUTPUT> implements TaskResult<OUTPUT> {
 
+    static <OUT> TaskResultBuilder<OUT> builder() { return new TaskResultBuilder<>(); }
+
     private final Instant unscheduledAt;
     private final Instant rescheduledAt;
     private final Instant availableAt;
@@ -58,18 +60,6 @@ final class TaskResultImpl<OUTPUT> implements TaskResult<OUTPUT> {
 
     public OUTPUT data()           { return this.data; }
 
-    /**
-     * Create builder
-     *
-     * @return TaskResultBuilder
-     */
-    static <OUT> TaskResultBuilder<OUT> builder() { return new TaskResultBuilder<>(); }
-
-    /**
-     * Represents a builder that constructs {@link TaskResult}
-     *
-     * @see TaskResult
-     */
     static final class TaskResultBuilder<OUTPUT> {
 
         Instant unscheduledAt;
