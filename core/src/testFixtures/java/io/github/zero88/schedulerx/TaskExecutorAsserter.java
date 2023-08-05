@@ -18,6 +18,7 @@ import io.vertx.junit5.VertxTestContext;
  * @see TaskExecutorMonitor
  * @since 1.0.0
  */
+@SuppressWarnings("java:S5960")
 public final class TaskExecutorAsserter<OUTPUT> implements TaskExecutorMonitor<OUTPUT> {
 
     @NotNull
@@ -88,14 +89,27 @@ public final class TaskExecutorAsserter<OUTPUT> implements TaskExecutorMonitor<O
 
     public static <OUT> TaskExecutorAsserterBuilder<OUT> builder() { return new TaskExecutorAsserterBuilder<>(); }
 
-    @SuppressWarnings("java:S5960")
     public static <OUT> TaskExecutorMonitor<OUT> unableScheduleAsserter(VertxTestContext testContext,
                                                                         Checkpoint checkpoint) {
+        return unableScheduleAsserter(testContext, checkpoint, IllegalArgumentException.class);
+    }
+
+    /**
+     * @param testContext testContext
+     * @param checkpoint  checkpoint
+     * @param errorClazz  error class
+     * @param <OUT>       Type of output
+     * @return an asserter
+     * @since 2.0.0
+     */
+    public static <OUT> TaskExecutorMonitor<OUT> unableScheduleAsserter(VertxTestContext testContext,
+                                                                        Checkpoint checkpoint,
+                                                                        Class<? extends Exception> errorClazz) {
         return TaskExecutorAsserter.<OUT>builder().setTestContext(testContext).setUnableSchedule(result -> {
             checkpoint.flag();
-            Assertions.assertNotNull(result.unscheduledAt());
             Assertions.assertNull(result.availableAt());
-            Assertions.assertTrue(result.error() instanceof IllegalArgumentException);
+            Assertions.assertNotNull(result.unscheduledAt());
+            Assertions.assertInstanceOf(errorClazz, result.error());
             testContext.completeNow();
         }).build();
     }

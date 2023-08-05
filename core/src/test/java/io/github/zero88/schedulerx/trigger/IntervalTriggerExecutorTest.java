@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import io.github.zero88.schedulerx.NoopTask;
 import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.TaskExecutorAsserter;
 import io.github.zero88.schedulerx.TaskResult;
@@ -32,7 +33,7 @@ class IntervalTriggerExecutorTest {
         IntervalTriggerExecutor.builder()
                                .setVertx(vertx)
                                .setTrigger(IntervalTrigger.builder().interval(-1).build())
-                               .setTask((jobData, ctx) -> { })
+                               .setTask(NoopTask.create())
                                .setMonitor(TaskExecutorAsserter.unableScheduleAsserter(testContext, checkpoint))
                                .build()
                                .start();
@@ -44,7 +45,7 @@ class IntervalTriggerExecutorTest {
         IntervalTriggerExecutor.builder()
                                .setVertx(vertx)
                                .setTrigger(IntervalTrigger.builder().initialDelay(-1).build())
-                               .setTask((jobData, ctx) -> { })
+                               .setTask(NoopTask.create())
                                .setMonitor(TaskExecutorAsserter.unableScheduleAsserter(testContext, checkpoint))
                                .build()
                                .start();
@@ -75,7 +76,7 @@ class IntervalTriggerExecutorTest {
         IntervalTriggerExecutor.<Void, Void>builder()
                                .setVertx(vertx)
                                .setTrigger(IntervalTrigger.builder().initialDelay(2).interval(2).repeat(2).build())
-                               .setTask((jobData, executionContext) -> { })
+                               .setTask(NoopTask.create())
                                .setMonitor(asserter)
                                .build()
                                .start(worker);

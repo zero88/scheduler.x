@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import io.github.zero88.schedulerx.NoopTask;
 import io.github.zero88.schedulerx.TaskExecutorAsserter;
 import io.github.zero88.schedulerx.TaskResult;
 import io.vertx.core.Vertx;
@@ -22,7 +23,7 @@ class CronTriggerExecutorTest {
         CronTriggerExecutor.builder()
                            .setVertx(vertx)
                            .setTrigger(CronTrigger.builder().expression("0/").build())
-                           .setTask((jobData, ctx) -> { })
+                           .setTask(NoopTask.create())
                            .setMonitor(TaskExecutorAsserter.unableScheduleAsserter(testContext, checkpoint))
                            .build()
                            .start();
