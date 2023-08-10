@@ -27,6 +27,7 @@ public class HttpClientTask implements Task<JsonObject, JsonObject> {
         JsonObject config = jobData.get();
         return vertx.createHttpClient()
                     .request(HttpMethod.GET, config.getString("host"), config.getString("path"))
+                    .map(req -> req.setFollowRedirects(true))
                     .flatMap(HttpClientRequest::send)
                     .flatMap(response -> response.body()
                                                  .map(ar3 -> new JsonObject().put("status", response.statusCode())
