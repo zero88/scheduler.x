@@ -41,11 +41,6 @@ final class IntervalTriggerExecutorImpl<IN, OUT> extends AbstractTaskExecutor<IN
         return promise.future();
     }
 
-    @Override
-    protected boolean shouldCancel(long round) {
-        return trigger().noRepeatIndefinitely() && round >= trigger().getRepeat();
-    }
-
     // @formatter:off
     static final class IntervalTriggerExecutorBuilderImpl<IN, OUT>
         extends AbstractTaskExecutorBuilder<IN, OUT, IntervalTrigger, IntervalTriggerExecutor<IN, OUT>, IntervalTriggerExecutorBuilder<IN, OUT>>

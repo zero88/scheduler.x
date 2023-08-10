@@ -124,6 +124,11 @@ public final class IntervalTrigger implements Trigger {
     }
 
     @Override
+    public boolean shouldStop(long round) {
+        return noRepeatIndefinitely() && round >= repeat;
+    }
+
+    @Override
     public @NotNull IntervalTrigger validate() {
         validate(repeat, false, true, "repeat");
         validate(interval, false, false, "interval");

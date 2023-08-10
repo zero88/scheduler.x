@@ -28,17 +28,12 @@ final class CronTriggerExecutorImpl<IN, OUT> extends AbstractTaskExecutor<IN, OU
             final long nextTriggerAfter = trigger().nextTriggerAfter(Instant.now());
             promise.complete(vertx().setTimer(nextTriggerAfter, timerId -> {
                 run(workerExecutor);
-                start(workerExecutor);
+                doStart(workerExecutor);
             }));
         } catch (Exception ex) {
             promise.fail(ex);
         }
         return promise.future();
-    }
-
-    @Override
-    protected boolean shouldCancel(long round) {
-        return false;
     }
 
     // @formatter:off
