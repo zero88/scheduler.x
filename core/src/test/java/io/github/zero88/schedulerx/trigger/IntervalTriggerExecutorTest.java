@@ -10,6 +10,7 @@ import io.github.zero88.schedulerx.NoopTask;
 import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.TaskExecutorAsserter;
 import io.github.zero88.schedulerx.TaskResult;
+import io.github.zero88.schedulerx.TestUtils;
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
 import io.vertx.junit5.Checkpoint;
@@ -18,14 +19,6 @@ import io.vertx.junit5.VertxTestContext;
 
 @ExtendWith(VertxExtension.class)
 class IntervalTriggerExecutorTest {
-
-    static void sleep(int millis, VertxTestContext testContext) {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException e) {
-            testContext.failNow(e);
-        }
-    }
 
     @Test
     void test_run_task_unable_schedule_due_to_interval(Vertx vertx, VertxTestContext testContext) {
@@ -40,7 +33,7 @@ class IntervalTriggerExecutorTest {
     }
 
     @Test
-    void test_run_task_unable_schedule_due_to_initial(Vertx vertx, VertxTestContext testContext) {
+    void test_run_task_unable_schedule_due_to_initialDelay(Vertx vertx, VertxTestContext testContext) {
         final Checkpoint checkpoint = testContext.checkpoint(2);
         IntervalTriggerExecutor.builder()
                                .setVertx(vertx)
@@ -100,7 +93,7 @@ class IntervalTriggerExecutorTest {
                                .setVertx(vertx)
                                .setTrigger(IntervalTrigger.builder().interval(2).repeat(3).build())
                                .setTask((jobData, ctx) -> {
-                                   sleep(3000, testContext);
+                                   TestUtils.sleep(3000, testContext);
                                    checkpoint.flag();
                                })
                                .setMonitor(asserter)

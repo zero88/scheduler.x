@@ -42,6 +42,7 @@ public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implement
     private final @NotNull Task<IN, OUT> task;
     private final @NotNull T trigger;
     private final Lock lock = new ReentrantLock();
+    private boolean didStart = false;
     private boolean didTriggerValidation = false;
     private IllegalArgumentException invalidTrigger;
 
@@ -68,6 +69,7 @@ public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implement
     public final @NotNull Task<IN, OUT> task() { return this.task; }
 
     @Override
+    @SuppressWarnings({ "java:S1193", "unchecked" })
     public final @NotNull T trigger() {
         lock.lock();
         try {
@@ -76,11 +78,14 @@ public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implement
                 throw invalidTrigger;
             }
             try {
-                //noinspection unchecked
                 return (T) this.trigger.validate();
-            } catch (IllegalArgumentException ex) {
-                this.invalidTrigger = ex;
-                throw ex;
+            } catch (Exception ex) {
+                if (ex instanceof IllegalArgumentException) {
+                    this.invalidTrigger = (IllegalArgumentException) ex;
+                } else {
+                    this.invalidTrigger = new IllegalArgumentException("Trigger is unable to validate", ex);
+                }
+                throw this.invalidTrigger;
             } finally {
                 didTriggerValidation = true;
             }
@@ -91,7 +96,16 @@ public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implement
 
     @Override
     public final void start(WorkerExecutor workerExecutor) {
-        doStart(workerExecutor);
+        lock.lock();
+        try {
+            if (didStart) {
+                throw new IllegalStateException("The executor is already started!");
+            }
+            doStart(workerExecutor);
+            didStart = true;
+        } finally {
+            lock.unlock();
+        }
     }
 
     @Override
