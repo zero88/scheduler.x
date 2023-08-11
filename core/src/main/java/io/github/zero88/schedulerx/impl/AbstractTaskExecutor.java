@@ -83,7 +83,8 @@ public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implement
                 if (ex instanceof IllegalArgumentException) {
                     this.invalidTrigger = (IllegalArgumentException) ex;
                 } else {
-                    this.invalidTrigger = new IllegalArgumentException("Trigger is unable to validate", ex);
+                    this.invalidTrigger = new IllegalArgumentException(
+                        "Encounter an unexpected exception when validating trigger", ex);
                 }
                 throw this.invalidTrigger;
             } finally {
@@ -111,7 +112,7 @@ public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implement
     @Override
     public final void executeTask(@NotNull TaskExecutionContext<OUT> executionContext) {
         try {
-            debug(state.tick(), state.round(), executionContext.executedAt(), "Executing task");
+            trace(state.tick(), state.round(), executionContext.executedAt(), "Start to execute the task");
             task.execute(jobData(), executionContext);
             if (!task.isAsync()) {
                 ((TaskExecutionContextInternal<OUT>) executionContext).internalComplete();
@@ -124,7 +125,7 @@ public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implement
     @Override
     public final void cancel() {
         if (!state.completed()) {
-            debug(state.tick(), state.round(), Instant.now(), "Canceling task");
+            trace(state.tick(), state.round(), Instant.now(), "Canceling the task");
             doStop(state.timerId());
             onCompleted();
         }
@@ -135,10 +136,10 @@ public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implement
     protected final boolean shouldRun(@NotNull Instant triggerAt) {
         final long tick = state.increaseTick();
         if (state.completed()) {
-            debug(tick, state.round(), triggerAt, "Execution is already completed");
+            trace(tick, state.round(), triggerAt, "The task execution is already completed");
         }
         if (state.executing()) {
-            debug(tick, state.round(), triggerAt, "Skip execution due to task is still running");
+            trace(tick, state.round(), triggerAt, "Skip the execution due to the task is still running");
             monitor.onMisfire(TaskResultImpl.<OUT>builder()
                                             .setExternalId(jobData.externalId())
                                             .setAvailableAt(state.availableAt())
@@ -170,9 +171,9 @@ public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implement
         vertx.cancelTimer(timerId);
     }
 
-    protected final void debug(long tick, long round, @NotNull Instant at, @NotNull String event) {
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("TaskExecutor[" + tick + "][" + round + "][" + at + "]::" + event);
+    protected final void trace(long tick, long round, @NotNull Instant at, @NotNull String event) {
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace(genMsg(tick, round, at, event));
         }
     }
 
@@ -200,7 +201,7 @@ public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implement
         if (shouldRun(triggerAt)) {
             TaskExecutionContextInternal<OUT> ctx = new TaskExecutionContextImpl<>(vertx, state.increaseRound(),
                                                                                    triggerAt);
-            debug(state.tick(), ctx.round(), triggerAt, "Trigger executing task");
+            trace(state.tick(), ctx.round(), triggerAt, "Trigger the task execution");
             if (workerExecutor != null) {
                 workerExecutor.executeBlocking(promise -> executeTask(onExecute(promise, ctx)), this::onResult);
             } else {
@@ -220,12 +221,12 @@ public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implement
         state.markIdle();
         final Instant finishedAt = Instant.now();
         if (asyncResult.failed()) {
-            LOGGER.warn("TaskExecutor[" + state.tick() + "][" + state.round() + "][" + finishedAt + "]" +
-                        "::Internal execution error", asyncResult.cause());
+            LOGGER.warn(genMsg(state.tick(), state.round(), finishedAt, "Internal execution error"),
+                        asyncResult.cause());
         }
         TaskExecutionContextInternal<OUT> executionContext = (TaskExecutionContextInternal<OUT>) asyncResult.result();
         if (asyncResult.succeeded()) {
-            debug(state.tick(), executionContext.round(), finishedAt, "Handling task result");
+            trace(state.tick(), executionContext.round(), finishedAt, "Received the task result");
             monitor.onEach(TaskResultImpl.<OUT>builder()
                                          .setExternalId(jobData.externalId())
                                          .setAvailableAt(state.availableAt())
@@ -248,7 +249,7 @@ public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implement
     protected final void onCompleted() {
         state.markCompleted();
         final Instant completedAt = Instant.now();
-        debug(state.tick(), state.round(), completedAt, "Execution is completed");
+        trace(state.tick(), state.round(), completedAt, "The task execution is completed");
         monitor.onCompleted(TaskResultImpl.<OUT>builder()
                                           .setExternalId(jobData.externalId())
                                           .setAvailableAt(state.availableAt())
@@ -259,6 +260,10 @@ public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implement
                                           .setData(state.lastData())
                                           .setError(state.lastError())
                                           .build());
+    }
+
+    private String genMsg(long tick, long round, @NotNull Instant at, @NotNull String event) {
+        return "TaskExecutor[" + tick + "][" + round + "][" + at + "]::[" + jobData.externalId() + "] - " + event;
     }
 
 }

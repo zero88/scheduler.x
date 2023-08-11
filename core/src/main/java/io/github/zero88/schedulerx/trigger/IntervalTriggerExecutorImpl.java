@@ -32,7 +32,7 @@ final class IntervalTriggerExecutorImpl<IN, OUT> extends AbstractTaskExecutor<IN
                 promise.complete(supplier.getAsLong());
             } else {
                 final long delay = trigger().delayInMilliseconds();
-                debug(-1, -1, Instant.now(), "delay [" + delay + "ms] then register task in schedule");
+                trace(-1, -1, Instant.now(), "Delay [" + delay + "ms] then register the task in the scheduler");
                 vertx().setTimer(delay, ignore -> promise.complete(supplier.getAsLong()));
             }
         } catch (Exception e) {

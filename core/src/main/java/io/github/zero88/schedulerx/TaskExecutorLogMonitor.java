@@ -21,33 +21,40 @@ public interface TaskExecutorLogMonitor<OUTPUT> extends TaskExecutorMonitor<OUTP
 
     @Override
     default void onUnableSchedule(@NotNull TaskResult<OUTPUT> result) {
-        LOGGER.error("Unable schedule task at [" + result.unscheduledAt() + "] due to error", result.error());
+        LOGGER.error(
+            "Task[" + result.externalId() + "] is unable to schedule at[" + result.unscheduledAt() + "] due to error",
+            result.error());
     }
 
     @Override
     default void onSchedule(@NotNull TaskResult<OUTPUT> result) {
         if (result.isReschedule()) {
             LOGGER.debug(
-                "TaskExecutor is rescheduled at [" + result.rescheduledAt() + "] round [" + result.round() + "]");
+                "Task[" + result.externalId() + "] is rescheduled at[" + result.rescheduledAt() + "] after round[" +
+                result.round() + "]");
         } else {
-            LOGGER.debug("TaskExecutor is available at [" + result.availableAt() + "]");
+            LOGGER.debug("Task[" + result.externalId() + "] is scheduled at[" + result.availableAt() + "]");
         }
     }
 
     @Override
     default void onMisfire(@NotNull TaskResult<OUTPUT> result) {
-        LOGGER.debug("Misfire tick [" + result.tick() + "] at [" + result.triggeredAt() + "]");
+        LOGGER.debug(
+            "Task[" + result.externalId() + "] is misfire at tick[" + result.tick() + "] in round[" + result.round() +
+            "] at[" + result.triggeredAt() + "]");
     }
 
     @Override
     default void onEach(@NotNull TaskResult<OUTPUT> result) {
-        LOGGER.debug("Finish round [" + result.round() + "] - Is Error [" + result.isError() + "] | Executed at [" +
-                     result.executedAt() + "] - Finished at [" + result.finishedAt() + "]");
+        LOGGER.debug("Task[" + result.externalId() + "] has been executed in round[" + result.round() + "] startedAt[" +
+                     result.executedAt() + "] - endedAt[" + result.finishedAt() + "] - Error[" + result.isError() +
+                     "]");
     }
 
     @Override
     default void onCompleted(@NotNull TaskResult<OUTPUT> result) {
-        LOGGER.debug("Completed task in round [" + result.round() + "] at [" + result.completedAt() + "]");
+        LOGGER.debug("Task[" + result.externalId() + "] is completed in round[" + result.round() + "] at[" +
+                     result.completedAt() + "]");
     }
 
 }
