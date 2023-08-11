@@ -78,7 +78,6 @@ class IntervalTriggerExecutorTest {
     @Test
     void test_run_blocking_task_in_the_end(Vertx vertx, VertxTestContext testContext) {
         final Checkpoint checkpoint = testContext.checkpoint(3);
-        final WorkerExecutor worker = vertx.createSharedWorkerExecutor("TEST_PERIODIC", 3);
         final Consumer<TaskResult<Void>> c = result -> {
             checkpoint.flag();
             Assertions.assertEquals(3, result.round());
@@ -98,7 +97,7 @@ class IntervalTriggerExecutorTest {
                                })
                                .setMonitor(asserter)
                                .build()
-                               .start(worker);
+                               .start();
     }
 
     @Test

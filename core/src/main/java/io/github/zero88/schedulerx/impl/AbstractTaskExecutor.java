@@ -140,6 +140,7 @@ public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implement
         if (state.executing()) {
             debug(tick, state.round(), triggerAt, "Skip execution due to task is still running");
             monitor.onMisfire(TaskResultImpl.<OUT>builder()
+                                            .setExternalId(jobData.externalId())
                                             .setAvailableAt(state.availableAt())
                                             .setTick(state.tick())
                                             .setTriggeredAt(triggerAt)
@@ -156,6 +157,7 @@ public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implement
         this.addTimer(Promise.promise(), workerExecutor)
             .onSuccess(this::onReceiveTimer)
             .onFailure(t -> monitor.onUnableSchedule(TaskResultImpl.<OUT>builder()
+                                                                   .setExternalId(jobData.externalId())
                                                                    .setTick(state.tick())
                                                                    .setRound(state.round())
                                                                    .setAvailableAt(state.availableAt())
@@ -178,10 +180,12 @@ public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implement
         TaskResult<OUT> result;
         if (state.pending()) {
             result = TaskResultImpl.<OUT>builder()
+                                   .setExternalId(jobData.externalId())
                                    .setAvailableAt(state.timerId(timerId).markAvailable().availableAt())
                                    .build();
         } else {
             result = TaskResultImpl.<OUT>builder()
+                                   .setExternalId(jobData.externalId())
                                    .setTick(state.timerId(timerId).tick())
                                    .setRound(state.round())
                                    .setAvailableAt(state.availableAt())
@@ -223,6 +227,7 @@ public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implement
         if (asyncResult.succeeded()) {
             debug(state.tick(), executionContext.round(), finishedAt, "Handling task result");
             monitor.onEach(TaskResultImpl.<OUT>builder()
+                                         .setExternalId(jobData.externalId())
                                          .setAvailableAt(state.availableAt())
                                          .setTick(state.tick())
                                          .setRound(executionContext.round())
@@ -245,6 +250,7 @@ public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implement
         final Instant completedAt = Instant.now();
         debug(state.tick(), state.round(), completedAt, "Execution is completed");
         monitor.onCompleted(TaskResultImpl.<OUT>builder()
+                                          .setExternalId(jobData.externalId())
                                           .setAvailableAt(state.availableAt())
                                           .setTick(state.tick())
                                           .setRound(state.round())

@@ -15,6 +15,16 @@ import org.jetbrains.annotations.Nullable;
 public interface TaskResult<OUTPUT> {
 
     /**
+     * Get the task id in external system that is declared in {@link JobData#externalId()}.
+     *
+     * @param <T> Type of external id
+     * @return the task id, it can be nullable
+     * @apiNote The type of the external id must be the same as your declaration in {@link JobData#externalId()}.
+     *     Please use the correct data type otherwise you may get {@link ClassCastException} at runtime.
+     */
+    @Nullable <T> T externalId();
+
+    /**
      * Only {@code not null} in {@link TaskExecutorMonitor#onUnableSchedule(TaskResult)}
      *
      * @return unschedule at time
@@ -30,7 +40,7 @@ public interface TaskResult<OUTPUT> {
     Instant rescheduledAt();
 
     /**
-     * Task executor is available to run, in other words "on {@code scheduler}" at time
+     * Task executor is available to run, in other words "task is scheduled at a time"
      *
      * @return available at time
      */
