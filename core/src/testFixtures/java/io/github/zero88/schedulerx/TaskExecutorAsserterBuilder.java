@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 import io.vertx.junit5.VertxTestContext;
 
-public class TaskExecutorAsserterBuilder<OUTPUT> {
+public final class TaskExecutorAsserterBuilder<OUTPUT> {
 
     private VertxTestContext testContext;
     private TaskExecutorMonitor<OUTPUT> logMonitor;

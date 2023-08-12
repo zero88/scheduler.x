@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.Assertions;
 
-import io.vertx.junit5.Checkpoint;
 import io.vertx.junit5.VertxTestContext;
 
 /**
@@ -72,7 +71,7 @@ public final class TaskExecutorAsserter<OUTPUT> implements TaskExecutorMonitor<O
     public void onCompleted(@NotNull TaskResult<OUTPUT> result) {
         logMonitor.onCompleted(result);
         verify(result, r -> {
-            completed.accept(r);
+            verify(result, completed);
             testContext.completeNow();
         });
     }
@@ -89,27 +88,37 @@ public final class TaskExecutorAsserter<OUTPUT> implements TaskExecutorMonitor<O
 
     public static <OUT> TaskExecutorAsserterBuilder<OUT> builder() { return new TaskExecutorAsserterBuilder<>(); }
 
-    public static <OUT> TaskExecutorMonitor<OUT> unableScheduleAsserter(VertxTestContext testContext,
-                                                                        Checkpoint checkpoint) {
-        return unableScheduleAsserter(testContext, checkpoint, IllegalArgumentException.class);
+    public static <OUT> TaskExecutorMonitor<OUT> unableScheduleAsserter(@NotNull VertxTestContext testContext) {
+        return unableScheduleAsserter(testContext, IllegalArgumentException.class, null);
+    }
+
+    public static <OUT> TaskExecutorMonitor<OUT> unableScheduleAsserter(@NotNull VertxTestContext testContext,
+                                                                        @NotNull String errorMsg) {
+        return unableScheduleAsserter(testContext, IllegalArgumentException.class, errorMsg);
     }
 
     /**
-     * @param testContext testContext
-     * @param checkpoint  checkpoint
-     * @param errorClazz  error class
      * @param <OUT>       Type of output
+     * @param testContext testContext
+     * @param errorClazz  error class
+     * @param errorMsg    error message
      * @return an asserter
      * @since 2.0.0
      */
-    public static <OUT> TaskExecutorMonitor<OUT> unableScheduleAsserter(VertxTestContext testContext,
-                                                                        Checkpoint checkpoint,
-                                                                        Class<? extends Exception> errorClazz) {
+    public static <OUT> TaskExecutorMonitor<OUT> unableScheduleAsserter(@NotNull VertxTestContext testContext,
+                                                                        @NotNull Class<? extends Exception> errorClazz,
+                                                                        @Nullable String errorMsg) {
         return TaskExecutorAsserter.<OUT>builder().setTestContext(testContext).setUnableSchedule(result -> {
-            checkpoint.flag();
-            Assertions.assertNull(result.availableAt());
-            Assertions.assertNotNull(result.unscheduledAt());
-            Assertions.assertInstanceOf(errorClazz, result.error());
+            testContext.verify(() -> {
+                Assertions.assertNull(result.availableAt());
+                Assertions.assertNotNull(result.externalId());
+                Assertions.assertNotNull(result.unscheduledAt());
+                Assertions.assertNotNull(result.error());
+                Assertions.assertInstanceOf(errorClazz, result.error());
+                if (errorMsg != null) {
+                    Assertions.assertEquals(errorMsg, result.error().getMessage());
+                }
+            });
             testContext.completeNow();
         }).build();
     }

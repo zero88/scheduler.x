@@ -21,8 +21,8 @@ public final class TestUtils {
         }
     }
 
-    public static List<Exception> simulateRunActionInParallel(VertxTestContext testContext,
-                                                              Runnable action, int nbOfThreads) {
+    public static List<Exception> simulateRunActionInParallel(VertxTestContext testContext, Runnable action,
+                                                              int nbOfThreads) {
         final List<Exception> store = new ArrayList<>();
         final CountDownLatch latch = new CountDownLatch(1);
         for (int i = 0; i < nbOfThreads; i++) {
