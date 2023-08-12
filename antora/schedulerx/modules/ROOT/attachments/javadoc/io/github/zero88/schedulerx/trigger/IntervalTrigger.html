@@ -158,12 +158,17 @@ implements <a href="Trigger.html" title="interface in io.github.zero88.scheduler
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/OffsetDateTime.html" title="class or interface in java.time" class="external-link">OffsetDateTime</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#preview(io.github.zero88.schedulerx.trigger.PreviewParameter)" class="member-name-link">preview</a><wbr>(@NotNull <a href="PreviewParameter.html" title="class in io.github.zero88.schedulerx.trigger">PreviewParameter</a>&nbsp;parameter)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="IntervalTrigger.html" title="class in io.github.zero88.schedulerx.trigger">IntervalTrigger</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#validate()" class="member-name-link">validate</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#shouldStop(long)" class="member-name-link">shouldStop</a><wbr>(long&nbsp;round)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Verify the execution should be stopped after the current execution round is out of the trigger rule.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="IntervalTrigger.html" title="class in io.github.zero88.schedulerx.trigger">IntervalTrigger</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#validate()" class="member-name-link">validate</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Do validate trigger in runtime</div>
 </div>
 </div>
@@ -174,7 +179,7 @@ implements <a href="Trigger.html" title="interface in io.github.zero88.scheduler
 <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-io.github.zero88.schedulerx.trigger.Trigger">Methods inherited from interface&nbsp;io.github.zero88.schedulerx.trigger.<a href="Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a></h3>
-<code><a href="Trigger.html#preview()">preview</a></code></div>
+<code><a href="Trigger.html#preview()">preview</a>, <a href="Trigger.html#shouldExecute(java.time.Instant)">shouldExecute</a></code></div>
 </section>
 </li>
 </ul>
@@ -243,18 +248,6 @@ implements <a href="Trigger.html" title="interface in io.github.zero88.scheduler
 </section>
 </li>
 <li>
-<section class="detail" id="intervalInMilliseconds()">
-<h3>intervalInMilliseconds</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">intervalInMilliseconds</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="delayInMilliseconds()">
-<h3>delayInMilliseconds</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">delayInMilliseconds</span>()</div>
-</section>
-</li>
-<li>
 <section class="detail" id="noDelay()">
 <h3>noDelay</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">noDelay</span>()</div>
@@ -264,6 +257,18 @@ implements <a href="Trigger.html" title="interface in io.github.zero88.scheduler
 <section class="detail" id="noRepeatIndefinitely()">
 <h3>noRepeatIndefinitely</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">noRepeatIndefinitely</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="intervalInMilliseconds()">
+<h3>intervalInMilliseconds</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">intervalInMilliseconds</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="delayInMilliseconds()">
+<h3>delayInMilliseconds</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">delayInMilliseconds</span>()</div>
 </section>
 </li>
 <li>
@@ -299,6 +304,23 @@ implements <a href="Trigger.html" title="interface in io.github.zero88.scheduler
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="shouldStop(long)">
+<h3>shouldStop</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">shouldStop</span><wbr><span class="parameters">(long&nbsp;round)</span></div>
+<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="Trigger.html#shouldStop(long)">Trigger</a></code></span></div>
+<div class="block">Verify the execution should be stopped after the current execution round is out of the trigger rule.
+ <p/>
+ This method will be invoked right away after each execution round is finished regardless of the execution result
+ is success or error.</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="Trigger.html#shouldStop(long)">shouldStop</a></code>&nbsp;in interface&nbsp;<code><a href="Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a></code></dd>
+<dt>Parameters:</dt>
+<dd><code>round</code> - the current execution round</dd>
 </dl>
 </section>
 </li>

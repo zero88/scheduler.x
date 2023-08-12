@@ -110,6 +110,16 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/OffsetDateTime.html" title="class or interface in java.time" class="external-link">OffsetDateTime</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#preview(io.github.zero88.schedulerx.trigger.PreviewParameter)" class="member-name-link">preview</a><wbr>(@NotNull <a href="PreviewParameter.html" title="class in io.github.zero88.schedulerx.trigger">PreviewParameter</a>&nbsp;parameter)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#shouldExecute(java.time.Instant)" class="member-name-link">shouldExecute</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;triggerAt)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Verify if the trigger time still appropriate to execute the task.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#shouldStop(long)" class="member-name-link">shouldStop</a><wbr>(long&nbsp;round)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Verify the execution should be stopped after the current execution round is out of the trigger rule.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#validate()" class="member-name-link">validate</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
@@ -140,6 +150,34 @@ loadScripts(document, 'script');</script>
 <dd>this for fluent API</dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if any configuration is wrong</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="shouldExecute(java.time.Instant)">
+<h3>shouldExecute</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">shouldExecute</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;triggerAt)</span></div>
+<div class="block">Verify if the trigger time still appropriate to execute the task.
+ <p/>
+ This method will be invoked right away before each execution round is started.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>triggerAt</code> - the trigger time</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="shouldStop(long)">
+<h3>shouldStop</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">shouldStop</span><wbr><span class="parameters">(long&nbsp;round)</span></div>
+<div class="block">Verify the execution should be stopped after the current execution round is out of the trigger rule.
+ <p/>
+ This method will be invoked right away after each execution round is finished regardless of the execution result
+ is success or error.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>round</code> - the current execution round</dd>
 </dl>
 </section>
 </li>

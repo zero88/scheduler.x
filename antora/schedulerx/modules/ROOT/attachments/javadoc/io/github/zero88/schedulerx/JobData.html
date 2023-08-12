@@ -82,7 +82,8 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/FunctionalInterface.html" title="class or interface in java.lang" class="external-link">@FunctionalInterface</a>
 </span><span class="modifiers">public interface </span><span class="element-name type-name-label">JobData&lt;T&gt;</span></div>
-<div class="block">Represents for a provider that supply an input task data</div>
+<div class="block">Represents for a provider that supplies input data before the execution is started, and that will be sent to the task
+ in runtime execution.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>1.0.0</dd>
@@ -95,21 +96,42 @@ loadScripts(document, 'script');</script>
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab1" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab1', 3)" class="table-tab">Static Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab3" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab3', 3)" class="table-tab">Abstract Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab1" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab1', 3)" class="table-tab">Static Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab3" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab3', 3)" class="table-tab">Abstract Methods</button><button id="method-summary-table-tab5" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab5', 3)" class="table-tab">Default Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel">
 <div class="summary-table three-column-summary" aria-labelledby="method-summary-table-tab0">
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1"><code>static &lt;D&gt;&nbsp;<a href="JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;D&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#create(D)" class="member-name-link">create</a><wbr>(D&nbsp;data)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1">
+<div class="block">Create JobData from static data and external id.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1"><code>static &lt;D&gt;&nbsp;<a href="JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;D&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#create(D,java.lang.Object)" class="member-name-link">create</a><wbr>(D&nbsp;data,
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;externalId)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1">
+<div class="block">Create JobData from static data and external id.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1"><code>static &lt;D&gt;&nbsp;<a href="JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;D&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#empty()" class="member-name-link">empty</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1">
-<div class="block">Create emtpy data</div>
+<div class="block">Create emtpy data with random external id in integer.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1"><code>static &lt;D&gt;&nbsp;<a href="JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;D&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#empty(java.lang.Object)" class="member-name-link">empty</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;externalId)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1">
+<div class="block">Create emtpy data with an external id.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#externalId()" class="member-name-link">externalId</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Declares the task id in an external system that will be propagated to the task result.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="JobData.html" title="type parameter in JobData">T</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#get()" class="member-name-link">get</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Get input data</div>
+<div class="block">Get an input data.</div>
 </div>
 </div>
 </div>
@@ -130,7 +152,10 @@ loadScripts(document, 'script');</script>
 <h3>get</h3>
 <div class="member-signature"><span class="annotations">@Nullable
 </span><span class="return-type"><a href="JobData.html" title="type parameter in JobData">T</a></span>&nbsp;<span class="element-name">get</span>()</div>
-<div class="block">Get input data</div>
+<div class="block">Get an input data.
+ <p/>
+ It might be a static input value or a preloaded value from an external system
+ or a configuration to instruct how to get actual input data of the task in runtime execution.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>input data</dd>
@@ -138,15 +163,81 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="externalId()">
+<h3>externalId</h3>
+<div class="member-signature"><span class="annotations">@Nullable
+</span><span class="modifiers">default</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span>&nbsp;<span class="element-name">externalId</span>()</div>
+<div class="block">Declares the task id in an external system that will be propagated to the task result.
+ <p/>
+ That makes the integration between the task monitoring and the external system seamless and easier.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>an task id</dd>
+<dt>Since:</dt>
+<dd>2.0.0</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="TaskResult.html#externalId()"><code>TaskResult.externalId()</code></a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="empty()">
 <h3>empty</h3>
 <div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;D&gt;</span>&nbsp;<span class="return-type"><a href="JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;D&gt;</span>&nbsp;<span class="element-name">empty</span>()</div>
-<div class="block">Create emtpy data</div>
+<div class="block">Create emtpy data with random external id in integer.</div>
 <dl class="notes">
 <dt>Type Parameters:</dt>
 <dd><code>D</code> - Type of data</dd>
 <dt>Returns:</dt>
 <dd>JobData contains null data</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="empty(java.lang.Object)">
+<h3>empty</h3>
+<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;D&gt;</span>&nbsp;<span class="return-type"><a href="JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;D&gt;</span>&nbsp;<span class="element-name">empty</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;externalId)</span></div>
+<div class="block">Create emtpy data with an external id.</div>
+<dl class="notes">
+<dt>Type Parameters:</dt>
+<dd><code>D</code> - Type of data</dd>
+<dt>Returns:</dt>
+<dd>JobData contains null data</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="create(D)">
+<h3 id="create(java.lang.Object)">create</h3>
+<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;D&gt;</span>&nbsp;<span class="return-type"><a href="JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;D&gt;</span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(@NotNull
+ D&nbsp;data)</span></div>
+<div class="block">Create JobData from static data and external id.</div>
+<dl class="notes">
+<dt>Type Parameters:</dt>
+<dd><code>D</code> - Type of data</dd>
+<dt>Returns:</dt>
+<dd>JobData</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="create(D,java.lang.Object)">
+<h3 id="create(java.lang.Object,java.lang.Object)">create</h3>
+<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;D&gt;</span>&nbsp;<span class="return-type"><a href="JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;D&gt;</span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(@NotNull
+ D&nbsp;data,
+ @NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;externalId)</span></div>
+<div class="block">Create JobData from static data and external id.</div>
+<dl class="notes">
+<dt>Type Parameters:</dt>
+<dd><code>D</code> - Type of data</dd>
+<dt>Returns:</dt>
+<dd>JobData</dd>
 </dl>
 </section>
 </li>
