@@ -29,7 +29,7 @@ class HttpClientTaskTest {
             JsonObject response = result.data();
             Assertions.assertNotNull(response);
             Assertions.assertEquals(200, response.getValue("status"));
-            Assertions.assertEquals("http://" + host + path, response.getJsonObject("response").getString("url"));
+            Assertions.assertEquals("https://" + host + path, response.getJsonObject("response").getString("url"));
         };
         final TaskExecutorAsserter<JsonObject> asserter = TaskExecutorAsserter.<JsonObject>builder()
                                                                               .setTestContext(testContext)

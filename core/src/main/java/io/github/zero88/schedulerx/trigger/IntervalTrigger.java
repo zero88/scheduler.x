@@ -70,17 +70,19 @@ public final class IntervalTrigger implements Trigger {
         this.interval             = interval;
     }
 
-    public long getRepeat()       { return repeat; }
+    public long getRepeat()                            { return repeat; }
 
-    public long getInitialDelay() { return initialDelay; }
+    public long getInitialDelay()                      { return initialDelay; }
 
-    @NotNull
-    public TimeUnit getInitialDelayTimeUnit() { return this.initialDelayTimeUnit; }
+    public @NotNull TimeUnit getInitialDelayTimeUnit() { return this.initialDelayTimeUnit; }
 
-    public long getInterval() { return interval; }
+    public long getInterval()                          { return interval; }
 
-    @NotNull
-    public TimeUnit getIntervalTimeUnit() { return this.intervalTimeUnit; }
+    public @NotNull TimeUnit getIntervalTimeUnit()     { return this.intervalTimeUnit; }
+
+    public boolean noDelay()                           { return initialDelay == 0; }
+
+    public boolean noRepeatIndefinitely()              { return repeat != REPEAT_INDEFINITELY; }
 
     public long intervalInMilliseconds() {
         return TimeUnit.MILLISECONDS.convert(interval, intervalTimeUnit);
@@ -88,14 +90,6 @@ public final class IntervalTrigger implements Trigger {
 
     public long delayInMilliseconds() {
         return TimeUnit.MILLISECONDS.convert(initialDelay, initialDelayTimeUnit);
-    }
-
-    public boolean noDelay() {
-        return initialDelay == 0;
-    }
-
-    public boolean noRepeatIndefinitely() {
-        return repeat != REPEAT_INDEFINITELY;
     }
 
     public static IntervalTriggerBuilder builder() { return new IntervalTriggerBuilder(); }
@@ -127,6 +121,11 @@ public final class IntervalTrigger implements Trigger {
     public String toString() {
         return "IntervalTrigger(initialDelayTimeUnit=" + initialDelayTimeUnit + ", initialDelay=" + initialDelay +
                ", repeat=" + repeat + ", intervalTimeUnit=" + intervalTimeUnit + ", interval=" + interval + ")";
+    }
+
+    @Override
+    public boolean shouldStop(long round) {
+        return noRepeatIndefinitely() && round >= repeat;
     }
 
     @Override

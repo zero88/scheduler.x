@@ -1,11 +1,25 @@
 package io.github.zero88.schedulerx.impl;
 
+import java.security.SecureRandom;
 import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 
-public class Utils {
+public final class Utils {
+
+    /*
+     * The random number generator, in a holder class to defer initialization until needed.
+     */
+    private static class Holder {
+
+        static final SecureRandom numberGenerator = new SecureRandom();
+
+    }
 
     private Utils() { }
+
+    public static int randomPositiveInt() {
+        return Utils.Holder.numberGenerator.nextInt() & Integer.MAX_VALUE;
+    }
 
     /**
      * Converts this {@code TimeUnit} to the equivalent {@code ChronoUnit}.

@@ -32,7 +32,7 @@ final class IntervalTriggerExecutorImpl<IN, OUT> extends AbstractTaskExecutor<IN
                 promise.complete(supplier.getAsLong());
             } else {
                 final long delay = trigger().delayInMilliseconds();
-                debug(-1, -1, Instant.now(), "delay [" + delay + "ms] then register task in schedule");
+                trace(-1, -1, Instant.now(), "Delay [" + delay + "ms] then register the task in the scheduler");
                 vertx().setTimer(delay, ignore -> promise.complete(supplier.getAsLong()));
             }
         } catch (Exception e) {
@@ -41,15 +41,11 @@ final class IntervalTriggerExecutorImpl<IN, OUT> extends AbstractTaskExecutor<IN
         return promise.future();
     }
 
-    @Override
-    protected boolean shouldCancel(long round) {
-        return trigger().noRepeatIndefinitely() && round >= trigger().getRepeat();
-    }
-
+    // @formatter:off
     static final class IntervalTriggerExecutorBuilderImpl<IN, OUT>
-        extends AbstractTaskExecutorBuilder<IN, OUT, IntervalTrigger, IntervalTriggerExecutor<IN, OUT>,
-                                               IntervalTriggerExecutorBuilder<IN, OUT>>
+        extends AbstractTaskExecutorBuilder<IN, OUT, IntervalTrigger, IntervalTriggerExecutor<IN, OUT>, IntervalTriggerExecutorBuilder<IN, OUT>>
         implements IntervalTriggerExecutorBuilder<IN, OUT> {
+    // @formatter:on
 
         public @NotNull IntervalTriggerExecutor<IN, OUT> build() {
             return new IntervalTriggerExecutorImpl<>(vertx(), monitor(), jobData(), task(), trigger());

@@ -2,9 +2,13 @@ package io.github.zero88.schedulerx.impl;
 
 import java.time.Instant;
 
+import org.jetbrains.annotations.Nullable;
+
 import io.github.zero88.schedulerx.TaskResult;
 
 final class TaskResultImpl<OUTPUT> implements TaskResult<OUTPUT> {
+
+    static <OUT> TaskResultBuilder<OUT> builder() { return new TaskResultBuilder<>(); }
 
     private final Instant unscheduledAt;
     private final Instant rescheduledAt;
@@ -13,6 +17,7 @@ final class TaskResultImpl<OUTPUT> implements TaskResult<OUTPUT> {
     private final Instant executedAt;
     private final Instant finishedAt;
     private final Instant completedAt;
+    private final Object externalId;
     private final long tick;
     private final long round;
     private final boolean completed;
@@ -27,12 +32,17 @@ final class TaskResultImpl<OUTPUT> implements TaskResult<OUTPUT> {
         this.executedAt    = builder.executedAt;
         this.finishedAt    = builder.finishedAt;
         this.completedAt   = builder.completedAt;
+        this.externalId    = builder.externalId;
         this.tick          = builder.tick;
         this.round         = builder.round;
         this.completed     = builder.completed;
         this.error         = builder.error;
         this.data          = builder.data;
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> @Nullable T externalId() { return (T) this.externalId; }
 
     public Instant unscheduledAt() { return this.unscheduledAt; }
 
@@ -58,18 +68,6 @@ final class TaskResultImpl<OUTPUT> implements TaskResult<OUTPUT> {
 
     public OUTPUT data()           { return this.data; }
 
-    /**
-     * Create builder
-     *
-     * @return TaskResultBuilder
-     */
-    static <OUT> TaskResultBuilder<OUT> builder() { return new TaskResultBuilder<>(); }
-
-    /**
-     * Represents a builder that constructs {@link TaskResult}
-     *
-     * @see TaskResult
-     */
     static final class TaskResultBuilder<OUTPUT> {
 
         Instant unscheduledAt;
@@ -79,6 +77,7 @@ final class TaskResultImpl<OUTPUT> implements TaskResult<OUTPUT> {
         Instant executedAt;
         Instant finishedAt;
         Instant completedAt;
+        Object externalId;
         long tick;
         long round;
         boolean completed;
@@ -117,6 +116,11 @@ final class TaskResultImpl<OUTPUT> implements TaskResult<OUTPUT> {
 
         public TaskResultBuilder<OUTPUT> setCompletedAt(Instant completedAt) {
             this.completedAt = completedAt;
+            return this;
+        }
+
+        public TaskResultBuilder<OUTPUT> setExternalId(Object externalId) {
+            this.externalId = externalId;
             return this;
         }
 
