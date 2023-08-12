@@ -22,7 +22,6 @@ import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.junit5.Checkpoint;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
 
@@ -31,16 +30,8 @@ class TaskExecutorTest {
 
     @Test
     void test_executor_should_start_only_once_time(Vertx vertx, VertxTestContext testCtx) throws InterruptedException {
-        final int nbOfRound = 2;
         final int timeout = 10; // 2 times of 4 seconds and plus reserve time to start
-        final Checkpoint checkpoint = testCtx.checkpoint(nbOfRound);
         final CronTrigger trigger = CronTrigger.builder().expression("0/4 * * ? * * *").build();
-        final Task<Void, Void> task = (jobData, ctx) -> {
-            checkpoint.flag();
-            if (ctx.round() == nbOfRound) {
-                ctx.forceStopExecution();
-            }
-        };
         final Consumer<TaskResult<Void>> completed = result -> {
             Assertions.assertEquals(2, result.round());
             Assertions.assertTrue(result.isCompleted());
@@ -53,7 +44,7 @@ class TaskExecutorTest {
         final CronTriggerExecutor<Void, Void> executor = CronTriggerExecutor.<Void, Void>builder()
                                                                             .setVertx(vertx)
                                                                             .setTrigger(trigger)
-                                                                            .setTask(task)
+                                                                            .setTask(NoopTask.create(2))
                                                                             .setMonitor(asserter)
                                                                             .build();
 
@@ -131,16 +122,12 @@ class TaskExecutorTest {
                                                                           .setTestContext(testContext)
                                                                           .setCompleted(completed)
                                                                           .build();
-        final Task<Object, Object> task = (d, ec) -> {
-            if (ec.round() == 3)
-                ec.forceStopExecution();
-        };
         final IntervalTrigger trigger = IntervalTrigger.builder().interval(1).repeat(5).build();
         IntervalTriggerExecutor.builder()
                                .setVertx(vertx)
                                .setMonitor(asserter)
                                .setTrigger(trigger)
-                               .setTask(task)
+                               .setTask(NoopTask.create(3))
                                .build()
                                .start();
     }

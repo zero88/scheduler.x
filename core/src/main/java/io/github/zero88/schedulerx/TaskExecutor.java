@@ -1,8 +1,5 @@
 package io.github.zero88.schedulerx;
 
-import org.jetbrains.annotations.NotNull;
-
-import io.vertx.codegen.annotations.GenIgnore;
 import io.vertx.codegen.annotations.VertxGen;
 import io.vertx.core.WorkerExecutor;
 
@@ -28,14 +25,6 @@ public interface TaskExecutor<INPUT, OUTPUT> extends TaskExecutorProperties<INPU
      * @see WorkerExecutor
      */
     void start(WorkerExecutor workerExecutor);
-
-    /**
-     * Execute task
-     *
-     * @param executionContext execution context
-     */
-    @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    void executeTask(@NotNull TaskExecutionContext<OUTPUT> executionContext);
 
     /**
      * Cancel executor

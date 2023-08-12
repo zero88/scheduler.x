@@ -11,7 +11,6 @@ import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.TaskExecutorAsserter;
 import io.github.zero88.schedulerx.TaskResult;
 import io.vertx.core.Vertx;
-import io.vertx.junit5.Checkpoint;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
 
@@ -33,36 +32,54 @@ class CronTriggerExecutorTest {
 
     @Test
     void test_run_task_by_cron(Vertx vertx, VertxTestContext testContext) {
-        final int nbOfRound = 2;
-        final Checkpoint checkpoint = testContext.checkpoint(nbOfRound);
-        final CronTrigger trigger = CronTrigger.builder().expression("0/3 * * ? * * *").build();
-        final Task<Void, Void> task = (jobData, ctx) -> {
-            checkpoint.flag();
-            if (ctx.round() == nbOfRound) {
-                ctx.forceStopExecution();
-            }
-        };
-        final Consumer<TaskResult<Void>> schedule = result -> {
+        final Consumer<TaskResult<String>> onSchedule = result -> {
             if (!result.isReschedule()) {
-                Assertions.assertNotNull(result.availableAt());
                 Assertions.assertEquals(0, result.tick());
                 Assertions.assertEquals(0, result.round());
             } else {
-                Assertions.assertNotNull(result.availableAt());
                 Assertions.assertTrue(result.isReschedule());
             }
         };
-        final Consumer<TaskResult<Void>> completed = result -> {
-            Assertions.assertEquals(2, result.round());
-            Assertions.assertTrue(result.isCompleted());
+        final Consumer<TaskResult<String>> onEach = result -> {
+            if (result.round() < 3) {
+                Assertions.assertTrue(result.isError());
+                Assertions.assertNotNull(result.error());
+                Assertions.assertTrue(result.error() instanceof RuntimeException);
+                Assertions.assertNull(result.data());
+            }
+            if (result.round() == 3) {
+                Assertions.assertFalse(result.isError());
+                Assertions.assertNull(result.error());
+                Assertions.assertEquals("OK", result.data());
+            }
+        };
+        final Consumer<TaskResult<String>> onCompleted = result -> {
+            Assertions.assertEquals(4, result.round());
             Assertions.assertFalse(result.isError());
         };
-        final TaskExecutorAsserter<Void> asserter = TaskExecutorAsserter.<Void>builder()
-                                                                        .setTestContext(testContext)
-                                                                        .setSchedule(schedule)
-                                                                        .setCompleted(completed)
-                                                                        .build();
-        CronTriggerExecutor.<Void, Void>builder()
+        final TaskExecutorAsserter<String> asserter = TaskExecutorAsserter.<String>builder()
+                                                                          .setTestContext(testContext)
+                                                                          .setSchedule(onSchedule)
+                                                                          .setEach(onEach)
+                                                                          .setCompleted(onCompleted)
+                                                                          .build();
+        final CronTrigger trigger = CronTrigger.builder().expression("0/2 * * ? * * *").build();
+        final Task<Void, String> task = (jobData, ctx) -> {
+            final long round = ctx.round();
+            if (round == 1) {
+                throw new RuntimeException("throw in execution");
+            }
+            if (round == 2) {
+                ctx.fail(new RuntimeException("explicit set failed"));
+            }
+            if (round == 3) {
+                ctx.complete("OK");
+            }
+            if (round == 4) {
+                ctx.forceStopExecution();
+            }
+        };
+        CronTriggerExecutor.<Void, String>builder()
                            .setVertx(vertx)
                            .setMonitor(asserter)
                            .setTrigger(trigger)

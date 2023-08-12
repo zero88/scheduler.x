@@ -5,6 +5,7 @@ import java.time.Instant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import io.github.zero88.schedulerx.trigger.TriggerContext;
 import io.vertx.core.Vertx;
 
 /**
@@ -42,6 +43,13 @@ public interface TaskExecutionContext<OUTPUT> {
      * @return executedAt
      */
     @NotNull Instant executedAt();
+
+    /**
+     * Runtime trigger context
+     *
+     * @since 2.0.0
+     */
+    @NotNull TriggerContext triggerContext();
 
     /**
      * Check whether force stop execution or not

@@ -3,6 +3,7 @@ package io.github.zero88.schedulerx.impl;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.NotNull;
 
 import io.github.zero88.schedulerx.JobData;
@@ -18,10 +19,13 @@ import io.vertx.core.Vertx;
  * The base task executor builder
  */
 @SuppressWarnings("unchecked")
-public abstract class AbstractTaskExecutorBuilder<IN, OUT, T extends Trigger, E extends TriggerTaskExecutor<IN, OUT,
-                                                                                                               T>,
+@Internal
+// @formatter:off
+public abstract class AbstractTaskExecutorBuilder<IN, OUT, T extends Trigger,
+                                                     E extends TriggerTaskExecutor<IN, OUT, T>,
                                                      B extends TriggerTaskExecutorBuilder<IN, OUT, T, E, B>>
     implements TriggerTaskExecutorBuilder<IN, OUT, T, E, B> {
+// @formatter:on
 
     private Vertx vertx;
     private TaskExecutorMonitor<OUT> monitor;
@@ -46,9 +50,7 @@ public abstract class AbstractTaskExecutorBuilder<IN, OUT, T extends Trigger, E 
     public @NotNull Task<IN, OUT> task() { return Objects.requireNonNull(task, "Task is required"); }
 
     @Override
-    public @NotNull JobData<IN> jobData() {
-        return Optional.ofNullable(jobData).orElseGet(JobData::empty);
-    }
+    public @NotNull JobData<IN> jobData() { return Optional.ofNullable(jobData).orElseGet(JobData::empty); }
 
     public @NotNull B setVertx(@NotNull Vertx vertx) {
         this.vertx = vertx;

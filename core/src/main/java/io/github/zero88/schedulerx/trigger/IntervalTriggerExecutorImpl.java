@@ -24,15 +24,16 @@ final class IntervalTriggerExecutorImpl<IN, OUT> extends AbstractTaskExecutor<IN
         super(vertx, monitor, jobData, task, trigger);
     }
 
-    protected @NotNull Future<Long> addTimer(@NotNull Promise<Long> promise, WorkerExecutor workerExecutor) {
+    protected @NotNull Future<Long> registerTimer(@NotNull Promise<Long> promise, WorkerExecutor workerExecutor) {
         try {
             LongSupplier supplier = () -> vertx().setPeriodic(trigger().intervalInMilliseconds(),
-                                                              timerId -> run(workerExecutor));
+                                                              timerId -> run(workerExecutor,
+                                                                             TriggerContext.empty(trigger().type())));
             if (trigger().noDelay()) {
                 promise.complete(supplier.getAsLong());
             } else {
                 final long delay = trigger().delayInMilliseconds();
-                trace(-1, -1, Instant.now(), "Delay [" + delay + "ms] then register the task in the scheduler");
+                trace(Instant.now(), "Delay [" + delay + "ms] then register the task in the scheduler");
                 vertx().setTimer(delay, ignore -> promise.complete(supplier.getAsLong()));
             }
         } catch (Exception e) {

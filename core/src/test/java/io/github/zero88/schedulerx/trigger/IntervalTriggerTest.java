@@ -57,6 +57,7 @@ class IntervalTriggerTest {
         Assertions.assertEquals(0, trigger.getInitialDelay());
         Assertions.assertEquals(TimeUnit.SECONDS, trigger.getInitialDelayTimeUnit());
         Assertions.assertEquals(-1, trigger.getRepeat());
+        Assertions.assertEquals("interval", trigger.type());
         Assertions.assertFalse(trigger.noRepeatIndefinitely());
         Assertions.assertTrue(trigger.noDelay());
     }

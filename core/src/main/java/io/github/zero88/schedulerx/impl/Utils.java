@@ -4,6 +4,9 @@ import java.security.SecureRandom;
 import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
+@Internal
 public final class Utils {
 
     /*

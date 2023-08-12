@@ -29,6 +29,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonDeserialize(builder = CronTriggerBuilder.class)
 public final class CronTrigger implements Trigger {
 
+    public static CronTriggerBuilder builder() { return new CronTriggerBuilder(); }
+
     /**
      * Returns the cron expression
      *
@@ -64,6 +66,9 @@ public final class CronTrigger implements Trigger {
     }
 
     @Override
+    public @NotNull String type() { return "cron"; }
+
+    @Override
     public @NotNull CronTrigger validate() {
         if (Objects.isNull(cronExpression)) {
             try {
@@ -87,8 +92,6 @@ public final class CronTrigger implements Trigger {
         } while (result.size() != parameter.getTimes());
         return result;
     }
-
-    public static CronTriggerBuilder builder() { return new CronTriggerBuilder(); }
 
     @Override
     public boolean equals(Object o) {

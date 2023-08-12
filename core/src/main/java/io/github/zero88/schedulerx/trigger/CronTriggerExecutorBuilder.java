@@ -20,8 +20,10 @@ import io.vertx.core.Vertx;
  */
 @VertxGen
 public interface CronTriggerExecutorBuilder<INPUT, OUTPUT>
-    extends TriggerTaskExecutorBuilder<INPUT, OUTPUT, CronTrigger, CronTriggerExecutor<INPUT, OUTPUT>,
-                                          CronTriggerExecutorBuilder<INPUT, OUTPUT>> {
+    // @formatter:off
+    extends TriggerTaskExecutorBuilder<INPUT, OUTPUT, CronTrigger,
+                                          CronTriggerExecutor<INPUT, OUTPUT>, CronTriggerExecutorBuilder<INPUT, OUTPUT>> {
+    // @formatter:on
 
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
     @NotNull CronTrigger trigger();

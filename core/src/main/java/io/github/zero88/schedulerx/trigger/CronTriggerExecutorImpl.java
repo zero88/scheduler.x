@@ -23,11 +23,11 @@ final class CronTriggerExecutorImpl<IN, OUT> extends AbstractTaskExecutor<IN, OU
     }
 
     @Override
-    protected @NotNull Future<Long> addTimer(@NotNull Promise<Long> promise, WorkerExecutor workerExecutor) {
+    protected @NotNull Future<Long> registerTimer(@NotNull Promise<Long> promise, WorkerExecutor workerExecutor) {
         try {
             final long nextTriggerAfter = trigger().nextTriggerAfter(Instant.now());
             promise.complete(vertx().setTimer(nextTriggerAfter, timerId -> {
-                run(workerExecutor);
+                run(workerExecutor, TriggerContext.empty(trigger().type()));
                 doStart(workerExecutor);
             }));
         } catch (Exception ex) {

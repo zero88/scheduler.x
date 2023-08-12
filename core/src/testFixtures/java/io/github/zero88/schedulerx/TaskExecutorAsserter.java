@@ -46,31 +46,75 @@ public final class TaskExecutorAsserter<OUTPUT> implements TaskExecutorMonitor<O
     @Override
     public void onUnableSchedule(@NotNull TaskResult<OUTPUT> result) {
         logMonitor.onUnableSchedule(result);
+        verify(result, r -> {
+            Assertions.assertNotNull(result.externalId());
+            Assertions.assertNotNull(result.unscheduledAt());
+            Assertions.assertNull(result.availableAt());
+            Assertions.assertNull(result.rescheduledAt());
+            Assertions.assertNull(result.triggeredAt());
+            Assertions.assertNull(result.executedAt());
+            Assertions.assertNull(result.finishedAt());
+            Assertions.assertNull(result.completedAt());
+        });
         verify(result, unableSchedule);
     }
 
     @Override
     public void onSchedule(@NotNull TaskResult<OUTPUT> result) {
         logMonitor.onSchedule(result);
-        verify(result, schedule);
+        verify(result, r -> {
+            Assertions.assertNotNull(result.externalId());
+            Assertions.assertNotNull(result.availableAt());
+            Assertions.assertNull(result.unscheduledAt());
+            Assertions.assertNull(result.triggeredAt());
+            Assertions.assertNull(result.executedAt());
+            Assertions.assertNull(result.finishedAt());
+            Assertions.assertNull(result.completedAt());
+            verify(result, schedule);
+        });
     }
 
     @Override
     public void onMisfire(@NotNull TaskResult<OUTPUT> result) {
         logMonitor.onMisfire(result);
-        verify(result, misfire);
+        verify(result, r -> {
+            Assertions.assertNotNull(result.externalId());
+            Assertions.assertNotNull(result.availableAt());
+            Assertions.assertNotNull(result.triggeredAt());
+            Assertions.assertNull(result.rescheduledAt());
+            Assertions.assertNull(result.executedAt());
+            Assertions.assertNull(result.finishedAt());
+            Assertions.assertNull(result.completedAt());
+            verify(result, misfire);
+        });
     }
 
     @Override
     public void onEach(@NotNull TaskResult<OUTPUT> result) {
         logMonitor.onEach(result);
-        verify(result, each);
+        verify(result, r -> {
+            Assertions.assertNotNull(result.externalId());
+            Assertions.assertNotNull(result.availableAt());
+            Assertions.assertNotNull(result.triggeredAt());
+            Assertions.assertNotNull(result.executedAt());
+            Assertions.assertNotNull(result.finishedAt());
+            Assertions.assertNull(result.rescheduledAt());
+            verify(result, each);
+        });
     }
 
     @Override
     public void onCompleted(@NotNull TaskResult<OUTPUT> result) {
         logMonitor.onCompleted(result);
         verify(result, r -> {
+            Assertions.assertNotNull(result.externalId());
+            Assertions.assertNotNull(result.availableAt());
+            Assertions.assertNotNull(result.completedAt());
+            Assertions.assertTrue(result.isCompleted());
+            Assertions.assertNull(result.triggeredAt());
+            Assertions.assertNull(result.executedAt());
+            Assertions.assertNull(result.finishedAt());
+            Assertions.assertNull(result.rescheduledAt());
             verify(result, completed);
             testContext.completeNow();
         });
