@@ -73,6 +73,12 @@ loadScripts(document, 'script');</script>
 <li class="circle">io.github.zero88.schedulerx.rxjava3.trigger.<a href="io/github/zero88/schedulerx/rxjava3/trigger/CronTriggerExecutor.html" class="type-name-link" title="class in io.github.zero88.schedulerx.rxjava3.trigger">CronTriggerExecutor</a>&lt;INPUT,<wbr>OUTPUT&gt;</li>
 <li class="circle">io.github.zero88.schedulerx.mutiny.trigger.<a href="io/github/zero88/schedulerx/mutiny/trigger/CronTriggerExecutorBuilder.html" class="type-name-link" title="class in io.github.zero88.schedulerx.mutiny.trigger">CronTriggerExecutorBuilder</a>&lt;INPUT,<wbr>OUTPUT&gt;</li>
 <li class="circle">io.github.zero88.schedulerx.rxjava3.trigger.<a href="io/github/zero88/schedulerx/rxjava3/trigger/CronTriggerExecutorBuilder.html" class="type-name-link" title="class in io.github.zero88.schedulerx.rxjava3.trigger">CronTriggerExecutorBuilder</a>&lt;INPUT,<wbr>OUTPUT&gt;</li>
+<li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/EventTrigger.html" class="type-name-link" title="class in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;T&gt; (implements io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a>)</li>
+<li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/EventTriggerBuilder.html" class="type-name-link" title="class in io.github.zero88.schedulerx.trigger">EventTriggerBuilder</a>&lt;T&gt;</li>
+<li class="circle">io.github.zero88.schedulerx.mutiny.trigger.<a href="io/github/zero88/schedulerx/mutiny/trigger/EventTriggerExecutor.html" class="type-name-link" title="class in io.github.zero88.schedulerx.mutiny.trigger">EventTriggerExecutor</a>&lt;INPUT,<wbr>OUTPUT,<wbr>T&gt;</li>
+<li class="circle">io.github.zero88.schedulerx.rxjava3.trigger.<a href="io/github/zero88/schedulerx/rxjava3/trigger/EventTriggerExecutor.html" class="type-name-link" title="class in io.github.zero88.schedulerx.rxjava3.trigger">EventTriggerExecutor</a>&lt;INPUT,<wbr>OUTPUT,<wbr>T&gt;</li>
+<li class="circle">io.github.zero88.schedulerx.mutiny.trigger.<a href="io/github/zero88/schedulerx/mutiny/trigger/EventTriggerExecutorBuilder.html" class="type-name-link" title="class in io.github.zero88.schedulerx.mutiny.trigger">EventTriggerExecutorBuilder</a>&lt;INPUT,<wbr>OUTPUT,<wbr>T&gt;</li>
+<li class="circle">io.github.zero88.schedulerx.rxjava3.trigger.<a href="io/github/zero88/schedulerx/rxjava3/trigger/EventTriggerExecutorBuilder.html" class="type-name-link" title="class in io.github.zero88.schedulerx.rxjava3.trigger">EventTriggerExecutorBuilder</a>&lt;INPUT,<wbr>OUTPUT,<wbr>T&gt;</li>
 <li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/IntervalTrigger.html" class="type-name-link" title="class in io.github.zero88.schedulerx.trigger">IntervalTrigger</a> (implements io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a>)</li>
 <li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/IntervalTriggerBuilder.html" class="type-name-link" title="class in io.github.zero88.schedulerx.trigger">IntervalTriggerBuilder</a></li>
 <li class="circle">io.github.zero88.schedulerx.mutiny.trigger.<a href="io/github/zero88/schedulerx/mutiny/trigger/IntervalTriggerExecutor.html" class="type-name-link" title="class in io.github.zero88.schedulerx.mutiny.trigger">IntervalTriggerExecutor</a>&lt;INPUT,<wbr>OUTPUT&gt;</li>
@@ -88,7 +94,22 @@ loadScripts(document, 'script');</script>
 <section class="hierarchy">
 <h2 title="Interface Hierarchy">Interface Hierarchy</h2>
 <ul>
+<li class="circle">io.github.zero88.schedulerx.trigger.HasTriggerType
+<ul>
+<li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/Trigger.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a></li>
+<li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/TriggerContext.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a>
+<ul>
+<li class="circle">io.github.zero88.schedulerx.impl.<a href="io/github/zero88/schedulerx/impl/InternalTriggerContext.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.impl">InternalTriggerContext</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="circle">io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/JobData.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;T&gt;</li>
+<li class="circle">java.util.function.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Predicate.html" class="type-name-link external-link" title="class or interface in java.util.function">Predicate</a>&lt;T&gt;
+<ul>
+<li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/EventTriggerPredicate.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">EventTriggerPredicate</a>&lt;T&gt;</li>
+</ul>
+</li>
 <li class="circle">io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/Task.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">Task</a>&lt;INPUT,<wbr>OUTPUT&gt;</li>
 <li class="circle">io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/TaskExecutionContext.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">TaskExecutionContext</a>&lt;OUTPUT&gt;</li>
 <li class="circle">io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/TaskExecutorMonitor.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">TaskExecutorMonitor</a>&lt;OUTPUT&gt;
@@ -113,6 +134,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/TriggerTaskExecutor.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">TriggerTaskExecutor</a>&lt;INPUT,<wbr>OUTPUT,<wbr>TRIGGER&gt;
 <ul>
 <li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/CronTriggerExecutor.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">CronTriggerExecutor</a>&lt;INPUT,<wbr>OUTPUT&gt;</li>
+<li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/EventTriggerExecutor.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">EventTriggerExecutor</a>&lt;INPUT,<wbr>OUTPUT,<wbr>T&gt;</li>
 <li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/IntervalTriggerExecutor.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">IntervalTriggerExecutor</a>&lt;INPUT,<wbr>OUTPUT&gt;</li>
 </ul>
 </li>
@@ -121,6 +143,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/TriggerTaskExecutorBuilder.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">TriggerTaskExecutorBuilder</a>&lt;INPUT,<wbr>OUTPUT,<wbr>TRIGGER,<wbr>EXECUTOR,<wbr>SELF&gt;
 <ul>
 <li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/CronTriggerExecutorBuilder.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">CronTriggerExecutorBuilder</a>&lt;INPUT,<wbr>OUTPUT&gt;</li>
+<li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/EventTriggerExecutorBuilder.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">EventTriggerExecutorBuilder</a>&lt;INPUT,<wbr>OUTPUT,<wbr>T&gt;</li>
 <li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/IntervalTriggerExecutorBuilder.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">IntervalTriggerExecutorBuilder</a>&lt;IN,<wbr>OUT&gt;</li>
 </ul>
 </li>
@@ -128,7 +151,6 @@ loadScripts(document, 'script');</script>
 </li>
 <li class="circle">io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/TaskExecutorState.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">TaskExecutorState</a>&lt;OUTPUT&gt;</li>
 <li class="circle">io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/TaskResult.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">TaskResult</a>&lt;OUTPUT&gt;</li>
-<li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/Trigger.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a></li>
 </ul>
 </section>
 </main>

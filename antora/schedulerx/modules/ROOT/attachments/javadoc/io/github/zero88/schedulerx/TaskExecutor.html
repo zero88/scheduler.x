@@ -82,7 +82,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <dl class="notes">
 <dt>All Known Subinterfaces:</dt>
-<dd><code><a href="trigger/CronTriggerExecutor.html" title="interface in io.github.zero88.schedulerx.trigger">CronTriggerExecutor</a>&lt;INPUT,<wbr>OUTPUT&gt;</code>, <code><a href="trigger/IntervalTriggerExecutor.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTriggerExecutor</a>&lt;INPUT,<wbr>OUTPUT&gt;</code>, <code><a href="TriggerTaskExecutor.html" title="interface in io.github.zero88.schedulerx">TriggerTaskExecutor</a>&lt;INPUT,<wbr>OUTPUT,<wbr>TRIGGER&gt;</code></dd>
+<dd><code><a href="trigger/CronTriggerExecutor.html" title="interface in io.github.zero88.schedulerx.trigger">CronTriggerExecutor</a>&lt;INPUT,<wbr>OUTPUT&gt;</code>, <code><a href="trigger/EventTriggerExecutor.html" title="interface in io.github.zero88.schedulerx.trigger">EventTriggerExecutor</a>&lt;INPUT,<wbr>OUTPUT,<wbr>T&gt;</code>, <code><a href="trigger/IntervalTriggerExecutor.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTriggerExecutor</a>&lt;INPUT,<wbr>OUTPUT&gt;</code>, <code><a href="TriggerTaskExecutor.html" title="interface in io.github.zero88.schedulerx">TriggerTaskExecutor</a>&lt;INPUT,<wbr>OUTPUT,<wbr>TRIGGER&gt;</code></dd>
 </dl>
 <dl class="notes">
 <dt>All Known Implementing Classes:</dt>
@@ -115,19 +115,14 @@ extends <a href="TaskExecutorProperties.html" title="interface in io.github.zero
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Cancel executor</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#executeTask(io.github.zero88.schedulerx.TaskExecutionContext)" class="member-name-link">executeTask</a><wbr>(@NotNull <a href="TaskExecutionContext.html" title="interface in io.github.zero88.schedulerx">TaskExecutionContext</a>&lt;<a href="TaskExecutor.html" title="type parameter in TaskExecutor">OUTPUT</a>&gt;&nbsp;executionContext)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Execute task</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#start()" class="member-name-link">start</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#start()" class="member-name-link">start</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Start and run in <code>Vertx worker thread pool</code></div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#start(io.vertx.core.WorkerExecutor)" class="member-name-link">start</a><wbr>(io.vertx.core.WorkerExecutor&nbsp;workerExecutor)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#start(io.vertx.core.WorkerExecutor)" class="member-name-link">start</a><wbr>(io.vertx.core.WorkerExecutor&nbsp;workerExecutor)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Start and run in a dedicated thread pool that is provided by a customized worker executor</div>
 </div>
 </div>
@@ -168,18 +163,6 @@ extends <a href="TaskExecutorProperties.html" title="interface in io.github.zero
 <li><code>WorkerExecutor</code></li>
 </ul>
 </dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="executeTask(io.github.zero88.schedulerx.TaskExecutionContext)">
-<h3>executeTask</h3>
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">executeTask</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="TaskExecutionContext.html" title="interface in io.github.zero88.schedulerx">TaskExecutionContext</a>&lt;<a href="TaskExecutor.html" title="type parameter in TaskExecutor">OUTPUT</a>&gt;&nbsp;executionContext)</span></div>
-<div class="block">Execute task</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>executionContext</code> - execution context</dd>
 </dl>
 </section>
 </li>

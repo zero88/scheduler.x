@@ -83,7 +83,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <dl class="notes">
 <dt>All Known Subinterfaces:</dt>
-<dd><code><a href="trigger/CronTriggerExecutor.html" title="interface in io.github.zero88.schedulerx.trigger">CronTriggerExecutor</a>&lt;INPUT,<wbr>OUTPUT&gt;</code>, <code><a href="trigger/IntervalTriggerExecutor.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTriggerExecutor</a>&lt;INPUT,<wbr>OUTPUT&gt;</code></dd>
+<dd><code><a href="trigger/CronTriggerExecutor.html" title="interface in io.github.zero88.schedulerx.trigger">CronTriggerExecutor</a>&lt;INPUT,<wbr>OUTPUT&gt;</code>, <code><a href="trigger/EventTriggerExecutor.html" title="interface in io.github.zero88.schedulerx.trigger">EventTriggerExecutor</a>&lt;INPUT,<wbr>OUTPUT,<wbr>T&gt;</code>, <code><a href="trigger/IntervalTriggerExecutor.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTriggerExecutor</a>&lt;INPUT,<wbr>OUTPUT&gt;</code></dd>
 </dl>
 <dl class="notes">
 <dt>All Known Implementing Classes:</dt>
@@ -99,8 +99,9 @@ extends <a href="TaskExecutor.html" title="interface in io.github.zero88.schedul
 <dt>See Also:</dt>
 <dd>
 <ul class="see-list">
-<li><a href="trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger"><code>Trigger</code></a></li>
 <li><a href="TaskExecutor.html" title="interface in io.github.zero88.schedulerx"><code>TaskExecutor</code></a></li>
+<li><a href="trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger"><code>Trigger</code></a></li>
+<li><a href="trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger"><code>TriggerContext</code></a></li>
 </ul>
 </dd>
 </dl>
@@ -118,9 +119,14 @@ extends <a href="TaskExecutor.html" title="interface in io.github.zero88.schedul
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="TriggerTaskExecutor.html" title="type parameter in TriggerTaskExecutor">TRIGGER</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#trigger()" class="member-name-link">trigger</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#executeTask(io.github.zero88.schedulerx.TaskExecutionContext)" class="member-name-link">executeTask</a><wbr>(<a href="TaskExecutionContext.html" title="interface in io.github.zero88.schedulerx">TaskExecutionContext</a>&lt;<a href="TriggerTaskExecutor.html" title="type parameter in TriggerTaskExecutor">OUTPUT</a>&gt;&nbsp;executionContext)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Execute task</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="TriggerTaskExecutor.html" title="type parameter in TriggerTaskExecutor">TRIGGER</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#trigger()" class="member-name-link">trigger</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Trigger type</div>
 </div>
 </div>
@@ -128,7 +134,7 @@ extends <a href="TaskExecutor.html" title="interface in io.github.zero88.schedul
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-io.github.zero88.schedulerx.TaskExecutor">Methods inherited from interface&nbsp;io.github.zero88.schedulerx.<a href="TaskExecutor.html" title="interface in io.github.zero88.schedulerx">TaskExecutor</a></h3>
-<code><a href="TaskExecutor.html#cancel()">cancel</a>, <a href="TaskExecutor.html#executeTask(io.github.zero88.schedulerx.TaskExecutionContext)">executeTask</a>, <a href="TaskExecutor.html#start()">start</a>, <a href="TaskExecutor.html#start(io.vertx.core.WorkerExecutor)">start</a></code></div>
+<code><a href="TaskExecutor.html#cancel()">cancel</a>, <a href="TaskExecutor.html#start()">start</a>, <a href="TaskExecutor.html#start(io.vertx.core.WorkerExecutor)">start</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-io.github.zero88.schedulerx.TaskExecutorProperties">Methods inherited from interface&nbsp;io.github.zero88.schedulerx.<a href="TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx">TaskExecutorProperties</a></h3>
 <code><a href="TaskExecutorProperties.html#jobData()">jobData</a>, <a href="TaskExecutorProperties.html#monitor()">monitor</a>, <a href="TaskExecutorProperties.html#task()">task</a>, <a href="TaskExecutorProperties.html#vertx()">vertx</a></code></div>
@@ -152,6 +158,17 @@ extends <a href="TaskExecutor.html" title="interface in io.github.zero88.schedul
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>trigger</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="executeTask(io.github.zero88.schedulerx.TaskExecutionContext)">
+<h3>executeTask</h3>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">executeTask</span><wbr><span class="parameters">(<a href="TaskExecutionContext.html" title="interface in io.github.zero88.schedulerx">TaskExecutionContext</a>&lt;<a href="TriggerTaskExecutor.html" title="type parameter in TriggerTaskExecutor">OUTPUT</a>&gt;&nbsp;executionContext)</span></div>
+<div class="block">Execute task</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>executionContext</code> - execution context</dd>
 </dl>
 </section>
 </li>

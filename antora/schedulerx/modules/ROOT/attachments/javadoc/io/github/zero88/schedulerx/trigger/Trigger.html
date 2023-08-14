@@ -73,7 +73,7 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Known Implementing Classes:</dt>
-<dd><code><a href="CronTrigger.html" title="class in io.github.zero88.schedulerx.trigger">CronTrigger</a></code>, <code><a href="IntervalTrigger.html" title="class in io.github.zero88.schedulerx.trigger">IntervalTrigger</a></code></dd>
+<dd><code><a href="CronTrigger.html" title="class in io.github.zero88.schedulerx.trigger">CronTrigger</a></code>, <code><a href="EventTrigger.html" title="class in io.github.zero88.schedulerx.trigger">EventTrigger</a></code>, <code><a href="IntervalTrigger.html" title="class in io.github.zero88.schedulerx.trigger">IntervalTrigger</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">Trigger</span></div>
@@ -82,13 +82,6 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>1.0.0</dd>
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="CronTrigger.html" title="class in io.github.zero88.schedulerx.trigger"><code>CronTrigger</code></a></li>
-<li><a href="IntervalTrigger.html" title="class in io.github.zero88.schedulerx.trigger"><code>IntervalTrigger</code></a></li>
-</ul>
-</dd>
 </dl>
 </section>
 <section class="summary">
@@ -106,10 +99,14 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/OffsetDateTime.html" title="class or interface in java.time" class="external-link">OffsetDateTime</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#preview()" class="member-name-link">preview</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Calculate the next trigger times based on default preview parameter(<a href="PreviewParameter.html#byDefault()"><code>PreviewParameter.byDefault()</code></a>)</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/OffsetDateTime.html" title="class or interface in java.time" class="external-link">OffsetDateTime</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#preview(io.github.zero88.schedulerx.trigger.PreviewParameter)" class="member-name-link">preview</a><wbr>(@NotNull <a href="PreviewParameter.html" title="class in io.github.zero88.schedulerx.trigger">PreviewParameter</a>&nbsp;parameter)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Calculate the next trigger times based on given preview parameter</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#shouldExecute(java.time.Instant)" class="member-name-link">shouldExecute</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;triggerAt)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
@@ -120,9 +117,14 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Verify the execution should be stopped after the current execution round is out of the trigger rule.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#validate()" class="member-name-link">validate</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#type()" class="member-name-link">type</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Declares the trigger type</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#validate()" class="member-name-link">validate</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Do validate trigger in runtime</div>
 </div>
 </div>
@@ -150,6 +152,8 @@ loadScripts(document, 'script');</script>
 <dd>this for fluent API</dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if any configuration is wrong</dd>
+<dt>Since:</dt>
+<dd>2.0.0</dd>
 </dl>
 </section>
 </li>
@@ -164,6 +168,8 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>triggerAt</code> - the trigger time</dd>
+<dt>Since:</dt>
+<dd>2.0.0</dd>
 </dl>
 </section>
 </li>
@@ -178,6 +184,8 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>round</code> - the current execution round</dd>
+<dt>Since:</dt>
+<dd>2.0.0</dd>
 </dl>
 </section>
 </li>
@@ -186,6 +194,13 @@ loadScripts(document, 'script');</script>
 <h3>preview</h3>
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="modifiers">default</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/OffsetDateTime.html" title="class or interface in java.time" class="external-link">OffsetDateTime</a>&gt;</span>&nbsp;<span class="element-name">preview</span>()</div>
+<div class="block">Calculate the next trigger times based on default preview parameter(<a href="PreviewParameter.html#byDefault()"><code>PreviewParameter.byDefault()</code></a>)</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the list of the next trigger time</dd>
+<dt>Since:</dt>
+<dd>2.0.0</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -194,6 +209,33 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/OffsetDateTime.html" title="class or interface in java.time" class="external-link">OffsetDateTime</a>&gt;</span>&nbsp;<span class="element-name">preview</span><wbr><span class="parameters">(@NotNull
  @NotNull <a href="PreviewParameter.html" title="class in io.github.zero88.schedulerx.trigger">PreviewParameter</a>&nbsp;parameter)</span></div>
+<div class="block">Calculate the next trigger times based on given preview parameter</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>parameter</code> - the preview parameter</dd>
+<dt>Returns:</dt>
+<dd>the list of the next trigger time</dd>
+<dt>Since:</dt>
+<dd>2.0.0</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="PreviewParameter.html" title="class in io.github.zero88.schedulerx.trigger"><code>PreviewParameter</code></a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="type()">
+<h3>type</h3>
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">type</span>()</div>
+<div class="block">Declares the trigger type</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the trigger type in string</dd>
+</dl>
 </section>
 </li>
 </ul>
