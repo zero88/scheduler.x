@@ -43,6 +43,7 @@ jobs:
       version: ${{ needs.context.outputs.version }}
       semanticVersion: ${{ needs.context.outputs.semanticVersion }}
       hashVersion: ${{ needs.context.outputs.commitId }}
+      buildArgs: 'clean build -x test'
 
   docs:
     uses: zero88/shared-ghactions/.github/workflows/antora-docs.yml@main

@@ -25,6 +25,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonDeserialize(builder = IntervalTriggerBuilder.class)
 public final class IntervalTrigger implements Trigger {
 
+    public static IntervalTriggerBuilder builder() { return new IntervalTriggerBuilder(); }
+
     /**
      * Used to indicate the 'repeat count' of the trigger is indefinite. Or in other words, the trigger should repeat
      * continually until the trigger's ending timestamp.
@@ -92,36 +94,8 @@ public final class IntervalTrigger implements Trigger {
         return TimeUnit.MILLISECONDS.convert(initialDelay, initialDelayTimeUnit);
     }
 
-    public static IntervalTriggerBuilder builder() { return new IntervalTriggerBuilder(); }
-
     @Override
-    public boolean equals(Object o) {
-        if (this == o) { return true; }
-        if (o == null || getClass() != o.getClass()) { return false; }
-
-        IntervalTrigger that = (IntervalTrigger) o;
-
-        if (initialDelay != that.initialDelay) { return false; }
-        if (repeat != that.repeat) { return false; }
-        if (interval != that.interval) { return false; }
-        if (initialDelayTimeUnit != that.initialDelayTimeUnit) { return false; }
-        return intervalTimeUnit == that.intervalTimeUnit;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = initialDelayTimeUnit.hashCode();
-        result = 31 * result + (int) (initialDelay ^ (initialDelay >>> 32));
-        result = 31 * result + (int) (repeat ^ (repeat >>> 32));
-        result = 31 * result + intervalTimeUnit.hashCode();
-        result = 31 * result + (int) (interval ^ (interval >>> 32));
-        return result;
-    }
-
-    public String toString() {
-        return "IntervalTrigger(initialDelayTimeUnit=" + initialDelayTimeUnit + ", initialDelay=" + initialDelay +
-               ", repeat=" + repeat + ", intervalTimeUnit=" + intervalTimeUnit + ", interval=" + interval + ")";
-    }
+    public @NotNull String type() { return "interval"; }
 
     @Override
     public boolean shouldStop(long round) {
@@ -155,6 +129,35 @@ public final class IntervalTrigger implements Trigger {
             return;
         }
         throw new IllegalArgumentException("Invalid " + msg + " value");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) { return true; }
+        if (o == null || getClass() != o.getClass()) { return false; }
+
+        IntervalTrigger that = (IntervalTrigger) o;
+
+        if (initialDelay != that.initialDelay) { return false; }
+        if (repeat != that.repeat) { return false; }
+        if (interval != that.interval) { return false; }
+        if (initialDelayTimeUnit != that.initialDelayTimeUnit) { return false; }
+        return intervalTimeUnit == that.intervalTimeUnit;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = initialDelayTimeUnit.hashCode();
+        result = 31 * result + (int) (initialDelay ^ (initialDelay >>> 32));
+        result = 31 * result + (int) (repeat ^ (repeat >>> 32));
+        result = 31 * result + intervalTimeUnit.hashCode();
+        result = 31 * result + (int) (interval ^ (interval >>> 32));
+        return result;
+    }
+
+    public String toString() {
+        return "IntervalTrigger(initialDelayTimeUnit=" + initialDelayTimeUnit + ", initialDelay=" + initialDelay +
+               ", repeat=" + repeat + ", intervalTimeUnit=" + intervalTimeUnit + ", interval=" + interval + ")";
     }
 
 }

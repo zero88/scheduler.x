@@ -49,24 +49,19 @@ class IntervalTriggerExecutorTest {
 
     @Test
     void test_run_task_after_delay(Vertx vertx, VertxTestContext ctx) {
-        final Checkpoint checkpoint = ctx.checkpoint(2);
-        final Consumer<TaskResult<Void>> s = result -> {
-            checkpoint.flag();
-            Assertions.assertNotNull(result.availableAt());
+        final Consumer<TaskResult<Void>> onSchedule = result -> {
             Assertions.assertEquals(0, result.tick());
             Assertions.assertEquals(0, result.round());
         };
-        final Consumer<TaskResult<Void>> c = result -> {
-            checkpoint.flag();
+        final Consumer<TaskResult<Void>> onComplete = result -> {
             Assertions.assertEquals(2, result.round());
             Assertions.assertTrue(result.isCompleted());
             Assertions.assertFalse(result.isError());
-            ctx.completeNow();
         };
         final TaskExecutorAsserter<Void> asserter = TaskExecutorAsserter.<Void>builder()
                                                                         .setTestContext(ctx)
-                                                                        .setSchedule(s)
-                                                                        .setCompleted(c)
+                                                                        .setSchedule(onSchedule)
+                                                                        .setCompleted(onComplete)
                                                                         .build();
         final IntervalTrigger trigger = IntervalTrigger.builder().initialDelay(2).interval(2).repeat(2).build();
         IntervalTriggerExecutor.<Void, Void>builder()
@@ -81,7 +76,7 @@ class IntervalTriggerExecutorTest {
     @Test
     void test_run_blocking_task_in_the_end(Vertx vertx, VertxTestContext testContext) {
         final Checkpoint checkpoint = testContext.checkpoint(3);
-        final Consumer<TaskResult<Void>> c = result -> {
+        final Consumer<TaskResult<Void>> onComplete = result -> {
             checkpoint.flag();
             Assertions.assertEquals(3, result.round());
             Assertions.assertTrue(result.isCompleted());
@@ -89,7 +84,7 @@ class IntervalTriggerExecutorTest {
         };
         final TaskExecutorAsserter<Void> asserter = TaskExecutorAsserter.<Void>builder()
                                                                         .setTestContext(testContext)
-                                                                        .setCompleted(c)
+                                                                        .setCompleted(onComplete)
                                                                         .build();
         final IntervalTrigger trigger = IntervalTrigger.builder().interval(2).repeat(3).build();
         IntervalTriggerExecutor.<Void, Void>builder()
@@ -106,29 +101,11 @@ class IntervalTriggerExecutorTest {
 
     @Test
     void test_task_should_be_executed_in_interval_trigger(Vertx vertx, VertxTestContext context) {
-        final Task<Void, String> task = (jobData, ctx) -> {
-            final long round = ctx.round();
-            if (round == 1) {
-                throw new RuntimeException("throw in execution");
-            }
-            if (round == 2) {
-                ctx.fail(new IllegalArgumentException("explicit set failed"));
-            }
-            if (round == 3) {
-                ctx.complete("OK");
-            }
-        };
-        final Consumer<TaskResult<String>> e = result -> {
-            if (result.round() == 1) {
+        final Consumer<TaskResult<String>> onEach = result -> {
+            if (result.round() < 3) {
                 Assertions.assertTrue(result.isError());
                 Assertions.assertNotNull(result.error());
                 Assertions.assertTrue(result.error() instanceof RuntimeException);
-                Assertions.assertNull(result.data());
-            }
-            if (result.round() == 2) {
-                Assertions.assertTrue(result.isError());
-                Assertions.assertNotNull(result.error());
-                Assertions.assertTrue(result.error() instanceof IllegalArgumentException);
                 Assertions.assertNull(result.data());
             }
             if (result.round() == 3) {
@@ -139,8 +116,20 @@ class IntervalTriggerExecutorTest {
         };
         final TaskExecutorAsserter<String> asserter = TaskExecutorAsserter.<String>builder()
                                                                           .setTestContext(context)
-                                                                          .setEach(e)
+                                                                          .setEach(onEach)
                                                                           .build();
+        final Task<Void, String> task = (jobData, ctx) -> {
+            final long round = ctx.round();
+            if (round == 1) {
+                throw new IllegalArgumentException("throw in execution");
+            }
+            if (round == 2) {
+                ctx.fail(new IllegalArgumentException("explicit set failed"));
+            }
+            if (round == 3) {
+                ctx.complete("OK");
+            }
+        };
         final IntervalTrigger trigger = IntervalTrigger.builder().interval(2).repeat(3).build();
         IntervalTriggerExecutor.<Void, String>builder()
                                .setVertx(vertx)

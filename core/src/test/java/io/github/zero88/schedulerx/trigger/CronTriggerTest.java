@@ -60,6 +60,7 @@ class CronTriggerTest {
         final CronTrigger trigger = objectMapper.readValue(data, CronTrigger.class);
         Assertions.assertEquals("0 0/3 0 ? * * *", trigger.getExpression());
         Assertions.assertEquals(TimeZone.getTimeZone("PST"), trigger.getTimeZone());
+        Assertions.assertEquals("cron", trigger.type());
     }
 
     @Test
@@ -69,6 +70,7 @@ class CronTriggerTest {
         final CronTrigger trigger = objectMapper.readValue(data, CronTrigger.class);
         Assertions.assertEquals("0 0/3 0 ? * * *", trigger.getExpression());
         Assertions.assertEquals(TimeZone.getTimeZone("GMT"), trigger.getTimeZone());
+        Assertions.assertEquals("cron", trigger.type());
     }
 
     @Test

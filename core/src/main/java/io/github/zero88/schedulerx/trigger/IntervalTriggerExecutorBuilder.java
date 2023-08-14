@@ -18,8 +18,10 @@ import io.vertx.core.Vertx;
  */
 @VertxGen
 public interface IntervalTriggerExecutorBuilder<IN, OUT>
-    extends TriggerTaskExecutorBuilder<IN, OUT, IntervalTrigger, IntervalTriggerExecutor<IN, OUT>,
-                                          IntervalTriggerExecutorBuilder<IN, OUT>> {
+    // @formatter:off
+    extends TriggerTaskExecutorBuilder<IN, OUT, IntervalTrigger,
+                                          IntervalTriggerExecutor<IN, OUT>, IntervalTriggerExecutorBuilder<IN, OUT>> {
+    // @formatter:on
 
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
     @NotNull IntervalTrigger trigger();
