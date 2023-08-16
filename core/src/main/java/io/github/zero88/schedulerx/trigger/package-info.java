@@ -1,5 +1,5 @@
 /**
- * Provides the classes and interfaces to define the trigger and its executor.
+ * Provides the classes and interfaces to define the trigger and its scheduler.
  *
  * @since 2.0.0
  */

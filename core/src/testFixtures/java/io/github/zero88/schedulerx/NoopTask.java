@@ -1,29 +1,21 @@
 package io.github.zero88.schedulerx;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * Represents for dummy task that do nothing
  *
- * @param <IN>  Type of input
- * @param <OUT> Type of output
+ * @param <IN>  Type of task input data
+ * @param <OUT> Type of task result data
  */
 public interface NoopTask<IN, OUT> extends Task<IN, OUT> {
 
-    static <IN, OUT> NoopTask<IN, OUT> create() { return new NoopTask<IN, OUT>() { }; }
+    static <IN, OUT> Task<IN, OUT> create() { return (jobData, executionContext) -> { }; }
 
-    static <IN, OUT> NoopTask<IN, OUT> create(int stopAtRound) {
-        return new NoopTask<IN, OUT>() {
-            @Override
-            public void execute(@NotNull JobData<IN> jobData, @NotNull TaskExecutionContext<OUT> executionContext) {
-                if (executionContext.round() == stopAtRound) {
-                    executionContext.forceStopExecution();
-                }
+    static <IN, OUT> Task<IN, OUT> create(int stopAtRound) {
+        return (jobData, executionContext) -> {
+            if (executionContext.round() == stopAtRound) {
+                executionContext.forceStopExecution();
             }
         };
     }
-
-    @Override
-    default void execute(@NotNull JobData<IN> jobData, @NotNull TaskExecutionContext<OUT> executionContext) { }
 
 }

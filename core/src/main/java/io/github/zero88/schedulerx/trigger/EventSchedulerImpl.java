@@ -7,9 +7,9 @@ import org.jetbrains.annotations.NotNull;
 
 import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.Task;
-import io.github.zero88.schedulerx.TaskExecutorMonitor;
-import io.github.zero88.schedulerx.impl.AbstractTaskExecutor;
-import io.github.zero88.schedulerx.impl.AbstractTaskExecutorBuilder;
+import io.github.zero88.schedulerx.SchedulingMonitor;
+import io.github.zero88.schedulerx.impl.AbstractScheduler;
+import io.github.zero88.schedulerx.impl.AbstractSchedulerBuilder;
 import io.github.zero88.schedulerx.impl.InternalTriggerContext;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
@@ -18,14 +18,13 @@ import io.vertx.core.WorkerExecutor;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.eventbus.MessageConsumer;
 
-final class EventTriggerExecutorImpl<IN, OUT, T> extends AbstractTaskExecutor<IN, OUT, EventTrigger<T>>
-    implements EventTriggerExecutor<IN, OUT, T> {
+final class EventSchedulerImpl<IN, OUT, T> extends AbstractScheduler<IN, OUT, EventTrigger<T>>
+    implements EventScheduler<IN, OUT, T> {
 
     private MessageConsumer<Object> consumer;
 
-    EventTriggerExecutorImpl(@NotNull Vertx vertx, @NotNull TaskExecutorMonitor<OUT> monitor,
-                             @NotNull JobData<IN> jobData, @NotNull Task<IN, OUT> task,
-                             @NotNull EventTrigger<T> trigger) {
+    EventSchedulerImpl(@NotNull Vertx vertx, @NotNull SchedulingMonitor<OUT> monitor, @NotNull JobData<IN> jobData,
+                       @NotNull Task<IN, OUT> task, @NotNull EventTrigger<T> trigger) {
         super(vertx, monitor, jobData, task, trigger);
     }
 
@@ -63,25 +62,24 @@ final class EventTriggerExecutorImpl<IN, OUT, T> extends AbstractTaskExecutor<IN
             final EventTriggerPredicate<T> predicate = trigger().getPredicate();
             final Message<Object> msg = (Message<Object>) internalContext.info();
             final T info = predicate.convert(msg.headers(), msg.body());
-            final TriggerContext ctx = TriggerContext.create(internalContext.type(), info);
-            if (!predicate.test(info)) {
-                trace(triggerAt, "Skip the execution due to the trigger context is not matched");
-                onMisfire(triggerAt);
-                return InternalTriggerContext.create(false, ctx);
+            final boolean shouldRun = predicate.test(info);
+            if (!shouldRun) {
+                onMisfire(triggerAt, "The event trigger info is not matched");
             }
-            return InternalTriggerContext.create(true, ctx);
+            final TriggerContext ctx = TriggerContext.create(internalContext.type(), info);
+            return InternalTriggerContext.create(shouldRun, ctx);
         }
         return internalContext;
     }
 
     // @formatter:off
-    static final class EventTriggerExecutorBuilderImpl<IN, OUT, T>
-        extends AbstractTaskExecutorBuilder<IN, OUT, EventTrigger<T>, EventTriggerExecutor<IN, OUT, T>, EventTriggerExecutorBuilder<IN, OUT, T>>
-        implements EventTriggerExecutorBuilder<IN, OUT, T> {
+    static final class EventSchedulerBuilderImpl<IN, OUT, T>
+        extends AbstractSchedulerBuilder<IN, OUT, EventTrigger<T>, EventScheduler<IN, OUT, T>, EventSchedulerBuilder<IN, OUT, T>>
+        implements EventSchedulerBuilder<IN, OUT, T> {
     // @formatter:on
 
-        public @NotNull EventTriggerExecutor<IN, OUT, T> build() {
-            return new EventTriggerExecutorImpl<>(vertx(), monitor(), jobData(), task(), trigger());
+        public @NotNull EventScheduler<IN, OUT, T> build() {
+            return new EventSchedulerImpl<>(vertx(), monitor(), jobData(), task(), trigger());
         }
 
     }

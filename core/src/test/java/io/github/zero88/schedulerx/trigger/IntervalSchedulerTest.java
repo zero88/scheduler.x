@@ -13,9 +13,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import io.github.zero88.schedulerx.NoopTask;
 import io.github.zero88.schedulerx.Task;
-import io.github.zero88.schedulerx.TaskExecutorAsserter;
-import io.github.zero88.schedulerx.TaskExecutorMonitor;
-import io.github.zero88.schedulerx.TaskResult;
+import io.github.zero88.schedulerx.SchedulingAsserter;
+import io.github.zero88.schedulerx.SchedulingMonitor;
+import io.github.zero88.schedulerx.ExecutionResult;
 import io.github.zero88.schedulerx.TestUtils;
 import io.vertx.core.Vertx;
 import io.vertx.junit5.Checkpoint;
@@ -23,7 +23,7 @@ import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
 
 @ExtendWith(VertxExtension.class)
-class IntervalTriggerExecutorTest {
+class IntervalSchedulerTest {
 
     private static Stream<Object> provide_invalid_interval() {
         return Stream.of(arguments(IntervalTrigger.builder().interval(-1).build(), "Invalid interval value"),
@@ -37,71 +37,71 @@ class IntervalTriggerExecutorTest {
     @SuppressWarnings("java:S2699")
     void test_run_task_unable_schedule_due_to_interval(IntervalTrigger trigger, String errorMsg, Vertx vertx,
                                                        VertxTestContext testContext) {
-        TaskExecutorMonitor<Object> asserter = TaskExecutorAsserter.unableScheduleAsserter(testContext, errorMsg);
-        IntervalTriggerExecutor.builder()
-                               .setVertx(vertx)
-                               .setMonitor(asserter)
-                               .setTrigger(trigger)
-                               .setTask(NoopTask.create())
-                               .build()
-                               .start();
+        SchedulingMonitor<Object> asserter = SchedulingAsserter.unableScheduleAsserter(testContext, errorMsg);
+        IntervalScheduler.builder()
+                         .setVertx(vertx)
+                         .setMonitor(asserter)
+                         .setTrigger(trigger)
+                         .setTask(NoopTask.create())
+                         .build()
+                         .start();
     }
 
     @Test
     void test_run_task_after_delay(Vertx vertx, VertxTestContext ctx) {
-        final Consumer<TaskResult<Void>> onSchedule = result -> {
+        final Consumer<ExecutionResult<Void>> onSchedule = result -> {
             Assertions.assertEquals(0, result.tick());
             Assertions.assertEquals(0, result.round());
         };
-        final Consumer<TaskResult<Void>> onComplete = result -> {
+        final Consumer<ExecutionResult<Void>> onComplete = result -> {
             Assertions.assertEquals(2, result.round());
             Assertions.assertTrue(result.isCompleted());
             Assertions.assertFalse(result.isError());
         };
-        final TaskExecutorAsserter<Void> asserter = TaskExecutorAsserter.<Void>builder()
-                                                                        .setTestContext(ctx)
-                                                                        .setSchedule(onSchedule)
-                                                                        .setCompleted(onComplete)
-                                                                        .build();
+        final SchedulingAsserter<Void> asserter = SchedulingAsserter.<Void>builder()
+                                                                    .setTestContext(ctx)
+                                                                    .setSchedule(onSchedule)
+                                                                    .setCompleted(onComplete)
+                                                                    .build();
         final IntervalTrigger trigger = IntervalTrigger.builder().initialDelay(2).interval(2).repeat(2).build();
-        IntervalTriggerExecutor.<Void, Void>builder()
-                               .setVertx(vertx)
-                               .setMonitor(asserter)
-                               .setTrigger(trigger)
-                               .setTask(NoopTask.create())
-                               .build()
-                               .start();
+        IntervalScheduler.<Void, Void>builder()
+                         .setVertx(vertx)
+                         .setMonitor(asserter)
+                         .setTrigger(trigger)
+                         .setTask(NoopTask.create())
+                         .build()
+                         .start();
     }
 
     @Test
     void test_run_blocking_task_in_the_end(Vertx vertx, VertxTestContext testContext) {
         final Checkpoint checkpoint = testContext.checkpoint(3);
-        final Consumer<TaskResult<Void>> onComplete = result -> {
+        final Consumer<ExecutionResult<Void>> onComplete = result -> {
             checkpoint.flag();
             Assertions.assertEquals(3, result.round());
             Assertions.assertTrue(result.isCompleted());
             Assertions.assertFalse(result.isError());
         };
-        final TaskExecutorAsserter<Void> asserter = TaskExecutorAsserter.<Void>builder()
-                                                                        .setTestContext(testContext)
-                                                                        .setCompleted(onComplete)
-                                                                        .build();
+        final SchedulingAsserter<Void> asserter = SchedulingAsserter.<Void>builder()
+                                                                    .setTestContext(testContext)
+                                                                    .setCompleted(onComplete)
+                                                                    .build();
         final IntervalTrigger trigger = IntervalTrigger.builder().interval(2).repeat(3).build();
-        IntervalTriggerExecutor.<Void, Void>builder()
-                               .setVertx(vertx)
-                               .setMonitor(asserter)
-                               .setTrigger(trigger)
-                               .setTask((jobData, ctx) -> {
+        IntervalScheduler.<Void, Void>builder()
+                         .setVertx(vertx)
+                         .setMonitor(asserter)
+                         .setTrigger(trigger)
+                         .setTask((jobData, ctx) -> {
                                    TestUtils.sleep(3000, testContext);
                                    checkpoint.flag();
                                })
-                               .build()
-                               .start();
+                         .build()
+                         .start();
     }
 
     @Test
     void test_task_should_be_executed_in_interval_trigger(Vertx vertx, VertxTestContext context) {
-        final Consumer<TaskResult<String>> onEach = result -> {
+        final Consumer<ExecutionResult<String>> onEach = result -> {
             if (result.round() < 3) {
                 Assertions.assertTrue(result.isError());
                 Assertions.assertNotNull(result.error());
@@ -114,10 +114,10 @@ class IntervalTriggerExecutorTest {
                 Assertions.assertEquals("OK", result.data());
             }
         };
-        final TaskExecutorAsserter<String> asserter = TaskExecutorAsserter.<String>builder()
-                                                                          .setTestContext(context)
-                                                                          .setEach(onEach)
-                                                                          .build();
+        final SchedulingAsserter<String> asserter = SchedulingAsserter.<String>builder()
+                                                                      .setTestContext(context)
+                                                                      .setEach(onEach)
+                                                                      .build();
         final Task<Void, String> task = (jobData, ctx) -> {
             final long round = ctx.round();
             if (round == 1) {
@@ -131,13 +131,13 @@ class IntervalTriggerExecutorTest {
             }
         };
         final IntervalTrigger trigger = IntervalTrigger.builder().interval(2).repeat(3).build();
-        IntervalTriggerExecutor.<Void, String>builder()
-                               .setVertx(vertx)
-                               .setMonitor(asserter)
-                               .setTrigger(trigger)
-                               .setTask(task)
-                               .build()
-                               .start();
+        IntervalScheduler.<Void, String>builder()
+                         .setVertx(vertx)
+                         .setMonitor(asserter)
+                         .setTrigger(trigger)
+                         .setTask(task)
+                         .build()
+                         .start();
     }
 
 }

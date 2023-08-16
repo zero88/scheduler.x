@@ -11,31 +11,32 @@ import org.junit.jupiter.api.Assertions;
 import io.vertx.junit5.VertxTestContext;
 
 /**
- * Represents for the executor monitor that able to do test assert.
+ * Represents for the scheduling monitor that able to do test assert.
  *
- * @param <OUTPUT> Type of Result data
- * @see TaskExecutorMonitor
- * @since 1.0.0
+ * @param <OUT> Type of Result data
+ * @apiNote This interface is renamed from {@code TaskExecutorAsserter} since {@code 2.0.0}
+ * @see SchedulingMonitor
+ * @since 2.0.0
  */
 @SuppressWarnings("java:S5960")
-public final class TaskExecutorAsserter<OUTPUT> implements TaskExecutorMonitor<OUTPUT> {
+public final class SchedulingAsserter<OUT> implements SchedulingMonitor<OUT> {
 
     @NotNull
     private final VertxTestContext testContext;
     @NotNull
-    private final TaskExecutorMonitor<OUTPUT> logMonitor;
-    private final Consumer<TaskResult<OUTPUT>> unableSchedule;
-    private final Consumer<TaskResult<OUTPUT>> schedule;
-    private final Consumer<TaskResult<OUTPUT>> misfire;
-    private final Consumer<TaskResult<OUTPUT>> each;
-    private final Consumer<TaskResult<OUTPUT>> completed;
+    private final SchedulingMonitor<OUT> logMonitor;
+    private final Consumer<ExecutionResult<OUT>> unableSchedule;
+    private final Consumer<ExecutionResult<OUT>> schedule;
+    private final Consumer<ExecutionResult<OUT>> misfire;
+    private final Consumer<ExecutionResult<OUT>> each;
+    private final Consumer<ExecutionResult<OUT>> completed;
 
-    TaskExecutorAsserter(@NotNull VertxTestContext testContext, @Nullable TaskExecutorMonitor<OUTPUT> logMonitor,
-                         Consumer<TaskResult<OUTPUT>> unableSchedule, Consumer<TaskResult<OUTPUT>> schedule,
-                         Consumer<TaskResult<OUTPUT>> misfire, Consumer<TaskResult<OUTPUT>> each,
-                         Consumer<TaskResult<OUTPUT>> completed) {
+    SchedulingAsserter(@NotNull VertxTestContext testContext, @Nullable SchedulingMonitor<OUT> logMonitor,
+                       Consumer<ExecutionResult<OUT>> unableSchedule, Consumer<ExecutionResult<OUT>> schedule,
+                       Consumer<ExecutionResult<OUT>> misfire, Consumer<ExecutionResult<OUT>> each,
+                       Consumer<ExecutionResult<OUT>> completed) {
         this.testContext    = Objects.requireNonNull(testContext, "Vertx Test context is required");
-        this.logMonitor     = Optional.ofNullable(logMonitor).orElse(TaskExecutorLogMonitor.create());
+        this.logMonitor     = Optional.ofNullable(logMonitor).orElse(SchedulingLogMonitor.create());
         this.unableSchedule = unableSchedule;
         this.schedule       = schedule;
         this.misfire        = misfire;
@@ -44,7 +45,7 @@ public final class TaskExecutorAsserter<OUTPUT> implements TaskExecutorMonitor<O
     }
 
     @Override
-    public void onUnableSchedule(@NotNull TaskResult<OUTPUT> result) {
+    public void onUnableSchedule(@NotNull ExecutionResult<OUT> result) {
         logMonitor.onUnableSchedule(result);
         verify(result, r -> {
             Assertions.assertNotNull(result.externalId());
@@ -60,7 +61,7 @@ public final class TaskExecutorAsserter<OUTPUT> implements TaskExecutorMonitor<O
     }
 
     @Override
-    public void onSchedule(@NotNull TaskResult<OUTPUT> result) {
+    public void onSchedule(@NotNull ExecutionResult<OUT> result) {
         logMonitor.onSchedule(result);
         verify(result, r -> {
             Assertions.assertNotNull(result.externalId());
@@ -75,7 +76,7 @@ public final class TaskExecutorAsserter<OUTPUT> implements TaskExecutorMonitor<O
     }
 
     @Override
-    public void onMisfire(@NotNull TaskResult<OUTPUT> result) {
+    public void onMisfire(@NotNull ExecutionResult<OUT> result) {
         logMonitor.onMisfire(result);
         verify(result, r -> {
             Assertions.assertNotNull(result.externalId());
@@ -90,7 +91,7 @@ public final class TaskExecutorAsserter<OUTPUT> implements TaskExecutorMonitor<O
     }
 
     @Override
-    public void onEach(@NotNull TaskResult<OUTPUT> result) {
+    public void onEach(@NotNull ExecutionResult<OUT> result) {
         logMonitor.onEach(result);
         verify(result, r -> {
             Assertions.assertNotNull(result.externalId());
@@ -104,7 +105,7 @@ public final class TaskExecutorAsserter<OUTPUT> implements TaskExecutorMonitor<O
     }
 
     @Override
-    public void onCompleted(@NotNull TaskResult<OUTPUT> result) {
+    public void onCompleted(@NotNull ExecutionResult<OUT> result) {
         logMonitor.onCompleted(result);
         verify(result, r -> {
             Assertions.assertNotNull(result.externalId());
@@ -120,7 +121,7 @@ public final class TaskExecutorAsserter<OUTPUT> implements TaskExecutorMonitor<O
         });
     }
 
-    private void verify(@NotNull TaskResult<OUTPUT> result, Consumer<TaskResult<OUTPUT>> verification) {
+    private void verify(@NotNull ExecutionResult<OUT> result, Consumer<ExecutionResult<OUT>> verification) {
         try {
             if (Objects.nonNull(verification)) {
                 testContext.verify(() -> verification.accept(result));
@@ -130,14 +131,14 @@ public final class TaskExecutorAsserter<OUTPUT> implements TaskExecutorMonitor<O
         }
     }
 
-    public static <OUT> TaskExecutorAsserterBuilder<OUT> builder() { return new TaskExecutorAsserterBuilder<>(); }
+    public static <OUT> SchedulingAsserterBuilder<OUT> builder() { return new SchedulingAsserterBuilder<>(); }
 
-    public static <OUT> TaskExecutorMonitor<OUT> unableScheduleAsserter(@NotNull VertxTestContext testContext) {
+    public static <OUT> SchedulingMonitor<OUT> unableScheduleAsserter(@NotNull VertxTestContext testContext) {
         return unableScheduleAsserter(testContext, IllegalArgumentException.class, null);
     }
 
-    public static <OUT> TaskExecutorMonitor<OUT> unableScheduleAsserter(@NotNull VertxTestContext testContext,
-                                                                        @NotNull String errorMsg) {
+    public static <OUT> SchedulingMonitor<OUT> unableScheduleAsserter(@NotNull VertxTestContext testContext,
+                                                                      @NotNull String errorMsg) {
         return unableScheduleAsserter(testContext, IllegalArgumentException.class, errorMsg);
     }
 
@@ -149,10 +150,10 @@ public final class TaskExecutorAsserter<OUTPUT> implements TaskExecutorMonitor<O
      * @return an asserter
      * @since 2.0.0
      */
-    public static <OUT> TaskExecutorMonitor<OUT> unableScheduleAsserter(@NotNull VertxTestContext testContext,
-                                                                        @NotNull Class<? extends Exception> errorClazz,
-                                                                        @Nullable String errorMsg) {
-        return TaskExecutorAsserter.<OUT>builder().setTestContext(testContext).setUnableSchedule(result -> {
+    public static <OUT> SchedulingMonitor<OUT> unableScheduleAsserter(@NotNull VertxTestContext testContext,
+                                                                      @NotNull Class<? extends Exception> errorClazz,
+                                                                      @Nullable String errorMsg) {
+        return SchedulingAsserter.<OUT>builder().setTestContext(testContext).setUnableSchedule(result -> {
             testContext.verify(() -> {
                 Assertions.assertNull(result.availableAt());
                 Assertions.assertNotNull(result.externalId());

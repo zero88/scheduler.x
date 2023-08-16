@@ -6,15 +6,15 @@ import org.jetbrains.annotations.NotNull;
 
 import io.vertx.junit5.VertxTestContext;
 
-public final class TaskExecutorAsserterBuilder<OUTPUT> {
+public final class SchedulingAsserterBuilder<OUTPUT> {
 
     private VertxTestContext testContext;
-    private TaskExecutorMonitor<OUTPUT> logMonitor;
-    private Consumer<TaskResult<OUTPUT>> unableSchedule;
-    private Consumer<TaskResult<OUTPUT>> schedule;
-    private Consumer<TaskResult<OUTPUT>> misfire;
-    private Consumer<TaskResult<OUTPUT>> each;
-    private Consumer<TaskResult<OUTPUT>> completed;
+    private SchedulingMonitor<OUTPUT> logMonitor;
+    private Consumer<ExecutionResult<OUTPUT>> unableSchedule;
+    private Consumer<ExecutionResult<OUTPUT>> schedule;
+    private Consumer<ExecutionResult<OUTPUT>> misfire;
+    private Consumer<ExecutionResult<OUTPUT>> each;
+    private Consumer<ExecutionResult<OUTPUT>> completed;
 
     /**
      * Set Vertx test context
@@ -23,7 +23,7 @@ public final class TaskExecutorAsserterBuilder<OUTPUT> {
      * @return this for fluent API
      * @see VertxTestContext
      */
-    public TaskExecutorAsserterBuilder<OUTPUT> setTestContext(@NotNull VertxTestContext testContext) {
+    public SchedulingAsserterBuilder<OUTPUT> setTestContext(@NotNull VertxTestContext testContext) {
         this.testContext = testContext;
         return this;
     }
@@ -33,10 +33,10 @@ public final class TaskExecutorAsserterBuilder<OUTPUT> {
      *
      * @param logMonitor a log monitor
      * @return this for fluent API
-     * @see TaskExecutorMonitor
+     * @see SchedulingMonitor
      * @since 2.0.0
      */
-    public TaskExecutorAsserterBuilder<OUTPUT> setLogMonitor(TaskExecutorMonitor<OUTPUT> logMonitor) {
+    public SchedulingAsserterBuilder<OUTPUT> setLogMonitor(SchedulingMonitor<OUTPUT> logMonitor) {
         this.logMonitor = logMonitor;
         return this;
     }
@@ -46,10 +46,10 @@ public final class TaskExecutorAsserterBuilder<OUTPUT> {
      *
      * @param unableSchedule a verification when unable to schedule task
      * @return this for fluent API
-     * @see TaskResult
-     * @see TaskExecutorMonitor#onUnableSchedule(TaskResult))
+     * @see ExecutionResult
+     * @see SchedulingMonitor#onUnableSchedule(ExecutionResult))
      */
-    public TaskExecutorAsserterBuilder<OUTPUT> setUnableSchedule(Consumer<TaskResult<OUTPUT>> unableSchedule) {
+    public SchedulingAsserterBuilder<OUTPUT> setUnableSchedule(Consumer<ExecutionResult<OUTPUT>> unableSchedule) {
         this.unableSchedule = unableSchedule;
         return this;
     }
@@ -59,10 +59,10 @@ public final class TaskExecutorAsserterBuilder<OUTPUT> {
      *
      * @param schedule a verification when schedule task
      * @return this for fluent API
-     * @see TaskResult
-     * @see TaskExecutorMonitor#onSchedule(TaskResult))
+     * @see ExecutionResult
+     * @see SchedulingMonitor#onSchedule(ExecutionResult))
      */
-    public TaskExecutorAsserterBuilder<OUTPUT> setSchedule(Consumer<TaskResult<OUTPUT>> schedule) {
+    public SchedulingAsserterBuilder<OUTPUT> setSchedule(Consumer<ExecutionResult<OUTPUT>> schedule) {
         this.schedule = schedule;
         return this;
     }
@@ -72,10 +72,10 @@ public final class TaskExecutorAsserterBuilder<OUTPUT> {
      *
      * @param misfire a verification when misfire task
      * @return this for fluent API
-     * @see TaskResult
-     * @see TaskExecutorMonitor#onMisfire(TaskResult))
+     * @see ExecutionResult
+     * @see SchedulingMonitor#onMisfire(ExecutionResult))
      */
-    public TaskExecutorAsserterBuilder<OUTPUT> setMisfire(Consumer<TaskResult<OUTPUT>> misfire) {
+    public SchedulingAsserterBuilder<OUTPUT> setMisfire(Consumer<ExecutionResult<OUTPUT>> misfire) {
         this.misfire = misfire;
         return this;
     }
@@ -85,10 +85,10 @@ public final class TaskExecutorAsserterBuilder<OUTPUT> {
      *
      * @param each a verification when each round is finished of schedule
      * @return this for fluent API
-     * @see TaskResult
-     * @see TaskExecutorMonitor#onEach(TaskResult)
+     * @see ExecutionResult
+     * @see SchedulingMonitor#onEach(ExecutionResult)
      */
-    public TaskExecutorAsserterBuilder<OUTPUT> setEach(Consumer<TaskResult<OUTPUT>> each) {
+    public SchedulingAsserterBuilder<OUTPUT> setEach(Consumer<ExecutionResult<OUTPUT>> each) {
         this.each = each;
         return this;
     }
@@ -98,10 +98,10 @@ public final class TaskExecutorAsserterBuilder<OUTPUT> {
      *
      * @param completed a verification when execution is completed
      * @return this for fluent API
-     * @see TaskResult
-     * @see TaskExecutorMonitor#onCompleted(TaskResult))
+     * @see ExecutionResult
+     * @see SchedulingMonitor#onCompleted(ExecutionResult))
      */
-    public TaskExecutorAsserterBuilder<OUTPUT> setCompleted(Consumer<TaskResult<OUTPUT>> completed) {
+    public SchedulingAsserterBuilder<OUTPUT> setCompleted(Consumer<ExecutionResult<OUTPUT>> completed) {
         this.completed = completed;
         return this;
     }
@@ -111,8 +111,8 @@ public final class TaskExecutorAsserterBuilder<OUTPUT> {
      *
      * @return TaskExecutorAsserter
      */
-    public TaskExecutorAsserter<OUTPUT> build() {
-        return new TaskExecutorAsserter<>(testContext, logMonitor, unableSchedule, schedule, misfire, each, completed);
+    public SchedulingAsserter<OUTPUT> build() {
+        return new SchedulingAsserter<>(testContext, logMonitor, unableSchedule, schedule, misfire, each, completed);
     }
 
 }

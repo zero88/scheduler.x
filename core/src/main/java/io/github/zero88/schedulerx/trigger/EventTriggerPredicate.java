@@ -7,10 +7,14 @@ import org.jetbrains.annotations.Nullable;
 
 import io.vertx.core.MultiMap;
 
+/**
+ * An event trigger predicate
+ * @param <T>
+ */
 @SuppressWarnings("unchecked")
 public interface EventTriggerPredicate<T> extends Predicate<T> {
 
-    default @Nullable T convert(@NotNull MultiMap header, @Nullable Object data) { return (T) data; }
+    default @Nullable T convert(@NotNull MultiMap headers, @Nullable Object data) { return (T) data; }
 
     @Override
     boolean test(@Nullable T t);
@@ -38,7 +42,7 @@ public interface EventTriggerPredicate<T> extends Predicate<T> {
     static <T> EventTriggerPredicate<T> ignoreType(Predicate<T> predicate) {
         return new EventTriggerPredicate<T>() {
             @Override
-            public @Nullable T convert(@NotNull MultiMap header, @Nullable Object data) {
+            public @Nullable T convert(@NotNull MultiMap headers, @Nullable Object data) {
                 try {
                     return (T) data;
                 } catch (ClassCastException ex) {

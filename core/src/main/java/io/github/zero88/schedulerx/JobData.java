@@ -26,12 +26,12 @@ public interface JobData<T> {
     @Nullable T get();
 
     /**
-     * Declares the task id in an external system that will be propagated to the task result.
+     * Declares a unique id in an external system that will be propagated to the task result.
      * <p/>
      * That makes the integration between the task monitoring and the external system seamless and easier.
      *
-     * @return an task id
-     * @see TaskResult#externalId()
+     * @return an external id
+     * @see ExecutionResult#externalId()
      * @since 2.0.0
      */
     default @Nullable Object externalId() { return null; }
@@ -41,6 +41,7 @@ public interface JobData<T> {
      *
      * @param <D> Type of data
      * @return JobData contains null data
+     * @since 2.0.0
      */
     static <D> JobData<D> empty() { return empty(Utils.randomPositiveInt()); }
 
@@ -49,6 +50,7 @@ public interface JobData<T> {
      *
      * @param <D> Type of data
      * @return JobData contains null data
+     * @since 2.0.0
      */
     static <D> JobData<D> empty(@NotNull Object externalId) {
         return new JobData<D>() {
@@ -60,10 +62,11 @@ public interface JobData<T> {
     }
 
     /**
-     * Create JobData from static data and external id.
+     * Create JobData from static data with random external id in integer.
      *
      * @param <D> Type of data
      * @return JobData
+     * @since 2.0.0
      */
     static <D> JobData<D> create(@NotNull D data) {
         return create(data, Utils.randomPositiveInt());
@@ -74,6 +77,7 @@ public interface JobData<T> {
      *
      * @param <D> Type of data
      * @return JobData
+     * @since 2.0.0
      */
     static <D> JobData<D> create(@NotNull D data, @NotNull Object externalId) {
         return new JobData<D>() {

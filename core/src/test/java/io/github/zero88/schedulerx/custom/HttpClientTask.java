@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.Task;
-import io.github.zero88.schedulerx.TaskExecutionContext;
+import io.github.zero88.schedulerx.ExecutionContext;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpClientRequest;
@@ -18,7 +18,7 @@ public class HttpClientTask implements Task<JsonObject, JsonObject> {
 
     @Override
     public void execute(@NotNull JobData<JsonObject> jobData,
-                        @NotNull TaskExecutionContext<JsonObject> executionContext) {
+                        @NotNull ExecutionContext<JsonObject> executionContext) {
         doExecute(executionContext.vertx(), jobData).onSuccess(executionContext::complete)
                                                     .onFailure(executionContext::fail);
     }

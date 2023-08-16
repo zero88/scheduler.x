@@ -6,12 +6,12 @@ import io.vertx.core.WorkerExecutor;
 /**
  * Represents for an executor run a {@code task} in conditional loop.
  *
- * @param <INPUT>  Type of input data
- * @param <OUTPUT> Type of Result data
+ * @param <IN>  Type of task input data
+ * @param <OUT> Type of task result data
  * @since 1.0.0
  */
 @VertxGen(concrete = false)
-public interface TaskExecutor<INPUT, OUTPUT> extends TaskExecutorProperties<INPUT, OUTPUT> {
+public interface TaskExecutor<IN, OUT> extends TaskExecutorProperties<IN, OUT> {
 
     /**
      * Start and run in {@code Vertx worker thread pool}

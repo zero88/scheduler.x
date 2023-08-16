@@ -7,8 +7,19 @@ import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
 
+import io.vertx.core.eventbus.EventBus;
+
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+/**
+ * Represents for inspecting settings specific to a CronTrigger.
+ * <p/>
+ * An event trigger is a schedule that runs on receiving a specific event from a {@code Vert.x event-bus} distributed
+ * messaging system, in short it acts as a consumer in
+ *
+ * @param <T> Type of event message
+ * @since 2.0.0
+ */
 @JsonDeserialize(builder = EventTriggerBuilder.class)
 public final class EventTrigger<T> implements Trigger {
 
@@ -24,10 +35,23 @@ public final class EventTrigger<T> implements Trigger {
         this.predicate = Objects.requireNonNull(predicate);
     }
 
-    public boolean isLocalOnly()                            { return localOnly; }
+    /**
+     * Declares a flag to check whether the event trigger listens to the event from the cluster or only local.
+     *
+     * @see EventBus#localConsumer(String)
+     */
+    public boolean isLocalOnly() { return localOnly; }
 
-    public @NotNull String getAddress()                     { return address; }
+    /**
+     * Declares the event-bus specific address
+     */
+    public @NotNull String getAddress() { return address; }
 
+    /**
+     * Declares the predicate to filter the incoming event
+     *
+     * @see EventTriggerPredicate
+     */
     public @NotNull EventTriggerPredicate<T> getPredicate() { return predicate; }
 
     @Override

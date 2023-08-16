@@ -6,33 +6,34 @@ import java.util.Objects;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Represents for task result will be pass on each event of {@link TaskExecutorMonitor}
+ * Represents for task result will be pass on each event of {@link SchedulingMonitor}
  *
- * @param <OUTPUT> Type of Result data
- * @see TaskExecutorMonitor
- * @since 1.0.0
+ * @param <OUTPUT> Type of task result data
+ * @apiNote This interface is renamed from {@code TaskResult} since {@code 2.0.0}
+ * @see SchedulingMonitor
+ * @since 2.0.0
  */
-public interface TaskResult<OUTPUT> {
+public interface ExecutionResult<OUTPUT> {
 
     /**
-     * Get the task id in external system that is declared in {@link JobData#externalId()}.
+     * Get the unique id in external system that is declared in {@link JobData#externalId()}.
      *
      * @param <T> Type of external id
-     * @return the task id, it can be nullable
+     * @return the external id, it can be nullable
      * @apiNote The type of the external id must be the same as your declaration in {@link JobData#externalId()}.
      *     Please use the correct data type otherwise you may get {@link ClassCastException} at runtime.
      */
     @Nullable <T> T externalId();
 
     /**
-     * Only {@code not null} in {@link TaskExecutorMonitor#onUnableSchedule(TaskResult)}
+     * Only {@code not null} in {@link SchedulingMonitor#onUnableSchedule(ExecutionResult)}
      *
      * @return unschedule at time
      */
     Instant unscheduledAt();
 
     /**
-     * Only {@code not null} if reschedule {@link TaskExecutorMonitor#onUnableSchedule(TaskResult)}
+     * Only {@code not null} if reschedule {@link SchedulingMonitor#onUnableSchedule(ExecutionResult)}
      *
      * @return reschedule at time
      * @see #isReschedule()
