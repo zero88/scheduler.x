@@ -73,12 +73,15 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>Type Parameters:</dt>
-<dd><code>INPUT</code> - Type of input data</dd>
-<dd><code>OUTPUT</code> - Type of Result data</dd>
+<dd><code>INPUT</code> - Type of task input data</dd>
+<dd><code>OUTPUT</code> - Type of task result data</dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">Task&lt;INPUT,<wbr>OUTPUT&gt;</span></div>
-<div class="block">Represents for Task to run on each trigger time</div>
+<div class="block">Represents for Task to run on each trigger time.
+ <p/>
+ It is ideal if your concrete class is a class that has a constructor without argument, which makes it easier to init
+ a new task object in runtime via the configuration from an external system.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>1.0.0</dd>
@@ -98,8 +101,8 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#execute(io.github.zero88.schedulerx.JobData,io.github.zero88.schedulerx.TaskExecutionContext)" class="member-name-link">execute</a><wbr>(@NotNull <a href="JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;<a href="Task.html" title="type parameter in Task">INPUT</a>&gt;&nbsp;jobData,
- @NotNull <a href="TaskExecutionContext.html" title="interface in io.github.zero88.schedulerx">TaskExecutionContext</a>&lt;<a href="Task.html" title="type parameter in Task">OUTPUT</a>&gt;&nbsp;executionContext)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#execute(io.github.zero88.schedulerx.JobData,io.github.zero88.schedulerx.ExecutionContext)" class="member-name-link">execute</a><wbr>(@NotNull <a href="JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;<a href="Task.html" title="type parameter in Task">INPUT</a>&gt;&nbsp;jobData,
+ @NotNull <a href="ExecutionContext.html" title="interface in io.github.zero88.schedulerx">ExecutionContext</a>&lt;<a href="Task.html" title="type parameter in Task">OUTPUT</a>&gt;&nbsp;executionContext)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Execute task.</div>
 </div>
@@ -128,7 +131,7 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isAsync</span>()</div>
 <div class="block">Identify task is async or not
  <p>
- If async task, then in execution time, task must use <a href="TaskExecutionContext.html#complete(OUTPUT)"><code>TaskExecutionContext.complete(Object)</code></a>} or <a href="TaskExecutionContext.html#fail(java.lang.Throwable)"><code>TaskExecutionContext.fail(Throwable)</code></a> when handling an async result</div>
+ If async task, then in execution time, task must use <a href="ExecutionContext.html#complete(OUT)"><code>ExecutionContext.complete(Object)</code></a>} or <a href="ExecutionContext.html#fail(java.lang.Throwable)"><code>ExecutionContext.fail(Throwable)</code></a> when handling an async result</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>true if it is async task</dd>
@@ -136,18 +139,18 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="execute(io.github.zero88.schedulerx.JobData,io.github.zero88.schedulerx.TaskExecutionContext)">
+<section class="detail" id="execute(io.github.zero88.schedulerx.JobData,io.github.zero88.schedulerx.ExecutionContext)">
 <h3>execute</h3>
 <div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">execute</span><wbr><span class="parameters">(@NotNull
  @NotNull <a href="JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;<a href="Task.html" title="type parameter in Task">INPUT</a>&gt;&nbsp;jobData,
  @NotNull
- @NotNull <a href="TaskExecutionContext.html" title="interface in io.github.zero88.schedulerx">TaskExecutionContext</a>&lt;<a href="Task.html" title="type parameter in Task">OUTPUT</a>&gt;&nbsp;executionContext)</span></div>
+ @NotNull <a href="ExecutionContext.html" title="interface in io.github.zero88.schedulerx">ExecutionContext</a>&lt;<a href="Task.html" title="type parameter in Task">OUTPUT</a>&gt;&nbsp;executionContext)</span></div>
 <div class="block">Execute task.
  <p/>
  After executed task, please remember to:
  <ul>
-     <li>set value in case of task is success via <a href="TaskExecutionContext.html#complete(OUTPUT)"><code>TaskExecutionContext.complete(Object)</code></a></li>
-     <li>set error in case of task is failed via <a href="TaskExecutionContext.html#fail(java.lang.Throwable)"><code>TaskExecutionContext.fail(Throwable)</code></a></li>
+     <li>set value in case of task is success via <a href="ExecutionContext.html#complete(OUT)"><code>ExecutionContext.complete(Object)</code></a></li>
+     <li>set error in case of task is failed via <a href="ExecutionContext.html#fail(java.lang.Throwable)"><code>ExecutionContext.fail(Throwable)</code></a></li>
  </ul></div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -157,7 +160,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <ul class="see-list">
 <li><a href="JobData.html" title="interface in io.github.zero88.schedulerx"><code>JobData</code></a></li>
-<li><a href="TaskExecutionContext.html" title="interface in io.github.zero88.schedulerx"><code>TaskExecutionContext</code></a></li>
+<li><a href="ExecutionContext.html" title="interface in io.github.zero88.schedulerx"><code>ExecutionContext</code></a></li>
 </ul>
 </dd>
 </dl>

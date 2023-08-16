@@ -75,6 +75,10 @@ loadScripts(document, 'script');</script>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
+<dt>Type Parameters:</dt>
+<dd><code>T</code> - Type of event message</dd>
+</dl>
+<dl class="notes">
 <dt>All Implemented Interfaces:</dt>
 <dd><code><a href="Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a></code></dd>
 </dl>
@@ -82,6 +86,14 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="modifiers">public final class </span><span class="element-name type-name-label">EventTrigger&lt;T&gt;</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a></span></div>
+<div class="block">Represents for inspecting settings specific to a CronTrigger.
+ <p/>
+ An event trigger is a schedule that runs on receiving a specific event from a <code>Vert.x event-bus</code> distributed
+ messaging system, in short it acts as a consumer in</div>
+<dl class="notes">
+<dt>Since:</dt>
+<dd>2.0.0</dd>
+</dl>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -104,16 +116,22 @@ implements <a href="Trigger.html" title="interface in io.github.zero88.scheduler
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAddress()" class="member-name-link">getAddress</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Declares the event-bus specific address</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="EventTriggerPredicate.html" title="interface in io.github.zero88.schedulerx.trigger">EventTriggerPredicate</a>&lt;<a href="EventTrigger.html" title="type parameter in EventTrigger">T</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPredicate()" class="member-name-link">getPredicate</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Declares the predicate to filter the incoming event</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isLocalOnly()" class="member-name-link">isLocalOnly</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Declares a flag to check whether the event trigger listens to the event from the cluster or only local.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/OffsetDateTime.html" title="class or interface in java.time" class="external-link">OffsetDateTime</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#preview(io.github.zero88.schedulerx.trigger.PreviewParameter)" class="member-name-link">preview</a><wbr>(@NotNull <a href="PreviewParameter.html" title="class in io.github.zero88.schedulerx.trigger">PreviewParameter</a>&nbsp;parameter)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -160,6 +178,15 @@ implements <a href="Trigger.html" title="interface in io.github.zero88.scheduler
 <section class="detail" id="isLocalOnly()">
 <h3>isLocalOnly</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isLocalOnly</span>()</div>
+<div class="block">Declares a flag to check whether the event trigger listens to the event from the cluster or only local.</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><code>EventBus.localConsumer(String)</code></li>
+</ul>
+</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -167,6 +194,7 @@ implements <a href="Trigger.html" title="interface in io.github.zero88.scheduler
 <h3>getAddress</h3>
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getAddress</span>()</div>
+<div class="block">Declares the event-bus specific address</div>
 </section>
 </li>
 <li>
@@ -174,6 +202,15 @@ implements <a href="Trigger.html" title="interface in io.github.zero88.scheduler
 <h3>getPredicate</h3>
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="EventTriggerPredicate.html" title="interface in io.github.zero88.schedulerx.trigger">EventTriggerPredicate</a>&lt;<a href="EventTrigger.html" title="type parameter in EventTrigger">T</a>&gt;</span>&nbsp;<span class="element-name">getPredicate</span>()</div>
+<div class="block">Declares the predicate to filter the incoming event</div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="EventTriggerPredicate.html" title="interface in io.github.zero88.schedulerx.trigger"><code>EventTriggerPredicate</code></a></li>
+</ul>
+</dd>
+</dl>
 </section>
 </li>
 <li>
