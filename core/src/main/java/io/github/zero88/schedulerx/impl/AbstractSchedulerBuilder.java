@@ -8,27 +8,24 @@ import org.jetbrains.annotations.NotNull;
 
 import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.Task;
-import io.github.zero88.schedulerx.TaskExecutorLogMonitor;
-import io.github.zero88.schedulerx.TaskExecutorMonitor;
-import io.github.zero88.schedulerx.TriggerTaskExecutor;
-import io.github.zero88.schedulerx.TriggerTaskExecutorBuilder;
+import io.github.zero88.schedulerx.SchedulingLogMonitor;
+import io.github.zero88.schedulerx.SchedulingMonitor;
+import io.github.zero88.schedulerx.Scheduler;
+import io.github.zero88.schedulerx.SchedulerBuilder;
 import io.github.zero88.schedulerx.trigger.Trigger;
 import io.vertx.core.Vertx;
 
 /**
- * The base task executor builder
+ * The base scheduler builder
  */
 @SuppressWarnings("unchecked")
 @Internal
-// @formatter:off
-public abstract class AbstractTaskExecutorBuilder<IN, OUT, T extends Trigger,
-                                                     E extends TriggerTaskExecutor<IN, OUT, T>,
-                                                     B extends TriggerTaskExecutorBuilder<IN, OUT, T, E, B>>
-    implements TriggerTaskExecutorBuilder<IN, OUT, T, E, B> {
-// @formatter:on
+public abstract class AbstractSchedulerBuilder<IN, OUT, T extends Trigger, S extends Scheduler<IN, OUT, T>,
+                                                  B extends SchedulerBuilder<IN, OUT, T, S, B>>
+    implements SchedulerBuilder<IN, OUT, T, S, B> {
 
     private Vertx vertx;
-    private TaskExecutorMonitor<OUT> monitor;
+    private SchedulingMonitor<OUT> monitor;
     private JobData<IN> jobData;
     private Task<IN, OUT> task;
     private T trigger;
@@ -39,8 +36,8 @@ public abstract class AbstractTaskExecutorBuilder<IN, OUT, T extends Trigger,
     }
 
     @Override
-    public @NotNull TaskExecutorMonitor<OUT> monitor() {
-        return Optional.ofNullable(monitor).orElseGet(TaskExecutorLogMonitor::create);
+    public @NotNull SchedulingMonitor<OUT> monitor() {
+        return Optional.ofNullable(monitor).orElseGet(SchedulingLogMonitor::create);
     }
 
     @Override
@@ -67,7 +64,7 @@ public abstract class AbstractTaskExecutorBuilder<IN, OUT, T extends Trigger,
         return (B) this;
     }
 
-    public @NotNull B setMonitor(@NotNull TaskExecutorMonitor<OUT> monitor) {
+    public @NotNull B setMonitor(@NotNull SchedulingMonitor<OUT> monitor) {
         this.monitor = monitor;
         return (B) this;
     }

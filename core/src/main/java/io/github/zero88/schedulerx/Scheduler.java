@@ -3,21 +3,20 @@ package io.github.zero88.schedulerx;
 import org.jetbrains.annotations.NotNull;
 
 import io.github.zero88.schedulerx.trigger.Trigger;
-import io.github.zero88.schedulerx.trigger.TriggerContext;
 import io.vertx.codegen.annotations.GenIgnore;
 
 /**
- * Represents for an executor run task based on particular trigger
+ * A scheduler schedules a task to run based on a particular trigger.
  *
- * @param <INPUT>   Type of Input Job data
- * @param <OUTPUT>  Type of Result data
+ * @param <IN>      Type of Input Job data
+ * @param <OUT>     Type of task result data
  * @param <TRIGGER> Type of Trigger
+ * @apiNote This interface is renamed from {@code TriggerTaskExecutor} since {@code 2.0.0}
  * @see TaskExecutor
  * @see Trigger
- * @see TriggerContext
- * @since 1.0.0
+ * @since 2.0.0
  */
-public interface TriggerTaskExecutor<INPUT, OUTPUT, TRIGGER extends Trigger> extends TaskExecutor<INPUT, OUTPUT> {
+public interface Scheduler<IN, OUT, TRIGGER extends Trigger> extends TaskExecutor<IN, OUT> {
 
     /**
      * Trigger type
@@ -32,6 +31,6 @@ public interface TriggerTaskExecutor<INPUT, OUTPUT, TRIGGER extends Trigger> ext
      * @param executionContext execution context
      */
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    void executeTask(TaskExecutionContext<OUTPUT> executionContext);
+    void executeTask(ExecutionContext<OUT> executionContext);
 
 }

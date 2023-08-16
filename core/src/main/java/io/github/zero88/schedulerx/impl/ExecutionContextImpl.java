@@ -9,7 +9,7 @@ import io.github.zero88.schedulerx.trigger.TriggerContext;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 
-final class TaskExecutionContextImpl<OUTPUT> implements TaskExecutionContextInternal<OUTPUT> {
+final class ExecutionContextImpl<OUTPUT> implements ExecutionContextInternal<OUTPUT> {
 
     private final Vertx vertx;
     private final long round;
@@ -21,7 +21,7 @@ final class TaskExecutionContextImpl<OUTPUT> implements TaskExecutionContextInte
     private Throwable error;
     private boolean forceStop = false;
 
-    public TaskExecutionContextImpl(Vertx vertx, long round, Instant triggeredAt, TriggerContext triggerContext) {
+    public ExecutionContextImpl(Vertx vertx, long round, Instant triggeredAt, TriggerContext triggerContext) {
         this.vertx          = vertx;
         this.round          = round;
         this.triggeredAt    = triggeredAt;
@@ -29,8 +29,8 @@ final class TaskExecutionContextImpl<OUTPUT> implements TaskExecutionContextInte
     }
 
     @Override
-    public @NotNull TaskExecutionContextInternal<OUTPUT> setup(@NotNull Promise<Object> promise,
-                                                               @NotNull Instant executedAt) {
+    public @NotNull ExecutionContextInternal<OUTPUT> setup(@NotNull Promise<Object> promise,
+                                                           @NotNull Instant executedAt) {
         if (Objects.nonNull(this.promise)) {
             throw new IllegalStateException("TaskExecutionContext is already setup");
         }

@@ -9,12 +9,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.zero88.schedulerx.JobData;
+import io.github.zero88.schedulerx.Scheduler;
 import io.github.zero88.schedulerx.Task;
-import io.github.zero88.schedulerx.TaskExecutionContext;
+import io.github.zero88.schedulerx.ExecutionContext;
 import io.github.zero88.schedulerx.TaskExecutor;
-import io.github.zero88.schedulerx.TaskExecutorMonitor;
-import io.github.zero88.schedulerx.TaskResult;
-import io.github.zero88.schedulerx.TriggerTaskExecutor;
+import io.github.zero88.schedulerx.SchedulingMonitor;
+import io.github.zero88.schedulerx.ExecutionResult;
 import io.github.zero88.schedulerx.trigger.Trigger;
 import io.github.zero88.schedulerx.trigger.TriggerContext;
 import io.vertx.core.AsyncResult;
@@ -26,21 +26,21 @@ import io.vertx.core.impl.logging.Logger;
 import io.vertx.core.impl.logging.LoggerFactory;
 
 /**
- * The base task executor
+ * The base scheduler
  *
- * @param <IN>  Type of input data
+ * @param <IN>  Type of task input data
  * @param <OUT> Type of output data
  * @param <T>   Type of trigger
  */
 @Internal
-public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implements TriggerTaskExecutor<IN, OUT, T> {
+public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements Scheduler<IN, OUT, T> {
 
     @SuppressWarnings("java:S3416")
     protected static final Logger LOGGER = LoggerFactory.getLogger(TaskExecutor.class);
 
     private final @NotNull Vertx vertx;
-    private final @NotNull TaskExecutorStateInternal<OUT> state;
-    private final @NotNull TaskExecutorMonitor<OUT> monitor;
+    private final @NotNull SchedulerStateInternal<OUT> state;
+    private final @NotNull SchedulingMonitor<OUT> monitor;
     private final @NotNull JobData<IN> jobData;
     private final @NotNull Task<IN, OUT> task;
     private final @NotNull T trigger;
@@ -49,21 +49,21 @@ public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implement
     private boolean didTriggerValidation = false;
     private IllegalArgumentException invalidTrigger;
 
-    protected AbstractTaskExecutor(@NotNull Vertx vertx, @NotNull TaskExecutorMonitor<OUT> monitor,
-                                   @NotNull JobData<IN> jobData, @NotNull Task<IN, OUT> task, @NotNull T trigger) {
+    protected AbstractScheduler(@NotNull Vertx vertx, @NotNull SchedulingMonitor<OUT> monitor,
+                                @NotNull JobData<IN> jobData, @NotNull Task<IN, OUT> task, @NotNull T trigger) {
         this.vertx   = vertx;
         this.monitor = monitor;
         this.jobData = jobData;
         this.task    = task;
         this.trigger = trigger;
-        this.state   = new TaskExecutorStateImpl<>();
+        this.state   = new SchedulerStateImpl<>();
     }
 
     @Override
     public final @NotNull Vertx vertx() { return this.vertx; }
 
     @Override
-    public final @NotNull TaskExecutorMonitor<OUT> monitor() { return this.monitor; }
+    public final @NotNull SchedulingMonitor<OUT> monitor() { return this.monitor; }
 
     @Override
     public final @NotNull JobData<IN> jobData() { return this.jobData; }
@@ -113,12 +113,12 @@ public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implement
     }
 
     @Override
-    public final void executeTask(@NotNull TaskExecutionContext<OUT> executionContext) {
+    public final void executeTask(@NotNull ExecutionContext<OUT> executionContext) {
         try {
             trace(executionContext.executedAt(), "Start to execute the task");
             task.execute(jobData(), executionContext);
             if (!task.isAsync()) {
-                ((TaskExecutionContextInternal<OUT>) executionContext).internalComplete();
+                ((ExecutionContextInternal<OUT>) executionContext).internalComplete();
             }
         } catch (Exception ex) {
             executionContext.fail(ex);
@@ -155,13 +155,12 @@ public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implement
             trace(triggerAt, "The task execution is already completed");
         }
         if (state.executing()) {
-            trace(triggerAt, "Skip the execution due to the task is still running");
-            onMisfire(triggerAt);
+            onMisfire(triggerAt, "The task is still running");
         }
         return InternalTriggerContext.create(state.idle() && trigger().shouldExecute(triggerAt), triggerContext);
     }
 
-    protected final boolean shouldStop(@Nullable TaskExecutionContext<OUT> executionContext, long round) {
+    protected final boolean shouldStop(@Nullable ExecutionContext<OUT> executionContext, long round) {
         return (executionContext != null && executionContext.isForceStop()) || trigger().shouldStop(round);
     }
 
@@ -170,8 +169,8 @@ public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implement
         final InternalTriggerContext internalContext = shouldRun(triggerAt, triggerContext);
         if (internalContext.shouldRun()) {
             final TriggerContext triggerCtx = TriggerContext.create(internalContext.type(), internalContext.info());
-            final TaskExecutionContextInternal<OUT> ctx = new TaskExecutionContextImpl<>(vertx, state.increaseRound(),
-                                                                                         triggerAt, triggerCtx);
+            final ExecutionContextInternal<OUT> ctx = new ExecutionContextImpl<>(vertx, state.increaseRound(),
+                                                                                 triggerAt, triggerCtx);
             trace(triggerAt, "Trigger the task execution");
             if (workerExecutor != null) {
                 workerExecutor.executeBlocking(promise -> executeTask(onExecute(promise, ctx)), this::onResult);
@@ -188,41 +187,42 @@ public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implement
     }
 
     protected final void onSchedule(long timerId) {
-        TaskResult<OUT> result;
+        ExecutionResult<OUT> result;
         if (state.pending()) {
-            result = TaskResultImpl.<OUT>builder()
-                                   .setExternalId(jobData.externalId())
-                                   .setAvailableAt(state.timerId(timerId).markAvailable().availableAt())
-                                   .build();
+            result = ExecutionResultImpl.<OUT>builder()
+                                        .setExternalId(jobData.externalId())
+                                        .setAvailableAt(state.timerId(timerId).markAvailable().availableAt())
+                                        .build();
         } else {
-            result = TaskResultImpl.<OUT>builder()
-                                   .setExternalId(jobData.externalId())
-                                   .setTick(state.timerId(timerId).tick())
-                                   .setRound(state.round())
-                                   .setAvailableAt(state.availableAt())
-                                   .setRescheduledAt(Instant.now())
-                                   .build();
+            result = ExecutionResultImpl.<OUT>builder()
+                                        .setExternalId(jobData.externalId())
+                                        .setTick(state.timerId(timerId).tick())
+                                        .setRound(state.round())
+                                        .setAvailableAt(state.availableAt())
+                                        .setRescheduledAt(Instant.now())
+                                        .build();
         }
         monitor.onSchedule(result);
     }
 
     protected final void onUnableSchedule(Throwable t) {
-        monitor.onUnableSchedule(TaskResultImpl.<OUT>builder()
-                                               .setExternalId(jobData.externalId())
-                                               .setTick(state.tick())
-                                               .setRound(state.round())
-                                               .setUnscheduledAt(Instant.now())
-                                               .setError(t)
-                                               .build());
+        monitor.onUnableSchedule(ExecutionResultImpl.<OUT>builder()
+                                                    .setExternalId(jobData.externalId())
+                                                    .setTick(state.tick())
+                                                    .setRound(state.round())
+                                                    .setUnscheduledAt(Instant.now())
+                                                    .setError(t)
+                                                    .build());
     }
 
-    protected final void onMisfire(@NotNull Instant triggerAt) {
-        monitor.onMisfire(TaskResultImpl.<OUT>builder()
-                                        .setExternalId(jobData.externalId())
-                                        .setTick(state.tick())
-                                        .setAvailableAt(state.availableAt())
-                                        .setTriggeredAt(triggerAt)
-                                        .build());
+    protected final void onMisfire(@NotNull Instant triggerAt, String reason) {
+        trace(triggerAt, "Skip the execution::" + reason);
+        monitor.onMisfire(ExecutionResultImpl.<OUT>builder()
+                                             .setExternalId(jobData.externalId())
+                                             .setTick(state.tick())
+                                             .setAvailableAt(state.availableAt())
+                                             .setTriggeredAt(triggerAt)
+                                             .build());
     }
 
     @SuppressWarnings("unchecked")
@@ -232,21 +232,21 @@ public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implement
         if (asyncResult.failed()) {
             LOGGER.warn(genMsg(state.tick(), state.round(), finishedAt, "Programming error"), asyncResult.cause());
         }
-        TaskExecutionContextInternal<OUT> executionContext = (TaskExecutionContextInternal<OUT>) asyncResult.result();
+        ExecutionContextInternal<OUT> executionContext = (ExecutionContextInternal<OUT>) asyncResult.result();
         if (asyncResult.succeeded()) {
             trace(finishedAt, "Received the task result");
-            monitor.onEach(TaskResultImpl.<OUT>builder()
-                                         .setExternalId(jobData.externalId())
-                                         .setAvailableAt(state.availableAt())
-                                         .setTick(state.tick())
-                                         .setRound(executionContext.round())
-                                         .setTriggeredAt(executionContext.triggeredAt())
-                                         .setExecutedAt(executionContext.executedAt())
-                                         .setFinishedAt(finishedAt)
-                                         .setData(state.addData(executionContext.round(), executionContext.data()))
-                                         .setError(state.addError(executionContext.round(), executionContext.error()))
-                                         .setCompleted(state.completed())
-                                         .build());
+            monitor.onEach(ExecutionResultImpl.<OUT>builder()
+                                              .setExternalId(jobData.externalId())
+                                              .setAvailableAt(state.availableAt())
+                                              .setTick(state.tick())
+                                              .setRound(executionContext.round())
+                                              .setTriggeredAt(executionContext.triggeredAt())
+                                              .setExecutedAt(executionContext.executedAt())
+                                              .setFinishedAt(finishedAt)
+                                              .setData(state.addData(executionContext.round(), executionContext.data()))
+                                              .setError(state.addError(executionContext.round(), executionContext.error()))
+                                              .setCompleted(state.completed())
+                                              .build());
         }
         if (shouldStop(executionContext, state.round())) {
             doStop(state.timerId());
@@ -257,26 +257,26 @@ public abstract class AbstractTaskExecutor<IN, OUT, T extends Trigger> implement
         state.markCompleted();
         final Instant completedAt = Instant.now();
         trace(completedAt, "The task execution is completed");
-        monitor.onCompleted(TaskResultImpl.<OUT>builder()
-                                          .setExternalId(jobData.externalId())
-                                          .setAvailableAt(state.availableAt())
-                                          .setTick(state.tick())
-                                          .setRound(state.round())
-                                          .setCompleted(state.completed())
-                                          .setCompletedAt(completedAt)
-                                          .setData(state.lastData())
-                                          .setError(state.lastError())
-                                          .build());
+        monitor.onCompleted(ExecutionResultImpl.<OUT>builder()
+                                               .setExternalId(jobData.externalId())
+                                               .setAvailableAt(state.availableAt())
+                                               .setTick(state.tick())
+                                               .setRound(state.round())
+                                               .setCompleted(state.completed())
+                                               .setCompletedAt(completedAt)
+                                               .setData(state.lastData())
+                                               .setError(state.lastError())
+                                               .build());
     }
 
-    private TaskExecutionContextInternal<OUT> onExecute(@NotNull Promise<Object> promise,
-                                                        @NotNull TaskExecutionContextInternal<OUT> executionContext) {
+    private ExecutionContextInternal<OUT> onExecute(@NotNull Promise<Object> promise,
+                                                    @NotNull ExecutionContextInternal<OUT> executionContext) {
         state.markExecuting();
         return executionContext.setup(promise, Instant.now());
     }
 
     private String genMsg(long tick, long round, @NotNull Instant at, @NotNull String event) {
-        return "TaskExecutor[" + tick + "][" + round + "][" + at + "]::[" + jobData.externalId() + "] - " + event;
+        return "Scheduling[" + tick + "][" + round + "][" + at + "]::[" + jobData.externalId() + "] - " + event;
     }
 
 }

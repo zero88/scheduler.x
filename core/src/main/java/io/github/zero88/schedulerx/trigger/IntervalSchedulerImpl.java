@@ -7,20 +7,19 @@ import org.jetbrains.annotations.NotNull;
 
 import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.Task;
-import io.github.zero88.schedulerx.TaskExecutorMonitor;
-import io.github.zero88.schedulerx.impl.AbstractTaskExecutor;
-import io.github.zero88.schedulerx.impl.AbstractTaskExecutorBuilder;
+import io.github.zero88.schedulerx.SchedulingMonitor;
+import io.github.zero88.schedulerx.impl.AbstractScheduler;
+import io.github.zero88.schedulerx.impl.AbstractSchedulerBuilder;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
 
-final class IntervalTriggerExecutorImpl<IN, OUT> extends AbstractTaskExecutor<IN, OUT, IntervalTrigger>
-    implements IntervalTriggerExecutor<IN, OUT> {
+final class IntervalSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, IntervalTrigger>
+    implements IntervalScheduler<IN, OUT> {
 
-    IntervalTriggerExecutorImpl(@NotNull Vertx vertx, @NotNull TaskExecutorMonitor<OUT> monitor,
-                                @NotNull JobData<IN> jobData, @NotNull Task<IN, OUT> task,
-                                @NotNull IntervalTrigger trigger) {
+    IntervalSchedulerImpl(@NotNull Vertx vertx, @NotNull SchedulingMonitor<OUT> monitor, @NotNull JobData<IN> jobData,
+                          @NotNull Task<IN, OUT> task, @NotNull IntervalTrigger trigger) {
         super(vertx, monitor, jobData, task, trigger);
     }
 
@@ -43,13 +42,13 @@ final class IntervalTriggerExecutorImpl<IN, OUT> extends AbstractTaskExecutor<IN
     }
 
     // @formatter:off
-    static final class IntervalTriggerExecutorBuilderImpl<IN, OUT>
-        extends AbstractTaskExecutorBuilder<IN, OUT, IntervalTrigger, IntervalTriggerExecutor<IN, OUT>, IntervalTriggerExecutorBuilder<IN, OUT>>
-        implements IntervalTriggerExecutorBuilder<IN, OUT> {
+    static final class IntervalSchedulerBuilderImpl<IN, OUT>
+        extends AbstractSchedulerBuilder<IN, OUT, IntervalTrigger, IntervalScheduler<IN, OUT>, IntervalSchedulerBuilder<IN, OUT>>
+        implements IntervalSchedulerBuilder<IN, OUT> {
     // @formatter:on
 
-        public @NotNull IntervalTriggerExecutor<IN, OUT> build() {
-            return new IntervalTriggerExecutorImpl<>(vertx(), monitor(), jobData(), task(), trigger());
+        public @NotNull IntervalScheduler<IN, OUT> build() {
+            return new IntervalSchedulerImpl<>(vertx(), monitor(), jobData(), task(), trigger());
         }
 
     }

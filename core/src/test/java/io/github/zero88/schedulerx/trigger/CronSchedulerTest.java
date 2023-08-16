@@ -8,31 +8,31 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import io.github.zero88.schedulerx.NoopTask;
 import io.github.zero88.schedulerx.Task;
-import io.github.zero88.schedulerx.TaskExecutorAsserter;
-import io.github.zero88.schedulerx.TaskResult;
+import io.github.zero88.schedulerx.SchedulingAsserter;
+import io.github.zero88.schedulerx.ExecutionResult;
 import io.vertx.core.Vertx;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
 
 @ExtendWith(VertxExtension.class)
-class CronTriggerExecutorTest {
+class CronSchedulerTest {
 
     @Test
     @SuppressWarnings("java:S2699")
     void test_unable_schedule_due_to_wrong_expression(Vertx vertx, VertxTestContext testContext) {
         final CronTrigger trigger = CronTrigger.builder().expression("0/").build();
-        CronTriggerExecutor.builder()
-                           .setVertx(vertx)
-                           .setTrigger(trigger)
-                           .setTask(NoopTask.create())
-                           .setMonitor(TaskExecutorAsserter.unableScheduleAsserter(testContext))
-                           .build()
-                           .start();
+        CronScheduler.builder()
+                     .setVertx(vertx)
+                     .setTrigger(trigger)
+                     .setTask(NoopTask.create())
+                     .setMonitor(SchedulingAsserter.unableScheduleAsserter(testContext))
+                     .build()
+                     .start();
     }
 
     @Test
     void test_run_task_by_cron(Vertx vertx, VertxTestContext testContext) {
-        final Consumer<TaskResult<String>> onSchedule = result -> {
+        final Consumer<ExecutionResult<String>> onSchedule = result -> {
             if (!result.isReschedule()) {
                 Assertions.assertEquals(0, result.tick());
                 Assertions.assertEquals(0, result.round());
@@ -40,7 +40,7 @@ class CronTriggerExecutorTest {
                 Assertions.assertTrue(result.isReschedule());
             }
         };
-        final Consumer<TaskResult<String>> onEach = result -> {
+        final Consumer<ExecutionResult<String>> onEach = result -> {
             if (result.round() < 3) {
                 Assertions.assertTrue(result.isError());
                 Assertions.assertNotNull(result.error());
@@ -53,16 +53,16 @@ class CronTriggerExecutorTest {
                 Assertions.assertEquals("OK", result.data());
             }
         };
-        final Consumer<TaskResult<String>> onCompleted = result -> {
+        final Consumer<ExecutionResult<String>> onCompleted = result -> {
             Assertions.assertEquals(4, result.round());
             Assertions.assertFalse(result.isError());
         };
-        final TaskExecutorAsserter<String> asserter = TaskExecutorAsserter.<String>builder()
-                                                                          .setTestContext(testContext)
-                                                                          .setSchedule(onSchedule)
-                                                                          .setEach(onEach)
-                                                                          .setCompleted(onCompleted)
-                                                                          .build();
+        final SchedulingAsserter<String> asserter = SchedulingAsserter.<String>builder()
+                                                                      .setTestContext(testContext)
+                                                                      .setSchedule(onSchedule)
+                                                                      .setEach(onEach)
+                                                                      .setCompleted(onCompleted)
+                                                                      .build();
         final CronTrigger trigger = CronTrigger.builder().expression("0/2 * * ? * * *").build();
         final Task<Void, String> task = (jobData, ctx) -> {
             final long round = ctx.round();
@@ -79,13 +79,13 @@ class CronTriggerExecutorTest {
                 ctx.forceStopExecution();
             }
         };
-        CronTriggerExecutor.<Void, String>builder()
-                           .setVertx(vertx)
-                           .setMonitor(asserter)
-                           .setTrigger(trigger)
-                           .setTask(task)
-                           .build()
-                           .start();
+        CronScheduler.<Void, String>builder()
+                     .setVertx(vertx)
+                     .setMonitor(asserter)
+                     .setTrigger(trigger)
+                     .setTask(task)
+                     .build()
+                     .start();
     }
 
 }

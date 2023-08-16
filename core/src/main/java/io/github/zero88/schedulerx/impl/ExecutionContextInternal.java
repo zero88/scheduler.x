@@ -5,10 +5,10 @@ import java.time.Instant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import io.github.zero88.schedulerx.TaskExecutionContext;
+import io.github.zero88.schedulerx.ExecutionContext;
 import io.vertx.core.Promise;
 
-interface TaskExecutionContextInternal<OUTPUT> extends TaskExecutionContext<OUTPUT> {
+interface ExecutionContextInternal<OUTPUT> extends ExecutionContext<OUTPUT> {
 
     /**
      * Setup task execution context
@@ -20,7 +20,7 @@ interface TaskExecutionContextInternal<OUTPUT> extends TaskExecutionContext<OUTP
      *     thrown
      * @see Promise
      */
-    @NotNull TaskExecutionContextInternal<OUTPUT> setup(@NotNull Promise<Object> promise, @NotNull Instant executedAt);
+    @NotNull ExecutionContextInternal<OUTPUT> setup(@NotNull Promise<Object> promise, @NotNull Instant executedAt);
 
     void internalComplete();
 

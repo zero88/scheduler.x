@@ -12,13 +12,13 @@ import io.vertx.core.Vertx;
  * <p/>
  * This class is designed to internal usage, don't refer it in your code.
  *
- * @param <INPUT>  Type of input data
- * @param <OUTPUT> Type of Result data
+ * @param <IN>  Type of task input data
+ * @param <OUT> Type of task result data
  * @since 2.0.0
  */
 @Internal
 @VertxGen(concrete = false)
-public interface TaskExecutorProperties<INPUT, OUTPUT> {
+public interface TaskExecutorProperties<IN, OUT> {
 
     /**
      * Vertx
@@ -31,10 +31,10 @@ public interface TaskExecutorProperties<INPUT, OUTPUT> {
      * Defines a task executor monitor
      *
      * @return task executor monitor
-     * @see TaskExecutorMonitor
+     * @see SchedulingMonitor
      */
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull TaskExecutorMonitor<OUTPUT> monitor();
+    @NotNull SchedulingMonitor<OUT> monitor();
 
     /**
      * Task to execute per round
@@ -43,7 +43,7 @@ public interface TaskExecutorProperties<INPUT, OUTPUT> {
      * @see Task
      */
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull Task<INPUT, OUTPUT> task();
+    @NotNull Task<IN, OUT> task();
 
     /**
      * Defines job data as input task data
@@ -52,6 +52,6 @@ public interface TaskExecutorProperties<INPUT, OUTPUT> {
      * @see JobData
      */
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull JobData<INPUT> jobData();
+    @NotNull JobData<IN> jobData();
 
 }

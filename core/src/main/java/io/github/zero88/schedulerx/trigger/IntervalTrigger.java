@@ -11,14 +11,15 @@ import java.util.concurrent.TimeUnit;
 
 import org.jetbrains.annotations.NotNull;
 
-import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.impl.Utils;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
- * Represents for inspecting settings specific to an interval trigger, which is used to fire a <code>{@link Task}</code>
- * in periodic with repeat time.
+ * Represents for inspecting settings specific to a IntervalTrigger.
+ * <p/>
+ * An interval trigger is a schedule that repeats at a fixed interval of time starting from a given point in time, for
+ * example, hourly, daily, every five minutes, every 30 seconds and so on.
  *
  * @since 1.0.0
  */

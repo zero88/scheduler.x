@@ -15,14 +15,14 @@ import java.util.TimeZone;
 
 import org.jetbrains.annotations.NotNull;
 
-import io.github.zero88.schedulerx.Task;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
- * Represents for inspecting settings specific to a CronTrigger, which is used to fire a <code>{@link Task}</code> at
- * given moments in time, defined with Unix 'cron-like' schedule definitions.
+ * Represents for inspecting settings specific to a CronTrigger.
+ * <p/>
+ * A cron trigger is a schedule that runs on specific different times that is defined with Unix 'cron-like' schedule
+ * definitions.
  *
  * @since 1.0.0
  */

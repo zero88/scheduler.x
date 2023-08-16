@@ -8,11 +8,12 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Represents for a management state of the execution lifecycle.
  *
- * @param <OUTPUT> Type of Result data
- * @since 1.0.0
+ * @param <OUT> Type of task result data
+ * @apiNote This interface is renamed from {@code TaskExecutorState} since {@code 2.0.0}
+ * @since 2.0.0
  */
 @Internal
-public interface TaskExecutorState<OUTPUT> {
+public interface SchedulerState<OUT> {
 
     /**
      * Timer id
@@ -78,7 +79,7 @@ public interface TaskExecutorState<OUTPUT> {
      *
      * @return latest data
      */
-    @Nullable OUTPUT lastData();
+    @Nullable OUT lastData();
 
     /**
      * Latest error of previous round

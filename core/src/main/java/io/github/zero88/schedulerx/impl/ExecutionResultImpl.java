@@ -4,11 +4,11 @@ import java.time.Instant;
 
 import org.jetbrains.annotations.Nullable;
 
-import io.github.zero88.schedulerx.TaskResult;
+import io.github.zero88.schedulerx.ExecutionResult;
 
-final class TaskResultImpl<OUTPUT> implements TaskResult<OUTPUT> {
+final class ExecutionResultImpl<OUTPUT> implements ExecutionResult<OUTPUT> {
 
-    static <OUT> TaskResultBuilder<OUT> builder() { return new TaskResultBuilder<>(); }
+    static <OUT> ExecutionResultBuilder<OUT> builder() { return new ExecutionResultBuilder<>(); }
 
     private final Instant unscheduledAt;
     private final Instant rescheduledAt;
@@ -24,7 +24,7 @@ final class TaskResultImpl<OUTPUT> implements TaskResult<OUTPUT> {
     private final Throwable error;
     private final OUTPUT data;
 
-    TaskResultImpl(TaskResultBuilder<OUTPUT> builder) {
+    ExecutionResultImpl(ExecutionResultBuilder<OUTPUT> builder) {
         this.unscheduledAt = builder.unscheduledAt;
         this.rescheduledAt = builder.rescheduledAt;
         this.availableAt   = builder.availableAt;
@@ -68,7 +68,7 @@ final class TaskResultImpl<OUTPUT> implements TaskResult<OUTPUT> {
 
     public OUTPUT data()           { return this.data; }
 
-    static final class TaskResultBuilder<OUTPUT> {
+    static final class ExecutionResultBuilder<OUTPUT> {
 
         Instant unscheduledAt;
         Instant rescheduledAt;
@@ -84,72 +84,72 @@ final class TaskResultImpl<OUTPUT> implements TaskResult<OUTPUT> {
         Throwable error;
         OUTPUT data;
 
-        public TaskResultBuilder<OUTPUT> setUnscheduledAt(Instant unscheduledAt) {
+        public ExecutionResultBuilder<OUTPUT> setUnscheduledAt(Instant unscheduledAt) {
             this.unscheduledAt = unscheduledAt;
             return this;
         }
 
-        public TaskResultBuilder<OUTPUT> setRescheduledAt(Instant rescheduledAt) {
+        public ExecutionResultBuilder<OUTPUT> setRescheduledAt(Instant rescheduledAt) {
             this.rescheduledAt = rescheduledAt;
             return this;
         }
 
-        public TaskResultBuilder<OUTPUT> setAvailableAt(Instant availableAt) {
+        public ExecutionResultBuilder<OUTPUT> setAvailableAt(Instant availableAt) {
             this.availableAt = availableAt;
             return this;
         }
 
-        public TaskResultBuilder<OUTPUT> setTriggeredAt(Instant triggeredAt) {
+        public ExecutionResultBuilder<OUTPUT> setTriggeredAt(Instant triggeredAt) {
             this.triggeredAt = triggeredAt;
             return this;
         }
 
-        public TaskResultBuilder<OUTPUT> setExecutedAt(Instant executedAt) {
+        public ExecutionResultBuilder<OUTPUT> setExecutedAt(Instant executedAt) {
             this.executedAt = executedAt;
             return this;
         }
 
-        public TaskResultBuilder<OUTPUT> setFinishedAt(Instant finishedAt) {
+        public ExecutionResultBuilder<OUTPUT> setFinishedAt(Instant finishedAt) {
             this.finishedAt = finishedAt;
             return this;
         }
 
-        public TaskResultBuilder<OUTPUT> setCompletedAt(Instant completedAt) {
+        public ExecutionResultBuilder<OUTPUT> setCompletedAt(Instant completedAt) {
             this.completedAt = completedAt;
             return this;
         }
 
-        public TaskResultBuilder<OUTPUT> setExternalId(Object externalId) {
+        public ExecutionResultBuilder<OUTPUT> setExternalId(Object externalId) {
             this.externalId = externalId;
             return this;
         }
 
-        public TaskResultBuilder<OUTPUT> setTick(long tick) {
+        public ExecutionResultBuilder<OUTPUT> setTick(long tick) {
             this.tick = tick;
             return this;
         }
 
-        public TaskResultBuilder<OUTPUT> setRound(long round) {
+        public ExecutionResultBuilder<OUTPUT> setRound(long round) {
             this.round = round;
             return this;
         }
 
-        public TaskResultBuilder<OUTPUT> setCompleted(boolean completed) {
+        public ExecutionResultBuilder<OUTPUT> setCompleted(boolean completed) {
             this.completed = completed;
             return this;
         }
 
-        public TaskResultBuilder<OUTPUT> setError(Throwable error) {
+        public ExecutionResultBuilder<OUTPUT> setError(Throwable error) {
             this.error = error;
             return this;
         }
 
-        public TaskResultBuilder<OUTPUT> setData(OUTPUT data) {
+        public ExecutionResultBuilder<OUTPUT> setData(OUTPUT data) {
             this.data = data;
             return this;
         }
 
-        public TaskResult<OUTPUT> build() { return new TaskResultImpl<>(this); }
+        public ExecutionResult<OUTPUT> build() { return new ExecutionResultImpl<>(this); }
 
     }
 

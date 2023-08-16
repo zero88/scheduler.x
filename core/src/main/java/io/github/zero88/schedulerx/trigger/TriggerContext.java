@@ -5,6 +5,8 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * A runtime trigger information
+ *
+ * @since 2.0.0
  */
 public interface TriggerContext extends HasTriggerType {
 

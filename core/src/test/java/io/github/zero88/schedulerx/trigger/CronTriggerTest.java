@@ -76,9 +76,8 @@ class CronTriggerTest {
     @Test
     void test_preview_trigger_by_default() {
         final CronTrigger trigger = CronTrigger.builder().expression("0 0/5 * * * ?").build();
-        final PreviewParameter parameter = PreviewParameter.byDefault();
-        final List<OffsetDateTime> result = trigger.preview(parameter);
-        Assertions.assertEquals(10, trigger.preview(parameter).size());
+        final List<OffsetDateTime> result = trigger.preview();
+        Assertions.assertEquals(10, result.size());
         Assertions.assertEquals(0, result.stream().filter(Objects::isNull).count());
     }
 

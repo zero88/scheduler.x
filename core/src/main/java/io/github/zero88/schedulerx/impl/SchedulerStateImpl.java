@@ -12,7 +12,7 @@ import java.util.function.BinaryOperator;
 
 import org.jetbrains.annotations.NotNull;
 
-final class TaskExecutorStateImpl<OUTPUT> implements TaskExecutorStateInternal<OUTPUT> {
+final class SchedulerStateImpl<OUTPUT> implements SchedulerStateInternal<OUTPUT> {
 
     private final AtomicReference<Instant> availableAt = new AtomicReference<>();
     private final AtomicLong tick = new AtomicLong(0);
@@ -77,32 +77,32 @@ final class TaskExecutorStateImpl<OUTPUT> implements TaskExecutorStateInternal<O
     public long timerId() { return this.timerId; }
 
     @Override
-    public @NotNull TaskExecutorStateInternal<OUTPUT> timerId(long timerId) {
+    public @NotNull SchedulerStateInternal<OUTPUT> timerId(long timerId) {
         this.timerId = timerId;
         return this;
     }
 
     @Override
-    public @NotNull TaskExecutorStateInternal<OUTPUT> markAvailable() {
+    public @NotNull SchedulerStateInternal<OUTPUT> markAvailable() {
         pending.set(false);
         availableAt.set(Instant.now());
         return this;
     }
 
     @Override
-    public @NotNull TaskExecutorStateInternal<OUTPUT> markExecuting() {
+    public @NotNull SchedulerStateInternal<OUTPUT> markExecuting() {
         executing.set(true);
         return this;
     }
 
     @Override
-    public @NotNull TaskExecutorStateInternal<OUTPUT> markIdle() {
+    public @NotNull SchedulerStateInternal<OUTPUT> markIdle() {
         executing.set(false);
         return this;
     }
 
     @Override
-    public @NotNull TaskExecutorStateInternal<OUTPUT> markCompleted() {
+    public @NotNull SchedulerStateInternal<OUTPUT> markCompleted() {
         completed.set(true);
         return this;
     }

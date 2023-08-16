@@ -11,10 +11,11 @@ import io.vertx.core.Vertx;
 /**
  * Represents for a runtime context per each execution round.
  *
- * @param <OUTPUT> Type of Result data
+ * @param <OUT> Type of task result data
+ * @apiNote This interface is renamed from {@code TaskExecutionContext} since {@code 2.0.0}
  * @since 1.0.0
  */
-public interface TaskExecutionContext<OUTPUT> {
+public interface ExecutionContext<OUT> {
 
     /**
      * Current vertx
@@ -47,6 +48,7 @@ public interface TaskExecutionContext<OUTPUT> {
     /**
      * Runtime trigger context
      *
+     * @see TriggerContext
      * @since 2.0.0
      */
     @NotNull TriggerContext triggerContext();
@@ -69,7 +71,7 @@ public interface TaskExecutionContext<OUTPUT> {
      * @param data object data
      * @apiNote if task is {@code async} then it should be invoked in handling async result stage
      */
-    void complete(@Nullable OUTPUT data);
+    void complete(@Nullable OUT data);
 
     /**
      * Failed execution with error per each round

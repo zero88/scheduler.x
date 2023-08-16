@@ -3,9 +3,9 @@ package io.github.zero88.schedulerx.impl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import io.github.zero88.schedulerx.TaskExecutorState;
+import io.github.zero88.schedulerx.SchedulerState;
 
-interface TaskExecutorStateInternal<OUTPUT> extends TaskExecutorState<OUTPUT> {
+interface SchedulerStateInternal<OUTPUT> extends SchedulerState<OUTPUT> {
 
     /**
      * Add timer id
@@ -13,7 +13,7 @@ interface TaskExecutorStateInternal<OUTPUT> extends TaskExecutorState<OUTPUT> {
      * @param timerId timer id
      * @return this for fluent api
      */
-    @NotNull TaskExecutorStateInternal<OUTPUT> timerId(long timerId);
+    @NotNull SchedulerStateInternal<OUTPUT> timerId(long timerId);
 
     /**
      * Mark task is available to execute
@@ -21,7 +21,7 @@ interface TaskExecutorStateInternal<OUTPUT> extends TaskExecutorState<OUTPUT> {
      * @return this for fluent api
      * @see #pending()
      */
-    @NotNull TaskExecutorStateInternal<OUTPUT> markAvailable();
+    @NotNull SchedulerStateInternal<OUTPUT> markAvailable();
 
     /**
      * Mark task is executing
@@ -29,7 +29,7 @@ interface TaskExecutorStateInternal<OUTPUT> extends TaskExecutorState<OUTPUT> {
      * @return this for fluent api
      * @see #executing()
      */
-    @NotNull TaskExecutorStateInternal<OUTPUT> markExecuting();
+    @NotNull SchedulerStateInternal<OUTPUT> markExecuting();
 
     /**
      * Mark task is idle
@@ -37,7 +37,7 @@ interface TaskExecutorStateInternal<OUTPUT> extends TaskExecutorState<OUTPUT> {
      * @return this for fluent api
      * @see #idle()
      */
-    @NotNull TaskExecutorStateInternal<OUTPUT> markIdle();
+    @NotNull SchedulerStateInternal<OUTPUT> markIdle();
 
     /**
      * Mark state is completed
@@ -45,7 +45,7 @@ interface TaskExecutorStateInternal<OUTPUT> extends TaskExecutorState<OUTPUT> {
      * @return this for fluent api
      * @see #completed()
      */
-    @NotNull TaskExecutorStateInternal<OUTPUT> markCompleted();
+    @NotNull SchedulerStateInternal<OUTPUT> markCompleted();
 
     /**
      * Increase tick
