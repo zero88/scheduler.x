@@ -26,6 +26,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonDeserialize(builder = IntervalTriggerBuilder.class)
 public final class IntervalTrigger implements Trigger {
 
+    public static final String TRIGGER_TYPE = "interval";
+
     public static IntervalTriggerBuilder builder() { return new IntervalTriggerBuilder(); }
 
     /**
@@ -96,7 +98,7 @@ public final class IntervalTrigger implements Trigger {
     }
 
     @Override
-    public @NotNull String type() { return "interval"; }
+    public @NotNull String type() { return TRIGGER_TYPE; }
 
     @Override
     public boolean shouldStop(long round) {
@@ -104,6 +106,7 @@ public final class IntervalTrigger implements Trigger {
     }
 
     @Override
+    @SuppressWarnings("java:S1192")
     public @NotNull IntervalTrigger validate() {
         validate(repeat, false, true, "repeat");
         validate(interval, false, false, "interval");
@@ -157,8 +160,8 @@ public final class IntervalTrigger implements Trigger {
     }
 
     public String toString() {
-        return "IntervalTrigger(initialDelayTimeUnit=" + initialDelayTimeUnit + ", initialDelay=" + initialDelay +
-               ", repeat=" + repeat + ", intervalTimeUnit=" + intervalTimeUnit + ", interval=" + interval + ")";
+        return "IntervalTrigger(initialDelay=" + initialDelay + ", initialDelayTimeUnit=" + initialDelayTimeUnit +
+               ", interval=" + interval + ", intervalTimeUnit=" + intervalTimeUnit + ", repeat=" + repeat + ")";
     }
 
 }

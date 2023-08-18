@@ -47,4 +47,16 @@ public final class Utils {
         // @formatter:on
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T> T castOrNull(Object data, boolean nullIfThrow) {
+        try {
+            return (T) data;
+        } catch (ClassCastException ex) {
+            // @formatter:off
+            if (nullIfThrow) return null;
+            throw ex;
+            // @formatter:on
+        }
+    }
+
 }

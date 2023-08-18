@@ -2,7 +2,7 @@ package io.github.zero88.schedulerx.trigger;
 
 import org.jetbrains.annotations.NotNull;
 
-interface HasTriggerType {
+public interface HasTriggerType {
 
     /**
      * Declares the trigger type
