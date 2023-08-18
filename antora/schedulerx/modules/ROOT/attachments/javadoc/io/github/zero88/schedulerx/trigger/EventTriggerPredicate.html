@@ -73,7 +73,7 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>Type Parameters:</dt>
-<dd><code>T</code> - </dd>
+<dd><code>T</code> - Type of event message</dd>
 </dl>
 <dl class="notes">
 <dt>All Superinterfaces:</dt>
@@ -104,19 +104,29 @@ extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/ja
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="EventTriggerPredicate.html" title="type parameter in EventTriggerPredicate">T</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#convert(io.vertx.core.MultiMap,java.lang.Object)" class="member-name-link">convert</a><wbr>(@NotNull io.vertx.core.MultiMap&nbsp;headers,
- @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;data)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;body)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Convert message headers and body to an event message with desired type.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1"><code>static &lt;T&gt;&nbsp;<a href="EventTriggerPredicate.html" title="interface in io.github.zero88.schedulerx.trigger">EventTriggerPredicate</a>&lt;T&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#create(java.util.function.Predicate)" class="member-name-link">create</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;T&gt;&nbsp;predicate)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1">
 <div class="block">Create an event trigger predicate by the given predicate</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1"><code>static &lt;T&gt;&nbsp;<a href="EventTriggerPredicate.html" title="interface in io.github.zero88.schedulerx.trigger">EventTriggerPredicate</a>&lt;T&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#ignoreType(java.util.function.Predicate)" class="member-name-link">ignoreType</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;T&gt;&nbsp;predicate)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#ignoreType(java.util.function.Predicate,java.lang.String)" class="member-name-link">ignoreType</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;T&gt;&nbsp;predicate,
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;toString)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#test(T)" class="member-name-link">test</a><wbr>(<a href="EventTriggerPredicate.html" title="type parameter in EventTriggerPredicate">T</a>&nbsp;t)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1"><code>static &lt;T&gt;&nbsp;<a href="EventTriggerPredicate.html" title="interface in io.github.zero88.schedulerx.trigger">EventTriggerPredicate</a>&lt;T&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#ignoreType(java.util.function.Predicate)" class="member-name-link">ignoreType</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;T&gt;&nbsp;predicate)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1">
+<div class="block">Create an event trigger predicate allows any kind of event message type within the given predicate.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#test(T)" class="member-name-link">test</a><wbr>(<a href="EventTriggerPredicate.html" title="type parameter in EventTriggerPredicate">T</a>&nbsp;eventMessage)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Evaluates this predicate on the given event message</div>
+</div>
 </div>
 </div>
 </div>
@@ -141,30 +151,30 @@ extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/ja
 </span><span class="modifiers">default</span>&nbsp;<span class="return-type"><a href="EventTriggerPredicate.html" title="type parameter in EventTriggerPredicate">T</a></span>&nbsp;<span class="element-name">convert</span><wbr><span class="parameters">(@NotNull
  @NotNull io.vertx.core.MultiMap&nbsp;headers,
  @Nullable
- @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;data)</span></div>
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;body)</span></div>
+<div class="block">Convert message headers and body to an event message with desired type.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>headers</code> - message headers</dd>
+<dd><code>body</code> - message body</dd>
+<dt>Returns:</dt>
+<dd>an event message</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="test(T)">
 <h3 id="test(java.lang.Object)">test</h3>
 <div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">test</span><wbr><span class="parameters">(@Nullable
- <a href="EventTriggerPredicate.html" title="type parameter in EventTriggerPredicate">T</a>&nbsp;t)</span></div>
+ <a href="EventTriggerPredicate.html" title="type parameter in EventTriggerPredicate">T</a>&nbsp;eventMessage)</span></div>
+<div class="block">Evaluates this predicate on the given event message</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Predicate.html#test(T)" title="class or interface in java.util.function" class="external-link">test</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;<a href="EventTriggerPredicate.html" title="type parameter in EventTriggerPredicate">T</a>&gt;</code></dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="create(java.util.function.Predicate)">
-<h3>create</h3>
-<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="EventTriggerPredicate.html" title="interface in io.github.zero88.schedulerx.trigger">EventTriggerPredicate</a>&lt;T&gt;</span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;T&gt;&nbsp;predicate)</span></div>
-<div class="block">Create an event trigger predicate by the given predicate</div>
-<dl class="notes">
-<dt>Type Parameters:</dt>
-<dd><code>T</code> - type of event</dd>
+<dt>Parameters:</dt>
+<dd><code>eventMessage</code> - the input argument</dd>
 <dt>Returns:</dt>
-<dd>the event trigger predicate</dd>
+<dd>true if the event message argument matches the predicate, otherwise false</dd>
 </dl>
 </section>
 </li>
@@ -182,9 +192,38 @@ extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/ja
 </section>
 </li>
 <li>
+<section class="detail" id="create(java.util.function.Predicate)">
+<h3>create</h3>
+<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="EventTriggerPredicate.html" title="interface in io.github.zero88.schedulerx.trigger">EventTriggerPredicate</a>&lt;T&gt;</span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;T&gt;&nbsp;predicate)</span></div>
+<div class="block">Create an event trigger predicate by the given predicate</div>
+<dl class="notes">
+<dt>Type Parameters:</dt>
+<dd><code>T</code> - type of event</dd>
+<dt>Returns:</dt>
+<dd>the event trigger predicate</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="ignoreType(java.util.function.Predicate)">
 <h3>ignoreType</h3>
 <div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="EventTriggerPredicate.html" title="interface in io.github.zero88.schedulerx.trigger">EventTriggerPredicate</a>&lt;T&gt;</span>&nbsp;<span class="element-name">ignoreType</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;T&gt;&nbsp;predicate)</span></div>
+<div class="block">Create an event trigger predicate allows any kind of event message type within the given predicate.</div>
+<dl class="notes">
+<dt>Type Parameters:</dt>
+<dd><code>T</code> - type of event</dd>
+<dt>Returns:</dt>
+<dd>the event trigger predicate</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="ignoreType(java.util.function.Predicate,java.lang.String)">
+<h3>ignoreType</h3>
+<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="EventTriggerPredicate.html" title="interface in io.github.zero88.schedulerx.trigger">EventTriggerPredicate</a>&lt;T&gt;</span>&nbsp;<span class="element-name">ignoreType</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;T&gt;&nbsp;predicate,
+ @Nullable
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;toString)</span></div>
 </section>
 </li>
 </ul>
