@@ -29,6 +29,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonDeserialize(builder = CronTriggerBuilder.class)
 public final class CronTrigger implements Trigger {
 
+    public static final String TRIGGER_TYPE = "cron";
+
     public static CronTriggerBuilder builder() { return new CronTriggerBuilder(); }
 
     /**
@@ -66,7 +68,7 @@ public final class CronTrigger implements Trigger {
     }
 
     @Override
-    public @NotNull String type() { return "cron"; }
+    public @NotNull String type() { return TRIGGER_TYPE; }
 
     @Override
     public @NotNull CronTrigger validate() {
@@ -110,7 +112,7 @@ public final class CronTrigger implements Trigger {
 
     @Override
     public String toString() {
-        return "CronTrigger(expression=" + expression + ", timeZone=" + timeZone + ')';
+        return "CronTrigger(expression=" + expression + ", timeZone=" + timeZone.getID() + ')';
     }
 
 }

@@ -23,6 +23,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonDeserialize(builder = EventTriggerBuilder.class)
 public final class EventTrigger<T> implements Trigger {
 
+    public static final String TRIGGER_TYPE = "event";
+
     public static <T> EventTriggerBuilder<T> builder() { return new EventTriggerBuilder<>(); }
 
     private final boolean localOnly;
@@ -55,7 +57,7 @@ public final class EventTrigger<T> implements Trigger {
     public @NotNull EventTriggerPredicate<T> getPredicate() { return predicate; }
 
     @Override
-    public @NotNull String type() { return "event"; }
+    public @NotNull String type() { return TRIGGER_TYPE; }
 
     @Override
     public @NotNull EventTrigger<T> validate() { return this; }
@@ -87,8 +89,8 @@ public final class EventTrigger<T> implements Trigger {
 
     @Override
     public String toString() {
-        return "EventTrigger{" + "localOnly=" + localOnly + ", address='" + address + '\'' + ", predicate=" +
-               predicate + '}';
+        return "EventTrigger(address='" + address + '\'' + ", localOnly=" + localOnly + ", predicate='" + predicate +
+               '\'' + ')';
     }
 
 }

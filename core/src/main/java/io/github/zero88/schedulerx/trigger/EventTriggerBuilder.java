@@ -14,17 +14,17 @@ public final class EventTriggerBuilder<T> {
     private boolean localOnly = false;
     private EventTriggerPredicate<T> predicate;
 
-    public EventTriggerBuilder<T> setAddress(String address) {
+    public EventTriggerBuilder<T> address(String address) {
         this.address = address;
         return this;
     }
 
-    public EventTriggerBuilder<T> setPredicate(EventTriggerPredicate<T> predicate) {
+    public EventTriggerBuilder<T> predicate(EventTriggerPredicate<T> predicate) {
         this.predicate = predicate;
         return this;
     }
 
-    public EventTriggerBuilder<T> setLocalOnly(boolean localOnly) {
+    public EventTriggerBuilder<T> localOnly(boolean localOnly) {
         this.localOnly = localOnly;
         return this;
     }

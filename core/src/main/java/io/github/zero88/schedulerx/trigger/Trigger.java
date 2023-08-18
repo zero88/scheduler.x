@@ -5,8 +5,11 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import io.github.zero88.schedulerx.Task;
+import io.github.zero88.schedulerx.spi.TriggerRepresentation;
+import io.github.zero88.schedulerx.spi.TriggerRepresentationServiceLoader;
 
 /**
  * Represents for inspecting settings specific to a Trigger, which is used to fire a <code>{@link Task}</code> at given
@@ -14,7 +17,7 @@ import io.github.zero88.schedulerx.Task;
  *
  * @since 1.0.0
  */
-public interface Trigger extends HasTriggerType {
+public interface Trigger extends HasTriggerType, TriggerRepresentation {
 
     /**
      * Do validate trigger in runtime
@@ -63,5 +66,10 @@ public interface Trigger extends HasTriggerType {
      * @since 2.0.0
      */
     @NotNull List<OffsetDateTime> preview(@NotNull PreviewParameter parameter);
+
+    @Override
+    default @NotNull String display(@Nullable String lang) {
+        return TriggerRepresentationServiceLoader.getInstance().getProvider(type()).apply(this).display(lang);
+    }
 
 }
