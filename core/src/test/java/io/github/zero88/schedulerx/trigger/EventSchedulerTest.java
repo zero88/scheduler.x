@@ -8,6 +8,8 @@ import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,6 +23,8 @@ import io.github.zero88.schedulerx.SchedulingAsserter;
 import io.github.zero88.schedulerx.SchedulingMonitor;
 import io.github.zero88.schedulerx.ExecutionResult;
 import io.github.zero88.schedulerx.TestUtils;
+import io.github.zero88.schedulerx.trigger.TriggerCondition.ReasonCode;
+import io.vertx.core.MultiMap;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.junit5.VertxExtension;
@@ -30,27 +34,55 @@ import io.vertx.junit5.VertxTestContext;
 class EventSchedulerTest {
 
     private static Stream<Arguments> provide_invalid_interval() {
-        return Stream.of(arguments(EventTriggerPredicate.any(), Arrays.asList(1, "COMPLETED"),
-                                   (Consumer<ExecutionResult<Void>>) (r) -> {
-                                       Throwable e = r.error();
-                                       Assertions.assertTrue(r.isError());
-                                       Assertions.assertNotNull(e);
-                                       Assertions.assertInstanceOf(ClassCastException.class, e);
-                                       Assertions.assertTrue(e.getMessage()
-                                                              .contains(
-                                                                  "java.lang.Integer cannot be cast to java.lang" +
-                                                                  ".String"));
-                                   }), arguments(EventTriggerPredicate.<String>create("COMPLETED"::equals),
-                                                 Arrays.asList("Hello", "COMPLETED"),
-                                                 (Consumer<ExecutionResult<Void>>) (r) -> { }));
+        final Arguments arg1 = arguments(EventTriggerPredicate.<String>create(o -> o.startsWith("CO")),
+                                         Arrays.asList(1, "COMPLETED"), (Consumer<ExecutionResult<Void>>) (r) -> {
+                final TriggerCondition condition = r.triggerContext().condition();
+                final Throwable err = condition.cause();
+                Assertions.assertEquals(ReasonCode.CONDITION_IS_NOT_MATCHED, condition.reasonCode());
+                Assertions.assertNotNull(err);
+                Assertions.assertInstanceOf(ClassCastException.class, err);
+            });
+        final Arguments arg2 = arguments(EventTriggerPredicate.<String>create("COMPLETED"::equals),
+                                         Arrays.asList("Hello", "COMPLETED"),
+                                         (Consumer<ExecutionResult<Void>>) (r) -> Assertions.assertEquals(
+                                             ReasonCode.CONDITION_IS_NOT_MATCHED,
+                                             r.triggerContext().condition().reasonCode()));
+        final Arguments arg3 = arguments(new EventTriggerPredicate<String>() {
+            @Override
+            public String convert(@NotNull MultiMap headers, @Nullable Object body) {
+                if ("1".equals(body))
+                    throw new RuntimeException("failed in convert");
+                return (String) body;
+            }
+
+            @Override
+            public boolean test(@Nullable String eventMessage) { return true; }
+        }, Arrays.asList("1", "COMPLETED"), (Consumer<ExecutionResult<Void>>) (r) -> {
+            final TriggerCondition condition = r.triggerContext().condition();
+            final Throwable err = condition.cause();
+            Assertions.assertEquals(ReasonCode.UNEXPECTED_ERROR, condition.reasonCode());
+            Assertions.assertNotNull(err);
+            Assertions.assertInstanceOf(RuntimeException.class, err);
+        });
+        final Arguments arg4 = arguments(EventTriggerPredicate.create(o -> {
+            if ("1".equals(o))
+                throw new IllegalArgumentException("Throw in test");
+            return true;
+        }), Arrays.asList("1", "COMPLETED"), (Consumer<ExecutionResult<Void>>) (r) -> {
+            final TriggerCondition condition = r.triggerContext().condition();
+            final Throwable err = condition.cause();
+            Assertions.assertEquals(ReasonCode.UNEXPECTED_ERROR, condition.reasonCode());
+            Assertions.assertNotNull(err);
+            Assertions.assertInstanceOf(IllegalArgumentException.class, err);
+        });
+        return Stream.of(arg1, arg2, arg3, arg4);
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     @ParameterizedTest
     @MethodSource("provide_invalid_interval")
-    void test_event_trigger_misfire_when_event_info_is_not_match(EventTriggerPredicate predicate, List<Object> sendData,
-                                                                 Consumer<ExecutionResult<Void>> validator, Vertx vertx,
-                                                                 VertxTestContext testContext) {
+    void test_event_trigger_misfire(EventTriggerPredicate<String> predicate, List<Object> data,
+                                    Consumer<ExecutionResult<Void>> validator, Vertx vertx,
+                                    VertxTestContext testContext) {
         final String address = "schedulerx.event.1";
         final EventTrigger<String> trigger = EventTrigger.<String>builder()
                                                          .localOnly(true)
@@ -59,20 +91,26 @@ class EventSchedulerTest {
                                                          .build();
         final Consumer<ExecutionResult<Void>> onMisfire = result -> {
             Assertions.assertEquals(1, result.tick());
+            Assertions.assertEquals(0, result.round());
             validator.accept(result);
+        };
+        final Consumer<ExecutionResult<Void>> onCompleted = result -> {
+            Assertions.assertEquals(2, result.tick());
+            Assertions.assertEquals(1, result.round());
         };
         final SchedulingMonitor<Void> asserter = SchedulingAsserter.<Void>builder()
                                                                    .setTestContext(testContext)
                                                                    .setMisfire(onMisfire)
+                                                                   .setCompleted(onCompleted)
                                                                    .build();
         EventScheduler.<Void, Void, String>builder()
                       .setVertx(vertx)
                       .setMonitor(asserter)
                       .setTrigger(trigger)
-                      .setTask(NoopTask.create(sendData.size() - 1))
+                      .setTask(NoopTask.create(data.size() - 1))
                       .build()
                       .start();
-        sendData.forEach(d -> {
+        data.forEach(d -> {
             vertx.eventBus().publish(address, d);
             TestUtils.sleep(1000, testContext);
         });

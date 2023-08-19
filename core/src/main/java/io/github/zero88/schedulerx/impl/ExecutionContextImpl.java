@@ -13,7 +13,6 @@ final class ExecutionContextImpl<OUTPUT> implements ExecutionContextInternal<OUT
 
     private final Vertx vertx;
     private final long round;
-    private final Instant triggeredAt;
     private final TriggerContext triggerContext;
     private Instant executedAt;
     private Promise<Object> promise;
@@ -21,10 +20,9 @@ final class ExecutionContextImpl<OUTPUT> implements ExecutionContextInternal<OUT
     private Throwable error;
     private boolean forceStop = false;
 
-    public ExecutionContextImpl(Vertx vertx, long round, Instant triggeredAt, TriggerContext triggerContext) {
+    ExecutionContextImpl(Vertx vertx, long round, TriggerContext triggerContext) {
         this.vertx          = vertx;
         this.round          = round;
-        this.triggeredAt    = triggeredAt;
         this.triggerContext = triggerContext;
     }
 
@@ -41,11 +39,9 @@ final class ExecutionContextImpl<OUTPUT> implements ExecutionContextInternal<OUT
 
     public @NotNull Vertx vertx()                   { return this.vertx; }
 
-    public @NotNull Instant triggeredAt()           { return this.triggeredAt; }
+    public @NotNull TriggerContext triggerContext() { return this.triggerContext; }
 
     public @NotNull Instant executedAt()            { return this.executedAt; }
-
-    public @NotNull TriggerContext triggerContext() { return this.triggerContext; }
 
     public long round()                             { return this.round; }
 

@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.Assertions;
 
+import io.github.zero88.schedulerx.trigger.TriggerCondition.TriggerStatus;
 import io.vertx.junit5.VertxTestContext;
 
 /**
@@ -50,6 +51,8 @@ public final class SchedulingAsserter<OUT> implements SchedulingMonitor<OUT> {
         verify(result, r -> {
             Assertions.assertNotNull(result.externalId());
             Assertions.assertNotNull(result.unscheduledAt());
+            Assertions.assertNotNull(result.triggerContext());
+            Assertions.assertTrue(result.triggerContext().condition().isFailed());
             Assertions.assertNull(result.availableAt());
             Assertions.assertNull(result.rescheduledAt());
             Assertions.assertNull(result.triggeredAt());
@@ -82,6 +85,9 @@ public final class SchedulingAsserter<OUT> implements SchedulingMonitor<OUT> {
             Assertions.assertNotNull(result.externalId());
             Assertions.assertNotNull(result.availableAt());
             Assertions.assertNotNull(result.triggeredAt());
+            Assertions.assertNotNull(result.triggerContext());
+            Assertions.assertNotNull(result.triggerContext().condition());
+            Assertions.assertTrue(result.triggerContext().condition().isSkip());
             Assertions.assertNull(result.rescheduledAt());
             Assertions.assertNull(result.executedAt());
             Assertions.assertNull(result.finishedAt());
@@ -97,6 +103,8 @@ public final class SchedulingAsserter<OUT> implements SchedulingMonitor<OUT> {
             Assertions.assertNotNull(result.externalId());
             Assertions.assertNotNull(result.availableAt());
             Assertions.assertNotNull(result.triggeredAt());
+            Assertions.assertNotNull(result.triggerContext());
+            Assertions.assertTrue(result.triggerContext().condition().isReady());
             Assertions.assertNotNull(result.executedAt());
             Assertions.assertNotNull(result.finishedAt());
             Assertions.assertNull(result.rescheduledAt());
@@ -111,6 +119,8 @@ public final class SchedulingAsserter<OUT> implements SchedulingMonitor<OUT> {
             Assertions.assertNotNull(result.externalId());
             Assertions.assertNotNull(result.availableAt());
             Assertions.assertNotNull(result.completedAt());
+            Assertions.assertNotNull(result.triggerContext());
+            Assertions.assertTrue(result.triggerContext().condition().isStop());
             Assertions.assertTrue(result.isCompleted());
             Assertions.assertNull(result.triggeredAt());
             Assertions.assertNull(result.executedAt());
@@ -155,13 +165,11 @@ public final class SchedulingAsserter<OUT> implements SchedulingMonitor<OUT> {
                                                                       @Nullable String errorMsg) {
         return SchedulingAsserter.<OUT>builder().setTestContext(testContext).setUnableSchedule(result -> {
             testContext.verify(() -> {
-                Assertions.assertNull(result.availableAt());
-                Assertions.assertNotNull(result.externalId());
-                Assertions.assertNotNull(result.unscheduledAt());
-                Assertions.assertNotNull(result.error());
-                Assertions.assertInstanceOf(errorClazz, result.error());
+                final Throwable cause = result.triggerContext().condition().cause();
+                Assertions.assertNotNull(cause);
+                Assertions.assertInstanceOf(errorClazz, cause);
                 if (errorMsg != null) {
-                    Assertions.assertEquals(errorMsg, result.error().getMessage());
+                    Assertions.assertEquals(errorMsg, cause.getMessage());
                 }
             });
             testContext.completeNow();

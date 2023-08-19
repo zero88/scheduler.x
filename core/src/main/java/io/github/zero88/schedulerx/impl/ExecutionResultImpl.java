@@ -5,6 +5,7 @@ import java.time.Instant;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.zero88.schedulerx.ExecutionResult;
+import io.github.zero88.schedulerx.trigger.TriggerContext;
 
 final class ExecutionResultImpl<OUTPUT> implements ExecutionResult<OUTPUT> {
 
@@ -21,28 +22,33 @@ final class ExecutionResultImpl<OUTPUT> implements ExecutionResult<OUTPUT> {
     private final long tick;
     private final long round;
     private final boolean completed;
+    private final TriggerContext triggerContext;
     private final Throwable error;
     private final OUTPUT data;
 
     ExecutionResultImpl(ExecutionResultBuilder<OUTPUT> builder) {
-        this.unscheduledAt = builder.unscheduledAt;
-        this.rescheduledAt = builder.rescheduledAt;
-        this.availableAt   = builder.availableAt;
-        this.triggeredAt   = builder.triggeredAt;
-        this.executedAt    = builder.executedAt;
-        this.finishedAt    = builder.finishedAt;
-        this.completedAt   = builder.completedAt;
-        this.externalId    = builder.externalId;
-        this.tick          = builder.tick;
-        this.round         = builder.round;
-        this.completed     = builder.completed;
-        this.error         = builder.error;
-        this.data          = builder.data;
+        this.unscheduledAt  = builder.unscheduledAt;
+        this.rescheduledAt  = builder.rescheduledAt;
+        this.availableAt    = builder.availableAt;
+        this.triggeredAt    = builder.triggeredAt;
+        this.executedAt     = builder.executedAt;
+        this.finishedAt     = builder.finishedAt;
+        this.completedAt    = builder.completedAt;
+        this.externalId     = builder.externalId;
+        this.tick           = builder.tick;
+        this.round          = builder.round;
+        this.completed      = builder.completed;
+        this.triggerContext = builder.triggerContext;
+        this.error          = builder.error;
+        this.data           = builder.data;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T> @Nullable T externalId() { return (T) this.externalId; }
+
+    @Override
+    public TriggerContext triggerContext() { return this.triggerContext; }
 
     public Instant unscheduledAt() { return this.unscheduledAt; }
 
@@ -81,6 +87,7 @@ final class ExecutionResultImpl<OUTPUT> implements ExecutionResult<OUTPUT> {
         long tick;
         long round;
         boolean completed;
+        TriggerContext triggerContext;
         Throwable error;
         OUTPUT data;
 
@@ -136,6 +143,11 @@ final class ExecutionResultImpl<OUTPUT> implements ExecutionResult<OUTPUT> {
 
         public ExecutionResultBuilder<OUTPUT> setCompleted(boolean completed) {
             this.completed = completed;
+            return this;
+        }
+
+        public ExecutionResultBuilder<OUTPUT> setTriggerContext(TriggerContext triggerContext) {
+            this.triggerContext = triggerContext;
             return this;
         }
 
