@@ -5,10 +5,11 @@ import java.time.Instant;
 import org.jetbrains.annotations.NotNull;
 
 import io.github.zero88.schedulerx.JobData;
-import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.SchedulingMonitor;
+import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.impl.AbstractScheduler;
 import io.github.zero88.schedulerx.impl.AbstractSchedulerBuilder;
+import io.github.zero88.schedulerx.impl.TriggerContextFactory;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
@@ -27,7 +28,7 @@ final class CronSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, CronTr
         try {
             final long nextTriggerAfter = trigger().nextTriggerAfter(Instant.now());
             promise.complete(vertx().setTimer(nextTriggerAfter, timerId -> {
-                run(workerExecutor, TriggerContext.empty(trigger().type()));
+                run(workerExecutor, TriggerContextFactory.init(trigger().type()));
                 doStart(workerExecutor);
             }));
         } catch (Exception ex) {

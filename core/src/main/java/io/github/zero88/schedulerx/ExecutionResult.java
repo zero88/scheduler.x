@@ -5,6 +5,8 @@ import java.util.Objects;
 
 import org.jetbrains.annotations.Nullable;
 
+import io.github.zero88.schedulerx.trigger.TriggerContext;
+
 /**
  * Represents for task result will be pass on each event of {@link SchedulingMonitor}
  *
@@ -24,6 +26,8 @@ public interface ExecutionResult<OUTPUT> {
      *     Please use the correct data type otherwise you may get {@link ClassCastException} at runtime.
      */
     @Nullable <T> T externalId();
+
+    TriggerContext triggerContext();
 
     /**
      * Only {@code not null} in {@link SchedulingMonitor#onUnableSchedule(ExecutionResult)}

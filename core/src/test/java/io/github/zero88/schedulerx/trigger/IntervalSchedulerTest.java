@@ -17,6 +17,7 @@ import io.github.zero88.schedulerx.SchedulingAsserter;
 import io.github.zero88.schedulerx.SchedulingMonitor;
 import io.github.zero88.schedulerx.ExecutionResult;
 import io.github.zero88.schedulerx.TestUtils;
+import io.github.zero88.schedulerx.trigger.TriggerCondition.ReasonCode;
 import io.vertx.core.Vertx;
 import io.vertx.junit5.Checkpoint;
 import io.vertx.junit5.VertxExtension;
@@ -86,15 +87,15 @@ class IntervalSchedulerTest {
                                                                     .setTestContext(testContext)
                                                                     .setCompleted(onComplete)
                                                                     .build();
-        final IntervalTrigger trigger = IntervalTrigger.builder().interval(2).repeat(3).build();
+        final IntervalTrigger trigger = IntervalTrigger.builder().interval(1).repeat(3).build();
         IntervalScheduler.<Void, Void>builder()
                          .setVertx(vertx)
                          .setMonitor(asserter)
                          .setTrigger(trigger)
                          .setTask((jobData, ctx) -> {
-                                   TestUtils.sleep(3000, testContext);
-                                   checkpoint.flag();
-                               })
+                             TestUtils.sleep(3000, testContext);
+                             checkpoint.flag();
+                         })
                          .build()
                          .start();
     }
@@ -113,6 +114,7 @@ class IntervalSchedulerTest {
                 Assertions.assertNull(result.error());
                 Assertions.assertEquals("OK", result.data());
             }
+            Assertions.assertNull(result.triggerContext().info());
         };
         final SchedulingAsserter<String> asserter = SchedulingAsserter.<String>builder()
                                                                       .setTestContext(context)
@@ -136,6 +138,26 @@ class IntervalSchedulerTest {
                          .setMonitor(asserter)
                          .setTrigger(trigger)
                          .setTask(task)
+                         .build()
+                         .start();
+    }
+
+    @Test
+    void test_scheduler_should_be_stopped_when_reach_to_target_round(Vertx vertx, VertxTestContext context) {
+        final Consumer<ExecutionResult<String>> onCompleted = result -> {
+            Assertions.assertTrue(result.triggerContext().condition().isStop());
+            Assertions.assertEquals(ReasonCode.STOP_BY_CONFIG, result.triggerContext().condition().reasonCode());
+        };
+        final SchedulingAsserter<String> asserter = SchedulingAsserter.<String>builder()
+                                                                      .setTestContext(context)
+                                                                      .setCompleted(onCompleted)
+                                                                      .build();
+        final IntervalTrigger trigger = IntervalTrigger.builder().interval(1).repeat(3).build();
+        IntervalScheduler.<Void, String>builder()
+                         .setVertx(vertx)
+                         .setMonitor(asserter)
+                         .setTrigger(trigger)
+                         .setTask(NoopTask.create())
                          .build()
                          .start();
     }

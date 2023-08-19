@@ -52,6 +52,7 @@ class CronSchedulerTest {
                 Assertions.assertNull(result.error());
                 Assertions.assertEquals("OK", result.data());
             }
+            Assertions.assertNull(result.triggerContext().info());
         };
         final Consumer<ExecutionResult<String>> onCompleted = result -> {
             Assertions.assertEquals(4, result.round());

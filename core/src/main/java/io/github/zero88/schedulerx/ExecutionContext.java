@@ -1,6 +1,7 @@
 package io.github.zero88.schedulerx;
 
 import java.time.Instant;
+import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -32,11 +33,21 @@ public interface ExecutionContext<OUT> {
     long round();
 
     /**
+     * Runtime trigger context
+     *
+     * @see TriggerContext
+     * @since 2.0.0
+     */
+    @NotNull TriggerContext triggerContext();
+
+    /**
      * Trigger execution at time
      *
      * @return triggeredAt
      */
-    @NotNull Instant triggeredAt();
+    default @NotNull Instant triggeredAt() {
+        return Objects.requireNonNull(triggerContext().triggerAt());
+    }
 
     /**
      * Executed at time
@@ -44,14 +55,6 @@ public interface ExecutionContext<OUT> {
      * @return executedAt
      */
     @NotNull Instant executedAt();
-
-    /**
-     * Runtime trigger context
-     *
-     * @see TriggerContext
-     * @since 2.0.0
-     */
-    @NotNull TriggerContext triggerContext();
 
     /**
      * Check whether force stop execution or not

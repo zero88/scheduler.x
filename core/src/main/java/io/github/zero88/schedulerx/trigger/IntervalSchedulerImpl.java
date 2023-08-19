@@ -10,6 +10,7 @@ import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.SchedulingMonitor;
 import io.github.zero88.schedulerx.impl.AbstractScheduler;
 import io.github.zero88.schedulerx.impl.AbstractSchedulerBuilder;
+import io.github.zero88.schedulerx.impl.TriggerContextFactory;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
@@ -27,7 +28,7 @@ final class IntervalSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, In
         try {
             LongSupplier supplier = () -> vertx().setPeriodic(trigger().intervalInMilliseconds(),
                                                               timerId -> run(workerExecutor,
-                                                                             TriggerContext.empty(trigger().type())));
+                                                                             TriggerContextFactory.init(trigger().type())));
             if (trigger().noDelay()) {
                 promise.complete(supplier.getAsLong());
             } else {

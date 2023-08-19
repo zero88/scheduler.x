@@ -1,6 +1,7 @@
 package io.github.zero88.schedulerx.impl;
 
 import java.time.Instant;
+import java.util.Objects;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -8,14 +9,15 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import io.github.zero88.schedulerx.ExecutionContext;
+import io.github.zero88.schedulerx.ExecutionResult;
 import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.Scheduler;
-import io.github.zero88.schedulerx.Task;
-import io.github.zero88.schedulerx.ExecutionContext;
-import io.github.zero88.schedulerx.TaskExecutor;
 import io.github.zero88.schedulerx.SchedulingMonitor;
-import io.github.zero88.schedulerx.ExecutionResult;
+import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.trigger.Trigger;
+import io.github.zero88.schedulerx.trigger.TriggerCondition.ReasonCode;
+import io.github.zero88.schedulerx.trigger.TriggerCondition.TriggerStatus;
 import io.github.zero88.schedulerx.trigger.TriggerContext;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
@@ -36,7 +38,7 @@ import io.vertx.core.impl.logging.LoggerFactory;
 public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements Scheduler<IN, OUT, T> {
 
     @SuppressWarnings("java:S3416")
-    protected static final Logger LOGGER = LoggerFactory.getLogger(TaskExecutor.class);
+    protected static final Logger LOGGER = LoggerFactory.getLogger(Scheduler.class);
 
     private final @NotNull Vertx vertx;
     private final @NotNull SchedulerStateInternal<OUT> state;
@@ -129,7 +131,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     public final void cancel() {
         if (!state.completed()) {
             trace(Instant.now(), "Canceling the task");
-            doStop(state.timerId());
+            doStop(state.timerId(), TriggerContextFactory.stop(trigger().type(), ReasonCode.STOP_BY_MANUAL));
         }
     }
 
@@ -139,9 +141,9 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
             .onFailure(this::onUnableSchedule);
     }
 
-    protected final void doStop(long timerId) {
+    protected final void doStop(long timerId, TriggerContext context) {
         unregisterTimer(timerId);
-        onCompleted();
+        onCompleted(context);
     }
 
     protected abstract @NotNull Future<Long> registerTimer(@NotNull Promise<Long> promise,
@@ -149,34 +151,53 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
 
     protected void unregisterTimer(long timerId) { vertx.cancelTimer(timerId); }
 
-    protected InternalTriggerContext shouldRun(@NotNull Instant triggerAt, @NotNull TriggerContext triggerContext) {
-        state.increaseTick();
+    protected final TriggerContext shouldRun(@NotNull TriggerContext triggerContext) {
+        if (triggerContext.condition().status() != TriggerStatus.INITIALIZED) {
+            return triggerContext;
+        }
+        if (state.pending()) {
+            return TriggerContextFactory.skip(triggerContext, ReasonCode.NOT_YET_SCHEDULED);
+        }
         if (state.completed()) {
-            trace(triggerAt, "The task execution is already completed");
+            return TriggerContextFactory.skip(triggerContext, ReasonCode.ALREADY_STOPPED);
         }
         if (state.executing()) {
-            onMisfire(triggerAt, "The task is still running");
+            return TriggerContextFactory.skip(triggerContext, ReasonCode.TASK_IS_RUNNING);
         }
-        return InternalTriggerContext.create(state.idle() && trigger().shouldExecute(triggerAt), triggerContext);
+        return evaluateTrigger(triggerContext);
     }
 
-    protected final boolean shouldStop(@Nullable ExecutionContext<OUT> executionContext, long round) {
-        return (executionContext != null && executionContext.isForceStop()) || trigger().shouldStop(round);
+    protected final TriggerContext shouldStop(@NotNull TriggerContext triggerContext, boolean isForceStop, long round) {
+        if (isForceStop) {
+            return TriggerContextFactory.stop(triggerContext, ReasonCode.STOP_BY_TASK);
+        }
+        return trigger().shouldStop(round)
+               ? TriggerContextFactory.stop(triggerContext, ReasonCode.STOP_BY_CONFIG)
+               : triggerContext;
+    }
+
+    protected TriggerContext evaluateTrigger(@NotNull TriggerContext triggerContext) {
+        return trigger().shouldExecute(Objects.requireNonNull(triggerContext.triggerAt()))
+               ? TriggerContextFactory.ready(triggerContext)
+               : TriggerContextFactory.skip(triggerContext, ReasonCode.CONDITION_IS_NOT_MATCHED);
     }
 
     protected final void run(WorkerExecutor workerExecutor, TriggerContext triggerContext) {
-        final Instant triggerAt = Instant.now();
-        final InternalTriggerContext internalContext = shouldRun(triggerAt, triggerContext);
-        if (internalContext.shouldRun()) {
-            final TriggerContext triggerCtx = TriggerContext.create(internalContext.type(), internalContext.info());
+        state.increaseTick();
+        final TriggerContext transitionCtx = shouldRun(triggerContext);
+        if (transitionCtx.condition().isReady()) {
             final ExecutionContextInternal<OUT> ctx = new ExecutionContextImpl<>(vertx, state.increaseRound(),
-                                                                                 triggerAt, triggerCtx);
-            trace(triggerAt, "Trigger the task execution");
+                                                                                 transitionCtx);
+            trace(Objects.requireNonNull(transitionCtx.triggerAt()), "Trigger the task execution");
             if (workerExecutor != null) {
-                workerExecutor.executeBlocking(promise -> executeTask(onExecute(promise, ctx)), this::onResult);
+                workerExecutor.executeBlocking(promise -> executeTask(onExecute(promise, ctx)),
+                                               asyncResult -> onResult(transitionCtx, asyncResult));
             } else {
-                vertx.executeBlocking(promise -> executeTask(onExecute(promise, ctx)), this::onResult);
+                vertx.executeBlocking(promise -> executeTask(onExecute(promise, ctx)),
+                                      asyncResult -> onResult(transitionCtx, asyncResult));
             }
+        } else {
+            onMisfire(transitionCtx);
         }
     }
 
@@ -206,54 +227,61 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     }
 
     protected final void onUnableSchedule(Throwable t) {
+        final TriggerContext triggerContext = TriggerContextFactory.failed(trigger.type(),
+                                                                           ReasonCode.FAILED_TO_SCHEDULE, t);
         monitor.onUnableSchedule(ExecutionResultImpl.<OUT>builder()
                                                     .setExternalId(jobData.externalId())
                                                     .setTick(state.tick())
                                                     .setRound(state.round())
                                                     .setUnscheduledAt(Instant.now())
-                                                    .setError(t)
+                                                    .setTriggerContext(triggerContext)
                                                     .build());
     }
 
-    protected final void onMisfire(@NotNull Instant triggerAt, String reason) {
-        trace(triggerAt, "Skip the execution::" + reason);
+    protected final void onMisfire(@NotNull TriggerContext triggerContext) {
+        trace(Objects.requireNonNull(triggerContext.triggerAt()),
+              "Skip the execution::" + triggerContext.condition().reasonCode());
         monitor.onMisfire(ExecutionResultImpl.<OUT>builder()
                                              .setExternalId(jobData.externalId())
                                              .setTick(state.tick())
                                              .setAvailableAt(state.availableAt())
-                                             .setTriggeredAt(triggerAt)
+                                             .setTriggeredAt(triggerContext.triggerAt())
+                                             .setTriggerContext(triggerContext)
                                              .build());
     }
 
     @SuppressWarnings("unchecked")
-    protected final void onResult(@NotNull AsyncResult<Object> asyncResult) {
+    protected final void onResult(@NotNull TriggerContext triggerContext, @NotNull AsyncResult<Object> asyncResult) {
         state.markIdle();
         final Instant finishedAt = Instant.now();
-        if (asyncResult.failed()) {
-            LOGGER.warn(genMsg(state.tick(), state.round(), finishedAt, "Programming error"), asyncResult.cause());
-        }
-        ExecutionContextInternal<OUT> executionContext = (ExecutionContextInternal<OUT>) asyncResult.result();
+        TriggerContext transitionCtx;
         if (asyncResult.succeeded()) {
             trace(finishedAt, "Received the task result");
+            final ExecutionContextInternal<OUT> executionCtx = (ExecutionContextInternal<OUT>) asyncResult.result();
             monitor.onEach(ExecutionResultImpl.<OUT>builder()
                                               .setExternalId(jobData.externalId())
                                               .setAvailableAt(state.availableAt())
                                               .setTick(state.tick())
-                                              .setRound(executionContext.round())
-                                              .setTriggeredAt(executionContext.triggeredAt())
-                                              .setExecutedAt(executionContext.executedAt())
+                                              .setRound(executionCtx.round())
+                                              .setTriggerContext(triggerContext)
+                                              .setTriggeredAt(executionCtx.triggeredAt())
+                                              .setExecutedAt(executionCtx.executedAt())
                                               .setFinishedAt(finishedAt)
-                                              .setData(state.addData(executionContext.round(), executionContext.data()))
-                                              .setError(state.addError(executionContext.round(), executionContext.error()))
+                                              .setData(state.addData(executionCtx.round(), executionCtx.data()))
+                                              .setError(state.addError(executionCtx.round(), executionCtx.error()))
                                               .setCompleted(state.completed())
                                               .build());
+            transitionCtx = shouldStop(triggerContext, executionCtx.isForceStop(), state.round());
+        } else {
+            LOGGER.warn(genMsg(state.tick(), state.round(), finishedAt, "Programming error"), asyncResult.cause());
+            transitionCtx = shouldStop(triggerContext, false, state.round());
         }
-        if (shouldStop(executionContext, state.round())) {
-            doStop(state.timerId());
+        if (transitionCtx.condition().isStop()) {
+            doStop(state.timerId(), transitionCtx);
         }
     }
 
-    protected final void onCompleted() {
+    protected final void onCompleted(TriggerContext context) {
         state.markCompleted();
         final Instant completedAt = Instant.now();
         trace(completedAt, "The task execution is completed");
@@ -262,6 +290,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
                                                .setAvailableAt(state.availableAt())
                                                .setTick(state.tick())
                                                .setRound(state.round())
+                                               .setTriggerContext(context)
                                                .setCompleted(state.completed())
                                                .setCompletedAt(completedAt)
                                                .setData(state.lastData())

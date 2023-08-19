@@ -18,6 +18,7 @@ import io.github.zero88.schedulerx.trigger.CronScheduler;
 import io.github.zero88.schedulerx.trigger.CronTrigger;
 import io.github.zero88.schedulerx.trigger.IntervalScheduler;
 import io.github.zero88.schedulerx.trigger.IntervalTrigger;
+import io.github.zero88.schedulerx.trigger.TriggerCondition.ReasonCode;
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
 import io.vertx.core.json.JsonArray;
@@ -41,16 +42,16 @@ class SchedulerTest {
                                                                     .setTestContext(testCtx)
                                                                     .setCompleted(completed)
                                                                     .build();
-        final CronScheduler<Void, Void> executor = CronScheduler.<Void, Void>builder()
-                                                                .setVertx(vertx)
-                                                                .setTrigger(trigger)
-                                                                .setTask(NoopTask.create(2))
-                                                                .setMonitor(asserter)
-                                                                .build();
+        final CronScheduler<Void, Void> scheduler = CronScheduler.<Void, Void>builder()
+                                                                 .setVertx(vertx)
+                                                                 .setTrigger(trigger)
+                                                                 .setTask(NoopTask.create(2))
+                                                                 .setMonitor(asserter)
+                                                                 .build();
 
         final int nbOfThreads = 5;
         final int nbOfFailed = nbOfThreads - 1;
-        final List<Exception> store = TestUtils.simulateRunActionInParallel(testCtx, executor::start, nbOfThreads);
+        final List<Exception> store = TestUtils.simulateRunActionInParallel(testCtx, scheduler::start, nbOfThreads);
 
         Assertions.assertTrue(testCtx.awaitCompletion(timeout, TimeUnit.SECONDS));
         Assertions.assertEquals(nbOfFailed, store.size());
@@ -64,9 +65,7 @@ class SchedulerTest {
     void test_scheduler_should_run_task_in_dedicated_thread(Vertx vertx, VertxTestContext testContext) {
         final String threadName = "HELLO";
         final WorkerExecutor worker = vertx.createSharedWorkerExecutor(threadName, 1);
-        final SchedulingAsserter<Object> asserter = SchedulingAsserter.builder()
-                                                                      .setTestContext(testContext)
-                                                                      .build();
+        final SchedulingAsserter<Object> asserter = SchedulingAsserter.builder().setTestContext(testContext).build();
         final Task<Object, Object> task = (d, ec) -> Assertions.assertEquals(threadName + "-0",
                                                                              Thread.currentThread().getName());
         final IntervalTrigger trigger = IntervalTrigger.builder().interval(2).repeat(1).build();
@@ -111,12 +110,10 @@ class SchedulerTest {
     @Test
     void test_scheduler_should_able_to_force_stop(Vertx vertx, VertxTestContext testContext) {
         final Consumer<ExecutionResult<Object>> completed = result -> {
-            Assertions.assertNotNull(result.availableAt());
-            Assertions.assertNotNull(result.completedAt());
             Assertions.assertEquals(3, result.round());
             Assertions.assertEquals(3, result.tick());
-            Assertions.assertTrue(result.isCompleted());
-            Assertions.assertFalse(result.isError());
+            Assertions.assertTrue(result.triggerContext().condition().isStop());
+            Assertions.assertEquals(ReasonCode.STOP_BY_TASK, result.triggerContext().condition().reasonCode());
         };
         final SchedulingAsserter<Object> asserter = SchedulingAsserter.builder()
                                                                       .setTestContext(testContext)
