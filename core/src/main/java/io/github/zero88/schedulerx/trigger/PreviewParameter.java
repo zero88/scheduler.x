@@ -4,11 +4,12 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.TimeZone;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
 
 /**
  * The preview parameter to generate the next trigger time of the specific trigger.
@@ -19,9 +20,10 @@ public final class PreviewParameter {
 
     public static final int MAX_TIMES = 30;
 
-    private Instant startedAt;
+    private Instant startedAt = Instant.now();
     private int times;
     private ZoneId timeZone;
+    private TriggerRule rule = TriggerRule.NOOP;
 
     /**
      * Create default the preview parameter with startedAt is now and times = 10
@@ -35,8 +37,8 @@ public final class PreviewParameter {
     /**
      * @return the started at time to generate the preview results
      */
-    public Instant getStartedAt() {
-        return Optional.ofNullable(startedAt).orElseGet(Instant::now);
+    public @NotNull Instant getStartedAt() {
+        return startedAt;
     }
 
     /**
@@ -45,8 +47,10 @@ public final class PreviewParameter {
      * @param startedAt started at time
      * @return this for fluent API
      */
-    public PreviewParameter setStartedAt(Instant startedAt) {
-        this.startedAt = startedAt;
+    public @NotNull PreviewParameter setStartedAt(Instant startedAt) {
+        if (startedAt != null) {
+            this.startedAt = startedAt;
+        }
         return this;
     }
 
@@ -63,7 +67,7 @@ public final class PreviewParameter {
      * @param times the number of a preview item
      * @return this for fluent API
      */
-    public PreviewParameter setTimes(int times) {
+    public @NotNull PreviewParameter setTimes(int times) {
         this.times = times;
         return this;
     }
@@ -105,6 +109,27 @@ public final class PreviewParameter {
      */
     public PreviewParameter setTimeZone(ZoneOffset zoneOffset) {
         this.timeZone = Objects.requireNonNull(zoneOffset).normalized();
+        return this;
+    }
+
+    /**
+     * @return the trigger rule
+     * @see TriggerRule
+     */
+    public @NotNull TriggerRule getRule() {
+        return rule;
+    }
+
+    /**
+     * Set a trigger rule in the preview parameter
+     *
+     * @param rule trigger rule
+     * @return this for fluent API
+     */
+    public @NotNull PreviewParameter setRule(TriggerRule rule) {
+        if (rule != null) {
+            this.rule = rule;
+        }
         return this;
     }
 

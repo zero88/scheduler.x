@@ -15,6 +15,8 @@ import java.util.TimeZone;
 
 import org.jetbrains.annotations.NotNull;
 
+import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -85,12 +87,18 @@ public final class CronTrigger implements Trigger {
     @Override
     public @NotNull List<OffsetDateTime> preview(@NotNull PreviewParameter parameter) {
         validate();
-        Instant next = parameter.getStartedAt();
-        final ZoneId zoneId = Optional.ofNullable(parameter.getTimeZone()).orElseGet(timeZone::toZoneId);
         final List<OffsetDateTime> result = new ArrayList<>();
+        final TriggerRule rule = parameter.getRule();
+        final ZoneId zoneId = Optional.ofNullable(parameter.getTimeZone()).orElseGet(timeZone::toZoneId);
+        Instant next = parameter.getStartedAt();
         do {
             next = cronExpression.getNextValidTimeAfter(Date.from(next)).toInstant();
-            result.add(next.atZone(zoneId).toOffsetDateTime());
+            if (rule.isExceeded(next)) {
+                break;
+            }
+            if (rule.satisfy(next)) {
+                result.add(next.atZone(zoneId).toOffsetDateTime());
+            }
         } while (result.size() != parameter.getTimes());
         return result;
     }

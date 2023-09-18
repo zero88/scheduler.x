@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import org.jetbrains.annotations.NotNull;
 
 import io.github.zero88.schedulerx.impl.Utils;
+import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -42,7 +43,7 @@ public final class IntervalTrigger implements Trigger {
      */
     private final long repeat;
     /**
-     * Get the initial delay time (in {@link #getInitialDelayTimeUnit()}) before firing trigger in first time.
+     * Get the initial delay time (in {@link #getInitialDelayTimeUnit()}) before emitting trigger in the first time.
      *
      * @apiNote Default is {@code 0}
      */
@@ -116,20 +117,26 @@ public final class IntervalTrigger implements Trigger {
 
     @Override
     public @NotNull List<OffsetDateTime> preview(@NotNull PreviewParameter parameter) {
-        final long count = Math.min(repeat, parameter.getTimes());
         final List<OffsetDateTime> result = new ArrayList<>();
+        final long count = Math.min(repeat, parameter.getTimes());
+        final TriggerRule rule = parameter.getRule();
         final ZoneId zoneId = Optional.ofNullable(parameter.getTimeZone()).orElse(ZoneOffset.UTC);
         Instant next = parameter.getStartedAt();
         next = next.plus(initialDelay, Utils.toChronoUnit(initialDelayTimeUnit));
         do {
             next = next.plus(interval, Utils.toChronoUnit(intervalTimeUnit));
-            result.add(next.atZone(zoneId).toOffsetDateTime());
+            if (rule.isExceeded(next)) {
+                break;
+            }
+            if (rule.satisfy(next)) {
+                result.add(next.atZone(zoneId).toOffsetDateTime());
+            }
         } while (result.size() != count);
         return result;
     }
 
-    static void validate(long number, boolean allowZero, boolean allowIndefinitely, String msg) {
-        if (number > 0 || (allowZero && number == 0) || (allowIndefinitely && number == REPEAT_INDEFINITELY)) {
+    static void validate(long number, boolean allowZero, boolean allowInfinite, String msg) {
+        if (number > 0 || (allowZero && number == 0) || (allowInfinite && number == REPEAT_INDEFINITELY)) {
             return;
         }
         throw new IllegalArgumentException("Invalid " + msg + " value");

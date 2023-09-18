@@ -10,10 +10,11 @@ import org.jetbrains.annotations.Nullable;
 import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.spi.TriggerRepresentation;
 import io.github.zero88.schedulerx.spi.TriggerRepresentationServiceLoader;
+import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
 
 /**
  * Represents for inspecting settings specific to a Trigger, which is used to fire a <code>{@link Task}</code> at given
- * moments in time
+ * moments in time.
  *
  * @since 1.0.0
  */
@@ -29,6 +30,17 @@ public interface Trigger extends HasTriggerType, TriggerRepresentation {
     @NotNull Trigger validate();
 
     /**
+     * Defines the trigger rule
+     *
+     * @return the trigger rule
+     * @see TriggerRule
+     * @since 2.0.0
+     */
+    default @NotNull TriggerRule rule() {
+        return TriggerRule.NOOP;
+    }
+
+    /**
      * Verify if the trigger time still appropriate to execute the task.
      * <p/>
      * This method will be invoked right away before each execution round is started.
@@ -36,7 +48,7 @@ public interface Trigger extends HasTriggerType, TriggerRepresentation {
      * @param triggerAt the trigger time
      * @since 2.0.0
      */
-    default boolean shouldExecute(@NotNull Instant triggerAt) { return true; }
+    default boolean shouldExecute(@NotNull Instant triggerAt) { return rule().satisfy(triggerAt); }
 
     /**
      * Verify the execution should be stopped after the current execution round is out of the trigger rule.
