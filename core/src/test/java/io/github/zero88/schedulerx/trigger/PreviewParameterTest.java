@@ -20,6 +20,7 @@ class PreviewParameterTest {
         Assertions.assertEquals(10, parameter.getTimes());
         Assertions.assertNotNull(parameter.getStartedAt());
         Assertions.assertNull(parameter.getTimeZone());
+        Assertions.assertNotNull(parameter.getRule());
     }
 
     @ParameterizedTest

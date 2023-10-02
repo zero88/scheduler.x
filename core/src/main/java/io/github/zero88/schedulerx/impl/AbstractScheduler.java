@@ -177,7 +177,11 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     }
 
     protected TriggerContext evaluateTrigger(@NotNull TriggerContext triggerContext) {
-        return trigger().shouldExecute(Objects.requireNonNull(triggerContext.triggerAt()))
+        final Instant triggerAt = Objects.requireNonNull(triggerContext.triggerAt());
+        if (trigger().rule().isExceeded(triggerAt)) {
+            return TriggerContextFactory.stop(triggerContext, ReasonCode.STOP_BY_CONFIG);
+        }
+        return trigger().shouldExecute(triggerAt)
                ? TriggerContextFactory.ready(triggerContext)
                : TriggerContextFactory.skip(triggerContext, ReasonCode.CONDITION_IS_NOT_MATCHED);
     }

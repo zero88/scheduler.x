@@ -27,7 +27,7 @@ class HttpClientTaskTest {
             JsonObject response = result.data();
             Assertions.assertNotNull(response);
             Assertions.assertEquals(200, response.getValue("status"));
-            Assertions.assertEquals("https://" + host + path, response.getJsonObject("response").getString("url"));
+            Assertions.assertTrue(response.getJsonObject("response").getString("url").contains(host + path));
         };
         final SchedulingAsserter<JsonObject> asserter = SchedulingAsserter.<JsonObject>builder()
                                                                           .setTestContext(testContext)

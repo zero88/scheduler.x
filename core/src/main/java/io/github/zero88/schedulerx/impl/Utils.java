@@ -48,12 +48,12 @@ public final class Utils {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T castOrNull(Object data, boolean nullIfThrow) {
+    public static <T> T castOrNull(Object data, boolean nullOrThrow) {
         try {
             return (T) data;
         } catch (ClassCastException ex) {
             // @formatter:off
-            if (nullIfThrow) return null;
+            if (nullOrThrow) return null;
             throw ex;
             // @formatter:on
         }

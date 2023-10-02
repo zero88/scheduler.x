@@ -28,6 +28,7 @@ dependencies {
 
     testImplementation(TestLibs.junit5Params)
     testImplementation(JacksonLibs.databind)
+    testImplementation(JacksonLibs.jsr310)
     testImplementation(LogLibs.logback)
     testCompileOnly(UtilLibs.jetbrainsAnnotations)
 
