@@ -8,8 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.zero88.schedulerx.Task;
-import io.github.zero88.schedulerx.spi.TriggerRepresentation;
-import io.github.zero88.schedulerx.spi.TriggerRepresentationServiceLoader;
+import io.github.zero88.schedulerx.trigger.repr.TriggerRepresentation;
+import io.github.zero88.schedulerx.trigger.repr.TriggerRepresentationServiceLoader;
 import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
 
 /**
