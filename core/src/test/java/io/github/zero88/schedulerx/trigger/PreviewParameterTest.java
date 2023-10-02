@@ -23,10 +23,21 @@ class PreviewParameterTest {
         Assertions.assertNotNull(parameter.getRule());
     }
 
+
+    @Test
+    void test_byConstructor() {
+        final PreviewParameter parameter = new PreviewParameter();
+        Assertions.assertEquals(1, parameter.getTimes());
+        Assertions.assertNotNull(parameter.getStartedAt());
+        Assertions.assertNull(parameter.getTimeZone());
+        Assertions.assertNotNull(parameter.getRule());
+    }
+
     @ParameterizedTest
     @CsvSource({ "31,30", "-1,1", "0,1", "10,10", "15,15" })
     void test_min_max_times(int input, int expected) {
         Assertions.assertEquals(expected, PreviewParameter.byDefault().setTimes(input).getTimes());
+        Assertions.assertEquals(expected, new PreviewParameter().setTimes(input).getTimes());
     }
 
     @ParameterizedTest

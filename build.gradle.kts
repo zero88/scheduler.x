@@ -57,7 +57,7 @@ subprojects {
             homepage.set("https://github.com/zero88/scheduler.x")
         }
         testLogger {
-            slowThreshold = 5000
+            slowThreshold = 7000
         }
     }
 }

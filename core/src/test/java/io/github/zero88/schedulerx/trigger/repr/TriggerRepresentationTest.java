@@ -1,4 +1,4 @@
-package io.github.zero88.schedulerx.spi;
+package io.github.zero88.schedulerx.trigger.repr;
 
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 

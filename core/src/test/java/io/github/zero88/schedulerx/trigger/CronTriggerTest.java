@@ -4,12 +4,16 @@ import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.TimeZone;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import io.github.zero88.schedulerx.trigger.rule.Timeframe;
+import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -95,10 +99,23 @@ class CronTriggerTest {
         final PreviewParameter parameter = new PreviewParameter().setStartedAt(startedAt.toInstant())
                                                                  .setTimes(5)
                                                                  .setTimeZone(ZoneOffset.UTC);
-        final List<OffsetDateTime> result = trigger.preview(parameter);
-        Assertions.assertEquals(5, result.size());
-        Assertions.assertIterableEquals(expected, result);
         Assertions.assertEquals(startedAt.toInstant(), parameter.getStartedAt());
+        Assertions.assertIterableEquals(expected, trigger.preview(parameter));
+    }
+
+    @Test
+    void test_preview_trigger_with_rule() {
+        final Instant startedAt = OffsetDateTime.parse("2023-10-01T23:00:00Z").toInstant();
+        final List<OffsetDateTime> expected = Arrays.asList(OffsetDateTime.parse("2023-10-03T22:00:00Z"),
+                                                            OffsetDateTime.parse("2023-10-04T22:00:00Z"));
+
+        final CronTrigger trigger = CronTrigger.builder().expression("0 0 22 ? * * *").build();
+        final TriggerRule rule = TriggerRule.create(Collections.singletonList(
+                                                        Timeframe.of(Instant.parse("2023-10-03T00:00:00Z"),
+                                                                     Instant.parse("2023-10-06T00:00:00Z"))),
+                                                    Instant.parse("2023-10-05T00:00:00Z"));
+        final PreviewParameter parameter = PreviewParameter.byDefault().setStartedAt(startedAt).setRule(rule);
+        Assertions.assertIterableEquals(expected, trigger.preview(parameter));
     }
 
 }

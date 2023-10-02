@@ -1,4 +1,4 @@
-package io.github.zero88.schedulerx.spi;
+package io.github.zero88.schedulerx.trigger.repr;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

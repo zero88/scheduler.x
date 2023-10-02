@@ -2,6 +2,7 @@ package io.github.zero88.schedulerx.trigger;
 
 import java.time.OffsetDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
@@ -10,6 +11,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import io.github.zero88.schedulerx.trigger.rule.Timeframe;
+import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -98,9 +102,30 @@ class IntervalTriggerTest {
         final PreviewParameter parameter = PreviewParameter.byDefault()
                                                            .setStartedAt(startedAt.toInstant())
                                                            .setTimeZone(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
-        final List<OffsetDateTime> result = trigger.preview(parameter);
-        Assertions.assertEquals(3, result.size());
-        Assertions.assertIterableEquals(expected, result);
+        Assertions.assertIterableEquals(expected, trigger.preview(parameter));
+    }
+
+    @Test
+    void test_preview_trigger_with_rule() {
+        final OffsetDateTime startedAt = OffsetDateTime.parse("2023-07-30T18:01+07:00");
+        final List<OffsetDateTime> expected = Arrays.asList(OffsetDateTime.parse("2023-07-30T19:01:00+07:00"),
+                                                            OffsetDateTime.parse("2023-07-30T19:31:00+07:00"),
+                                                            OffsetDateTime.parse("2023-07-30T20:01:00+07:00"),
+                                                            OffsetDateTime.parse("2023-07-30T20:31:00+07:00"));
+
+        final IntervalTrigger trigger = IntervalTrigger.builder()
+                                                       .interval(30)
+                                                       .intervalTimeUnit(TimeUnit.MINUTES)
+                                                       .build();
+        final TriggerRule rule = TriggerRule.create(Collections.singletonList(
+                                                        Timeframe.of(OffsetDateTime.parse("2023-07-30T19:00:00+07:00"),
+                                                                     OffsetDateTime.parse("2023-07-31T00:00:00+07:00"))),
+                                                    OffsetDateTime.parse("2023-07-30T21:00:00+07:00").toInstant());
+        final PreviewParameter parameter = PreviewParameter.byDefault()
+                                                           .setStartedAt(startedAt.toInstant())
+                                                           .setTimeZone(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"))
+                                                           .setRule(rule);
+        Assertions.assertIterableEquals(expected, trigger.preview(parameter));
     }
 
 }

@@ -1,4 +1,4 @@
-package io.github.zero88.schedulerx.spi;
+package io.github.zero88.schedulerx.trigger.repr;
 
 import java.util.function.Function;
 
