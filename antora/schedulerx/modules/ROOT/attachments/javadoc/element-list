@@ -4,6 +4,6 @@ io.github.zero88.schedulerx.mutiny
 io.github.zero88.schedulerx.mutiny.trigger
 io.github.zero88.schedulerx.rxjava3
 io.github.zero88.schedulerx.rxjava3.trigger
-io.github.zero88.schedulerx.spi
 io.github.zero88.schedulerx.trigger
+io.github.zero88.schedulerx.trigger.repr
 io.github.zero88.schedulerx.trigger.rule

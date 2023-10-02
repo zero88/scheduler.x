@@ -73,7 +73,7 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Superinterfaces:</dt>
-<dd><code><a href="HasTriggerType.html" title="interface in io.github.zero88.schedulerx.trigger">HasTriggerType</a></code>, <code><a href="../spi/TriggerRepresentation.html" title="interface in io.github.zero88.schedulerx.spi">TriggerRepresentation</a></code></dd>
+<dd><code><a href="HasTriggerType.html" title="interface in io.github.zero88.schedulerx.trigger">HasTriggerType</a></code>, <code><a href="repr/TriggerRepresentation.html" title="interface in io.github.zero88.schedulerx.trigger.repr">TriggerRepresentation</a></code></dd>
 </dl>
 <dl class="notes">
 <dt>All Known Implementing Classes:</dt>
@@ -81,7 +81,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">Trigger</span><span class="extends-implements">
-extends <a href="HasTriggerType.html" title="interface in io.github.zero88.schedulerx.trigger">HasTriggerType</a>, <a href="../spi/TriggerRepresentation.html" title="interface in io.github.zero88.schedulerx.spi">TriggerRepresentation</a></span></div>
+extends <a href="HasTriggerType.html" title="interface in io.github.zero88.schedulerx.trigger">HasTriggerType</a>, <a href="repr/TriggerRepresentation.html" title="interface in io.github.zero88.schedulerx.trigger.repr">TriggerRepresentation</a></span></div>
 <div class="block">Represents for inspecting settings specific to a Trigger, which is used to fire a <code><a href="../Task.html" title="interface in io.github.zero88.schedulerx"><code>Task</code></a></code> at given
  moments in time.</div>
 <dl class="notes">
@@ -144,8 +144,8 @@ extends <a href="HasTriggerType.html" title="interface in io.github.zero88.sched
 <h3 id="methods-inherited-from-class-io.github.zero88.schedulerx.trigger.HasTriggerType">Methods inherited from interface&nbsp;io.github.zero88.schedulerx.trigger.<a href="HasTriggerType.html" title="interface in io.github.zero88.schedulerx.trigger">HasTriggerType</a></h3>
 <code><a href="HasTriggerType.html#type()">type</a></code></div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-io.github.zero88.schedulerx.spi.TriggerRepresentation">Methods inherited from interface&nbsp;io.github.zero88.schedulerx.spi.<a href="../spi/TriggerRepresentation.html" title="interface in io.github.zero88.schedulerx.spi">TriggerRepresentation</a></h3>
-<code><a href="../spi/TriggerRepresentation.html#display()">display</a></code></div>
+<h3 id="methods-inherited-from-class-io.github.zero88.schedulerx.trigger.repr.TriggerRepresentation">Methods inherited from interface&nbsp;io.github.zero88.schedulerx.trigger.repr.<a href="repr/TriggerRepresentation.html" title="interface in io.github.zero88.schedulerx.trigger.repr">TriggerRepresentation</a></h3>
+<code><a href="repr/TriggerRepresentation.html#display()">display</a></code></div>
 </section>
 </li>
 </ul>
@@ -268,11 +268,11 @@ extends <a href="HasTriggerType.html" title="interface in io.github.zero88.sched
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="modifiers">default</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">display</span><wbr><span class="parameters">(@Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;lang)</span></div>
-<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../spi/TriggerRepresentation.html#display(java.lang.String)">TriggerRepresentation</a></code></span></div>
+<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="repr/TriggerRepresentation.html#display(java.lang.String)">TriggerRepresentation</a></code></span></div>
 <div class="block">Get the representation of trigger depends on the given lang</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../spi/TriggerRepresentation.html#display(java.lang.String)">display</a></code>&nbsp;in interface&nbsp;<code><a href="../spi/TriggerRepresentation.html" title="interface in io.github.zero88.schedulerx.spi">TriggerRepresentation</a></code></dd>
+<dd><code><a href="repr/TriggerRepresentation.html#display(java.lang.String)">display</a></code>&nbsp;in interface&nbsp;<code><a href="repr/TriggerRepresentation.html" title="interface in io.github.zero88.schedulerx.trigger.repr">TriggerRepresentation</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>lang</code> - the language code</dd>
 <dt>Returns:</dt>
