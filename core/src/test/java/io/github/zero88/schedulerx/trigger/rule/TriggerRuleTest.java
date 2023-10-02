@@ -37,12 +37,17 @@ class TriggerRuleTest {
 
     @Test
     void serialize_deserialize() throws JsonProcessingException {
+        final String expected
+            = "{\"timeframes\":[{\"from\":\"2023-09-24\",\"to\":\"2023-09-26\",\"type\":\"java.time.LocalDate\"}," +
+              "{\"from\":\"09:39:33.514\",\"to\":\"11:39:33.514\",\"type\":\"java.time.LocalTime\"}]," +
+              "\"until\":\"2023-09-24T03:31:48Z\"}";
         final Timeframe<?> tf1 = Timeframe.of(LocalDate.parse("2023-09-24"), LocalDate.parse("2023-09-26"));
         final Timeframe<?> tf2 = Timeframe.of(LocalTime.parse("09:39:33.514"), LocalTime.parse("11:39:33.514"));
         final Instant until = Instant.parse("2023-09-24T03:31:48Z");
         final TriggerRule triggerRule = TriggerRule.create(Arrays.asList(tf1, tf2), until);
         final String data = mapper.writeValueAsString(triggerRule);
         final TriggerRule fromJson = mapper.readerFor(TriggerRule.class).readValue(data);
+        Assertions.assertEquals(expected, data);
         Assertions.assertEquals(triggerRule, fromJson);
     }
 

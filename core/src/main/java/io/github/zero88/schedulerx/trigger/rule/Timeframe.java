@@ -1,6 +1,7 @@
 package io.github.zero88.schedulerx.trigger.rule;
 
 import java.time.Instant;
+import java.util.Map;
 import java.util.Optional;
 
 import org.jetbrains.annotations.NotNull;
@@ -8,7 +9,6 @@ import org.jetbrains.annotations.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * A particular period of time in which a trigger can be emitted.
@@ -43,17 +43,28 @@ public interface Timeframe<T> {
      * @param type a type of timeframe value
      * @param from a minimum allowed value (exclusive)
      * @param to   a maximum allowed value (exclusive)
-     * @param <TF> Type of time frame
+     * @param <TF> Type of timeframe
      * @return new instance of timeframe, not null
      * @throws IllegalArgumentException      if unable to parse the given values
      * @throws UnsupportedOperationException if unknown timeframe type
+     */
+    static <TF extends Timeframe<?>> TF create(String type, Object from, Object to) {
+        //noinspection unchecked
+        return (TF) TimeframeFactory.getInstance().create(type, from, to, null);
+    }
+
+    /**
+     * Obtains an instance of Timeframe
+     *
+     * @param properties the arbitrary key value from json
+     * @param <TF>       Type of timeframe
+     * @return new instance of timeframe, not null
      * @apiNote This method supports Jackson deserialization
      */
     @JsonCreator
-    static <TF extends Timeframe<?>> TF create(@JsonProperty("type") String type, @JsonProperty("from") Object from,
-                                               @JsonProperty("to") Object to) {
+    static <TF extends Timeframe<?>> TF create(Map<String, Object> properties) {
         //noinspection unchecked
-        return (TF) TimeframeFactory.getInstance().create(type, from, to);
+        return (TF) TimeframeFactory.getInstance().create(properties);
     }
 
     /**
@@ -91,5 +102,16 @@ public interface Timeframe<T> {
      * @return a timeframe validator
      */
     default @NotNull TimeframeValidator validator() { return TimeframeValidator.BASE; }
+
+    /**
+     * Set property value in the timeframe.
+     *
+     * @param field the timeframe field. E.g: "from", "to", and other extra proprieties
+     * @param value the property value
+     * @return a reference to this for fluent API
+     * @apiNote This method is useful to implement the custom timeframe. When using this method with the builtin
+     *     timeframe, {@link UnsupportedOperationException} will be thrown
+     */
+    @NotNull Timeframe<T> set(@NotNull String field, @Nullable Object value);
 
 }

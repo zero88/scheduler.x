@@ -21,10 +21,26 @@ public interface TimeframeValidator {
             timeframe.from().getClass() != timeframe.to().getClass()) {
             throw new IllegalArgumentException("Minimum and maximum value are not same type");
         }
+        return timeframe;
     };
 
-    void validate(Timeframe timeFrame);
+    /**
+     * Validate the given timeframe
+     *
+     * @param timeframe the give timeframe
+     * @return the timeframe if valid, otherwise throw {@link IllegalArgumentException}
+     */
+    @SuppressWarnings("rawtypes")
+    Timeframe validate(Timeframe timeframe);
 
+    /**
+     * Normalize the given input to expected value with correct type
+     *
+     * @param parser   the time parser
+     * @param rawValue the given input
+     * @param <T>      Type of timeframe value
+     * @return an expected type
+     */
     default <T> T normalize(@NotNull TimeParser<T> parser, Object rawValue) {
         try {
             return parser.parse(rawValue);
@@ -35,10 +51,7 @@ public interface TimeframeValidator {
 
     default TimeframeValidator and(@NotNull TimeframeValidator other) {
         Objects.requireNonNull(other);
-        return timeFrame -> {
-            validate(timeFrame);
-            other.validate(timeFrame);
-        };
+        return timeframe -> other.validate(validate(timeframe));
     }
 
 }

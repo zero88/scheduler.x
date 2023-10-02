@@ -12,10 +12,13 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import io.github.zero88.schedulerx.trigger.rule.custom.SimpleDateTimeTimeframe;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -54,9 +57,10 @@ class TimeframeTest {
 
     @ParameterizedTest
     @MethodSource("validValues")
-    void serialize(Timeframe<?> timeFrame, String expected) throws JsonProcessingException {
-        Assertions.assertTrue(mapper.canSerialize(timeFrame.getClass()));
-        Assertions.assertEquals(expected, mapper.writeValueAsString(timeFrame));
+    void serialize(Timeframe<?> timeframe, String expected) throws JsonProcessingException {
+        Assertions.assertTrue(mapper.canSerialize(timeframe.getClass()));
+        Assertions.assertEquals(expected, mapper.writeValueAsString(timeframe));
+        Assertions.assertThrowsExactly(UnsupportedOperationException.class, () -> timeframe.set("from", "failed"));
     }
 
     @ParameterizedTest
@@ -102,6 +106,15 @@ class TimeframeTest {
         Executable executable = type == null ? () -> Timeframe.of(from, to) : () -> Timeframe.create(type, from, to);
         Throwable throwable = Assertions.assertThrows(exCls, executable);
         Assertions.assertEquals(errorMsg, throwable.getMessage());
+    }
+
+    @Test
+    void serialize_deserialize_custom_Timeframe() throws JsonProcessingException {
+        final String expected = "{\"from\":\"Fri, Sep 1, 2023 05:00:00\",\"to\":\"Sun, Oct 1, 2023 05:00:00\"," +
+                                "\"timezone\":\"Europe/Paris\",\"type\":\"java.util.Date\"}";
+        final Timeframe<?> timeframe = mapper.readValue(expected, Timeframe.class);
+        Assertions.assertInstanceOf(SimpleDateTimeTimeframe.class, timeframe);
+        Assertions.assertEquals(expected, mapper.writeValueAsString(timeframe));
     }
 
 }

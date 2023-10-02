@@ -20,7 +20,7 @@ final class TriggerRuleImpl implements TriggerRule {
     }
 
     @Override
-    public @NotNull List<Timeframe> timeFrames() { return timeframes; }
+    public @NotNull List<Timeframe> timeframes() { return timeframes; }
 
     @Override
     public Instant until() { return until; }

@@ -30,7 +30,7 @@ public interface TriggerRule {
      * @see Timeframe
      */
     @JsonGetter
-    @NotNull List<Timeframe> timeFrames();
+    @NotNull List<Timeframe> timeframes();
 
     /**
      * Declares the time that the trigger can run until to.
@@ -45,10 +45,10 @@ public interface TriggerRule {
      *
      * @param triggerAt the trigger time
      * @return {@code true} if the trigger time is satisfied, otherwise is {@code false}
-     * @see #timeFrames()
+     * @see #timeframes()
      */
     default boolean satisfy(@NotNull Instant triggerAt) {
-        return timeFrames().isEmpty() || timeFrames().stream().anyMatch(timeFrame -> timeFrame.check(triggerAt));
+        return timeframes().isEmpty() || timeframes().stream().anyMatch(timeframe -> timeframe.check(triggerAt));
     }
 
     /**
@@ -89,7 +89,7 @@ public interface TriggerRule {
      * @return a new trigger rule
      */
     @JsonCreator
-    static @NotNull TriggerRule create(@JsonProperty("timeFrames") List<Timeframe> timeframes,
+    static @NotNull TriggerRule create(@JsonProperty("timeframes") List<Timeframe> timeframes,
                                        @JsonProperty("until") Instant until) {
         return new TriggerRuleImpl(timeframes, until);
     }

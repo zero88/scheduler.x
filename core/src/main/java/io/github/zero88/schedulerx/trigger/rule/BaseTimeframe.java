@@ -16,8 +16,8 @@ abstract class BaseTimeframe<T> implements Timeframe<T>, TimeParser<T> {
         final TimeParser<T> parser = parser();
         this.from = validator.normalize(parser, from);
         this.to   = validator.normalize(parser, to);
-        validator.validate(this);
-        return this;
+        //noinspection unchecked
+        return (BaseTimeframe<T>) validator.validate(this);
     }
 
     @Override
@@ -28,6 +28,11 @@ abstract class BaseTimeframe<T> implements Timeframe<T>, TimeParser<T> {
 
     @Override
     public final @NotNull TimeParser<T> parser() { return this; }
+
+    @Override
+    public @NotNull Timeframe<T> set(@NotNull String field, Object value) {
+        throw new UnsupportedOperationException();
+    }
 
     @Override
     public int hashCode() {

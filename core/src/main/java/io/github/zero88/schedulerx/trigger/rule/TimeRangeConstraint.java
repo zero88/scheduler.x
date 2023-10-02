@@ -5,15 +5,17 @@ import java.time.temporal.Temporal;
 
 public interface TimeRangeConstraint extends TimeframeValidator {
 
-    default void validate(Timeframe timeFrame) {
-        final Object from = timeFrame.from();
-        final Object to = timeFrame.to();
+    @SuppressWarnings("rawtypes")
+    default Timeframe validate(Timeframe timeframe) {
+        final Object from = timeframe.from();
+        final Object to = timeframe.to();
         if (from instanceof Temporal && to instanceof Temporal) {
             ChronoUnit unit = ChronoUnit.NANOS.isSupportedBy((Temporal) from) ? ChronoUnit.NANOS : ChronoUnit.DAYS;
             if (unit.between((Temporal) from, (Temporal) to) <= 0) {
                 throw new IllegalArgumentException("'From' value must be before 'To' value");
             }
         }
+        return timeframe;
     }
 
 }
