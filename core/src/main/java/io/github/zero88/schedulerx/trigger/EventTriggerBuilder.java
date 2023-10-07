@@ -1,5 +1,8 @@
 package io.github.zero88.schedulerx.trigger;
 
+import io.github.zero88.schedulerx.trigger.predicate.EventTriggerPredicate;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 /**
@@ -19,6 +22,7 @@ public final class EventTriggerBuilder<T> {
         return this;
     }
 
+    @JsonProperty("eventTriggerPredicate")
     public EventTriggerBuilder<T> predicate(EventTriggerPredicate<T> predicate) {
         this.predicate = predicate;
         return this;

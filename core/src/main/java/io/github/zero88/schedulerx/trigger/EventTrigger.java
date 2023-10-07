@@ -7,8 +7,11 @@ import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
 
+import io.github.zero88.schedulerx.trigger.predicate.EventTriggerPredicate;
 import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.json.JsonObject;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
@@ -64,6 +67,11 @@ public final class EventTrigger<T> implements Trigger {
 
     @Override
     public @NotNull List<OffsetDateTime> preview(@NotNull PreviewParameter parameter) { return new ArrayList<>(); }
+
+    @JsonValue
+    public JsonObject toJson() {
+        return JsonObject.of("address", address, "localOnly", localOnly, "eventTriggerPredicate", predicate.toJson());
+    }
 
     @Override
     public boolean equals(Object o) {

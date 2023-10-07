@@ -24,9 +24,11 @@ import io.github.zero88.schedulerx.SchedulingMonitor;
 import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.TestUtils;
 import io.github.zero88.schedulerx.trigger.TriggerCondition.ReasonCode;
+import io.github.zero88.schedulerx.trigger.predicate.EventTriggerPredicate;
 import io.vertx.core.MultiMap;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
 
@@ -57,6 +59,9 @@ class EventSchedulerTest {
 
             @Override
             public boolean test(@Nullable String eventMessage) { return true; }
+
+            @Override
+            public @NotNull JsonObject toJson() { return new JsonObject(); }
         }, Arrays.asList("1", "COMPLETED"), (Consumer<ExecutionResult<Void>>) (r) -> {
             final TriggerCondition condition = r.triggerContext().condition();
             final Throwable err = condition.cause();

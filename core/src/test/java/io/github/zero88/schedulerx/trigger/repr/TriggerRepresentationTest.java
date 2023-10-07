@@ -12,9 +12,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import io.github.zero88.schedulerx.trigger.CronTrigger;
 import io.github.zero88.schedulerx.trigger.EventTrigger;
-import io.github.zero88.schedulerx.trigger.EventTriggerPredicate;
 import io.github.zero88.schedulerx.trigger.IntervalTrigger;
 import io.github.zero88.schedulerx.trigger.Trigger;
+import io.github.zero88.schedulerx.trigger.predicate.EventTriggerPredicate;
 
 class TriggerRepresentationTest {
 
