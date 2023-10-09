@@ -1,18 +1,10 @@
 package io.github.zero88.schedulerx.trigger;
 
-import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import org.jetbrains.annotations.NotNull;
 
-import io.github.zero88.schedulerx.impl.Utils;
-import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
+import io.vertx.core.json.JsonObject;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -25,150 +17,80 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  * @since 1.0.0
  */
 @JsonDeserialize(builder = IntervalTriggerBuilder.class)
-public final class IntervalTrigger implements Trigger {
+public interface IntervalTrigger extends Trigger {
 
-    public static final String TRIGGER_TYPE = "interval";
-
-    public static IntervalTriggerBuilder builder() { return new IntervalTriggerBuilder(); }
+    String TRIGGER_TYPE = "interval";
 
     /**
      * Used to indicate the 'repeat count' of the trigger is indefinite. Or in other words, the trigger should repeat
      * continually until the trigger's ending timestamp.
      */
-    public static final long REPEAT_INDEFINITELY = -1;
+    long REPEAT_INDEFINITELY = -1;
+
+    static IntervalTriggerBuilder builder() { return new IntervalTriggerBuilder(); }
+
+    @Override
+    default @NotNull String type() { return TRIGGER_TYPE; }
+
     /**
      * Get the number of times the {@code IntervalTrigger} should repeat, after which it will be automatically deleted.
      *
      * @see #REPEAT_INDEFINITELY
      */
-    private final long repeat;
+    long getRepeat();
+
     /**
      * Get the initial delay time (in {@link #getInitialDelayTimeUnit()}) before emitting trigger in the first time.
      *
      * @apiNote Default is {@code 0}
      */
-    private final long initialDelay;
+    long getInitialDelay();
+
     /**
      * Delay time unit
      *
      * @apiNote Default is {@code SECONDS}
      */
-    @NotNull
-    private final TimeUnit initialDelayTimeUnit;
+    @NotNull TimeUnit getInitialDelayTimeUnit();
+
     /**
      * Get the time interval (in {@link #getIntervalTimeUnit()}) at which the {@code IntervalTrigger} should repeat.
      */
-    private final long interval;
+    long getInterval();
+
     /**
      * Interval time unit
      *
      * @apiNote Default is {@code SECONDS}
      */
-    @NotNull
-    private final TimeUnit intervalTimeUnit;
+    @NotNull TimeUnit getIntervalTimeUnit();
 
-    IntervalTrigger(@NotNull TimeUnit initialDelayTimeUnit, long initialDelay, long repeat,
-                    @NotNull TimeUnit intervalTimeUnit, long interval) {
-        this.initialDelayTimeUnit = initialDelayTimeUnit;
-        this.initialDelay         = initialDelay;
-        this.repeat               = repeat;
-        this.intervalTimeUnit     = intervalTimeUnit;
-        this.interval             = interval;
+    default boolean noDelay()              { return getInitialDelay() == 0; }
+
+    default boolean noRepeatIndefinitely() { return getRepeat() != REPEAT_INDEFINITELY; }
+
+    default long intervalInMilliseconds() {
+        return TimeUnit.MILLISECONDS.convert(getInterval(), getIntervalTimeUnit());
     }
 
-    public long getRepeat()                            { return repeat; }
-
-    public long getInitialDelay()                      { return initialDelay; }
-
-    public @NotNull TimeUnit getInitialDelayTimeUnit() { return this.initialDelayTimeUnit; }
-
-    public long getInterval()                          { return interval; }
-
-    public @NotNull TimeUnit getIntervalTimeUnit()     { return this.intervalTimeUnit; }
-
-    public boolean noDelay()                           { return initialDelay == 0; }
-
-    public boolean noRepeatIndefinitely()              { return repeat != REPEAT_INDEFINITELY; }
-
-    public long intervalInMilliseconds() {
-        return TimeUnit.MILLISECONDS.convert(interval, intervalTimeUnit);
-    }
-
-    public long delayInMilliseconds() {
-        return TimeUnit.MILLISECONDS.convert(initialDelay, initialDelayTimeUnit);
+    default long delayInMilliseconds() {
+        return TimeUnit.MILLISECONDS.convert(getInitialDelay(), getInitialDelayTimeUnit());
     }
 
     @Override
-    public @NotNull String type() { return TRIGGER_TYPE; }
+    @NotNull IntervalTrigger validate();
 
     @Override
-    public boolean shouldStop(long round) {
-        return noRepeatIndefinitely() && round >= repeat;
-    }
-
-    @Override
-    @SuppressWarnings("java:S1192")
-    public @NotNull IntervalTrigger validate() {
-        validate(repeat, false, true, "repeat");
-        validate(interval, false, false, "interval");
-        validate(initialDelay, true, false, "initial delay");
-        return this;
+    default boolean shouldStop(long round) {
+        return noRepeatIndefinitely() && round >= getRepeat();
     }
 
     @Override
-    public @NotNull List<OffsetDateTime> preview(@NotNull PreviewParameter parameter) {
-        final List<OffsetDateTime> result = new ArrayList<>();
-        final long count = Math.min(repeat, parameter.getTimes());
-        final TriggerRule rule = parameter.getRule();
-        final ZoneId zoneId = Optional.ofNullable(parameter.getTimeZone()).orElse(ZoneOffset.UTC);
-        Instant next = parameter.getStartedAt();
-        next = next.plus(initialDelay, Utils.toChronoUnit(initialDelayTimeUnit));
-        do {
-            next = next.plus(interval, Utils.toChronoUnit(intervalTimeUnit));
-            if (rule.isExceeded(next)) {
-                break;
-            }
-            if (rule.satisfy(next)) {
-                result.add(next.atZone(zoneId).toOffsetDateTime());
-            }
-        } while (result.size() != count);
-        return result;
-    }
-
-    static void validate(long number, boolean allowZero, boolean allowInfinite, String msg) {
-        if (number > 0 || (allowZero && number == 0) || (allowInfinite && number == REPEAT_INDEFINITELY)) {
-            return;
-        }
-        throw new IllegalArgumentException("Invalid " + msg + " value");
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) { return true; }
-        if (o == null || getClass() != o.getClass()) { return false; }
-
-        IntervalTrigger that = (IntervalTrigger) o;
-
-        if (initialDelay != that.initialDelay) { return false; }
-        if (repeat != that.repeat) { return false; }
-        if (interval != that.interval) { return false; }
-        if (initialDelayTimeUnit != that.initialDelayTimeUnit) { return false; }
-        return intervalTimeUnit == that.intervalTimeUnit;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = initialDelayTimeUnit.hashCode();
-        result = 31 * result + (int) (initialDelay ^ (initialDelay >>> 32));
-        result = 31 * result + (int) (repeat ^ (repeat >>> 32));
-        result = 31 * result + intervalTimeUnit.hashCode();
-        result = 31 * result + (int) (interval ^ (interval >>> 32));
-        return result;
-    }
-
-    public String toString() {
-        return "IntervalTrigger(initialDelay=" + initialDelay + ", initialDelayTimeUnit=" + initialDelayTimeUnit +
-               ", interval=" + interval + ", intervalTimeUnit=" + intervalTimeUnit + ", repeat=" + repeat + ")";
+    default JsonObject toJson() {
+        JsonObject self = JsonObject.of("repeat", getRepeat(), "initialDelay", getInitialDelay(),
+                                        "initialDelayTimeUnit", getInitialDelayTimeUnit(), "interval", getInterval(),
+                                        "intervalTimeUnit", getIntervalTimeUnit());
+        return Trigger.super.toJson().mergeIn(self);
     }
 
 }

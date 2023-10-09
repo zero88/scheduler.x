@@ -8,18 +8,25 @@ import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import io.github.zero88.schedulerx.trigger.rule.Timeframe;
 import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
+import io.vertx.core.json.jackson.DatabindCodec;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 class IntervalTriggerTest {
+
+    static ObjectMapper mapper;
+
+    @BeforeAll
+    static void setup() { mapper = DatabindCodec.mapper(); }
 
     @Test
     void test_compare() throws JsonProcessingException {
@@ -31,7 +38,7 @@ class IntervalTriggerTest {
                                                         .build();
         final String data = "{\"initialDelayTimeUnit\":\"SECONDS\",\"initialDelay\":30,\"repeat\":10," +
                             "\"intervalTimeUnit\":\"SECONDS\",\"interval\":5}";
-        final IntervalTrigger trigger2 = new ObjectMapper().readValue(data, IntervalTrigger.class);
+        final IntervalTrigger trigger2 = mapper.readValue(data, IntervalTrigger.class);
         Assertions.assertEquals(trigger2, trigger1);
     }
 
@@ -45,17 +52,17 @@ class IntervalTriggerTest {
                                                        .build();
         Assertions.assertFalse(trigger.noDelay());
         Assertions.assertTrue(trigger.noRepeatIndefinitely());
-        final String json = new ObjectMapper().writeValueAsString(trigger);
-        Assertions.assertEquals("{\"repeat\":3,\"initialDelay\":1,\"initialDelayTimeUnit\":\"SECONDS\"," +
+        final String json = mapper.writeValueAsString(trigger);
+        Assertions.assertEquals("{\"type\":\"interval\",\"rule\":{\"timeframes\":[],\"until\":null}," +
+                                "\"repeat\":3,\"initialDelay\":1,\"initialDelayTimeUnit\":\"SECONDS\"," +
                                 "\"interval\":10,\"intervalTimeUnit\":\"DAYS\"}", json);
     }
 
     @Test
     void test_deserialize() throws JsonProcessingException {
-        final ObjectMapper objectMapper = new ObjectMapper();
         final String data = "{\"initialDelayTimeUnit\":\"SECONDS\",\"initialDelay\":0,\"repeat\":-1," +
                             "\"intervalTimeUnit\":\"DAYS\",\"interval\":10}";
-        final IntervalTrigger trigger = objectMapper.readValue(data, IntervalTrigger.class);
+        final IntervalTrigger trigger = mapper.readValue(data, IntervalTrigger.class);
         Assertions.assertEquals(10, trigger.getInterval());
         Assertions.assertEquals(TimeUnit.DAYS, trigger.getIntervalTimeUnit());
         Assertions.assertEquals(0, trigger.getInitialDelay());
@@ -72,8 +79,7 @@ class IntervalTriggerTest {
         "{\"interval\":-1}|Invalid interval value", "{\"initialDelayTimeUnit\":\"SECONDS\"}|Invalid interval value",
     }, delimiter = '|')
     void test_deserialize_invalid_value(String input, String expected) throws JsonProcessingException {
-        final ObjectMapper objectMapper = new ObjectMapper();
-        final IntervalTrigger intervalTrigger = objectMapper.readValue(input, IntervalTrigger.class);
+        final IntervalTrigger intervalTrigger = mapper.readValue(input, IntervalTrigger.class);
         Throwable cause = Assertions.assertThrows(IllegalArgumentException.class, intervalTrigger::validate);
         Assertions.assertEquals(expected, cause.getMessage());
     }
@@ -81,9 +87,7 @@ class IntervalTriggerTest {
     @ParameterizedTest
     @CsvSource({ "{\"initialDelayTimeUnit\":\"SECONDS1\"}" })
     void test_deserialize_invalid_format(String input) {
-        final ObjectMapper objectMapper = new ObjectMapper();
-        Assertions.assertThrows(InvalidFormatException.class,
-                                () -> objectMapper.readValue(input, IntervalTrigger.class));
+        Assertions.assertThrows(InvalidFormatException.class, () -> mapper.readValue(input, IntervalTrigger.class));
     }
 
     @Test

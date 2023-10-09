@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.Assertions;
 
-import io.github.zero88.schedulerx.trigger.TriggerCondition.TriggerStatus;
 import io.vertx.junit5.VertxTestContext;
 
 /**

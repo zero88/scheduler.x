@@ -4,12 +4,16 @@ import java.util.concurrent.TimeUnit;
 
 import org.jetbrains.annotations.NotNull;
 
+import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 /**
  * Represents a builder that constructs {@link IntervalTrigger}
  */
 @JsonPOJOBuilder(withPrefix = "")
+@JsonIgnoreProperties(value = { "type" })
 public final class IntervalTriggerBuilder {
 
     private TimeUnit initialDelayTimeUnit = TimeUnit.SECONDS;
@@ -17,6 +21,7 @@ public final class IntervalTriggerBuilder {
     private long repeat = IntervalTrigger.REPEAT_INDEFINITELY;
     private TimeUnit intervalTimeUnit = TimeUnit.SECONDS;
     private long interval;
+    private TriggerRule rule;
 
     public IntervalTriggerBuilder initialDelayTimeUnit(@NotNull TimeUnit initialDelayTimeUnit) {
         this.initialDelayTimeUnit = initialDelayTimeUnit;
@@ -43,8 +48,13 @@ public final class IntervalTriggerBuilder {
         return this;
     }
 
+    public IntervalTriggerBuilder rule(TriggerRule rule) {
+        this.rule = rule;
+        return this;
+    }
+
     public IntervalTrigger build() {
-        return new IntervalTrigger(initialDelayTimeUnit, initialDelay, repeat, intervalTimeUnit, interval);
+        return new IntervalTriggerImpl(initialDelayTimeUnit, initialDelay, repeat, intervalTimeUnit, interval, rule);
     }
 
 }

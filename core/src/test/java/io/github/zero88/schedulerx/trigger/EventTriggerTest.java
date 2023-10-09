@@ -27,10 +27,13 @@ class EventTriggerTest {
                                                          .predicate(EventTriggerPredicate.any())
                                                          .build();
         final String json = mapper.writeValueAsString(trigger);
-        Assertions.assertEquals("{\"address\":\"should.able.to.serialize\",\"localOnly\":true," +
-                                "\"eventTriggerPredicate\":{\"predicate\":\"io.github.zero88.schedulerx.trigger" +
-                                ".predicate.AnyEventTriggerPredicate\"}}", json);
-        final EventTrigger<Object> deserialized = mapper.readerFor(EventTrigger.class).readValue(json);
+        Assertions.assertEquals("{\"type\":\"event\",\"rule\":{\"timeframes\":[],\"until\":null}," +
+                                "\"address\":\"should.able.to.serialize\",\"localOnly\":true," +
+                                "\"eventTriggerPredicate\":" +
+                                "{\"predicate\":\"io.github.zero88.schedulerx.trigger.predicate" +
+                                ".AnyEventTriggerPredicate\"}}",
+                                json);
+        final EventTriggerImpl<Object> deserialized = mapper.readerFor(EventTriggerImpl.class).readValue(json);
         Assertions.assertEquals(trigger, deserialized);
     }
 

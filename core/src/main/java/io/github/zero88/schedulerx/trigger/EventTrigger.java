@@ -3,7 +3,6 @@ package io.github.zero88.schedulerx.trigger;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -11,7 +10,6 @@ import io.github.zero88.schedulerx.trigger.predicate.EventTriggerPredicate;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.JsonObject;
 
-import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
@@ -24,81 +22,45 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  * @since 2.0.0
  */
 @JsonDeserialize(builder = EventTriggerBuilder.class)
-public final class EventTrigger<T> implements Trigger {
+public interface EventTrigger<T> extends Trigger {
 
-    public static final String TRIGGER_TYPE = "event";
+    String TRIGGER_TYPE = "event";
 
-    public static <T> EventTriggerBuilder<T> builder() { return new EventTriggerBuilder<>(); }
+    static <T> EventTriggerBuilder<T> builder() { return new EventTriggerBuilder<>(); }
 
-    private final boolean localOnly;
-    private final @NotNull String address;
-    private final @NotNull EventTriggerPredicate<T> predicate;
-
-    EventTrigger(@NotNull String address, boolean localOnly, @NotNull EventTriggerPredicate<T> predicate) {
-        this.localOnly = localOnly;
-        this.address   = Objects.requireNonNull(address);
-        this.predicate = Objects.requireNonNull(predicate);
-    }
+    @Override
+    default @NotNull String type() { return TRIGGER_TYPE; }
 
     /**
      * Declares a flag to check whether the event trigger listens to the event from the cluster or only local.
      *
      * @see EventBus#localConsumer(String)
      */
-    public boolean isLocalOnly() { return localOnly; }
+    boolean isLocalOnly();
 
     /**
      * Declares the event-bus specific address
      */
-    public @NotNull String getAddress() { return address; }
+    @NotNull String getAddress();
 
     /**
      * Declares the predicate to filter the incoming event
      *
      * @see EventTriggerPredicate
      */
-    public @NotNull EventTriggerPredicate<T> getPredicate() { return predicate; }
+    @NotNull EventTriggerPredicate<T> getPredicate();
 
     @Override
-    public @NotNull String type() { return TRIGGER_TYPE; }
+    default @NotNull EventTrigger<T> validate() { return this; }
 
     @Override
-    public @NotNull EventTrigger<T> validate() { return this; }
+    default @NotNull List<OffsetDateTime> preview(@NotNull PreviewParameter parameter) { return new ArrayList<>(); }
 
     @Override
-    public @NotNull List<OffsetDateTime> preview(@NotNull PreviewParameter parameter) { return new ArrayList<>(); }
-
-    @JsonValue
-    public JsonObject toJson() {
-        return JsonObject.of("address", address, "localOnly", localOnly, "eventTriggerPredicate", predicate.toJson());
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        EventTrigger<?> that = (EventTrigger<?>) o;
-        if (localOnly != that.localOnly)
-            return false;
-        if (!address.equals(that.address))
-            return false;
-        return predicate.equals(that.predicate);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = (localOnly ? 1 : 0);
-        result = 31 * result + address.hashCode();
-        result = 31 * result + predicate.hashCode();
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "EventTrigger(address='" + address + '\'' + ", localOnly=" + localOnly + ", predicate='" + predicate +
-               '\'' + ')';
+    default JsonObject toJson() {
+        JsonObject self = JsonObject.of("address", getAddress(), "localOnly", isLocalOnly(), "eventTriggerPredicate",
+                                        getPredicate().toJson());
+        return Trigger.super.toJson().mergeIn(self);
     }
 
 }

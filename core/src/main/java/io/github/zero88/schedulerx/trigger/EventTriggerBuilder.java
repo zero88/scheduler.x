@@ -1,7 +1,9 @@
 package io.github.zero88.schedulerx.trigger;
 
 import io.github.zero88.schedulerx.trigger.predicate.EventTriggerPredicate;
+import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
@@ -11,11 +13,18 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
  * @since 2.0.0
  */
 @JsonPOJOBuilder(withPrefix = "")
+@JsonIgnoreProperties(value = { "type" })
 public final class EventTriggerBuilder<T> {
 
+    private TriggerRule rule;
     private String address;
     private boolean localOnly = false;
     private EventTriggerPredicate<T> predicate;
+
+    public EventTriggerBuilder<T> rule(TriggerRule rule) {
+        this.rule = rule;
+        return this;
+    }
 
     public EventTriggerBuilder<T> address(String address) {
         this.address = address;
@@ -34,7 +43,7 @@ public final class EventTriggerBuilder<T> {
     }
 
     public EventTrigger<T> build() {
-        return new EventTrigger<>(address, localOnly, predicate);
+        return new EventTriggerImpl<>(address, localOnly, predicate, rule);
     }
 
 }
