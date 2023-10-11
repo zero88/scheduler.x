@@ -67,7 +67,7 @@ public interface Trigger extends HasTriggerType, TriggerRepresentation {
     default boolean shouldStop(long round) { return false; }
 
     /**
-     * Calculate the next trigger times based on default preview parameter({@link PreviewParameter#byDefault()})
+     * Simulate the next trigger times based on default preview parameter({@link PreviewParameter#byDefault()})
      *
      * @return the list of the next trigger time
      * @since 2.0.0
@@ -75,7 +75,7 @@ public interface Trigger extends HasTriggerType, TriggerRepresentation {
     default @NotNull List<OffsetDateTime> preview() { return preview(PreviewParameter.byDefault()); }
 
     /**
-     * Calculate the next trigger times based on given preview parameter
+     * Simulate the next trigger times based on given preview parameter
      *
      * @param parameter the preview parameter
      * @return the list of the next trigger time
@@ -84,14 +84,22 @@ public interface Trigger extends HasTriggerType, TriggerRepresentation {
      */
     @NotNull List<OffsetDateTime> preview(@NotNull PreviewParameter parameter);
 
+    /**
+     * Serialize this trigger to json object that helps to persist in external system
+     *
+     * @return trigger in json
+     * @since 2.0.0
+     */
+    @JsonValue
+    default JsonObject toJson() {
+        JsonObject json = JsonObject.of("type", type());
+        if (rule() != TriggerRule.NOOP) { json.put("rule", rule()); }
+        return json;
+    }
+
     @Override
     default @NotNull String display(@Nullable String lang) {
         return TriggerRepresentationServiceLoader.getInstance().getProvider(type()).apply(this).display(lang);
-    }
-
-    @JsonValue
-    default JsonObject toJson() {
-        return JsonObject.of("type", type(), "rule", rule());
     }
 
 }

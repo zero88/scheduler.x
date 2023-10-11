@@ -1,20 +1,28 @@
 package io.github.zero88.schedulerx.trigger;
 
+import static org.junit.jupiter.params.provider.Arguments.arguments;
+
+import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import io.github.zero88.schedulerx.trigger.rule.Timeframe;
 import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.core.json.jackson.DatabindCodec;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -28,59 +36,53 @@ class IntervalTriggerTest {
     @BeforeAll
     static void setup() { mapper = DatabindCodec.mapper(); }
 
-    @Test
-    void test_compare() throws JsonProcessingException {
-        final IntervalTrigger trigger1 = IntervalTrigger.builder()
-                                                        .initialDelay(30)
-                                                        .interval(5)
-                                                        .intervalTimeUnit(TimeUnit.SECONDS)
-                                                        .repeat(10)
-                                                        .build();
-        final String data = "{\"initialDelayTimeUnit\":\"SECONDS\",\"initialDelay\":30,\"repeat\":10," +
-                            "\"intervalTimeUnit\":\"SECONDS\",\"interval\":5}";
-        final IntervalTrigger trigger2 = mapper.readValue(data, IntervalTrigger.class);
-        Assertions.assertEquals(trigger2, trigger1);
-    }
-
-    @Test
-    void test_serialize() throws JsonProcessingException {
-        final IntervalTrigger trigger = IntervalTrigger.builder()
-                                                       .initialDelay(1)
-                                                       .interval(10)
-                                                       .intervalTimeUnit(TimeUnit.DAYS)
-                                                       .repeat(3)
-                                                       .build();
-        Assertions.assertFalse(trigger.noDelay());
-        Assertions.assertTrue(trigger.noRepeatIndefinitely());
-        final String json = mapper.writeValueAsString(trigger);
-        Assertions.assertEquals("{\"type\":\"interval\",\"rule\":{\"timeframes\":[],\"until\":null}," +
-                                "\"repeat\":3,\"initialDelay\":1,\"initialDelayTimeUnit\":\"SECONDS\"," +
-                                "\"interval\":10,\"intervalTimeUnit\":\"DAYS\"}", json);
-    }
-
-    @Test
-    void test_deserialize() throws JsonProcessingException {
-        final String data = "{\"initialDelayTimeUnit\":\"SECONDS\",\"initialDelay\":0,\"repeat\":-1," +
-                            "\"intervalTimeUnit\":\"DAYS\",\"interval\":10}";
-        final IntervalTrigger trigger = mapper.readValue(data, IntervalTrigger.class);
-        Assertions.assertEquals(10, trigger.getInterval());
-        Assertions.assertEquals(TimeUnit.DAYS, trigger.getIntervalTimeUnit());
-        Assertions.assertEquals(0, trigger.getInitialDelay());
-        Assertions.assertEquals(TimeUnit.SECONDS, trigger.getInitialDelayTimeUnit());
-        Assertions.assertEquals(-1, trigger.getRepeat());
-        Assertions.assertEquals("interval", trigger.type());
-        Assertions.assertFalse(trigger.noRepeatIndefinitely());
-        Assertions.assertTrue(trigger.noDelay());
+    static Stream<Arguments> validData() {
+        TriggerRule rule = TriggerRule.create(
+            Collections.singletonList(Timeframe.of(Instant.parse("2023-10-10T10:10:00Z"), null)),
+            Instant.parse("2023-10-20T10:10:00Z"));
+        JsonObject ruleJson = JsonObject.of("until", "2023-10-20T10:10:00Z", "timeframes", JsonArray.of(
+            JsonObject.of("type", "java.time.Instant", "from", "2023-10-10T10:10:00Z")));
+        // @formatter:off
+        return Stream.of(
+            arguments(IntervalTrigger.builder().interval(10).build(),
+                      new JsonObject("{\"interval\":10}")),
+            arguments(IntervalTrigger.builder().interval(20).build(),
+                      new JsonObject("{\"type\":\"interval\",\"repeat\":-1,\"initialDelay\":0,\"initialDelayTimeUnit\":\"SECONDS\",\"interval\":20,\"intervalTimeUnit\":\"SECONDS\"}")),
+            arguments(IntervalTrigger.builder().initialDelay(30).interval(5).repeat(10).build(),
+                      new JsonObject("{\"repeat\":10,\"initialDelay\":30,\"interval\":5}")),
+            arguments(IntervalTrigger.builder().initialDelay(1).initialDelayTimeUnit(TimeUnit.HOURS).interval(10).intervalTimeUnit(TimeUnit.MINUTES).repeat(3).build(),
+                      new JsonObject("{\"repeat\":3,\"initialDelay\":1,\"initialDelayTimeUnit\":\"HOURS\",\"interval\":10,\"intervalTimeUnit\":\"MINUTES\"}")),
+            arguments(IntervalTrigger.builder().interval(30).rule(rule).build(),
+                      JsonObject.of("interval", 30, "rule", ruleJson)));
+        // @formatter:on
     }
 
     @ParameterizedTest
-    @CsvSource(value = {
-        "{\"repeat\":0}|Invalid repeat value", "{\"interval\":10,\"initialDelay\":-1}|Invalid initial delay value",
-        "{\"interval\":-1}|Invalid interval value", "{\"initialDelayTimeUnit\":\"SECONDS\"}|Invalid interval value",
-    }, delimiter = '|')
-    void test_deserialize_invalid_value(String input, String expected) throws JsonProcessingException {
-        final IntervalTrigger intervalTrigger = mapper.readValue(input, IntervalTrigger.class);
-        Throwable cause = Assertions.assertThrows(IllegalArgumentException.class, intervalTrigger::validate);
+    @MethodSource("validData")
+    void test_serialize_deserialize(IntervalTrigger trigger, JsonObject json) throws JsonProcessingException {
+        final IntervalTrigger t1 = mapper.readValue(json.encode(), IntervalTrigger.class);
+        Assertions.assertEquals(t1, trigger);
+        Assertions.assertEquals(t1.toJson(), trigger.toJson());
+        Assertions.assertEquals(t1.toJson().encode(), mapper.writeValueAsString(trigger));
+        Assertions.assertEquals(json.mapTo(IntervalTrigger.class), trigger);
+    }
+
+    static Stream<Arguments> invalidData() {
+        return Stream.of(arguments(JsonObject.of("repeat", 0), IllegalArgumentException.class, "Invalid repeat value"),
+                         arguments(JsonObject.of("repeat", -10), IllegalArgumentException.class, "Invalid repeat value"),
+                         arguments(JsonObject.of("interval", -1), IllegalArgumentException.class,
+                                   "Invalid interval value"),
+                         arguments(JsonObject.of("initialDelayTimeUnit", "SECONDS"), IllegalArgumentException.class,
+                                   "Invalid interval value"),
+                         arguments(JsonObject.of("interval", 10, "initialDelay", -1), IllegalArgumentException.class,
+                                   "Invalid initial delay value"));
+    }
+
+    @ParameterizedTest
+    @MethodSource("invalidData")
+    void test_deserialize_invalid_value(JsonObject input, Class<Exception> exCls, String expected) throws JsonProcessingException {
+        final IntervalTrigger intervalTrigger = mapper.readValue(input.encode(), IntervalTrigger.class);
+        Throwable cause = Assertions.assertThrows(exCls, intervalTrigger::validate);
         Assertions.assertEquals(expected, cause.getMessage());
     }
 

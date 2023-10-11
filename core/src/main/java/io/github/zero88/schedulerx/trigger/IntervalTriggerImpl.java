@@ -98,7 +98,8 @@ final class IntervalTriggerImpl implements IntervalTrigger {
         if (repeat != that.repeat) { return false; }
         if (interval != that.interval) { return false; }
         if (initialDelayTimeUnit != that.initialDelayTimeUnit) { return false; }
-        return intervalTimeUnit == that.intervalTimeUnit;
+        if (intervalTimeUnit != that.intervalTimeUnit) { return false; }
+        return rule().equals(that.rule());
     }
 
     @Override
@@ -108,6 +109,7 @@ final class IntervalTriggerImpl implements IntervalTrigger {
         result = 31 * result + (int) (repeat ^ (repeat >>> 32));
         result = 31 * result + intervalTimeUnit.hashCode();
         result = 31 * result + (int) (interval ^ (interval >>> 32));
+        result = 31 * result + rule().hashCode();
         return result;
     }
 

@@ -15,12 +15,13 @@ final class EventTriggerImpl<T> implements EventTrigger<T> {
     private final String address;
     private final EventTriggerPredicate<T> predicate;
 
-    EventTriggerImpl(@NotNull String address, boolean localOnly, @NotNull EventTriggerPredicate<T> predicate,
-                     TriggerRule rule) {
+    EventTriggerImpl(String address, boolean localOnly, EventTriggerPredicate<T> predicate, TriggerRule rule) {
         this.rule      = rule;
         this.localOnly = localOnly;
-        this.address   = Objects.requireNonNull(address);
-        this.predicate = Objects.requireNonNull(predicate);
+        this.address   = Objects.requireNonNull(
+            Optional.ofNullable(address).filter(a -> !a.trim().isEmpty()).orElse(null),
+            "The event address is required");
+        this.predicate = Objects.requireNonNull(predicate, "The event trigger is required");
     }
 
     @Override
@@ -42,11 +43,10 @@ final class EventTriggerImpl<T> implements EventTrigger<T> {
         if (o == null || getClass() != o.getClass())
             return false;
         EventTriggerImpl<?> that = (EventTriggerImpl<?>) o;
-        if (localOnly != that.localOnly)
-            return false;
-        if (!address.equals(that.address))
-            return false;
-        return predicate.equals(that.predicate);
+        if (localOnly != that.localOnly) { return false; }
+        if (!address.equals(that.address)) { return false; }
+        if (!predicate.equals(that.predicate)) { return false; }
+        return rule().equals(that.rule());
     }
 
     @Override
@@ -54,6 +54,7 @@ final class EventTriggerImpl<T> implements EventTrigger<T> {
         int result = (localOnly ? 1 : 0);
         result = 31 * result + address.hashCode();
         result = 31 * result + predicate.hashCode();
+        result = 31 * result + rule().hashCode();
         return result;
     }
 

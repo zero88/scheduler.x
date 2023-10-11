@@ -82,13 +82,16 @@ final class CronTriggerImpl implements CronTrigger {
         if (this == o) { return true; }
         if (o == null || getClass() != o.getClass()) { return false; }
         CronTriggerImpl that = (CronTriggerImpl) o;
-        return expression.equals(that.expression) && timeZone.equals(that.timeZone);
+        if (!expression.equals(that.expression)) { return false; }
+        if (!timeZone.equals(that.timeZone)) { return false; }
+        return rule().equals(that.rule());
     }
 
     @Override
     public int hashCode() {
         int result = expression.hashCode();
         result = 31 * result + timeZone.hashCode();
+        result = 31 * result + rule().hashCode();
         return result;
     }
 

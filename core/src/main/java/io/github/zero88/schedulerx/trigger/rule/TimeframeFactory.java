@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import io.vertx.core.ServiceHelper;
@@ -27,11 +28,15 @@ final class TimeframeFactory {
 
     Timeframe create(Map<String, Object> properties) {
         final List<String> keys = Arrays.asList("type", "from", "to");
+        final Collector<Entry<String, Object>, ?, Map<String, Object>> collector = Collector.of(HashMap::new,
+                                                                                                (m, e) -> m.put(
+                                                                                                    e.getKey(),
+                                                                                                    e.getValue()),
+                                                                                                (m1, m2) -> m2);
         final Map<Boolean, Map<String, Object>> m = properties.entrySet()
                                                               .stream()
                                                               .collect(Collectors.partitioningBy(
-                                                                  e -> keys.contains(e.getKey()),
-                                                                  Collectors.toMap(Entry::getKey, Entry::getValue)));
+                                                                  e -> keys.contains(e.getKey()), collector));
         final Map<String, Object> primary = m.get(true);
         return create((String) primary.getOrDefault("type", null), primary.getOrDefault("from", null),
                       primary.getOrDefault("to", null), m.get(false));
@@ -62,10 +67,9 @@ final class TimeframeFactory {
     private static Timeframe createCustomTimeframe(Timeframe instance, Object from, Object to,
                                                    Map<String, Object> other) {
         Optional.ofNullable(other).orElseGet(HashMap::new).forEach(instance::set);
-        final TimeframeValidator validator = Objects.requireNonNull(instance.validator());
-        final TimeParser parser = Objects.requireNonNull(instance.parser());
-        return validator.validate(instance.set("from", validator.normalize(parser, from))
-                                          .set("to", validator.normalize(parser, to)));
+        final TimeframeValidator v = Objects.requireNonNull(instance.validator());
+        final TimeParser p = Objects.requireNonNull(instance.parser());
+        return v.validate(instance.set("from", v.normalize(p, from)).set("to", v.normalize(p, to)));
     }
 
     private static class Holder {

@@ -52,7 +52,8 @@ public interface CronTrigger extends Trigger {
 
     @Override
     default JsonObject toJson() {
-        return Trigger.super.toJson().mergeIn(JsonObject.of("expression", getExpression(), "timeZone", getTimeZone()));
+        return Trigger.super.toJson()
+                            .mergeIn(JsonObject.of("expression", getExpression(), "timeZone", getTimeZone().getID()));
     }
 
 }

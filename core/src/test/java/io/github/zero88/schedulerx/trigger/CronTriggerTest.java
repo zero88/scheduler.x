@@ -1,5 +1,7 @@
 package io.github.zero88.schedulerx.trigger;
 
+import static org.junit.jupiter.params.provider.Arguments.arguments;
+
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -8,13 +10,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.TimeZone;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import io.github.zero88.schedulerx.trigger.rule.Timeframe;
 import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.core.json.jackson.DatabindCodec;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -27,21 +35,60 @@ class CronTriggerTest {
     @BeforeAll
     static void setup() { mapper = DatabindCodec.mapper(); }
 
-    @Test
-    void test_compare() throws JsonProcessingException {
-        final CronTrigger t1 = CronTrigger.builder()
-                                                  .expression("0 0/2 0 ? * * *")
-                                                  .timeZone(TimeZone.getTimeZone("EST"))
-                                                  .build();
-        final String data = "{\"expression\":\"0 0/2 0 ? * * *\",\"timeZone\":\"EST\"}";
-        final CronTrigger t2 = mapper.readValue(data, CronTrigger.class);
-        Assertions.assertEquals(t2, t1);
+    static Stream<Arguments> validData() {
+        final TriggerRule rule = TriggerRule.create(
+            Collections.singletonList(Timeframe.of(Instant.parse("2023-10-10T10" + ":10:00Z"), null)),
+            Instant.parse("2023-10-20T10:10:00Z"));
+        final JsonObject ruleJson = JsonObject.of("until", "2023-10-20T10:10:00Z", "timeframes", JsonArray.of(
+            JsonObject.of("type", "java.time.Instant", "from", "2023-10-10T10:10:00Z")));
+        // @formatter:off
+        return Stream.of(arguments(CronTrigger.builder().expression("0 0/2 0 ? * * *").build(),
+                                   JsonObject.of("expression", "0 0/2 0 ? * * *", "timeZone", "GMT")),
+                         arguments(CronTrigger.builder().expression("0 0/2 0 ? * * *").build(),
+                                   JsonObject.of("type", "cron", "expression", "0 0/2 0 ? * * *", "timeZone", "GMT")),
+                         arguments(CronTrigger.builder().expression("0 0/2 0 ? * * *").timeZone(TimeZone.getTimeZone("EST")).build(),
+                                   JsonObject.of("type", "cron", "expression", "0 0/2 0 ? * * *", "timeZone", "EST")),
+                         arguments(CronTrigger.builder().expression("0 0/2 0 ? * * *").rule(rule).build(),
+                                   JsonObject.of("expression", "0 0/2 0 ? * * *", "timeZone", "GMT", "rule", ruleJson)));
+        // @formatter:on
+    }
+
+    @ParameterizedTest
+    @MethodSource("validData")
+    void test_serialize_deserialize(CronTrigger trigger, JsonObject json) throws JsonProcessingException {
+        final CronTrigger t2 = mapper.readValue(json.encode(), CronTrigger.class);
+        Assertions.assertEquals(t2, trigger);
+        Assertions.assertEquals(t2.toJson(), trigger.toJson());
+        Assertions.assertEquals(t2.toJson().encode(), mapper.writeValueAsString(trigger));
+    }
+
+    static Stream<Arguments> invalidExpression() {
+        return Stream.of(arguments(""), arguments("a 0/2 0 ? * * *"), arguments(JsonObject.of("expression", "*")));
+    }
+
+    @ParameterizedTest
+    @MethodSource("invalidExpression")
+    void test_invalid_expression(Object exprOrJson) throws JsonProcessingException {
+        CronTrigger trigger;
+        if (exprOrJson instanceof String) {
+            trigger = CronTrigger.builder().expression((String) exprOrJson).build();
+        } else {
+            trigger = mapper.readValue(((JsonObject) exprOrJson).encode(), CronTrigger.class);
+        }
+        Assertions.assertThrows(IllegalArgumentException.class, trigger::validate);
     }
 
     @Test
-    void test_invalid_trigger() {
-        final CronTrigger trigger = CronTrigger.builder().expression("a 0/2 0 ? * * *").build();
-        Assertions.assertThrows(IllegalArgumentException.class, trigger::validate);
+    void test_should_throw_NPE_when_null_expression() {
+        String exMsg = "Cron expression is required";
+        NullPointerException npe = Assertions.assertThrows(NullPointerException.class,
+                                                           () -> CronTrigger.builder().expression(null).build());
+        Assertions.assertEquals(exMsg, npe.getMessage());
+
+        JsonProcessingException jsonEx = Assertions.assertThrows(JsonProcessingException.class, () -> mapper.readValue(
+            JsonObject.of("expression", null).encode(), CronTrigger.class));
+        Assertions.assertInstanceOf(NullPointerException.class, jsonEx.getCause());
+        Assertions.assertEquals(exMsg, jsonEx.getCause().getMessage());
     }
 
     @Test
@@ -54,23 +101,6 @@ class CronTriggerTest {
         Assertions.assertEquals(cronExpression.getTimeZone(), trigger.getTimeZone());
         Assertions.assertEquals(2 * 60 * 1000, trigger.nextTriggerAfter(parse));
         Assertions.assertThrows(NullPointerException.class, () -> trigger.nextTriggerAfter(null));
-    }
-
-    @Test
-    void test_serialize() throws JsonProcessingException {
-        final TimeZone tz = TimeZone.getTimeZone("PST");
-        final CronTrigger trigger = CronTrigger.builder().expression("0 0/2 0 ? * * *").timeZone(tz).build();
-        final String json = mapper.writeValueAsString(trigger);
-        Assertions.assertEquals("{\"type\":\"cron\",\"rule\":{\"timeframes\":[],\"until\":null},\"expression\":\"0 0/2 0 ? * * *\",\"timeZone\":\"PST\"}", json);
-    }
-
-    @Test
-    void test_deserialize() throws JsonProcessingException {
-        final String data = "{\"expression\":\"0 0/3 0 ? * * *\",\"timeZone\":\"PST\"}";
-        final CronTrigger trigger = mapper.readValue(data, CronTrigger.class);
-        Assertions.assertEquals("0 0/3 0 ? * * *", trigger.getExpression());
-        Assertions.assertEquals(TimeZone.getTimeZone("PST"), trigger.getTimeZone());
-        Assertions.assertEquals("cron", trigger.type());
     }
 
     @Test
