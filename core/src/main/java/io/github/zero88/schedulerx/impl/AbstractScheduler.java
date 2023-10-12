@@ -149,7 +149,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     protected abstract @NotNull Future<Long> registerTimer(@NotNull Promise<Long> promise,
                                                            @Nullable WorkerExecutor workerExecutor);
 
-    protected void unregisterTimer(long timerId) { vertx.cancelTimer(timerId); }
+    protected abstract void unregisterTimer(long timerId);
 
     protected final TriggerContext shouldRun(@NotNull TriggerContext triggerContext) {
         log(Instant.now(), "Evaluating the trigger condition...");

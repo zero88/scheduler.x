@@ -1,5 +1,6 @@
 package io.github.zero88.schedulerx.trigger;
 
+import java.time.Instant;
 import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
@@ -49,7 +50,10 @@ final class EventSchedulerImpl<IN, OUT, T> extends AbstractScheduler<IN, OUT, Ev
     @Override
     protected void unregisterTimer(long timerId) {
         if (Objects.nonNull(consumer)) {
-            consumer.unregister();
+            consumer.unregister()
+                    .onComplete(r -> log(Instant.now(),
+                                         "Unregistered EventBus subscriber on address[" + consumer.address() + "]" +
+                                         "[" + r.succeeded() + "][" + r.cause() + "]"));
         }
     }
 
