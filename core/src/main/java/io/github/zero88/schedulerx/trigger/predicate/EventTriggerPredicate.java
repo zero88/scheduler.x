@@ -38,6 +38,8 @@ public interface EventTriggerPredicate<T> extends Predicate<T> {
      *
      * @param eventMessage the input argument
      * @return {@code true} if the event message argument matches the predicate, otherwise {@code false}
+     * @throws EventTriggerPredicateException in case of unmatch condition, you can throw this exception to include
+     *                                        detailed message
      */
     @Override
     boolean test(@Nullable T eventMessage);
@@ -155,6 +157,31 @@ public interface EventTriggerPredicate<T> extends Predicate<T> {
          */
         @Override
         boolean test(T eventMessage);
+
+    }
+
+
+    class EventTriggerPredicateException extends RuntimeException {
+
+        private final transient JsonObject errors;
+
+        public EventTriggerPredicateException(String message)    { this(message, null); }
+
+        public EventTriggerPredicateException(JsonObject errors) { this(errors, null); }
+
+        public EventTriggerPredicateException(String message, Throwable cause) {
+            super(message, cause);
+            this.errors = null;
+        }
+
+        public EventTriggerPredicateException(JsonObject errors, Throwable cause) {
+            super("", cause);
+            this.errors = errors;
+        }
+
+        public @Nullable JsonObject getErrors() {
+            return errors;
+        }
 
     }
 
