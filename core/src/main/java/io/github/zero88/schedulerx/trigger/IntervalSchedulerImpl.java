@@ -27,8 +27,8 @@ final class IntervalSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, In
     protected @NotNull Future<Long> registerTimer(@NotNull Promise<Long> promise, WorkerExecutor workerExecutor) {
         try {
             LongSupplier supplier = () -> vertx().setPeriodic(trigger().intervalInMilliseconds(),
-                                                              timerId -> run(workerExecutor, TriggerContextFactory.init(
-                                                                  trigger().type())));
+                                                              tId -> run(workerExecutor,
+                                                                         TriggerContextFactory.kickoff(trigger().type())));
             if (trigger().noDelay()) {
                 promise.complete(supplier.getAsLong());
             } else {

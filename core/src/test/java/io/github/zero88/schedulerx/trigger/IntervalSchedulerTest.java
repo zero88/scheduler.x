@@ -144,7 +144,7 @@ class IntervalSchedulerTest {
     @Test
     void test_scheduler_should_be_stopped_when_reach_to_target_round(Vertx vertx, VertxTestContext context) {
         final Consumer<ExecutionResult<String>> onCompleted = result -> {
-            Assertions.assertTrue(result.triggerContext().condition().isStop());
+            Assertions.assertTrue(result.triggerContext().isStopped());
             Assertions.assertEquals(ReasonCode.STOP_BY_CONFIG, result.triggerContext().condition().reasonCode());
         };
         final SchedulingAsserter<String> asserter = SchedulingAsserter.<String>builder()

@@ -14,6 +14,7 @@ final class ExecutionContextImpl<OUTPUT> implements ExecutionContextInternal<OUT
     private final Vertx vertx;
     private final long round;
     private final TriggerContext triggerContext;
+    private final Instant triggeredAt;
     private Instant executedAt;
     private Promise<Object> promise;
     private OUTPUT data;
@@ -24,6 +25,7 @@ final class ExecutionContextImpl<OUTPUT> implements ExecutionContextInternal<OUT
         this.vertx          = vertx;
         this.round          = round;
         this.triggerContext = triggerContext;
+        this.triggeredAt    = Instant.now();
     }
 
     @Override
@@ -37,22 +39,32 @@ final class ExecutionContextImpl<OUTPUT> implements ExecutionContextInternal<OUT
         return this;
     }
 
-    public @NotNull Vertx vertx()                   { return this.vertx; }
-
-    public @NotNull TriggerContext triggerContext() { return this.triggerContext; }
-
-    public @NotNull Instant executedAt()            { return this.executedAt; }
-
-    public long round()                             { return this.round; }
-
-    public OUTPUT data()                            { return this.data; }
-
-    public Throwable error()                        { return this.error; }
-
-    public boolean isForceStop()                    { return this.forceStop; }
+    @Override
+    public @NotNull Vertx vertx() { return vertx; }
 
     @Override
-    public void forceStopExecution() { this.forceStop = true; }
+    public @NotNull TriggerContext triggerContext() { return triggerContext; }
+
+    @Override
+    public @NotNull Instant triggeredAt() { return triggeredAt; }
+
+    @Override
+    public @NotNull Instant executedAt() { return executedAt; }
+
+    @Override
+    public long round() { return round; }
+
+    @Override
+    public OUTPUT data() { return data; }
+
+    @Override
+    public Throwable error() { return error; }
+
+    @Override
+    public boolean isForceStop() { return forceStop; }
+
+    @Override
+    public void forceStopExecution() { forceStop = true; }
 
     @Override
     public void complete(OUTPUT data) {

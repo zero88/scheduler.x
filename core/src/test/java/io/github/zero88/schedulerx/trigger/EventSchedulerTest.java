@@ -36,7 +36,7 @@ import io.vertx.junit5.VertxTestContext;
 @ExtendWith(VertxExtension.class)
 class EventSchedulerTest {
 
-    private static Stream<Arguments> provide_invalid_interval() {
+    private static Stream<Arguments> provide_predicate() {
         final Arguments arg1 = arguments(EventTriggerPredicate.<String>create(o -> o.startsWith("CO")),
                                          Arrays.asList(1, "COMPLETED"), (Consumer<ExecutionResult<Void>>) (r) -> {
                 final TriggerCondition condition = r.triggerContext().condition();
@@ -85,7 +85,7 @@ class EventSchedulerTest {
     }
 
     @ParameterizedTest
-    @MethodSource("provide_invalid_interval")
+    @MethodSource("provide_predicate")
     void test_event_trigger_misfire(EventTriggerPredicate<String> predicate, List<Object> data,
                                     Consumer<ExecutionResult<Void>> validator, Vertx vertx,
                                     VertxTestContext testContext) {

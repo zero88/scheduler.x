@@ -1,13 +1,13 @@
 package io.github.zero88.schedulerx.impl;
 
 import java.time.Instant;
-import java.util.Objects;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.zero88.schedulerx.trigger.TriggerCondition;
+import io.github.zero88.schedulerx.trigger.TriggerCondition.ReasonCode;
 import io.github.zero88.schedulerx.trigger.TriggerCondition.TriggerStatus;
 import io.github.zero88.schedulerx.trigger.TriggerContext;
 
@@ -22,26 +22,40 @@ public final class TriggerContextFactory {
     private TriggerContextFactory() { }
 
     /**
-     * Create trigger context in {@link TriggerStatus#INITIALIZED} state
+     * Create trigger context in {@link TriggerStatus#SCHEDULED} state
      *
      * @param triggerType the trigger type
      */
-    public static @NotNull TriggerContext init(@NotNull String triggerType) { return init(triggerType, null); }
+    public static @NotNull TriggerContext scheduled(@NotNull String triggerType) {
+        return create(triggerType, createCondition(TriggerStatus.SCHEDULED, ReasonCode.ON_SCHEDULE, null));
+    }
 
     /**
-     * Create trigger context in {@link TriggerStatus#INITIALIZED} state
+     * Create trigger context in {@link TriggerStatus#KICKOFF} state
+     *
+     * @param triggerType the trigger type
+     */
+    public static @NotNull TriggerTransitionContext kickoff(@NotNull String triggerType) {
+        return kickoff(triggerType, null);
+    }
+
+    /**
+     * Create trigger context in {@link TriggerStatus#KICKOFF} state
      *
      * @param triggerType the trigger type
      * @param info        the trigger context info
      */
-    public static @NotNull <T> TriggerContext init(@NotNull String triggerType, @Nullable T info) {
-        final Instant triggerAt = Instant.now();
-        final TriggerCondition condition = () -> TriggerStatus.INITIALIZED;
-        return new TriggerContext() {
+    public static @NotNull <T> TriggerTransitionContext kickoff(@NotNull String triggerType, @Nullable T info) {
+        final Instant firedAt = Instant.now();
+        final TriggerCondition condition = createCondition(TriggerStatus.KICKOFF, null, null);
+        return new TriggerTransitionContext() {
             @Override
             public @NotNull String type() { return triggerType; }
 
-            public @NotNull Instant triggerAt() { return triggerAt; }
+            @Override
+            public long tick() { return 0; }
+
+            public @NotNull Instant firedAt() { return firedAt; }
 
             @Override
             public @NotNull TriggerCondition condition() { return condition; }
@@ -56,79 +70,107 @@ public final class TriggerContextFactory {
      *
      * @param ctx the current trigger context
      */
-    public static @NotNull TriggerContext ready(@NotNull TriggerContext ctx) {
+    public static @NotNull TriggerTransitionContext ready(@NotNull TriggerTransitionContext ctx) {
         return transition(ctx, TriggerStatus.READY, null, null);
     }
 
     /**
-     * Transition trigger context to {@link TriggerStatus#SKIP} state.
+     * Transition trigger context to {@link TriggerStatus#SKIPPED} state.
      *
      * @param ctx    the current trigger context
      * @param reason the transition reason
      */
-    public static @NotNull TriggerContext skip(@NotNull TriggerContext ctx, @NotNull String reason) {
-        return transition(ctx, TriggerStatus.SKIP, reason, null);
+    public static @NotNull TriggerTransitionContext skip(@NotNull TriggerTransitionContext ctx, @NotNull String reason) {
+        return transition(ctx, TriggerStatus.SKIPPED, reason, null);
     }
 
     /**
-     * Transition trigger context to {@link TriggerStatus#SKIP} state.
+     * Transition trigger context to {@link TriggerStatus#SKIPPED} state.
      *
      * @param ctx    the current trigger context
      * @param reason the transition reason
      * @param cause  the transition cause
      */
-    public static @NotNull TriggerContext skip(@NotNull TriggerContext ctx, @NotNull String reason,
-                                               @NotNull Throwable cause) {
-        return transition(ctx, TriggerStatus.SKIP, reason, cause);
+    public static @NotNull TriggerTransitionContext skip(@NotNull TriggerTransitionContext ctx, @NotNull String reason,
+                                                         @NotNull Throwable cause) {
+        return transition(ctx, TriggerStatus.SKIPPED, reason, cause);
     }
 
     /**
-     * Transition trigger context to {@link TriggerStatus#STOP} state.
+     * Transition trigger context to {@link TriggerStatus#STOPPED} state.
      *
      * @param ctx    the current trigger context
      * @param reason the transition reason
      */
-    public static @NotNull TriggerContext stop(@NotNull TriggerContext ctx, @Nullable String reason) {
-        return transition(ctx, TriggerStatus.STOP, reason, null);
+    public static @NotNull TriggerTransitionContext stop(@NotNull TriggerTransitionContext ctx, @Nullable String reason) {
+        return transition(ctx, TriggerStatus.STOPPED, reason, null);
     }
 
     /**
-     * Create a trigger context in {@link TriggerStatus#STOP} state.
+     * Create a trigger context in {@link TriggerStatus#STOPPED} state.
      *
      * @param triggerType the trigger type
      * @param reason      the stopped reason
      */
     public static @NotNull TriggerContext stop(String triggerType, String reason) {
-        return noop(triggerType, createCondition(TriggerStatus.STOP, reason, null));
+        return create(triggerType, createCondition(TriggerStatus.STOPPED, reason, null));
     }
 
     /**
-     * Create a trigger context in {@link TriggerStatus#FAILED} state.
+     * Create a trigger context in {@link TriggerStatus#ERROR} state.
      *
      * @param triggerType the trigger type
      * @param reason      the transition reason
      * @param cause       the failed cause
      */
-    public static TriggerContext failed(String triggerType, String reason, @Nullable Throwable cause) {
-        return noop(triggerType, createCondition(TriggerStatus.FAILED, reason, cause));
+    public static TriggerContext error(String triggerType, String reason, @Nullable Throwable cause) {
+        return create(triggerType, createCondition(TriggerStatus.ERROR, reason, cause));
     }
 
-    static @NotNull TriggerContext transition(@NotNull TriggerContext ctx, @NotNull TriggerStatus status,
-                                              @Nullable String reason, @Nullable Throwable cause) {
+    static @NotNull TriggerTransitionContext transition(@NotNull TriggerTransitionContext ctx,
+                                                        @NotNull TriggerStatus status, @Nullable String reason,
+                                                        @Nullable Throwable cause) {
         final TriggerCondition condition = createCondition(status, reason, cause);
-        return new TriggerContext() {
+        return new TriggerTransitionContext() {
 
             @Override
             public @NotNull String type() { return ctx.type(); }
 
             @Override
-            public @NotNull Instant triggerAt() { return Objects.requireNonNull(ctx.triggerAt()); }
+            public long tick() { return ctx.tick(); }
+
+            @Override
+            public @Nullable Instant firedAt() { return ctx.firedAt(); }
 
             @Override
             public @NotNull TriggerCondition condition() { return condition; }
 
             @Override
             public @Nullable Object info() { return ctx.info(); }
+        };
+    }
+
+    static @NotNull TriggerContext create(String triggerType, TriggerCondition condition) {
+        return new TriggerContext() {
+
+            @Override
+            public @NotNull String type() { return triggerType; }
+
+            @Override
+            public @NotNull TriggerCondition condition() { return condition; }
+        };
+    }
+
+    static @NotNull TriggerContext convert(@NotNull TriggerContext internal) {
+        return new TriggerContext() {
+            @Override
+            public @NotNull TriggerCondition condition() { return internal.condition(); }
+
+            @Override
+            public @NotNull String type() { return internal.type(); }
+
+            @Override
+            public @Nullable Object info() { return internal.info(); }
         };
     }
 
@@ -143,21 +185,6 @@ public final class TriggerContextFactory {
 
             @Override
             public @Nullable Throwable cause() { return cause; }
-        };
-    }
-
-    @NotNull
-    static TriggerContext noop(String triggerType, TriggerCondition condition) {
-        return new TriggerContext() {
-
-            @Override
-            public @NotNull String type() { return triggerType; }
-
-            @Override
-            public @Nullable Instant triggerAt() { return null; }
-
-            @Override
-            public @NotNull TriggerCondition condition() { return condition; }
         };
     }
 

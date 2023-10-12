@@ -111,7 +111,7 @@ class SchedulerTest {
         final Consumer<ExecutionResult<Object>> completed = result -> {
             Assertions.assertEquals(3, result.round());
             Assertions.assertEquals(3, result.tick());
-            Assertions.assertTrue(result.triggerContext().condition().isStop());
+            Assertions.assertTrue(result.triggerContext().isStopped());
             Assertions.assertEquals(ReasonCode.STOP_BY_TASK, result.triggerContext().condition().reasonCode());
         };
         final SchedulingAsserter<Object> asserter = SchedulingAsserter.builder()

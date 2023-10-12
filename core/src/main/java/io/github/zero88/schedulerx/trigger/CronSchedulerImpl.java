@@ -31,7 +31,7 @@ final class CronSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, CronTr
             final long nextTriggerAfter = trigger().nextTriggerAfter(Instant.now());
             nextTimerId = vertx().setTimer(nextTriggerAfter, timerId -> {
                 promise.complete(timerId);
-                run(workerExecutor, TriggerContextFactory.init(trigger().type()));
+                run(workerExecutor, TriggerContextFactory.kickoff(trigger().type()));
                 doStart(workerExecutor);
             });
             log(Instant.now(), "Next schedule after " + nextTriggerAfter + "ms with timerId[" + nextTimerId + "]");

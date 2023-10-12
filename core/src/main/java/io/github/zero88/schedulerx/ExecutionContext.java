@@ -45,9 +45,7 @@ public interface ExecutionContext<OUT> {
      *
      * @return triggeredAt
      */
-    default @NotNull Instant triggeredAt() {
-        return Objects.requireNonNull(triggerContext().triggerAt());
-    }
+    @NotNull Instant triggeredAt();
 
     /**
      * Executed at time
