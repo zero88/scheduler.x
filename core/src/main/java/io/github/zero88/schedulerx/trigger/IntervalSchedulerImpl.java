@@ -33,7 +33,7 @@ final class IntervalSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, In
                 promise.complete(supplier.getAsLong());
             } else {
                 final long delay = trigger().delayInMilliseconds();
-                trace(Instant.now(), "Delay [" + delay + "ms] then register the task in the scheduler");
+                log(Instant.now(), "Delay [" + delay + "ms] then register the task in the scheduler");
                 vertx().setTimer(delay, ignore -> promise.complete(supplier.getAsLong()));
             }
         } catch (Exception e) {
