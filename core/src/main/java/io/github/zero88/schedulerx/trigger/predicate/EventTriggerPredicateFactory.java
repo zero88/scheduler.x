@@ -1,5 +1,6 @@
 package io.github.zero88.schedulerx.trigger.predicate;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -34,7 +35,7 @@ final class EventTriggerPredicateFactory {
     }
 
     static <T> @NotNull EventTriggerPredicate<T> create(Map<String, Object> properties) {
-        Map<String, Object> props = Optional.ofNullable(properties).orElseGet(HashMap::new);
+        Map<String, Object> props = Optional.ofNullable(properties).orElseGet(Collections::emptyMap);
         String predicateCls = getValue(props, JsonKey.EVENT_PREDICATE, EventTriggerPredicateImpl.class.getName());
         if (AnyEventTriggerPredicate.class.getName().equals(predicateCls)) {
             return (EventTriggerPredicate<T>) AnyEventTriggerPredicate.INSTANCE;
@@ -80,8 +81,7 @@ final class EventTriggerPredicateFactory {
         final String filterCls = getValue(props, JsonKey.MSG_FILTER, null);
         final MessageFilter<T> f = initInstance(JsonKey.MSG_FILTER, MessageFilter.class, filterCls);
         if (f instanceof MessageExtensionFilter) {
-            return tryLoad((MessageExtensionFilter<T>) f,
-                           Utils.castOrNull(props.get(JsonKey.MSG_FILTER_EXTRA), true));
+            return tryLoad((MessageExtensionFilter<T>) f, Utils.castOrNull(props.get(JsonKey.MSG_FILTER_EXTRA), true));
         }
         return f;
     }
@@ -96,7 +96,7 @@ final class EventTriggerPredicateFactory {
     private static <E extends ExtraPropertiesExtension> E tryLoad(@NotNull E instance,
                                                                   @Nullable Map<String, Object> extraProps) {
         try {
-            return Objects.requireNonNull((E) instance.load(extraProps));
+            return Objects.requireNonNull((E) instance.load(Optional.ofNullable(extraProps).orElseGet(Collections::emptyMap)));
         } catch (Exception e) {
             throw new IllegalArgumentException("Failed to setup " + instance.getClass(), e);
         }

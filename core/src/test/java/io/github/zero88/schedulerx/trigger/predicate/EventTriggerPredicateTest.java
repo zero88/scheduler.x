@@ -3,7 +3,6 @@ package io.github.zero88.schedulerx.trigger.predicate;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.Collections;
-import java.util.Map;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
@@ -15,6 +14,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import io.github.zero88.schedulerx.trigger.predicate.TestPredicateHolder.FailedEventTriggerExtensionPredicate;
 import io.github.zero88.schedulerx.trigger.predicate.TestPredicateHolder.MockEventTriggerExtensionPredicate;
+import io.github.zero88.schedulerx.trigger.predicate.TestPredicateHolder.MockExtraConverter;
+import io.github.zero88.schedulerx.trigger.predicate.TestPredicateHolder.MockExtraFilter;
 import io.github.zero88.schedulerx.trigger.predicate.TestPredicateHolder.MockForbiddenFilter;
 import io.github.zero88.schedulerx.trigger.predicate.TestPredicateHolder.MockNullConverter;
 import io.github.zero88.schedulerx.trigger.predicate.TestPredicateHolder.MockUnableDeserializeEventTrigger;
@@ -25,6 +26,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@SuppressWarnings("rawtypes")
 class EventTriggerPredicateTest {
 
     static ObjectMapper mapper;
@@ -34,7 +36,8 @@ class EventTriggerPredicateTest {
         mapper = DatabindCodec.mapper();
     }
 
-    static Stream<Arguments> builtinPredicateTestData() {
+    static Stream<Arguments> validData() {
+        // @formatter:off
         return Stream.of(arguments(EventTriggerPredicate.any(),
                                    JsonObject.of("predicate", AnyEventTriggerPredicate.class.getName())),
                          arguments(EventTriggerPredicate.ignoreType(new MockForbiddenFilter()),
@@ -45,11 +48,18 @@ class EventTriggerPredicateTest {
                                                  MockForbiddenFilter.class.getName())),
                          arguments(EventTriggerPredicate.create(new MockNullConverter(), new MockForbiddenFilter()),
                                    JsonObject.of("msgConverter", MockNullConverter.class.getName(), "msgFilter",
-                                                 MockForbiddenFilter.class.getName())));
+                                                 MockForbiddenFilter.class.getName())),
+                         arguments(EventTriggerPredicate.create(new MockExtraConverter().load(Collections.singletonMap("k1", "v1")),
+                                                                new MockExtraFilter().load(Collections.singletonMap("k2", "v2"))),
+                                   JsonObject.of("msgConverter", MockExtraConverter.class.getName(),
+                                                 "msgFilter", MockExtraFilter.class.getName(),
+                                                 "msgConverterExtra", JsonObject.of("k1", "v1"),
+                                                 "msgFilterExtra", JsonObject.of("k2", "v2"))));
+        // @formatter:on
     }
 
     @ParameterizedTest
-    @MethodSource("builtinPredicateTestData")
+    @MethodSource("validData")
     void test_able_to_serialize_deserialize_builtin(EventTriggerPredicate predicate, JsonObject expected)
         throws JsonProcessingException {
         String json = expected.encode();
@@ -95,10 +105,10 @@ class EventTriggerPredicateTest {
                                          MockForbiddenFilter.class.getName());
         Object deserialized = mapper.readerFor(EventTriggerPredicate.class).readValue(input.encode());
         Assertions.assertInstanceOf(MockEventTriggerExtensionPredicate.class, deserialized);
-        Map<String, Object> extra = ((MockEventTriggerExtensionPredicate) deserialized).extra;
-        Assertions.assertInstanceOf(MockNullConverter.class, extra.get("msgConverter"));
-        Assertions.assertInstanceOf(MockForbiddenFilter.class, extra.get("msgFilter"));
-        Assertions.assertEquals(Collections.singletonMap("k", "v"), extra.get("predicateExtra"));
+        JsonObject extra = ((MockEventTriggerExtensionPredicate) deserialized).extra();
+        Assertions.assertInstanceOf(MockNullConverter.class, extra.getValue("msgConverter"));
+        Assertions.assertInstanceOf(MockForbiddenFilter.class, extra.getValue("msgFilter"));
+        Assertions.assertEquals(JsonObject.of("k", "v"), extra.getValue("predicateExtra"));
     }
 
     static Stream<EventTriggerPredicate> unsupportedSerialize() {

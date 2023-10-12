@@ -5,6 +5,8 @@ import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import io.github.zero88.schedulerx.trigger.predicate.EventTriggerExtensionPredicate.MessageExtensionConverter;
+import io.github.zero88.schedulerx.trigger.predicate.EventTriggerExtensionPredicate.MessageExtensionFilter;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
 
@@ -62,7 +64,7 @@ class TestPredicateHolder {
 
     static class MockEventTriggerExtensionPredicate implements EventTriggerExtensionPredicate<Object> {
 
-        Map<String, Object> extra;
+        private JsonObject extra;
 
         @Override
         public @Nullable Object convert(@NotNull MultiMap headers, @Nullable Object body) { return null; }
@@ -74,10 +76,13 @@ class TestPredicateHolder {
         public @NotNull JsonObject toJson() { return new JsonObject(); }
 
         @Override
-        public @NotNull EventTriggerExtensionPredicate<Object> load(@Nullable Map<String, Object> properties) {
-            this.extra = properties;
+        public @NotNull EventTriggerExtensionPredicate<Object> load(@NotNull Map<String, Object> properties) {
+            this.extra = new JsonObject(properties);
             return this;
         }
+
+        @Override
+        public JsonObject extra() { return extra; }
 
     }
 
@@ -85,8 +90,68 @@ class TestPredicateHolder {
     static class FailedEventTriggerExtensionPredicate extends MockEventTriggerExtensionPredicate {
 
         @Override
-        public @NotNull EventTriggerExtensionPredicate<Object> load(@Nullable Map<String, Object> properties) {
+        public @NotNull EventTriggerExtensionPredicate<Object> load(@NotNull Map<String, Object> properties) {
             throw new RuntimeException("simulate to failed");
+        }
+
+    }
+
+
+    static class MockExtraConverter implements MessageExtensionConverter<Object> {
+
+        private JsonObject extra;
+
+        @Override
+        public Object apply(MultiMap headers, Object body) { return body; }
+
+        @Override
+        public @NotNull MessageExtensionConverter<Object> load(@NotNull Map<String, Object> properties) {
+            this.extra = new JsonObject(properties);
+            return this;
+        }
+
+        @Override
+        public @Nullable JsonObject extra() { return extra; }
+
+        @Override
+        public int hashCode() {
+            return 31 * MockExtraConverter.class.hashCode() + extra.hashCode();
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return obj != null && obj.getClass() == MockExtraConverter.class &&
+                   extra.equals(((MockExtraConverter) obj).extra);
+        }
+
+    }
+
+
+    static class MockExtraFilter implements MessageExtensionFilter<Object> {
+
+        private JsonObject extra;
+
+        @Override
+        public boolean test(Object eventMessage) { return false; }
+
+        @Override
+        public @NotNull MessageExtensionFilter<Object> load(@NotNull Map<String, Object> properties) {
+            this.extra = new JsonObject(properties);
+            return this;
+        }
+
+        @Override
+        public @Nullable JsonObject extra() { return extra; }
+
+        @Override
+        public int hashCode() {
+            return 31 * MockExtraFilter.class.hashCode() + extra.hashCode();
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return obj != null && obj.getClass() == MockExtraFilter.class &&
+                   extra.equals(((MockExtraFilter) obj).extra);
         }
 
     }

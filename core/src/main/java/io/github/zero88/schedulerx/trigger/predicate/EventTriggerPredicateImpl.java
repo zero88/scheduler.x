@@ -3,6 +3,8 @@ package io.github.zero88.schedulerx.trigger.predicate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import io.github.zero88.schedulerx.trigger.predicate.EventTriggerExtensionPredicate.MessageExtensionConverter;
+import io.github.zero88.schedulerx.trigger.predicate.EventTriggerExtensionPredicate.MessageExtensionFilter;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
 
@@ -31,8 +33,15 @@ final class EventTriggerPredicateImpl<T> implements EventTriggerPredicate<T> {
         if (isAnonymousClassOrLambda(converter) || isAnonymousClassOrLambda(filter)) {
             throw new UnsupportedOperationException("Unable to serialize anonymous class or lambda");
         }
-        return JsonObject.of(JsonKey.MSG_CONVERTER, converter.getClass().getName(),
-                             JsonKey.MSG_FILTER, filter.getClass().getName());
+        final JsonObject json = JsonObject.of(JsonKey.MSG_CONVERTER, converter.getClass().getName(), JsonKey.MSG_FILTER,
+                                              filter.getClass().getName());
+        if (converter instanceof MessageExtensionConverter) {
+            putExtraData(json, ((MessageExtensionConverter<T>) converter).extra(), JsonKey.MSG_CONVERTER_EXTRA);
+        }
+        if (filter instanceof MessageExtensionFilter) {
+            putExtraData(json, ((MessageExtensionFilter<T>) filter).extra(), JsonKey.MSG_FILTER_EXTRA);
+        }
+        return json;
     }
 
     private boolean isAnonymousClassOrLambda(Object o) {
@@ -56,6 +65,12 @@ final class EventTriggerPredicateImpl<T> implements EventTriggerPredicate<T> {
         int result = converter.hashCode();
         result = 31 * result + filter.hashCode();
         return result;
+    }
+
+    private static void putExtraData(JsonObject output, JsonObject extra, String msgFilterExtra) {
+        if (extra != null && !extra.isEmpty()) {
+            output.put(msgFilterExtra, extra);
+        }
     }
 
 }
