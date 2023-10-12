@@ -37,7 +37,7 @@ public class SimpleDateTimeTimeframe implements Timeframe<Date> {
     public @Nullable Date to() { return to; }
 
     @JsonGetter
-    public TimeZone timezone() { return zone; }
+    public TimeZone timeZone() { return zone; }
 
     @JsonGetter
     public String getFrom() { return formatter.format(from); }
@@ -74,7 +74,7 @@ public class SimpleDateTimeTimeframe implements Timeframe<Date> {
             from = (Date) value;
         if ("to".equals(field))
             to = (Date) value;
-        if ("timezone".equals(field)) {
+        if ("timeZone".equals(field)) {
             zone = value instanceof String ? TimeZone.getTimeZone((String) value) : (TimeZone) value;
             formatter.setTimeZone(zone);
         }

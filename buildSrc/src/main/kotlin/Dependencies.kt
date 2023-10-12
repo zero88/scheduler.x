@@ -65,13 +65,14 @@ object VertxLibs {
 
     object Version {
 
-        private val pool = mapOf(2 to (0..7).toList(), 3 to (0..6).toList(), 4 to (0..4).toList())
+        private val pool = mapOf(2 to (0..7).toList(), 3 to (0..6).toList(), 4 to (0..5).toList())
         @JvmField val defaultVersion = "4.${pool.ver(4, 4)}"
     }
 
     @JvmField val core = "io.vertx:vertx-core:${Version.defaultVersion}"
     @JvmField val junit5 = "io.vertx:vertx-junit5:${Version.defaultVersion}"
     @JvmField val rx3 = "io.vertx:vertx-rx-java3:${Version.defaultVersion}"
+    @JvmField val jsonSchema = "io.vertx:vertx-json-schema:${Version.defaultVersion}"
 }
 
 object MutinyLibs {

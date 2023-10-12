@@ -11,6 +11,10 @@ import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.trigger.repr.TriggerRepresentation;
 import io.github.zero88.schedulerx.trigger.repr.TriggerRepresentationServiceLoader;
 import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
+import io.vertx.core.json.JsonObject;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Represents for inspecting settings specific to a Trigger, which is used to fire a <code>{@link Task}</code> at given
@@ -21,24 +25,25 @@ import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
 public interface Trigger extends HasTriggerType, TriggerRepresentation {
 
     /**
-     * Do validate trigger in runtime
-     *
-     * @return this for fluent API
-     * @throws IllegalArgumentException if any configuration is wrong
-     * @since 2.0.0
-     */
-    @NotNull Trigger validate();
-
-    /**
      * Defines the trigger rule
      *
      * @return the trigger rule
      * @see TriggerRule
      * @since 2.0.0
      */
+    @JsonProperty
     default @NotNull TriggerRule rule() {
         return TriggerRule.NOOP;
     }
+
+    /**
+     * Do validate trigger in runtime.
+     *
+     * @return this for fluent API
+     * @throws IllegalArgumentException if any configuration is wrong
+     * @since 2.0.0
+     */
+    @NotNull Trigger validate();
 
     /**
      * Verify if the trigger time still appropriate to execute the task.
@@ -62,7 +67,7 @@ public interface Trigger extends HasTriggerType, TriggerRepresentation {
     default boolean shouldStop(long round) { return false; }
 
     /**
-     * Calculate the next trigger times based on default preview parameter({@link PreviewParameter#byDefault()})
+     * Simulate the next trigger times based on default preview parameter({@link PreviewParameter#byDefault()})
      *
      * @return the list of the next trigger time
      * @since 2.0.0
@@ -70,7 +75,7 @@ public interface Trigger extends HasTriggerType, TriggerRepresentation {
     default @NotNull List<OffsetDateTime> preview() { return preview(PreviewParameter.byDefault()); }
 
     /**
-     * Calculate the next trigger times based on given preview parameter
+     * Simulate the next trigger times based on given preview parameter
      *
      * @param parameter the preview parameter
      * @return the list of the next trigger time
@@ -78,6 +83,19 @@ public interface Trigger extends HasTriggerType, TriggerRepresentation {
      * @since 2.0.0
      */
     @NotNull List<OffsetDateTime> preview(@NotNull PreviewParameter parameter);
+
+    /**
+     * Serialize this trigger to json object that helps to persist in external system
+     *
+     * @return trigger in json
+     * @since 2.0.0
+     */
+    @JsonValue
+    default JsonObject toJson() {
+        JsonObject json = JsonObject.of("type", type());
+        if (rule() != TriggerRule.NOOP) { json.put("rule", rule()); }
+        return json;
+    }
 
     @Override
     default @NotNull String display(@Nullable String lang) {

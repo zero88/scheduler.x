@@ -117,7 +117,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     @Override
     public final void executeTask(@NotNull ExecutionContext<OUT> executionContext) {
         try {
-            trace(executionContext.executedAt(), "Start to execute the task");
+            log(executionContext.executedAt(), "Start to execute the task");
             task.execute(jobData(), executionContext);
             if (!task.isAsync()) {
                 ((ExecutionContextInternal<OUT>) executionContext).internalComplete();
@@ -130,7 +130,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     @Override
     public final void cancel() {
         if (!state.completed()) {
-            trace(Instant.now(), "Canceling the task");
+            log(Instant.now(), "Canceling the task");
             doStop(state.timerId(), TriggerContextFactory.stop(trigger().type(), ReasonCode.STOP_BY_MANUAL));
         }
     }
@@ -152,6 +152,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     protected void unregisterTimer(long timerId) { vertx.cancelTimer(timerId); }
 
     protected final TriggerContext shouldRun(@NotNull TriggerContext triggerContext) {
+        log(Instant.now(), "Evaluating the trigger condition...");
         if (triggerContext.condition().status() != TriggerStatus.INITIALIZED) {
             return triggerContext;
         }
@@ -192,7 +193,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
         if (transitionCtx.condition().isReady()) {
             final ExecutionContextInternal<OUT> ctx = new ExecutionContextImpl<>(vertx, state.increaseRound(),
                                                                                  transitionCtx);
-            trace(Objects.requireNonNull(transitionCtx.triggerAt()), "Trigger the task execution");
+            log(Objects.requireNonNull(transitionCtx.triggerAt()), "Triggering the task execution...");
             if (workerExecutor != null) {
                 workerExecutor.executeBlocking(promise -> executeTask(onExecute(promise, ctx)),
                                                asyncResult -> onResult(transitionCtx, asyncResult));
@@ -205,7 +206,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
         }
     }
 
-    protected final void trace(@NotNull Instant at, @NotNull String event) {
+    protected final void log(@NotNull Instant at, @NotNull String event) {
         if (LOGGER.isTraceEnabled()) {
             LOGGER.trace(genMsg(state.tick(), state.round(), at, event));
         }
@@ -243,7 +244,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     }
 
     protected final void onMisfire(@NotNull TriggerContext triggerContext) {
-        trace(Objects.requireNonNull(triggerContext.triggerAt()),
+        log(Objects.requireNonNull(triggerContext.triggerAt()),
               "Skip the execution::" + triggerContext.condition().reasonCode());
         monitor.onMisfire(ExecutionResultImpl.<OUT>builder()
                                              .setExternalId(jobData.externalId())
@@ -260,7 +261,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
         final Instant finishedAt = Instant.now();
         TriggerContext transitionCtx;
         if (asyncResult.succeeded()) {
-            trace(finishedAt, "Received the task result");
+            log(finishedAt, "Received the task result");
             final ExecutionContextInternal<OUT> executionCtx = (ExecutionContextInternal<OUT>) asyncResult.result();
             monitor.onEach(ExecutionResultImpl.<OUT>builder()
                                               .setExternalId(jobData.externalId())
@@ -288,7 +289,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     protected final void onCompleted(TriggerContext context) {
         state.markCompleted();
         final Instant completedAt = Instant.now();
-        trace(completedAt, "The task execution is completed");
+        log(completedAt, "The task execution is completed");
         monitor.onCompleted(ExecutionResultImpl.<OUT>builder()
                                                .setExternalId(jobData.externalId())
                                                .setAvailableAt(state.availableAt())

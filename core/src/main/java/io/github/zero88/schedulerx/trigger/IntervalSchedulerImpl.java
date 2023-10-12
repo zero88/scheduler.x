@@ -6,8 +6,8 @@ import java.util.function.LongSupplier;
 import org.jetbrains.annotations.NotNull;
 
 import io.github.zero88.schedulerx.JobData;
-import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.SchedulingMonitor;
+import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.impl.AbstractScheduler;
 import io.github.zero88.schedulerx.impl.AbstractSchedulerBuilder;
 import io.github.zero88.schedulerx.impl.TriggerContextFactory;
@@ -27,13 +27,13 @@ final class IntervalSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, In
     protected @NotNull Future<Long> registerTimer(@NotNull Promise<Long> promise, WorkerExecutor workerExecutor) {
         try {
             LongSupplier supplier = () -> vertx().setPeriodic(trigger().intervalInMilliseconds(),
-                                                              timerId -> run(workerExecutor,
-                                                                             TriggerContextFactory.init(trigger().type())));
+                                                              timerId -> run(workerExecutor, TriggerContextFactory.init(
+                                                                  trigger().type())));
             if (trigger().noDelay()) {
                 promise.complete(supplier.getAsLong());
             } else {
                 final long delay = trigger().delayInMilliseconds();
-                trace(Instant.now(), "Delay [" + delay + "ms] then register the task in the scheduler");
+                log(Instant.now(), "Delay [" + delay + "ms] then register the task in the scheduler");
                 vertx().setTimer(delay, ignore -> promise.complete(supplier.getAsLong()));
             }
         } catch (Exception e) {

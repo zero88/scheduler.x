@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The trigger rule
+ * Represents a rule that sets advanced conditions to allow the trigger to run or not.
  *
  * @since 2.0.0
  */

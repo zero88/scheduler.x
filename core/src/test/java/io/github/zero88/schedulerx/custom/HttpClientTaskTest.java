@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import io.github.zero88.schedulerx.ExecutionResult;
 import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.SchedulingAsserter;
-import io.github.zero88.schedulerx.ExecutionResult;
-import io.github.zero88.schedulerx.trigger.IntervalTrigger;
 import io.github.zero88.schedulerx.trigger.IntervalScheduler;
+import io.github.zero88.schedulerx.trigger.IntervalTrigger;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.junit5.VertxExtension;

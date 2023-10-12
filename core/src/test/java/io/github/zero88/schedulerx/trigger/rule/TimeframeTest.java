@@ -111,7 +111,7 @@ class TimeframeTest {
     @Test
     void serialize_deserialize_custom_Timeframe() throws JsonProcessingException {
         final String expected = "{\"from\":\"Fri, Sep 1, 2023 05:00:00\",\"to\":\"Sun, Oct 1, 2023 05:00:00\"," +
-                                "\"timezone\":\"Europe/Paris\",\"type\":\"java.util.Date\"}";
+                                "\"timeZone\":\"Europe/Paris\",\"type\":\"java.util.Date\"}";
         final Timeframe<?> timeframe = mapper.readValue(expected, Timeframe.class);
         Assertions.assertInstanceOf(SimpleDateTimeTimeframe.class, timeframe);
         Assertions.assertEquals(expected, mapper.writeValueAsString(timeframe));

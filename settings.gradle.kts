@@ -15,7 +15,7 @@ pluginManagement {
 val projectName = "schedulerx"
 val profile: String by settings
 val pools = mutableMapOf(
-    projectName to arrayOf(":core"),
+    projectName to arrayOf(":core", ":ext"),
     "sample" to emptyArray(),
     "integtest" to emptyArray()
 )

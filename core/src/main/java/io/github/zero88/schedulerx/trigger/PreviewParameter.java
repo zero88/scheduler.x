@@ -20,8 +20,8 @@ public final class PreviewParameter {
 
     public static final int MAX_TIMES = 30;
 
-    private Instant startedAt = Instant.now();
     private int times;
+    private Instant startedAt = Instant.now();
     private ZoneId timeZone;
     private TriggerRule rule = TriggerRule.NOOP;
 

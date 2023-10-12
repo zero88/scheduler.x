@@ -11,6 +11,7 @@ import io.github.zero88.schedulerx.impl.AbstractScheduler;
 import io.github.zero88.schedulerx.impl.AbstractSchedulerBuilder;
 import io.github.zero88.schedulerx.impl.TriggerContextFactory;
 import io.github.zero88.schedulerx.trigger.TriggerCondition.ReasonCode;
+import io.github.zero88.schedulerx.trigger.predicate.EventTriggerPredicate.EventTriggerPredicateException;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
@@ -77,7 +78,7 @@ final class EventSchedulerImpl<IN, OUT, T> extends AbstractScheduler<IN, OUT, Ev
     }
 
     private TriggerContext handleException(TriggerContext context, Exception cause) {
-        String reason = cause instanceof ClassCastException
+        String reason = cause instanceof ClassCastException || cause instanceof EventTriggerPredicateException
                         ? ReasonCode.CONDITION_IS_NOT_MATCHED
                         : ReasonCode.UNEXPECTED_ERROR;
         return TriggerContextFactory.skip(context, reason, cause);

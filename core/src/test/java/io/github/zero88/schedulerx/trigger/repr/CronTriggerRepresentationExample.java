@@ -4,8 +4,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.zero88.schedulerx.trigger.CronTrigger;
-import io.github.zero88.schedulerx.trigger.repr.CronTriggerRepresentationMapper;
-import io.github.zero88.schedulerx.trigger.repr.TriggerRepresentation;
 
 public class CronTriggerRepresentationExample implements CronTriggerRepresentationMapper {
 
