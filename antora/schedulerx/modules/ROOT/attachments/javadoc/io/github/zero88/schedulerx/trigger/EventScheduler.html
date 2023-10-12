@@ -79,11 +79,11 @@ loadScripts(document, 'script');</script>
 </dl>
 <dl class="notes">
 <dt>All Superinterfaces:</dt>
-<dd><code><a href="../Scheduler.html" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;IN,<wbr>OUT,<wbr><a href="EventTrigger.html" title="class in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;T&gt;&gt;</code>, <code><a href="../TaskExecutor.html" title="interface in io.github.zero88.schedulerx">TaskExecutor</a>&lt;IN,<wbr>OUT&gt;</code>, <code><a href="../TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx">TaskExecutorProperties</a>&lt;IN,<wbr>OUT&gt;</code></dd>
+<dd><code><a href="../Scheduler.html" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;IN,<wbr>OUT,<wbr><a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;T&gt;&gt;</code>, <code><a href="../TaskExecutor.html" title="interface in io.github.zero88.schedulerx">TaskExecutor</a>&lt;IN,<wbr>OUT&gt;</code>, <code><a href="../TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx">TaskExecutorProperties</a>&lt;IN,<wbr>OUT&gt;</code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">EventScheduler&lt;IN,<wbr>OUT,<wbr>T&gt;</span><span class="extends-implements">
-extends <a href="../Scheduler.html" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;IN,<wbr>OUT,<wbr><a href="EventTrigger.html" title="class in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;T&gt;&gt;</span></div>
+extends <a href="../Scheduler.html" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;IN,<wbr>OUT,<wbr><a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;T&gt;&gt;</span></div>
 <div class="block">An event-base scheduler that triggers to run a task when receive an event from specific <code>event-bus</code> address.</div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -91,7 +91,7 @@ extends <a href="../Scheduler.html" title="interface in io.github.zero88.schedul
 <dt>See Also:</dt>
 <dd>
 <ul class="see-list">
-<li><a href="EventTrigger.html" title="class in io.github.zero88.schedulerx.trigger"><code>EventTrigger</code></a></li>
+<li><a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger"><code>EventTrigger</code></a></li>
 <li><code>EventBus</code></li>
 </ul>
 </dd>
@@ -115,7 +115,7 @@ OUT,<wbr>
 V&gt;&nbsp;<a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr>V&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#builder()" class="member-name-link">builder</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="EventTrigger.html" title="class in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;<a href="EventScheduler.html" title="type parameter in EventScheduler">T</a>&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;<a href="EventScheduler.html" title="type parameter in EventScheduler">T</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#trigger()" class="member-name-link">trigger</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Trigger type</div>
@@ -155,7 +155,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="EventSchedulerBuilder.html"
 <section class="detail" id="trigger()">
 <h3>trigger</h3>
 <div class="member-signature"><span class="annotations">@NotNull
-</span><span class="return-type">@NotNull <a href="EventTrigger.html" title="class in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;<a href="EventScheduler.html" title="type parameter in EventScheduler">T</a>&gt;</span>&nbsp;<span class="element-name">trigger</span>()</div>
+</span><span class="return-type">@NotNull <a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;<a href="EventScheduler.html" title="type parameter in EventScheduler">T</a>&gt;</span>&nbsp;<span class="element-name">trigger</span>()</div>
 <div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../Scheduler.html#trigger()">Scheduler</a></code></span></div>
 <div class="block">Trigger type</div>
 <dl class="notes">

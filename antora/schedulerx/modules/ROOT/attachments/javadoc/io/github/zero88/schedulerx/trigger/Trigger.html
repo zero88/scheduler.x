@@ -76,8 +76,8 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="HasTriggerType.html" title="interface in io.github.zero88.schedulerx.trigger">HasTriggerType</a></code>, <code><a href="repr/TriggerRepresentation.html" title="interface in io.github.zero88.schedulerx.trigger.repr">TriggerRepresentation</a></code></dd>
 </dl>
 <dl class="notes">
-<dt>All Known Implementing Classes:</dt>
-<dd><code><a href="CronTrigger.html" title="class in io.github.zero88.schedulerx.trigger">CronTrigger</a></code>, <code><a href="EventTrigger.html" title="class in io.github.zero88.schedulerx.trigger">EventTrigger</a></code>, <code><a href="IntervalTrigger.html" title="class in io.github.zero88.schedulerx.trigger">IntervalTrigger</a></code></dd>
+<dt>All Known Subinterfaces:</dt>
+<dd><code><a href="CronTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">CronTrigger</a></code>, <code><a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;T&gt;</code>, <code><a href="IntervalTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTrigger</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">Trigger</span><span class="extends-implements">
@@ -110,12 +110,12 @@ extends <a href="HasTriggerType.html" title="interface in io.github.zero88.sched
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/OffsetDateTime.html" title="class or interface in java.time" class="external-link">OffsetDateTime</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#preview()" class="member-name-link">preview</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">Calculate the next trigger times based on default preview parameter(<a href="PreviewParameter.html#byDefault()"><code>PreviewParameter.byDefault()</code></a>)</div>
+<div class="block">Simulate the next trigger times based on default preview parameter(<a href="PreviewParameter.html#byDefault()"><code>PreviewParameter.byDefault()</code></a>)</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/OffsetDateTime.html" title="class or interface in java.time" class="external-link">OffsetDateTime</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#preview(io.github.zero88.schedulerx.trigger.PreviewParameter)" class="member-name-link">preview</a><wbr>(@NotNull <a href="PreviewParameter.html" title="class in io.github.zero88.schedulerx.trigger">PreviewParameter</a>&nbsp;parameter)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Calculate the next trigger times based on given preview parameter</div>
+<div class="block">Simulate the next trigger times based on given preview parameter</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default @NotNull <a href="rule/TriggerRule.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TriggerRule</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#rule()" class="member-name-link">rule</a>()</code></div>
@@ -132,10 +132,15 @@ extends <a href="HasTriggerType.html" title="interface in io.github.zero88.sched
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Verify the execution should be stopped after the current execution round is out of the trigger rule.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#validate()" class="member-name-link">validate</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Do validate trigger in runtime</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default io.vertx.core.json.JsonObject</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#toJson()" class="member-name-link">toJson</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Serialize this trigger to json object that helps to persist in external system</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#validate()" class="member-name-link">validate</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Do validate trigger in runtime.</div>
 </div>
 </div>
 </div>
@@ -158,22 +163,6 @@ extends <a href="HasTriggerType.html" title="interface in io.github.zero88.sched
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="validate()">
-<h3>validate</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="return-type">@NotNull <a href="Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a></span>&nbsp;<span class="element-name">validate</span>()</div>
-<div class="block">Do validate trigger in runtime</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>this for fluent API</dd>
-<dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if any configuration is wrong</dd>
-<dt>Since:</dt>
-<dd>2.0.0</dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="rule()">
 <h3>rule</h3>
 <div class="member-signature"><span class="annotations">@NotNull
@@ -190,6 +179,22 @@ extends <a href="HasTriggerType.html" title="interface in io.github.zero88.sched
 <li><a href="rule/TriggerRule.html" title="interface in io.github.zero88.schedulerx.trigger.rule"><code>TriggerRule</code></a></li>
 </ul>
 </dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="validate()">
+<h3>validate</h3>
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="return-type">@NotNull <a href="Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a></span>&nbsp;<span class="element-name">validate</span>()</div>
+<div class="block">Do validate trigger in runtime.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>this for fluent API</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if any configuration is wrong</dd>
+<dt>Since:</dt>
+<dd>2.0.0</dd>
 </dl>
 </section>
 </li>
@@ -230,7 +235,7 @@ extends <a href="HasTriggerType.html" title="interface in io.github.zero88.sched
 <h3>preview</h3>
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="modifiers">default</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/OffsetDateTime.html" title="class or interface in java.time" class="external-link">OffsetDateTime</a>&gt;</span>&nbsp;<span class="element-name">preview</span>()</div>
-<div class="block">Calculate the next trigger times based on default preview parameter(<a href="PreviewParameter.html#byDefault()"><code>PreviewParameter.byDefault()</code></a>)</div>
+<div class="block">Simulate the next trigger times based on default preview parameter(<a href="PreviewParameter.html#byDefault()"><code>PreviewParameter.byDefault()</code></a>)</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the list of the next trigger time</dd>
@@ -245,7 +250,7 @@ extends <a href="HasTriggerType.html" title="interface in io.github.zero88.sched
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/OffsetDateTime.html" title="class or interface in java.time" class="external-link">OffsetDateTime</a>&gt;</span>&nbsp;<span class="element-name">preview</span><wbr><span class="parameters">(@NotNull
  @NotNull <a href="PreviewParameter.html" title="class in io.github.zero88.schedulerx.trigger">PreviewParameter</a>&nbsp;parameter)</span></div>
-<div class="block">Calculate the next trigger times based on given preview parameter</div>
+<div class="block">Simulate the next trigger times based on given preview parameter</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>parameter</code> - the preview parameter</dd>
@@ -259,6 +264,19 @@ extends <a href="HasTriggerType.html" title="interface in io.github.zero88.sched
 <li><a href="PreviewParameter.html" title="class in io.github.zero88.schedulerx.trigger"><code>PreviewParameter</code></a></li>
 </ul>
 </dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="toJson()">
+<h3>toJson</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">io.vertx.core.json.JsonObject</span>&nbsp;<span class="element-name">toJson</span>()</div>
+<div class="block">Serialize this trigger to json object that helps to persist in external system</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>trigger in json</dd>
+<dt>Since:</dt>
+<dd>2.0.0</dd>
 </dl>
 </section>
 </li>
