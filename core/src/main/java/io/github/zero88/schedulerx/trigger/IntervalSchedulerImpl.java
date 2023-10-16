@@ -42,6 +42,12 @@ final class IntervalSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, In
         return promise.future();
     }
 
+    @Override
+    protected void unregisterTimer(long timerId) {
+        boolean result = vertx().cancelTimer(timerId);
+        log(Instant.now(), "Unregistered timerId[" + timerId + "][" + result + "]");
+    }
+
     // @formatter:off
     static final class IntervalSchedulerBuilderImpl<IN, OUT>
         extends AbstractSchedulerBuilder<IN, OUT, IntervalTrigger, IntervalScheduler<IN, OUT>, IntervalSchedulerBuilder<IN, OUT>>

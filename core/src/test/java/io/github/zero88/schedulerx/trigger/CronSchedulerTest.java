@@ -79,6 +79,9 @@ class CronSchedulerTest {
             if (round == 4) {
                 ctx.forceStopExecution();
             }
+            if (round == 5) {
+                throw new IllegalStateException("Must stop before");
+            }
         };
         CronScheduler.<Void, String>builder()
                      .setVertx(vertx)

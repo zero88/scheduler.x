@@ -18,6 +18,8 @@ import io.vertx.core.WorkerExecutor;
 final class CronSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, CronTrigger>
     implements CronScheduler<IN, OUT> {
 
+    private long nextTimerId;
+
     CronSchedulerImpl(@NotNull Vertx vertx, @NotNull SchedulingMonitor<OUT> monitor, @NotNull JobData<IN> jobData,
                       @NotNull Task<IN, OUT> task, @NotNull CronTrigger trigger) {
         super(vertx, monitor, jobData, task, trigger);
@@ -27,14 +29,22 @@ final class CronSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, CronTr
     protected @NotNull Future<Long> registerTimer(@NotNull Promise<Long> promise, WorkerExecutor workerExecutor) {
         try {
             final long nextTriggerAfter = trigger().nextTriggerAfter(Instant.now());
-            promise.complete(vertx().setTimer(nextTriggerAfter, timerId -> {
+            nextTimerId = vertx().setTimer(nextTriggerAfter, timerId -> {
+                promise.complete(timerId);
                 run(workerExecutor, TriggerContextFactory.init(trigger().type()));
                 doStart(workerExecutor);
-            }));
+            });
+            log(Instant.now(), "Next schedule after " + nextTriggerAfter + "ms with timerId[" + nextTimerId + "]");
         } catch (Exception ex) {
             promise.fail(ex);
         }
         return promise.future();
+    }
+
+    @Override
+    protected void unregisterTimer(long timerId) {
+        boolean result = vertx().cancelTimer(nextTimerId);
+        log(Instant.now(), "Unregistered timerId[" + nextTimerId + "][" + result + "]");
     }
 
     static final class CronSchedulerBuilderImpl<IN, OUT>
