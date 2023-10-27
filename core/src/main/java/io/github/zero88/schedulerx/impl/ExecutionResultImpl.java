@@ -14,6 +14,7 @@ final class ExecutionResultImpl<OUTPUT> implements ExecutionResult<OUTPUT> {
     private final Instant unscheduledAt;
     private final Instant rescheduledAt;
     private final Instant availableAt;
+    private final Instant firedAt;
     private final Instant triggeredAt;
     private final Instant executedAt;
     private final Instant finishedAt;
@@ -21,7 +22,6 @@ final class ExecutionResultImpl<OUTPUT> implements ExecutionResult<OUTPUT> {
     private final Object externalId;
     private final long tick;
     private final long round;
-    private final boolean completed;
     private final TriggerContext triggerContext;
     private final Throwable error;
     private final OUTPUT data;
@@ -30,6 +30,7 @@ final class ExecutionResultImpl<OUTPUT> implements ExecutionResult<OUTPUT> {
         this.unscheduledAt  = builder.unscheduledAt;
         this.rescheduledAt  = builder.rescheduledAt;
         this.availableAt    = builder.availableAt;
+        this.firedAt        = builder.firedAt;
         this.triggeredAt    = builder.triggeredAt;
         this.executedAt     = builder.executedAt;
         this.finishedAt     = builder.finishedAt;
@@ -37,7 +38,6 @@ final class ExecutionResultImpl<OUTPUT> implements ExecutionResult<OUTPUT> {
         this.externalId     = builder.externalId;
         this.tick           = builder.tick;
         this.round          = builder.round;
-        this.completed      = builder.completed;
         this.triggerContext = builder.triggerContext;
         this.error          = builder.error;
         this.data           = builder.data;
@@ -52,9 +52,11 @@ final class ExecutionResultImpl<OUTPUT> implements ExecutionResult<OUTPUT> {
 
     public Instant unscheduledAt() { return this.unscheduledAt; }
 
+    public Instant availableAt()   { return this.availableAt; }
+
     public Instant rescheduledAt() { return this.rescheduledAt; }
 
-    public Instant availableAt()   { return this.availableAt; }
+    public Instant firedAt()       { return this.firedAt; }
 
     public Instant triggeredAt()   { return this.triggeredAt; }
 
@@ -68,8 +70,6 @@ final class ExecutionResultImpl<OUTPUT> implements ExecutionResult<OUTPUT> {
 
     public long round()            { return this.round; }
 
-    public boolean isCompleted()   { return this.completed; }
-
     public Throwable error()       { return this.error; }
 
     public OUTPUT data()           { return this.data; }
@@ -77,8 +77,9 @@ final class ExecutionResultImpl<OUTPUT> implements ExecutionResult<OUTPUT> {
     static final class ExecutionResultBuilder<OUTPUT> {
 
         Instant unscheduledAt;
-        Instant rescheduledAt;
         Instant availableAt;
+        Instant rescheduledAt;
+        Instant firedAt;
         Instant triggeredAt;
         Instant executedAt;
         Instant finishedAt;
@@ -86,7 +87,6 @@ final class ExecutionResultImpl<OUTPUT> implements ExecutionResult<OUTPUT> {
         Object externalId;
         long tick;
         long round;
-        boolean completed;
         TriggerContext triggerContext;
         Throwable error;
         OUTPUT data;
@@ -96,13 +96,18 @@ final class ExecutionResultImpl<OUTPUT> implements ExecutionResult<OUTPUT> {
             return this;
         }
 
+        public ExecutionResultBuilder<OUTPUT> setAvailableAt(Instant availableAt) {
+            this.availableAt = availableAt;
+            return this;
+        }
+
         public ExecutionResultBuilder<OUTPUT> setRescheduledAt(Instant rescheduledAt) {
             this.rescheduledAt = rescheduledAt;
             return this;
         }
 
-        public ExecutionResultBuilder<OUTPUT> setAvailableAt(Instant availableAt) {
-            this.availableAt = availableAt;
+        public ExecutionResultBuilder<OUTPUT> setFiredAt(Instant firedAt) {
+            this.firedAt = firedAt;
             return this;
         }
 
@@ -138,11 +143,6 @@ final class ExecutionResultImpl<OUTPUT> implements ExecutionResult<OUTPUT> {
 
         public ExecutionResultBuilder<OUTPUT> setRound(long round) {
             this.round = round;
-            return this;
-        }
-
-        public ExecutionResultBuilder<OUTPUT> setCompleted(boolean completed) {
-            this.completed = completed;
             return this;
         }
 

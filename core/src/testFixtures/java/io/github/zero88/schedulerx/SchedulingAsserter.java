@@ -83,13 +83,14 @@ public final class SchedulingAsserter<OUT> implements SchedulingMonitor<OUT> {
         verify(result, r -> {
             Assertions.assertNotNull(result.externalId());
             Assertions.assertNotNull(result.availableAt());
-            Assertions.assertNotNull(result.triggeredAt());
+            Assertions.assertNotNull(result.firedAt());
             Assertions.assertNotNull(result.triggerContext());
             Assertions.assertNotNull(result.triggerContext().condition());
             Assertions.assertTrue(result.triggerContext().condition().isSkip());
+            Assertions.assertNotNull(result.finishedAt());
             Assertions.assertNull(result.rescheduledAt());
+            Assertions.assertNull(result.triggeredAt());
             Assertions.assertNull(result.executedAt());
-            Assertions.assertNull(result.finishedAt());
             Assertions.assertNull(result.completedAt());
             verify(result, misfire);
         });
@@ -101,6 +102,7 @@ public final class SchedulingAsserter<OUT> implements SchedulingMonitor<OUT> {
         verify(result, r -> {
             Assertions.assertNotNull(result.externalId());
             Assertions.assertNotNull(result.availableAt());
+            Assertions.assertNotNull(result.firedAt());
             Assertions.assertNotNull(result.triggeredAt());
             Assertions.assertNotNull(result.triggerContext());
             Assertions.assertTrue(result.triggerContext().condition().isReady());
@@ -120,7 +122,6 @@ public final class SchedulingAsserter<OUT> implements SchedulingMonitor<OUT> {
             Assertions.assertNotNull(result.completedAt());
             Assertions.assertNotNull(result.triggerContext());
             Assertions.assertTrue(result.triggerContext().condition().isStop());
-            Assertions.assertTrue(result.isCompleted());
             Assertions.assertNull(result.triggeredAt());
             Assertions.assertNull(result.executedAt());
             Assertions.assertNull(result.finishedAt());

@@ -57,7 +57,6 @@ class IntervalSchedulerTest {
         };
         final Consumer<ExecutionResult<Void>> onComplete = result -> {
             Assertions.assertEquals(2, result.round());
-            Assertions.assertTrue(result.isCompleted());
             Assertions.assertFalse(result.isError());
         };
         final SchedulingAsserter<Void> asserter = SchedulingAsserter.<Void>builder()
@@ -81,7 +80,6 @@ class IntervalSchedulerTest {
         final Consumer<ExecutionResult<Void>> onComplete = result -> {
             checkpoint.flag();
             Assertions.assertEquals(3, result.round());
-            Assertions.assertTrue(result.isCompleted());
             Assertions.assertFalse(result.isError());
         };
         final SchedulingAsserter<Void> asserter = SchedulingAsserter.<Void>builder()

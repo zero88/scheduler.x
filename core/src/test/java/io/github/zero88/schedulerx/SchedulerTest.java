@@ -35,7 +35,6 @@ class SchedulerTest {
         final CronTrigger trigger = CronTrigger.builder().expression("0/4 * * ? * * *").build();
         final Consumer<ExecutionResult<Void>> completed = result -> {
             Assertions.assertEquals(2, result.round());
-            Assertions.assertTrue(result.isCompleted());
             Assertions.assertFalse(result.isError());
         };
         final SchedulingAsserter<Void> asserter = SchedulingAsserter.<Void>builder()

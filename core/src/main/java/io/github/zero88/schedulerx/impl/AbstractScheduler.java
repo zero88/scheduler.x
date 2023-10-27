@@ -274,7 +274,6 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
                                               .setFinishedAt(finishedAt)
                                               .setData(state.addData(executionCtx.round(), executionCtx.data()))
                                               .setError(state.addError(executionCtx.round(), executionCtx.error()))
-                                              .setCompleted(state.completed())
                                               .build());
             transitionCtx = shouldStop(triggerContext, executionCtx.isForceStop(), state.round());
         } else {
@@ -293,10 +292,9 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
         monitor.onCompleted(ExecutionResultImpl.<OUT>builder()
                                                .setExternalId(jobData.externalId())
                                                .setAvailableAt(state.availableAt())
+                                               .setTriggerContext(context)
                                                .setTick(state.tick())
                                                .setRound(state.round())
-                                               .setTriggerContext(context)
-                                               .setCompleted(state.completed())
                                                .setCompletedAt(completedAt)
                                                .setData(state.lastData())
                                                .setError(state.lastError())
