@@ -13,10 +13,12 @@ final class TriggerRuleImpl implements TriggerRule {
 
     private final List<Timeframe> timeframes;
     private final Instant until;
+    private final int hashCode;
 
     TriggerRuleImpl(List<Timeframe> timeframes, Instant until) {
         this.timeframes = Optional.ofNullable(timeframes).orElseGet(Collections::emptyList);
         this.until      = until;
+        this.hashCode   = computeHashCode();
     }
 
     @Override
@@ -38,14 +40,18 @@ final class TriggerRuleImpl implements TriggerRule {
 
     @Override
     public int hashCode() {
-        int result = until.hashCode();
-        result = 31 * result + timeframes.hashCode();
-        return result;
+        return hashCode;
     }
 
     @Override
     public String toString() {
         return "TriggerRule{until=" + until + ", " + timeframes + "}";
+    }
+
+    private int computeHashCode() {
+        int result = Optional.ofNullable(until).map(Instant::hashCode).orElse(0);
+        result = 31 * result + timeframes.hashCode();
+        return result;
     }
 
 }
