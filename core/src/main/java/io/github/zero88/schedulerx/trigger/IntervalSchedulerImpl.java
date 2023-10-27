@@ -24,22 +24,23 @@ final class IntervalSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, In
         super(vertx, monitor, jobData, task, trigger);
     }
 
-    protected @NotNull Future<Long> registerTimer(@NotNull Promise<Long> promise, WorkerExecutor workerExecutor) {
+    protected @NotNull Future<Long> registerTimer(WorkerExecutor workerExecutor) {
         try {
-            LongSupplier supplier = () -> vertx().setPeriodic(trigger().intervalInMilliseconds(),
-                                                              tId -> run(workerExecutor,
-                                                                         TriggerContextFactory.kickoff(trigger().type())));
+            final long interval = trigger().intervalInMilliseconds();
+            final String type = trigger().type();
+            final LongSupplier timer = () -> vertx().setPeriodic(interval, tId -> onRun(workerExecutor,
+                                                                                        TriggerContextFactory.kickoff(type, onFire(tId))));
             if (trigger().noDelay()) {
-                promise.complete(supplier.getAsLong());
-            } else {
-                final long delay = trigger().delayInMilliseconds();
-                log(Instant.now(), "Delay [" + delay + "ms] then register the task in the scheduler");
-                vertx().setTimer(delay, ignore -> promise.complete(supplier.getAsLong()));
+                return Future.succeededFuture(timer.getAsLong());
             }
+            final Promise<Long> promise = Promise.promise();
+            final long delay = trigger().delayInMilliseconds();
+            log(Instant.now(), "Delay [" + delay + "ms] then register the trigger in the scheduler");
+            vertx().setTimer(delay, ignore -> promise.complete(timer.getAsLong()));
+            return promise.future();
         } catch (Exception e) {
-            promise.fail(e);
+            return Future.failedFuture(e);
         }
-        return promise.future();
     }
 
     @Override

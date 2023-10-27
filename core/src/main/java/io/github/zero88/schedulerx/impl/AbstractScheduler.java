@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.Consumer;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.NotNull;
@@ -117,7 +118,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     @Override
     public final void executeTask(@NotNull ExecutionContext<OUT> executionContext) {
         try {
-            log(executionContext.executedAt(), "Start to execute the task");
+            log(executionContext.executedAt(), "On execute");
             task.execute(jobData(), executionContext);
             if (!task.isAsync()) {
                 ((ExecutionContextInternal<OUT>) executionContext).internalComplete();
@@ -136,25 +137,22 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     }
 
     protected final void doStart(WorkerExecutor workerExecutor) {
-        this.registerTimer(Promise.promise(), workerExecutor)
-            .onSuccess(this::onSchedule)
-            .onFailure(this::onUnableSchedule);
+        this.registerTimer(workerExecutor).onSuccess(this::onSchedule).onFailure(this::onUnableSchedule);
     }
 
     protected final void doStop(long timerId, TriggerContext context) {
         unregisterTimer(timerId);
-        onCompleted(context);
+        onComplete(context);
     }
 
-    protected abstract @NotNull Future<Long> registerTimer(@NotNull Promise<Long> promise,
-                                                           @Nullable WorkerExecutor workerExecutor);
+    protected abstract @NotNull Future<Long> registerTimer(@Nullable WorkerExecutor workerExecutor);
 
     protected abstract void unregisterTimer(long timerId);
 
     protected final TriggerTransitionContext shouldRun(@NotNull TriggerTransitionContext triggerContext) {
-        log(Instant.now(), "Evaluating the trigger condition...");
-        if (triggerContext.condition().status() != TriggerStatus.KICKOFF) {
-            return triggerContext;
+        log(Instant.now(), "On evaluate");
+        if (!triggerContext.isKickoff()) {
+            throw new IllegalStateException("Trigger condition status must be " + TriggerStatus.KICKOFF);
         }
         if (state.pending()) {
             return TriggerContextFactory.skip(triggerContext, ReasonCode.NOT_YET_SCHEDULED);
@@ -188,47 +186,51 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
                : TriggerContextFactory.skip(triggerContext, ReasonCode.CONDITION_IS_NOT_MATCHED);
     }
 
-    protected final void run(WorkerExecutor workerExecutor, TriggerTransitionContext triggerContext) {
-        state.increaseTick();
-        final TriggerTransitionContext transitionCtx = shouldRun(triggerContext);
-        if (transitionCtx.isReady()) {
-            final ExecutionContextInternal<OUT> ctx = new ExecutionContextImpl<>(vertx, state.increaseRound(),
-                                                                                 transitionCtx);
-            log(ctx.triggeredAt(), "Triggering the task execution...");
-            if (workerExecutor != null) {
-                workerExecutor.executeBlocking(promise -> executeTask(onExecute(promise, ctx)),
-                                               asyncResult -> onResult(transitionCtx, asyncResult));
-            } else {
-                vertx.executeBlocking(promise -> executeTask(onExecute(promise, ctx)),
-                                      asyncResult -> onResult(transitionCtx, asyncResult));
-            }
-        } else {
-            onMisfire(transitionCtx);
-        }
+    /**
+     * Register a timer id and increase tick time when the system timer fires
+     *
+     * @param timerId the system timer id
+     * @return the current number times of the tick counter
+     */
+    protected final long onFire(long timerId) {
+        return state.timerId(timerId).increaseTick();
     }
 
-    protected final void log(@NotNull Instant at, @NotNull String event) {
-        if (LOGGER.isTraceEnabled()) {
-            LOGGER.trace(genMsg(state.tick(), state.round(), at, event));
+    protected final void onRun(WorkerExecutor workerExecutor, TriggerTransitionContext kickoffContext) {
+        log(Objects.requireNonNull(kickoffContext.firedAt()), "On fire");
+        this.<TriggerTransitionContext>executeBlocking(workerExecutor, p -> p.complete(shouldRun(kickoffContext)))
+            .onSuccess(context -> onTrigger(workerExecutor, context))
+            .onFailure(t -> onMisfire(TriggerContextFactory.skip(kickoffContext, ReasonCode.UNEXPECTED_ERROR, t)));
+    }
+
+    protected final void onTrigger(WorkerExecutor workerExecutor, TriggerTransitionContext triggerContext) {
+        if (!triggerContext.isReady()) {
+            onMisfire(triggerContext);
+            return;
         }
+        final ExecutionContextInternal<OUT> executionContext = new ExecutionContextImpl<>(vertx, triggerContext,
+                                                                                          state.increaseRound());
+        log(executionContext.triggeredAt(), "On trigger", triggerContext.tick(), executionContext.round());
+        this.executeBlocking(workerExecutor, p -> executeTask(executionContext.setup(p)))
+            .onComplete(ar -> onResult(triggerContext, ar));
     }
 
     protected final void onSchedule(long timerId) {
-        final TriggerContext ctx = TriggerContextFactory.scheduled(trigger().type());
+        final TriggerContext context = TriggerContextFactory.scheduled(trigger().type());
         ExecutionResult<OUT> result;
         if (state.pending()) {
             result = ExecutionResultImpl.<OUT>builder()
                                         .setExternalId(jobData.externalId())
-                                        .setAvailableAt(state.timerId(timerId).markAvailable())
-                                        .setTriggerContext(ctx)
+                                        .setAvailableAt(state.markAvailable())
+                                        .setTriggerContext(context)
                                         .build();
         } else {
             result = ExecutionResultImpl.<OUT>builder()
                                         .setExternalId(jobData.externalId())
                                         .setAvailableAt(state.availableAt())
+                                        .setTriggerContext(context)
                                         .setRescheduledAt(Instant.now())
-                                        .setTriggerContext(ctx)
-                                        .setTick(state.timerId(timerId).tick())
+                                        .setTick(state.tick())
                                         .setRound(state.round())
                                         .build();
         }
@@ -239,46 +241,49 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
         final TriggerContext ctx = TriggerContextFactory.error(trigger.type(), ReasonCode.FAILED_TO_SCHEDULE, cause);
         monitor.onUnableSchedule(ExecutionResultImpl.<OUT>builder()
                                                     .setExternalId(jobData.externalId())
+                                                    .setTriggerContext(ctx)
+                                                    .setUnscheduledAt(Instant.now())
                                                     .setTick(state.tick())
                                                     .setRound(state.round())
-                                                    .setUnscheduledAt(Instant.now())
-                                                    .setTriggerContext(ctx)
                                                     .build());
     }
 
     protected final void onMisfire(@NotNull TriggerTransitionContext triggerContext) {
-        log(Objects.requireNonNull(triggerContext.firedAt()),
-            "Skip the execution::" + triggerContext.condition().reasonCode());
+        final Instant finishedAt = state.markFinished(triggerContext.tick());
+        log(finishedAt, "On misfire::" + triggerContext.condition().reasonCode(), triggerContext.tick());
         monitor.onMisfire(ExecutionResultImpl.<OUT>builder()
                                              .setExternalId(jobData.externalId())
-                                             .setTick(state.tick())
                                              .setAvailableAt(state.availableAt())
-                                             .setFiredAt(triggerContext.firedAt())
                                              .setTriggerContext(triggerContext)
+                                             .setTick(triggerContext.tick())
+                                             .setFiredAt(triggerContext.firedAt())
+                                             .setRound(state.round())
+                                             .setFinishedAt(finishedAt)
                                              .build());
     }
 
     @SuppressWarnings("unchecked")
     protected final void onResult(@NotNull TriggerTransitionContext triggerContext,
                                   @NotNull AsyncResult<Object> asyncResult) {
-        final Instant finishedAt = state.markIdle();
+        final Instant finishedAt = state.markFinished(triggerContext.tick());
         TriggerTransitionContext transitionCtx;
         if (asyncResult.succeeded()) {
-            log(finishedAt, "Received the task result");
             final ExecutionContextInternal<OUT> executionCtx = (ExecutionContextInternal<OUT>) asyncResult.result();
+            log(finishedAt, "On result", triggerContext.tick(), executionCtx.round());
             monitor.onEach(ExecutionResultImpl.<OUT>builder()
                                               .setExternalId(jobData.externalId())
                                               .setAvailableAt(state.availableAt())
-                                              .setTick(state.tick())
-                                              .setRound(executionCtx.round())
                                               .setTriggerContext(triggerContext)
+                                              .setTick(triggerContext.tick())
+                                              .setFiredAt(triggerContext.firedAt())
+                                              .setRound(executionCtx.round())
                                               .setTriggeredAt(executionCtx.triggeredAt())
                                               .setExecutedAt(executionCtx.executedAt())
                                               .setFinishedAt(finishedAt)
                                               .setData(state.addData(executionCtx.round(), executionCtx.data()))
                                               .setError(state.addError(executionCtx.round(), executionCtx.error()))
                                               .build());
-            transitionCtx = shouldStop(triggerContext, executionCtx.isForceStop(), state.round());
+            transitionCtx = shouldStop(triggerContext, executionCtx.isForceStop(), executionCtx.round());
         } else {
             LOGGER.warn(genMsg(state.tick(), state.round(), finishedAt, "Programming error"), asyncResult.cause());
             transitionCtx = shouldStop(triggerContext, false, state.round());
@@ -288,9 +293,9 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
         }
     }
 
-    protected final void onCompleted(TriggerContext context) {
+    protected final void onComplete(TriggerContext context) {
         final Instant completedAt = state.markCompleted();
-        log(completedAt, "The task execution is completed");
+        log(completedAt, "On complete");
         monitor.onCompleted(ExecutionResultImpl.<OUT>builder()
                                                .setExternalId(jobData.externalId())
                                                .setAvailableAt(state.availableAt())
@@ -303,13 +308,31 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
                                                .build());
     }
 
-    private ExecutionContextInternal<OUT> onExecute(@NotNull Promise<Object> promise,
-                                                    @NotNull ExecutionContextInternal<OUT> executionContext) {
-        return executionContext.setup(promise, state.markExecuting());
+    protected final void log(@NotNull Instant at, @NotNull String event) {
+        log(at, event, state.tick(), state.round());
+    }
+
+    protected final void log(@NotNull Instant at, @NotNull String event, long tick) {
+        log(at, event, tick, state.round());
+    }
+
+    protected final void log(@NotNull Instant at, @NotNull String event, long tick, long round) {
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace(genMsg(tick, round, at, event));
+        }
     }
 
     private String genMsg(long tick, long round, @NotNull Instant at, @NotNull String event) {
-        return "Scheduling[" + tick + "][" + round + "][" + at + "]::[" + jobData.externalId() + "] - " + event;
+        String tId = state.pending() ? "-" : String.valueOf(state.timerId());
+        String tickAndRound = state.pending() ? "-/-" : (tick + "/" + round);
+        return "Scheduling[" + tId + "::" + trigger.type() + "::" + jobData.externalId() + "][" + tickAndRound + "]" +
+               "::[" + at + "] - " + event;
+    }
+
+    private <R> Future<R> executeBlocking(WorkerExecutor workerExecutor, Consumer<Promise<R>> operation) {
+        return workerExecutor == null
+               ? vertx.executeBlocking(operation::accept, false)
+               : workerExecutor.executeBlocking(operation::accept, false);
     }
 
 }

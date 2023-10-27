@@ -3,6 +3,7 @@ package io.github.zero88.schedulerx.trigger;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.time.Duration;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -77,13 +78,29 @@ class IntervalSchedulerTest {
     @Test
     void test_run_blocking_task_in_the_end(Vertx vertx, VertxTestContext testContext) {
         final Checkpoint checkpoint = testContext.checkpoint(3);
+        final AtomicLong lastTickOnEach = new AtomicLong();
+        final Consumer<ExecutionResult<Void>> onEach = result -> {
+            lastTickOnEach.set(result.tick());
+            if (result.round() == 1) {
+                Assertions.assertEquals(result.tick(), result.round());
+            } else {
+                Assertions.assertTrue(result.tick() > result.round());
+            }
+        };
+        final Consumer<ExecutionResult<Void>> onMisfire = result -> {
+            Assertions.assertTrue(result.tick() > result.round());
+            Assertions.assertTrue(result.tick() > lastTickOnEach.get());
+            Assertions.assertEquals("TaskIsRunning", result.triggerContext().condition().reasonCode());
+        };
         final Consumer<ExecutionResult<Void>> onComplete = result -> {
-            checkpoint.flag();
             Assertions.assertEquals(3, result.round());
+            Assertions.assertEquals(lastTickOnEach.get() + result.round(), result.tick());
             Assertions.assertFalse(result.isError());
         };
         final SchedulingAsserter<Void> asserter = SchedulingAsserter.<Void>builder()
                                                                     .setTestContext(testContext)
+                                                                    .setEach(onEach)
+                                                                    .setMisfire(onMisfire)
                                                                     .setCompleted(onComplete)
                                                                     .build();
         final IntervalTrigger trigger = IntervalTrigger.builder().interval(1).repeat(3).build();

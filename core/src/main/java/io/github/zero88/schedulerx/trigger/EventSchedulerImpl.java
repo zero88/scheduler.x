@@ -32,19 +32,23 @@ final class EventSchedulerImpl<IN, OUT, T> extends AbstractScheduler<IN, OUT, Ev
     }
 
     @Override
-    protected @NotNull Future<Long> registerTimer(@NotNull Promise<Long> promise, WorkerExecutor workerExecutor) {
+    protected @NotNull Future<Long> registerTimer(WorkerExecutor workerExecutor) {
+        final Promise<Long> promise = Promise.promise();
+        final long timerId = trigger().hashCode();
         final String address = trigger().getAddress();
         consumer = trigger().isLocalOnly()
                    ? vertx().eventBus().localConsumer(address)
                    : vertx().eventBus().consumer(address);
-        consumer.handler(msg -> run(workerExecutor, createTriggerContext(msg))).completionHandler(event -> {
-            if (event.failed()) {
-                promise.fail(new IllegalStateException("Unable to register a subscriber on address[" + address + "]",
-                                                       event.cause()));
-            } else {
-                promise.complete((long) consumer.hashCode());
-            }
-        });
+        consumer.handler(msg -> onRun(workerExecutor, createKickoffContext(msg, onFire(timerId))))
+                .completionHandler(event -> {
+                    if (event.failed()) {
+                        promise.fail(
+                            new IllegalStateException("Unable to register a subscriber on address[" + address + "]",
+                                                      event.cause()));
+                    } else {
+                        promise.complete(timerId);
+                    }
+                });
         return promise.future();
     }
 
@@ -73,12 +77,12 @@ final class EventSchedulerImpl<IN, OUT, T> extends AbstractScheduler<IN, OUT, Ev
         return ctx;
     }
 
-    private TriggerTransitionContext createTriggerContext(Message<Object> msg) {
+    private TriggerTransitionContext createKickoffContext(Message<Object> msg, long tick) {
         try {
             T eventMsg = trigger().getPredicate().convert(msg.headers(), msg.body());
-            return TriggerContextFactory.kickoff(trigger().type(), eventMsg);
+            return TriggerContextFactory.kickoff(trigger().type(), tick, eventMsg);
         } catch (Exception ex) {
-            return handleException(TriggerContextFactory.kickoff(trigger().type()), ex);
+            return handleException(TriggerContextFactory.kickoff(trigger().type(), tick, msg), ex);
         }
     }
 

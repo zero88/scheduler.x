@@ -26,19 +26,12 @@ interface SchedulerStateInternal<OUTPUT> extends SchedulerState<OUTPUT> {
     @NotNull Instant markAvailable();
 
     /**
-     * Mark task is executing
+     * Mark trigger tick is already handled
      *
-     * @return this for fluent api
-     * @see #executing()
-     */
-    @NotNull Instant markExecuting();
-
-    /**
-     * Mark the current trigger tick is already handled.
-     *
+     * @param tick the trigger tick
      * @return finished at time
      */
-    @NotNull Instant markIdle();
+    @NotNull Instant markFinished(long tick);
 
     /**
      * Mark the current trigger is completed, no more fire by the system timer.
@@ -48,7 +41,7 @@ interface SchedulerStateInternal<OUTPUT> extends SchedulerState<OUTPUT> {
     @NotNull Instant markCompleted();
 
     /**
-     * Increase the tick counter and marks trigger tick is in progress
+     * Increase the tick counter and mark the current tick is in progress
      *
      * @return next tick
      */

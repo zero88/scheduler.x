@@ -1,7 +1,5 @@
 package io.github.zero88.schedulerx.impl;
 
-import java.time.Instant;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,16 +9,13 @@ import io.vertx.core.Promise;
 interface ExecutionContextInternal<OUTPUT> extends ExecutionContext<OUTPUT> {
 
     /**
-     * Setup task execution context
+     * Prepare to execute task
      *
-     * @param promise    promise
-     * @param executedAt execution at time
+     * @param promise promise
      * @return a reference to this for fluent API
-     * @apiNote It will be invoked by system. In any attempts invoking, {@link IllegalStateException} will be
-     *     thrown
-     * @see Promise
+     * @apiNote It will be invoked by system. In any attempts invoking, {@link IllegalStateException} will be thrown
      */
-    @NotNull ExecutionContextInternal<OUTPUT> setup(@NotNull Promise<Object> promise, @NotNull Instant executedAt);
+    @NotNull ExecutionContextInternal<OUTPUT> setup(@NotNull Promise<Object> promise);
 
     void internalComplete();
 

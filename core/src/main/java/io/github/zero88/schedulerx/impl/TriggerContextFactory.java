@@ -34,18 +34,21 @@ public final class TriggerContextFactory {
      * Create trigger context in {@link TriggerStatus#KICKOFF} state
      *
      * @param triggerType the trigger type
+     * @param tick        the tick
      */
-    public static @NotNull TriggerTransitionContext kickoff(@NotNull String triggerType) {
-        return kickoff(triggerType, null);
+    public static @NotNull TriggerTransitionContext kickoff(@NotNull String triggerType, long tick) {
+        return kickoff(triggerType, tick, null);
     }
 
     /**
      * Create trigger context in {@link TriggerStatus#KICKOFF} state
      *
      * @param triggerType the trigger type
+     * @param tick        the tick
      * @param info        the trigger context info
      */
-    public static @NotNull <T> TriggerTransitionContext kickoff(@NotNull String triggerType, @Nullable T info) {
+    public static @NotNull <T> TriggerTransitionContext kickoff(@NotNull String triggerType, long tick,
+                                                                @Nullable T info) {
         final Instant firedAt = Instant.now();
         final TriggerCondition condition = createCondition(TriggerStatus.KICKOFF, null, null);
         return new TriggerTransitionContext() {
@@ -53,7 +56,7 @@ public final class TriggerContextFactory {
             public @NotNull String type() { return triggerType; }
 
             @Override
-            public long tick() { return 0; }
+            public long tick() { return tick; }
 
             public @NotNull Instant firedAt() { return firedAt; }
 

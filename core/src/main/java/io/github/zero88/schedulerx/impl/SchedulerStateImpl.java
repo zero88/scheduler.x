@@ -20,7 +20,6 @@ final class SchedulerStateImpl<OUTPUT> implements SchedulerStateInternal<OUTPUT>
     private final AtomicLong tick = new AtomicLong(0);
     private final AtomicLong round = new AtomicLong(0);
     private final AtomicBoolean completed = new AtomicBoolean(false);
-    private final AtomicBoolean executing = new AtomicBoolean(false);
     private final ConcurrentMap<Long, Boolean> inProgress = new ConcurrentHashMap<>();
     private final AtomicBoolean pending = new AtomicBoolean(true);
     private final AtomicReference<Entry<Long, OUTPUT>> data = new AtomicReference<>(new SimpleEntry<>(0L, null));
@@ -53,7 +52,11 @@ final class SchedulerStateImpl<OUTPUT> implements SchedulerStateInternal<OUTPUT>
 
     @Override
     public long increaseTick() {
-        return tick.incrementAndGet();
+        final long current = this.tick.incrementAndGet();
+        if (!executing()) {
+            inProgress.put(current, true);
+        }
+        return current;
     }
 
     @Override
@@ -75,14 +78,8 @@ final class SchedulerStateImpl<OUTPUT> implements SchedulerStateInternal<OUTPUT>
     }
 
     @Override
-    public @NotNull Instant markExecuting() {
-        executing.set(true);
-        return Instant.now();
-    }
-
-    @Override
-    public @NotNull Instant markIdle() {
-        executing.set(false);
+    public @NotNull Instant markFinished(long tick) {
+        inProgress.remove(tick);
         return Instant.now();
     }
 

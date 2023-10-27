@@ -2,6 +2,7 @@ package io.github.zero88.schedulerx;
 
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -16,9 +17,12 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import io.github.zero88.schedulerx.trigger.CronScheduler;
 import io.github.zero88.schedulerx.trigger.CronTrigger;
+import io.github.zero88.schedulerx.trigger.EventScheduler;
+import io.github.zero88.schedulerx.trigger.EventTrigger;
 import io.github.zero88.schedulerx.trigger.IntervalScheduler;
 import io.github.zero88.schedulerx.trigger.IntervalTrigger;
 import io.github.zero88.schedulerx.trigger.TriggerCondition.ReasonCode;
+import io.github.zero88.schedulerx.trigger.predicate.EventTriggerPredicate;
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
 import io.vertx.core.json.JsonArray;
@@ -77,6 +81,34 @@ class SchedulerTest {
                          .start(worker);
     }
 
+    @Test
+    void test_scheduler_should_evaluate_trigger_in_dedicated_thread(Vertx vertx, VertxTestContext testContext) {
+        final String threadName = "HEY";
+        final WorkerExecutor worker = vertx.createSharedWorkerExecutor(threadName, 1);
+        final Consumer<String> doAssert = (thread) -> Assertions.assertEquals(thread + "-0",
+                                                                              Thread.currentThread().getName());
+        final EventTriggerPredicate<Object> predicate = EventTriggerPredicate.create((headers, body) -> {
+            doAssert.accept("vert.x-eventloop-thread");
+            return body;
+        }, eventMessage -> {
+            doAssert.accept(threadName);
+            return true;
+        });
+        final EventTrigger<Object> trigger = EventTrigger.builder()
+                                                         .address("dedicated.thread")
+                                                         .predicate(predicate)
+                                                         .build();
+        final SchedulingAsserter<Object> asserter = SchedulingAsserter.builder().setTestContext(testContext).build();
+        EventScheduler.builder()
+                      .setVertx(vertx)
+                      .setMonitor(asserter)
+                      .setTrigger(trigger)
+                      .setTask(NoopTask.create(1))
+                      .build()
+                      .start(worker);
+        vertx.eventBus().publish("dedicated.thread", "test");
+    }
+
     @ParameterizedTest
     @MethodSource("provide_external_ids")
     void test_scheduler_should_maintain_external_id_from_jobData_to_task_result(Object declaredId, Class<?> typeOfId,
@@ -126,6 +158,28 @@ class SchedulerTest {
                          .setTask(NoopTask.create(3))
                          .build()
                          .start();
+    }
+
+    @Test
+    void test_scheduler_should_able_to_cancel_manually(Vertx vertx, VertxTestContext testContext) {
+        final Consumer<ExecutionResult<Object>> onCompleted = result -> {
+            Assertions.assertTrue(result.triggerContext().isStopped());
+            Assertions.assertEquals(ReasonCode.STOP_BY_MANUAL, result.triggerContext().condition().reasonCode());
+        };
+        final SchedulingAsserter<Object> asserter = SchedulingAsserter.builder()
+                                                                      .setTestContext(testContext)
+                                                                      .setCompleted(onCompleted)
+                                                                      .build();
+        final IntervalTrigger trigger = IntervalTrigger.builder().interval(1).build();
+        final IntervalScheduler<Object, Object> scheduler = IntervalScheduler.builder()
+                                                                             .setVertx(vertx)
+                                                                             .setMonitor(asserter)
+                                                                             .setTrigger(trigger)
+                                                                             .setTask(NoopTask.create())
+                                                                             .build();
+        scheduler.start();
+        TestUtils.block(Duration.ofSeconds(3), testContext);
+        scheduler.cancel();
     }
 
     private static Stream<Object> provide_external_ids() {
