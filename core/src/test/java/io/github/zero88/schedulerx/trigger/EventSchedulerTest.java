@@ -2,6 +2,7 @@ package io.github.zero88.schedulerx.trigger;
 
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -117,7 +118,7 @@ class EventSchedulerTest {
                       .start();
         data.forEach(d -> {
             vertx.eventBus().publish(address, d);
-            TestUtils.sleep(1000, testContext);
+            TestUtils.block(Duration.ofSeconds(1), testContext);
         });
     }
 
@@ -171,7 +172,7 @@ class EventSchedulerTest {
                       .build()
                       .start();
         for (int i = 0; i < totalRound; i++) {
-            TestUtils.sleep(1000, testContext);
+            TestUtils.block(Duration.ofSeconds(1), testContext);
             vertx.eventBus().publish(address, message + i);
         }
     }
@@ -202,7 +203,7 @@ class EventSchedulerTest {
                       .start();
         data.forEach(d -> {
             vertx.eventBus().publish(address, d);
-            TestUtils.sleep(1000, testContext);
+            TestUtils.block(Duration.ofSeconds(1), testContext);
         });
     }
 

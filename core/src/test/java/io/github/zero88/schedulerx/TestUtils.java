@@ -1,9 +1,11 @@
 package io.github.zero88.schedulerx;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import io.vertx.core.impl.logging.Logger;
 import io.vertx.core.impl.logging.LoggerFactory;
@@ -11,11 +13,16 @@ import io.vertx.junit5.VertxTestContext;
 
 public final class TestUtils {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestUtils.class);
+
     private TestUtils() { }
 
-    public static void sleep(int millis, VertxTestContext testContext) {
+    @SuppressWarnings("java:S2925")
+    public static void block(Duration duration, VertxTestContext testContext) {
         try {
-            Thread.sleep(millis);
+            LOGGER.info("Doing a mock stuff in [" + duration + "]...");
+            TimeUnit.MILLISECONDS.sleep(duration.toMillis());
+            LOGGER.info("Wake up after [" + duration + "]!!!");
         } catch (InterruptedException e) {
             testContext.failNow(e);
         }
@@ -28,7 +35,7 @@ public final class TestUtils {
         for (int i = 0; i < nbOfThreads; i++) {
             new TestWorker("Worker_" + (i + 1), action, latch, store, testContext).start();
         }
-        sleep(10, testContext);
+        block(Duration.ofMillis(10), testContext);
         latch.countDown();
         return store;
     }

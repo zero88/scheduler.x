@@ -2,6 +2,7 @@ package io.github.zero88.schedulerx.trigger;
 
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import java.time.Duration;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -93,7 +94,7 @@ class IntervalSchedulerTest {
                          .setMonitor(asserter)
                          .setTrigger(trigger)
                          .setTask((jobData, ctx) -> {
-                             TestUtils.sleep(3000, testContext);
+                             TestUtils.block(Duration.ofSeconds(3), testContext);
                              checkpoint.flag();
                          })
                          .build()
