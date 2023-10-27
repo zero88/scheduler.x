@@ -5,6 +5,8 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.Comparator;
 import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
@@ -19,50 +21,35 @@ final class SchedulerStateImpl<OUTPUT> implements SchedulerStateInternal<OUTPUT>
     private final AtomicLong round = new AtomicLong(0);
     private final AtomicBoolean completed = new AtomicBoolean(false);
     private final AtomicBoolean executing = new AtomicBoolean(false);
+    private final ConcurrentMap<Long, Boolean> inProgress = new ConcurrentHashMap<>();
     private final AtomicBoolean pending = new AtomicBoolean(true);
     private final AtomicReference<Entry<Long, OUTPUT>> data = new AtomicReference<>(new SimpleEntry<>(0L, null));
     private final AtomicReference<Entry<Long, Throwable>> error = new AtomicReference<>(new SimpleEntry<>(0L, null));
     private long timerId;
 
     @Override
-    public Instant availableAt() {
-        return availableAt.get();
-    }
+    public Instant availableAt() { return availableAt.get(); }
 
     @Override
-    public long tick() {
-        return tick.get();
-    }
+    public long tick() { return tick.get(); }
 
     @Override
-    public long round() {
-        return round.get();
-    }
+    public long round() { return round.get(); }
 
     @Override
-    public boolean pending() {
-        return pending.get();
-    }
+    public boolean pending() { return pending.get(); }
 
     @Override
-    public boolean executing() {
-        return executing.get();
-    }
+    public boolean executing() { return !inProgress.isEmpty() && !Boolean.TRUE.equals(inProgress.get(tick())); }
 
     @Override
-    public boolean completed() {
-        return completed.get();
-    }
+    public boolean completed() { return completed.get(); }
 
     @Override
-    public OUTPUT lastData() {
-        return Optional.ofNullable(data.get()).map(Entry::getValue).orElse(null);
-    }
+    public OUTPUT lastData() { return Optional.ofNullable(data.get()).map(Entry::getValue).orElse(null); }
 
     @Override
-    public Throwable lastError() {
-        return Optional.ofNullable(error.get()).map(Entry::getValue).orElse(null);
-    }
+    public Throwable lastError() { return Optional.ofNullable(error.get()).map(Entry::getValue).orElse(null); }
 
     @Override
     public long increaseTick() {
@@ -70,9 +57,7 @@ final class SchedulerStateImpl<OUTPUT> implements SchedulerStateInternal<OUTPUT>
     }
 
     @Override
-    public long increaseRound() {
-        return round.incrementAndGet();
-    }
+    public long increaseRound() { return round.incrementAndGet(); }
 
     public long timerId() { return this.timerId; }
 
@@ -83,28 +68,28 @@ final class SchedulerStateImpl<OUTPUT> implements SchedulerStateInternal<OUTPUT>
     }
 
     @Override
-    public @NotNull SchedulerStateInternal<OUTPUT> markAvailable() {
+    public @NotNull Instant markAvailable() {
         pending.set(false);
         availableAt.set(Instant.now());
-        return this;
+        return availableAt();
     }
 
     @Override
-    public @NotNull SchedulerStateInternal<OUTPUT> markExecuting() {
+    public @NotNull Instant markExecuting() {
         executing.set(true);
-        return this;
+        return Instant.now();
     }
 
     @Override
-    public @NotNull SchedulerStateInternal<OUTPUT> markIdle() {
+    public @NotNull Instant markIdle() {
         executing.set(false);
-        return this;
+        return Instant.now();
     }
 
     @Override
-    public @NotNull SchedulerStateInternal<OUTPUT> markCompleted() {
+    public @NotNull Instant markCompleted() {
         completed.set(true);
-        return this;
+        return Instant.now();
     }
 
     @Override

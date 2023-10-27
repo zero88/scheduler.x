@@ -16,73 +16,57 @@ import org.jetbrains.annotations.Nullable;
 public interface SchedulerState<OUT> {
 
     /**
-     * Timer id
-     *
-     * @return timer id
+     * @return The system timer id
      */
     long timerId();
 
     /**
-     * Identifies an executor is on scheduler at time
+     * Identify the trigger is registered on the system timer at a clock time.
      *
      * @return available at time
      */
     Instant availableAt();
 
     /**
-     * Current number of times that trigger is fired
-     *
-     * @return tick
+     * @return The current number of times that the system timer fires the trigger.
      */
     long tick();
 
     /**
-     * Current number of times that trigger is executed
-     *
-     * @return round
+     * @return The current number of times that the trigger is executed.
      */
     long round();
 
     /**
-     * Check whether executor is in {@code pending} state that means is not in a {@code scheduler}
+     * Check whether the trigger is in {@code pending} state that means is not yet registered in a {@code scheduler}.
      *
      * @return {@code true} if pending
      */
     boolean pending();
 
     /**
-     * Check whether {@code executor} is in executing state
+     * Check whether the trigger is in processing: validation phase or execution phase.
      *
-     * @return {@code true} if in executing
+     * @return {@code true} if in progress
      */
     boolean executing();
 
     /**
-     * Check whether {@code executor} is {@code idle} state that means is in {@code scheduler} but in {@code break-time}
-     * between 2 executions
-     *
-     * @return {@code true} if idle
-     */
-    default boolean idle() {
-        return !executing() && !completed() && !pending();
-    }
-
-    /**
-     * Check whether {@code executor} is {@code completed} state that means safe to remove out of a {@code scheduler}
+     * Check whether the trigger is {@code completed} state that means safe to remove out of a {@code scheduler}.
      *
      * @return {@code true} if completed
      */
     boolean completed();
 
     /**
-     * Latest data of previous round
+     * Get the data of latest round.
      *
      * @return latest data
      */
     @Nullable OUT lastData();
 
     /**
-     * Latest error of previous round
+     * Get the error of latest round.
      *
      * @return latest error
      */

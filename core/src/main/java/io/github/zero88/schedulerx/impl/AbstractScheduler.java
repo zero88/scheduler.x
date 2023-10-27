@@ -217,7 +217,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
         if (state.pending()) {
             result = ExecutionResultImpl.<OUT>builder()
                                         .setExternalId(jobData.externalId())
-                                        .setAvailableAt(state.timerId(timerId).markAvailable().availableAt())
+                                        .setAvailableAt(state.timerId(timerId).markAvailable())
                                         .build();
         } else {
             result = ExecutionResultImpl.<OUT>builder()
@@ -245,7 +245,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
 
     protected final void onMisfire(@NotNull TriggerContext triggerContext) {
         log(Objects.requireNonNull(triggerContext.triggerAt()),
-              "Skip the execution::" + triggerContext.condition().reasonCode());
+            "Skip the execution::" + triggerContext.condition().reasonCode());
         monitor.onMisfire(ExecutionResultImpl.<OUT>builder()
                                              .setExternalId(jobData.externalId())
                                              .setTick(state.tick())
@@ -257,8 +257,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
 
     @SuppressWarnings("unchecked")
     protected final void onResult(@NotNull TriggerContext triggerContext, @NotNull AsyncResult<Object> asyncResult) {
-        state.markIdle();
-        final Instant finishedAt = Instant.now();
+        final Instant finishedAt = state.markIdle();
         TriggerContext transitionCtx;
         if (asyncResult.succeeded()) {
             log(finishedAt, "Received the task result");
@@ -286,8 +285,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     }
 
     protected final void onCompleted(TriggerContext context) {
-        state.markCompleted();
-        final Instant completedAt = Instant.now();
+        final Instant completedAt = state.markCompleted();
         log(completedAt, "The task execution is completed");
         monitor.onCompleted(ExecutionResultImpl.<OUT>builder()
                                                .setExternalId(jobData.externalId())
@@ -303,8 +301,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
 
     private ExecutionContextInternal<OUT> onExecute(@NotNull Promise<Object> promise,
                                                     @NotNull ExecutionContextInternal<OUT> executionContext) {
-        state.markExecuting();
-        return executionContext.setup(promise, Instant.now());
+        return executionContext.setup(promise, state.markExecuting());
     }
 
     private String genMsg(long tick, long round, @NotNull Instant at, @NotNull String event) {
