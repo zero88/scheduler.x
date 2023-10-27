@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -22,11 +23,15 @@ import io.github.zero88.schedulerx.TestUtils;
 import io.github.zero88.schedulerx.trigger.TriggerCondition.ReasonCode;
 import io.vertx.core.Vertx;
 import io.vertx.junit5.Checkpoint;
+import io.vertx.junit5.RunTestOnContext;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
 
 @ExtendWith(VertxExtension.class)
 class IntervalSchedulerTest {
+
+    @RegisterExtension
+    static RunTestOnContext rtoc = new RunTestOnContext();
 
     private static Stream<Object> provide_invalid_interval() {
         return Stream.of(arguments(IntervalTrigger.builder().interval(-1).build(), "Invalid interval value"),
