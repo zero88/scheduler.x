@@ -1,5 +1,7 @@
 package io.github.zero88.schedulerx.trigger;
 
+import static io.github.zero88.schedulerx.impl.Utils.brackets;
+
 import java.time.Instant;
 import java.util.Objects;
 
@@ -39,11 +41,11 @@ final class EventSchedulerImpl<IN, OUT, T> extends AbstractScheduler<IN, OUT, Ev
         consumer = trigger().isLocalOnly()
                    ? vertx().eventBus().localConsumer(address)
                    : vertx().eventBus().consumer(address);
-        consumer.handler(msg -> onRun(workerExecutor, createKickoffContext(msg, onFire(timerId))))
+        consumer.handler(msg -> onProcess(workerExecutor, createKickoffContext(msg, onFire(timerId))))
                 .completionHandler(event -> {
                     if (event.failed()) {
                         promise.fail(
-                            new IllegalStateException("Unable to register a subscriber on address[" + address + "]",
+                            new IllegalStateException("Unable to register a subscriber on address" + brackets(address),
                                                       event.cause()));
                     } else {
                         promise.complete(timerId);
@@ -57,15 +59,15 @@ final class EventSchedulerImpl<IN, OUT, T> extends AbstractScheduler<IN, OUT, Ev
         if (Objects.nonNull(consumer)) {
             consumer.unregister()
                     .onComplete(r -> log(Instant.now(),
-                                         "Unregistered EventBus subscriber on address[" + consumer.address() + "]" +
-                                         "[" + r.succeeded() + "][" + r.cause() + "]"));
+                                         "Unregistered EventBus subscriber on address" + brackets(consumer.address()) +
+                                         brackets(r.succeeded()) + brackets(r.cause())));
         }
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    protected TriggerTransitionContext evaluateTrigger(@NotNull TriggerTransitionContext triggerContext) {
-        final TriggerTransitionContext ctx = super.evaluateTrigger(triggerContext);
+    protected TriggerTransitionContext evaluateTriggerRule(@NotNull TriggerTransitionContext triggerContext) {
+        final TriggerTransitionContext ctx = super.evaluateTriggerRule(triggerContext);
         try {
             if (ctx.condition().status() == TriggerCondition.TriggerStatus.READY &&
                 !trigger().getPredicate().test((T) triggerContext.info())) {

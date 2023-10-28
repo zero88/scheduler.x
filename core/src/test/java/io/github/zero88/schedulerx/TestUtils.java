@@ -1,5 +1,7 @@
 package io.github.zero88.schedulerx;
 
+import static io.github.zero88.schedulerx.impl.Utils.brackets;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -20,9 +22,9 @@ public final class TestUtils {
     @SuppressWarnings("java:S2925")
     public static void block(Duration duration, VertxTestContext testContext) {
         try {
-            LOGGER.info("Doing a mock stuff in [" + duration + "]...");
+            LOGGER.info("Doing a mock stuff in " + brackets(duration) + "...");
             TimeUnit.MILLISECONDS.sleep(duration.toMillis());
-            LOGGER.info("Wake up after [" + duration + "]!!!");
+            LOGGER.info("Wake up after " + brackets(duration) + "!!!");
         } catch (InterruptedException e) {
             testContext.failNow(e);
         }
@@ -61,9 +63,9 @@ public final class TestUtils {
         @Override
         public void run() {
             try {
-                LOGGER.info("[" + getName() + "] created, blocked by the latch...");
+                LOGGER.info(brackets(getName()) + " created, blocked by the latch...");
                 latch.await();
-                LOGGER.info("[" + getName() + "] starts at: " + Instant.now());
+                LOGGER.info(brackets(getName()) + " started at" + brackets(Instant.now()));
                 runnable.run();
             } catch (InterruptedException e) {
                 testContext.failNow(e);

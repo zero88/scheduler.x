@@ -1,5 +1,7 @@
 package io.github.zero88.schedulerx.trigger.rule;
 
+import static io.github.zero88.schedulerx.impl.Utils.brackets;
+
 import java.time.DateTimeException;
 import java.util.Objects;
 
@@ -45,7 +47,7 @@ public interface TimeframeValidator {
         try {
             return parser.parse(rawValue);
         } catch (ClassCastException ex) {
-            throw new DateTimeException("Unsupported input type[" + rawValue.getClass().getName() + "]");
+            throw new DateTimeException("Unsupported input type" + brackets(rawValue.getClass().getName()));
         }
     }
 

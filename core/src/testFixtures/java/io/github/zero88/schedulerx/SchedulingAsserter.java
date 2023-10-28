@@ -52,14 +52,16 @@ public final class SchedulingAsserter<OUT> implements SchedulingMonitor<OUT> {
             Assertions.assertNotNull(result.unscheduledAt());
             Assertions.assertNotNull(result.triggerContext());
             Assertions.assertTrue(result.triggerContext().isError());
+            Assertions.assertEquals(-1, result.tick());
+            Assertions.assertEquals(-1, result.round());
             Assertions.assertNull(result.availableAt());
             Assertions.assertNull(result.rescheduledAt());
             Assertions.assertNull(result.triggeredAt());
             Assertions.assertNull(result.executedAt());
             Assertions.assertNull(result.finishedAt());
             Assertions.assertNull(result.completedAt());
+            verify(result, unableSchedule);
         });
-        verify(result, unableSchedule);
     }
 
     @Override

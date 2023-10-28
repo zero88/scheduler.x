@@ -1,5 +1,7 @@
 package io.github.zero88.schedulerx.trigger.rule;
 
+import static io.github.zero88.schedulerx.impl.Utils.brackets;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.time.DateTimeException;
@@ -47,7 +49,7 @@ final class TimeframeFactory {
             final Class<?> cls = Class.forName(Objects.requireNonNull(type, "Timeframe type is required"));
             final Constructor<? extends Timeframe> constructor = this.timeframeMapper.get(cls);
             if (constructor == null) {
-                throw new UnsupportedOperationException("Unrecognized a timeframe with type[" + type + "]");
+                throw new UnsupportedOperationException("Unrecognized a timeframe with type" + brackets(type));
             }
             final Timeframe instance = constructor.newInstance();
             if (instance instanceof BaseTimeframe) {
@@ -57,7 +59,7 @@ final class TimeframeFactory {
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException ex) {
             throw new IllegalArgumentException("Unable to init new timeframe instance", ex);
         } catch (ClassNotFoundException ex) {
-            throw new UnsupportedOperationException("Unrecognized a timeframe with type[" + type + "]", ex);
+            throw new UnsupportedOperationException("Unrecognized a timeframe with type" + brackets(type), ex);
         } catch (DateTimeException | NullPointerException ex) {
             throw new IllegalArgumentException("Unable to parse a timeframe. Cause: " + ex.getMessage(), ex);
         }

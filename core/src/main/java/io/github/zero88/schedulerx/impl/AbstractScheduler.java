@@ -1,5 +1,8 @@
 package io.github.zero88.schedulerx.impl;
 
+import static io.github.zero88.schedulerx.impl.Utils.brackets;
+
+import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.concurrent.locks.Lock;
@@ -131,7 +134,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     @Override
     public final void cancel() {
         if (!state.completed()) {
-            log(Instant.now(), "Canceling the task");
+            log(Instant.now(), "On cancel");
             doStop(state.timerId(), TriggerContextFactory.stop(trigger().type(), ReasonCode.STOP_BY_MANUAL));
         }
     }
@@ -145,27 +148,36 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
         onComplete(context);
     }
 
+    /**
+     * Register a new timer in the system based on the trigger configuration
+     */
     protected abstract @NotNull Future<Long> registerTimer(@Nullable WorkerExecutor workerExecutor);
 
+    /**
+     * Unregister current timer id out of the system
+     */
     protected abstract void unregisterTimer(long timerId);
 
-    protected final TriggerTransitionContext shouldRun(@NotNull TriggerTransitionContext triggerContext) {
+    /**
+     * Check a trigger kickoff context whether to be able to run new execution or not
+     */
+    protected final TriggerTransitionContext shouldRun(@NotNull TriggerTransitionContext kickOffContext) {
         log(Instant.now(), "On evaluate");
-        if (!triggerContext.isKickoff()) {
-            throw new IllegalStateException("Trigger condition status must be " + TriggerStatus.KICKOFF);
-        }
         if (state.pending()) {
-            return TriggerContextFactory.skip(triggerContext, ReasonCode.NOT_YET_SCHEDULED);
+            return TriggerContextFactory.skip(kickOffContext, ReasonCode.NOT_YET_SCHEDULED);
         }
         if (state.completed()) {
-            return TriggerContextFactory.skip(triggerContext, ReasonCode.ALREADY_STOPPED);
+            return TriggerContextFactory.skip(kickOffContext, ReasonCode.ALREADY_STOPPED);
         }
         if (state.executing()) {
-            return TriggerContextFactory.skip(triggerContext, ReasonCode.TASK_IS_RUNNING);
+            return TriggerContextFactory.skip(kickOffContext, ReasonCode.TASK_IS_RUNNING);
         }
-        return evaluateTrigger(triggerContext);
+        return evaluateTriggerRule(kickOffContext);
     }
 
+    /**
+     * Check a trigger context whether to be able to stop by configuration or force stop
+     */
     protected final TriggerTransitionContext shouldStop(@NotNull TriggerTransitionContext triggerContext,
                                                         boolean isForceStop, long round) {
         if (isForceStop) {
@@ -176,8 +188,15 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
                : triggerContext;
     }
 
-    protected TriggerTransitionContext evaluateTrigger(@NotNull TriggerTransitionContext triggerContext) {
-        final Instant firedAt = Objects.requireNonNull(triggerContext.firedAt());
+    /**
+     * Evaluate a trigger kickoff context on trigger rule
+     */
+    protected TriggerTransitionContext evaluateTriggerRule(@NotNull TriggerTransitionContext triggerContext) {
+        if (!triggerContext.isKickoff()) {
+            throw new IllegalStateException("Trigger condition status must be " + TriggerStatus.KICKOFF);
+        }
+        final Instant firedAt = Objects.requireNonNull(triggerContext.firedAt(),
+                                                       "Kickoff context is missing a fired at time");
         if (trigger().rule().isExceeded(firedAt)) {
             return TriggerContextFactory.stop(triggerContext, ReasonCode.STOP_BY_CONFIG);
         }
@@ -187,7 +206,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     }
 
     /**
-     * Register a timer id and increase tick time when the system timer fires
+     * Register a timer id in internal state and increase tick time when the system timer fires
      *
      * @param timerId the system timer id
      * @return the current number times of the tick counter
@@ -196,7 +215,10 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
         return state.timerId(timerId).increaseTick();
     }
 
-    protected final void onRun(WorkerExecutor workerExecutor, TriggerTransitionContext kickoffContext) {
+    /**
+     * Processing the trigger when the system timer fires
+     */
+    protected final void onProcess(WorkerExecutor workerExecutor, TriggerTransitionContext kickoffContext) {
         log(Objects.requireNonNull(kickoffContext.firedAt()), "On fire");
         this.<TriggerTransitionContext>executeBlocking(workerExecutor, p -> p.complete(shouldRun(kickoffContext)))
             .onSuccess(context -> onTrigger(workerExecutor, context))
@@ -243,8 +265,8 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
                                                     .setExternalId(jobData.externalId())
                                                     .setTriggerContext(ctx)
                                                     .setUnscheduledAt(Instant.now())
-                                                    .setTick(state.tick())
-                                                    .setRound(state.round())
+                                                    .setTick(-1)
+                                                    .setRound(-1)
                                                     .build());
     }
 
@@ -325,8 +347,9 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     private String genMsg(long tick, long round, @NotNull Instant at, @NotNull String event) {
         String tId = state.pending() ? "-" : String.valueOf(state.timerId());
         String tickAndRound = state.pending() ? "-/-" : (tick + "/" + round);
-        return "Scheduling[" + tId + "::" + trigger.type() + "::" + jobData.externalId() + "][" + tickAndRound + "]" +
-               "::[" + at + "] - " + event;
+        return MessageFormat.format("Scheduling{0}{1}::{2} - {3}",
+                                    brackets(tId + "::" + trigger.type() + "::" + jobData.externalId()),
+                                    brackets(tickAndRound), brackets(at), event);
     }
 
     private <R> Future<R> executeBlocking(WorkerExecutor workerExecutor, Consumer<Promise<R>> operation) {
