@@ -1,5 +1,9 @@
 package io.github.zero88.schedulerx;
 
+import static io.github.zero88.schedulerx.impl.Utils.brackets;
+
+import java.text.MessageFormat;
+
 import org.jetbrains.annotations.NotNull;
 
 import io.vertx.core.impl.logging.Logger;
@@ -16,46 +20,59 @@ public interface SchedulingLogMonitor<OUT> extends SchedulingMonitor<OUT> {
 
     Logger LOGGER = LoggerFactory.getLogger(SchedulingLogMonitor.class);
 
-    static <OUT> SchedulingLogMonitor<OUT> create() {
-        return new SchedulingLogMonitor<OUT>() { };
-    }
+    static <OUT> SchedulingLogMonitor<OUT> create() { return new SchedulingLogMonitor<>() { }; }
 
     @Override
     default void onUnableSchedule(@NotNull ExecutionResult<OUT> result) {
-        LOGGER.error(
-            "Task[" + result.externalId() + "] is unable to schedule at[" + result.unscheduledAt() + "] due to error",
-            result.error());
+        LOGGER.error(MessageFormat.format("Trigger{0} is unable to schedule at {1}{2}{3}",
+                                          brackets(result.triggerContext().type() + "::" + result.externalId()),
+                                          brackets(result.tick() + "/" + result.round()),
+                                          brackets("unscheduledAt|" + result.unscheduledAt()),
+                                          brackets("cause|" + result.triggerContext().condition().cause())));
     }
 
     @Override
     default void onSchedule(@NotNull ExecutionResult<OUT> result) {
         if (result.isReschedule()) {
-            LOGGER.debug(
-                "Task[" + result.externalId() + "] is rescheduled at[" + result.rescheduledAt() + "] after round[" +
-                result.round() + "]");
+            LOGGER.debug(MessageFormat.format("Trigger{0} has been rescheduled at {1}{2}",
+                                              brackets(result.triggerContext().type() + "::" + result.externalId()),
+                                              brackets(result.tick() + "/" + result.round()),
+                                              brackets("rescheduledAt|" + result.rescheduledAt())));
         } else {
-            LOGGER.debug("Task[" + result.externalId() + "] is scheduled at[" + result.availableAt() + "]");
+            LOGGER.debug(MessageFormat.format("Trigger{0} has been registered at {1}{2}",
+                                              brackets(result.triggerContext().type() + "::" + result.externalId()),
+                                              brackets("-/-"), brackets("availableAt|" + result.availableAt())));
         }
     }
 
     @Override
     default void onMisfire(@NotNull ExecutionResult<OUT> result) {
-        LOGGER.debug(
-            "Task[" + result.externalId() + "] is misfire at tick[" + result.tick() + "] in round[" + result.round() +
-            "] at[" + result.triggeredAt() + "]");
+        LOGGER.debug(MessageFormat.format("Trigger{0} has been misfire at {1}{2}{3}{4}",
+                                          brackets(result.triggerContext().type() + "::" + result.externalId()),
+                                          brackets(result.tick() + "/" + result.round()),
+                                          brackets("firedAt|" + result.firedAt()),
+                                          brackets("finishedAt|" + result.finishedAt()),
+                                          brackets("reason|" + result.triggerContext().condition().reasonCode())));
     }
 
     @Override
     default void onEach(@NotNull ExecutionResult<OUT> result) {
-        LOGGER.debug("Task[" + result.externalId() + "] has been executed in round[" + result.round() + "] startedAt[" +
-                     result.executedAt() + "] - endedAt[" + result.finishedAt() + "] - Error[" + result.isError() +
-                     "]");
+        LOGGER.debug(MessageFormat.format("Trigger{0} has been executed at {1}{2}{3}{4}{5}",
+                                          brackets(result.triggerContext().type() + "::" + result.externalId()),
+                                          brackets(result.tick() + "/" + result.round()),
+                                          brackets("firedAt|" + result.firedAt()),
+                                          brackets("triggerAt|" + result.triggeredAt()),
+                                          brackets("startedAt|" + result.executedAt()),
+                                          brackets("endedAt|" + result.finishedAt())));
     }
 
     @Override
     default void onCompleted(@NotNull ExecutionResult<OUT> result) {
-        LOGGER.debug("Task[" + result.externalId() + "] is completed in round[" + result.round() + "] at[" +
-                     result.completedAt() + "]");
+        LOGGER.debug(MessageFormat.format("Trigger{0} has been completed at {1}{2}{3}",
+                                          brackets(result.triggerContext().type() + "::" + result.externalId()),
+                                          brackets(result.tick() + "/" + result.round()),
+                                          brackets("completedAt|" + result.completedAt()),
+                                          brackets("reason|" + result.triggerContext().condition().reasonCode())));
     }
 
 }

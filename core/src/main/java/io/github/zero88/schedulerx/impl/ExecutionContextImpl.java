@@ -14,26 +14,27 @@ final class ExecutionContextImpl<OUTPUT> implements ExecutionContextInternal<OUT
     private final Vertx vertx;
     private final long round;
     private final TriggerContext triggerContext;
+    private final Instant triggeredAt;
     private Instant executedAt;
     private Promise<Object> promise;
     private OUTPUT data;
     private Throwable error;
     private boolean forceStop = false;
 
-    ExecutionContextImpl(Vertx vertx, long round, TriggerContext triggerContext) {
+    ExecutionContextImpl(Vertx vertx, TriggerContext triggerContext, long round) {
         this.vertx          = vertx;
         this.round          = round;
         this.triggerContext = triggerContext;
+        this.triggeredAt    = Instant.now();
     }
 
     @Override
-    public @NotNull ExecutionContextInternal<OUTPUT> setup(@NotNull Promise<Object> promise,
-                                                           @NotNull Instant executedAt) {
+    public @NotNull ExecutionContextInternal<OUTPUT> setup(@NotNull Promise<Object> promise) {
         if (Objects.nonNull(this.promise)) {
             throw new IllegalStateException("TaskExecutionContext is already setup");
         }
         this.promise    = promise;
-        this.executedAt = executedAt;
+        this.executedAt = Instant.now();
         return this;
     }
 
@@ -41,15 +42,23 @@ final class ExecutionContextImpl<OUTPUT> implements ExecutionContextInternal<OUT
 
     public @NotNull TriggerContext triggerContext() { return this.triggerContext; }
 
-    public @NotNull Instant executedAt()            { return this.executedAt; }
+    @Override
+    public @NotNull Instant triggeredAt() { return this.triggeredAt; }
 
-    public long round()                             { return this.round; }
+    @Override
+    public @NotNull Instant executedAt() { return this.executedAt; }
 
-    public OUTPUT data()                            { return this.data; }
+    @Override
+    public long round() { return this.round; }
 
-    public Throwable error()                        { return this.error; }
+    @Override
+    public OUTPUT data() { return this.data; }
 
-    public boolean isForceStop()                    { return this.forceStop; }
+    @Override
+    public Throwable error() { return this.error; }
+
+    @Override
+    public boolean isForceStop() { return this.forceStop; }
 
     @Override
     public void forceStopExecution() { this.forceStop = true; }

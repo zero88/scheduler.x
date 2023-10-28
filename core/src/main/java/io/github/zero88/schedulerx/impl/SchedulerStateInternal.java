@@ -1,5 +1,7 @@
 package io.github.zero88.schedulerx.impl;
 
+import java.time.Instant;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -8,7 +10,7 @@ import io.github.zero88.schedulerx.SchedulerState;
 interface SchedulerStateInternal<OUTPUT> extends SchedulerState<OUTPUT> {
 
     /**
-     * Add timer id
+     * Add current timer id
      *
      * @param timerId timer id
      * @return this for fluent api
@@ -16,53 +18,44 @@ interface SchedulerStateInternal<OUTPUT> extends SchedulerState<OUTPUT> {
     @NotNull SchedulerStateInternal<OUTPUT> timerId(long timerId);
 
     /**
-     * Mark task is available to execute
+     * Mark the trigger is already registered in the system timer.
      *
-     * @return this for fluent api
+     * @return available at time
      * @see #pending()
      */
-    @NotNull SchedulerStateInternal<OUTPUT> markAvailable();
+    @NotNull Instant markAvailable();
 
     /**
-     * Mark task is executing
+     * Mark trigger tick is already handled
      *
-     * @return this for fluent api
-     * @see #executing()
+     * @param tick the trigger tick
+     * @return finished at time
      */
-    @NotNull SchedulerStateInternal<OUTPUT> markExecuting();
+    @NotNull Instant markFinished(long tick);
 
     /**
-     * Mark task is idle
+     * Mark the current trigger is completed, no more fire by the system timer.
      *
-     * @return this for fluent api
-     * @see #idle()
+     * @return completed at time
      */
-    @NotNull SchedulerStateInternal<OUTPUT> markIdle();
+    @NotNull Instant markCompleted();
 
     /**
-     * Mark state is completed
-     *
-     * @return this for fluent api
-     * @see #completed()
-     */
-    @NotNull SchedulerStateInternal<OUTPUT> markCompleted();
-
-    /**
-     * Increase tick
+     * Increase the tick counter and mark the current tick is in progress
      *
      * @return next tick
      */
     long increaseTick();
 
     /**
-     * Increase round
+     * Increase the round counter
      *
      * @return next round
      */
     long increaseRound();
 
     /**
-     * Add task result data per round
+     * Add the task result data per round
      *
      * @param round round
      * @param data  data
@@ -71,7 +64,7 @@ interface SchedulerStateInternal<OUTPUT> extends SchedulerState<OUTPUT> {
     @Nullable OUTPUT addData(long round, @Nullable OUTPUT data);
 
     /**
-     * Add error when executing task per round
+     * Add the task result error per round
      *
      * @param round round
      * @param error error when executing task

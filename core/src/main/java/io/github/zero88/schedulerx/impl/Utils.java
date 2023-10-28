@@ -9,6 +9,8 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 @Internal
 public final class Utils {
 
+    public static String brackets(Object any) { return "[" + any + "]"; }
+
     /*
      * The random number generator, in a holder class to defer initialization until needed.
      */

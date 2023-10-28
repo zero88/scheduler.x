@@ -20,41 +20,45 @@ public interface TriggerCondition {
     /**
      * The reason code that makes the trigger has specific status, should be in {@code camelCase} format.
      */
-    default @Nullable String reasonCode() { return null; }
+    @Nullable String reasonCode();
 
     /**
      * The cause that makes the trigger has specific status.
      */
-    default @Nullable Throwable cause() { return null; }
-
-    /**
-     * Check whether the trigger is failed or not.
-     */
-    default boolean isFailed() { return TriggerStatus.FAILED == status(); }
-
-    /**
-     * Check whether the trigger is ready or not.
-     */
-    default boolean isReady() { return TriggerStatus.READY == status(); }
-
-    /**
-     * Check whether the trigger is skipped or not.
-     */
-    default boolean isSkip() { return TriggerStatus.SKIP == status(); }
-
-    /**
-     * Check whether the trigger is stopped or not.
-     */
-    default boolean isStop() { return TriggerStatus.STOP == status(); }
+    @Nullable Throwable cause();
 
     enum TriggerStatus {
 
-        INITIALIZED, FAILED, READY, STOP, SKIP
+        /**
+         * Identify the trigger is scheduled successfully
+         */
+        SCHEDULED,
+        /**
+         * Identify the trigger is error due to invalid configuration or any unexpected error in system timer
+         */
+        ERROR,
+        /**
+         * Identify the trigger is fired by system timer
+         */
+        KICKOFF,
+        /**
+         * Identify the trigger is satisfied every predicate then ready to execute the task
+         */
+        READY,
+        /**
+         * Identify the trigger is skipped to execute the task
+         */
+        SKIPPED,
+        /**
+         * Identify the trigger is stopped by configuration or manually.
+         */
+        STOPPED,
     }
 
 
     class ReasonCode {
 
+        public static final String ON_SCHEDULE = "TriggerIsScheduled";
         public static final String FAILED_TO_SCHEDULE = "TriggerIsFailedToSchedule";
         public static final String NOT_YET_SCHEDULED = "TriggerIsNotYetScheduled";
         public static final String ALREADY_STOPPED = "TriggerIsAlreadyStopped";

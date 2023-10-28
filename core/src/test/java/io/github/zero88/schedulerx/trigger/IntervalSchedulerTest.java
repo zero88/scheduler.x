@@ -2,12 +2,15 @@ package io.github.zero88.schedulerx.trigger;
 
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import java.time.Duration;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -20,11 +23,15 @@ import io.github.zero88.schedulerx.TestUtils;
 import io.github.zero88.schedulerx.trigger.TriggerCondition.ReasonCode;
 import io.vertx.core.Vertx;
 import io.vertx.junit5.Checkpoint;
+import io.vertx.junit5.RunTestOnContext;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
 
 @ExtendWith(VertxExtension.class)
 class IntervalSchedulerTest {
+
+    @RegisterExtension
+    static RunTestOnContext rtoc = new RunTestOnContext();
 
     private static Stream<Object> provide_invalid_interval() {
         return Stream.of(arguments(IntervalTrigger.builder().interval(-1).build(), "Invalid interval value"),
@@ -56,7 +63,6 @@ class IntervalSchedulerTest {
         };
         final Consumer<ExecutionResult<Void>> onComplete = result -> {
             Assertions.assertEquals(2, result.round());
-            Assertions.assertTrue(result.isCompleted());
             Assertions.assertFalse(result.isError());
         };
         final SchedulingAsserter<Void> asserter = SchedulingAsserter.<Void>builder()
@@ -77,14 +83,29 @@ class IntervalSchedulerTest {
     @Test
     void test_run_blocking_task_in_the_end(Vertx vertx, VertxTestContext testContext) {
         final Checkpoint checkpoint = testContext.checkpoint(3);
+        final AtomicLong lastTickOnEach = new AtomicLong();
+        final Consumer<ExecutionResult<Void>> onEach = result -> {
+            lastTickOnEach.set(result.tick());
+            if (result.round() == 1) {
+                Assertions.assertEquals(result.tick(), result.round());
+            } else {
+                Assertions.assertTrue(result.tick() > result.round());
+            }
+        };
+        final Consumer<ExecutionResult<Void>> onMisfire = result -> {
+            Assertions.assertTrue(result.tick() > result.round());
+            Assertions.assertTrue(result.tick() > lastTickOnEach.get());
+            Assertions.assertEquals("TaskIsRunning", result.triggerContext().condition().reasonCode());
+        };
         final Consumer<ExecutionResult<Void>> onComplete = result -> {
-            checkpoint.flag();
             Assertions.assertEquals(3, result.round());
-            Assertions.assertTrue(result.isCompleted());
+            Assertions.assertEquals(lastTickOnEach.get() + result.round(), result.tick());
             Assertions.assertFalse(result.isError());
         };
         final SchedulingAsserter<Void> asserter = SchedulingAsserter.<Void>builder()
                                                                     .setTestContext(testContext)
+                                                                    .setEach(onEach)
+                                                                    .setMisfire(onMisfire)
                                                                     .setCompleted(onComplete)
                                                                     .build();
         final IntervalTrigger trigger = IntervalTrigger.builder().interval(1).repeat(3).build();
@@ -93,7 +114,7 @@ class IntervalSchedulerTest {
                          .setMonitor(asserter)
                          .setTrigger(trigger)
                          .setTask((jobData, ctx) -> {
-                             TestUtils.sleep(3000, testContext);
+                             TestUtils.block(Duration.ofSeconds(3), testContext);
                              checkpoint.flag();
                          })
                          .build()
@@ -145,7 +166,7 @@ class IntervalSchedulerTest {
     @Test
     void test_scheduler_should_be_stopped_when_reach_to_target_round(Vertx vertx, VertxTestContext context) {
         final Consumer<ExecutionResult<String>> onCompleted = result -> {
-            Assertions.assertTrue(result.triggerContext().condition().isStop());
+            Assertions.assertTrue(result.triggerContext().isStopped());
             Assertions.assertEquals(ReasonCode.STOP_BY_CONFIG, result.triggerContext().condition().reasonCode());
         };
         final SchedulingAsserter<String> asserter = SchedulingAsserter.<String>builder()

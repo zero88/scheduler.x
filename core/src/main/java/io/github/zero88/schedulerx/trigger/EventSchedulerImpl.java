@@ -1,5 +1,7 @@
 package io.github.zero88.schedulerx.trigger;
 
+import static io.github.zero88.schedulerx.impl.Utils.brackets;
+
 import java.time.Instant;
 import java.util.Objects;
 
@@ -11,6 +13,7 @@ import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.impl.AbstractScheduler;
 import io.github.zero88.schedulerx.impl.AbstractSchedulerBuilder;
 import io.github.zero88.schedulerx.impl.TriggerContextFactory;
+import io.github.zero88.schedulerx.impl.TriggerTransitionContext;
 import io.github.zero88.schedulerx.trigger.TriggerCondition.ReasonCode;
 import io.github.zero88.schedulerx.trigger.predicate.EventTriggerPredicate.EventTriggerPredicateException;
 import io.vertx.core.Future;
@@ -31,19 +34,23 @@ final class EventSchedulerImpl<IN, OUT, T> extends AbstractScheduler<IN, OUT, Ev
     }
 
     @Override
-    protected @NotNull Future<Long> registerTimer(@NotNull Promise<Long> promise, WorkerExecutor workerExecutor) {
+    protected @NotNull Future<Long> registerTimer(WorkerExecutor workerExecutor) {
+        final Promise<Long> promise = Promise.promise();
+        final long timerId = trigger().hashCode();
         final String address = trigger().getAddress();
         consumer = trigger().isLocalOnly()
                    ? vertx().eventBus().localConsumer(address)
                    : vertx().eventBus().consumer(address);
-        consumer.handler(msg -> run(workerExecutor, createTriggerContext(msg))).completionHandler(event -> {
-            if (event.failed()) {
-                promise.fail(new IllegalStateException("Unable to register a subscriber on address[" + address + "]",
-                                                       event.cause()));
-            } else {
-                promise.complete((long) consumer.hashCode());
-            }
-        });
+        consumer.handler(msg -> onProcess(workerExecutor, createKickoffContext(msg, onFire(timerId))))
+                .completionHandler(event -> {
+                    if (event.failed()) {
+                        promise.fail(
+                            new IllegalStateException("Unable to register a subscriber on address" + brackets(address),
+                                                      event.cause()));
+                    } else {
+                        promise.complete(timerId);
+                    }
+                });
         return promise.future();
     }
 
@@ -52,15 +59,15 @@ final class EventSchedulerImpl<IN, OUT, T> extends AbstractScheduler<IN, OUT, Ev
         if (Objects.nonNull(consumer)) {
             consumer.unregister()
                     .onComplete(r -> log(Instant.now(),
-                                         "Unregistered EventBus subscriber on address[" + consumer.address() + "]" +
-                                         "[" + r.succeeded() + "][" + r.cause() + "]"));
+                                         "Unregistered EventBus subscriber on address" + brackets(consumer.address()) +
+                                         brackets(r.succeeded()) + brackets(r.cause())));
         }
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    protected TriggerContext evaluateTrigger(@NotNull TriggerContext triggerContext) {
-        final TriggerContext ctx = super.evaluateTrigger(triggerContext);
+    protected TriggerTransitionContext evaluateTriggerRule(@NotNull TriggerTransitionContext triggerContext) {
+        final TriggerTransitionContext ctx = super.evaluateTriggerRule(triggerContext);
         try {
             if (ctx.condition().status() == TriggerCondition.TriggerStatus.READY &&
                 !trigger().getPredicate().test((T) triggerContext.info())) {
@@ -72,16 +79,16 @@ final class EventSchedulerImpl<IN, OUT, T> extends AbstractScheduler<IN, OUT, Ev
         return ctx;
     }
 
-    private TriggerContext createTriggerContext(Message<Object> msg) {
+    private TriggerTransitionContext createKickoffContext(Message<Object> msg, long tick) {
         try {
             T eventMsg = trigger().getPredicate().convert(msg.headers(), msg.body());
-            return TriggerContextFactory.init(trigger().type(), eventMsg);
+            return TriggerContextFactory.kickoff(trigger().type(), tick, eventMsg);
         } catch (Exception ex) {
-            return handleException(TriggerContextFactory.init(trigger().type(), msg), ex);
+            return handleException(TriggerContextFactory.kickoff(trigger().type(), tick, msg), ex);
         }
     }
 
-    private TriggerContext handleException(TriggerContext context, Exception cause) {
+    private TriggerTransitionContext handleException(TriggerTransitionContext context, Exception cause) {
         String reason = cause instanceof ClassCastException || cause instanceof EventTriggerPredicateException
                         ? ReasonCode.CONDITION_IS_NOT_MATCHED
                         : ReasonCode.UNEXPECTED_ERROR;

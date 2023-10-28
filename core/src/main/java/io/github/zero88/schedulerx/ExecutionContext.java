@@ -1,7 +1,6 @@
 package io.github.zero88.schedulerx;
 
 import java.time.Instant;
-import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -45,9 +44,7 @@ public interface ExecutionContext<OUT> {
      *
      * @return triggeredAt
      */
-    default @NotNull Instant triggeredAt() {
-        return Objects.requireNonNull(triggerContext().triggerAt());
-    }
+    @NotNull Instant triggeredAt();
 
     /**
      * Executed at time
@@ -64,12 +61,12 @@ public interface ExecutionContext<OUT> {
     boolean isForceStop();
 
     /**
-     * Mark a flag stop/cancel to cancel executor
+     * Mark a force stop flag to unregister the trigger out of the system timer
      */
     void forceStopExecution();
 
     /**
-     * Completed execution with result data per each round
+     * Notify finish an execution per each round with its result data
      *
      * @param data object data
      * @apiNote if task is {@code async} then it should be invoked in handling async result stage
@@ -77,7 +74,7 @@ public interface ExecutionContext<OUT> {
     void complete(@Nullable OUT data);
 
     /**
-     * Failed execution with error per each round
+     * Notify finish an execution per each round with its error data
      *
      * @param throwable execution error
      * @apiNote if task is {@code async} then it should be invoked in handling async result stage

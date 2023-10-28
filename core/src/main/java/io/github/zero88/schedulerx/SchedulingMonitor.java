@@ -2,6 +2,8 @@ package io.github.zero88.schedulerx;
 
 import org.jetbrains.annotations.NotNull;
 
+import io.github.zero88.schedulerx.trigger.Trigger;
+
 /**
  * Represents for a monitor that watches lifecycle event in the task executor.
  * <p/>
@@ -15,7 +17,8 @@ import org.jetbrains.annotations.NotNull;
 public interface SchedulingMonitor<OUT> {
 
     /**
-     * This method is invoked when the executor is unable to schedule
+     * This method is invoked when the executor is unable to schedule due to the trigger has invalid configuration that
+     * is verified by {@link Trigger#validate()}.
      *
      * @param result the execution result
      * @see ExecutionResult
@@ -23,14 +26,14 @@ public interface SchedulingMonitor<OUT> {
     void onUnableSchedule(@NotNull ExecutionResult<OUT> result);
 
     /**
-     * This method is invoked when the executor is scheduled or rescheduled
+     * This method is invoked when the executor is scheduled or rescheduled.
      *
      * @param result the execution result
      */
     void onSchedule(@NotNull ExecutionResult<OUT> result);
 
     /**
-     * This method is invoked when the executor misfires the execution
+     * This method is invoked when the executor misfires the execution.
      * <p/>
      * one reason is due to task is still running when trigger a new round execution
      *
@@ -40,14 +43,14 @@ public interface SchedulingMonitor<OUT> {
 
     /**
      * This method is invoked when the executor finishes each execution round regardless an execution result is success
-     * or fail
+     * or fail.
      *
      * @param result the execution result
      */
     void onEach(@NotNull ExecutionResult<OUT> result);
 
     /**
-     * This method is invoked when the executor is completed, means no execution round is executed
+     * This method is invoked when the executor is completed, means no execution round is executed.
      *
      * @param result the execution result
      */

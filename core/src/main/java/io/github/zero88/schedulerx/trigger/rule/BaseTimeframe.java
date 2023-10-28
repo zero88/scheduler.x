@@ -1,6 +1,7 @@
 package io.github.zero88.schedulerx.trigger.rule;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -8,6 +9,7 @@ abstract class BaseTimeframe<T> implements Timeframe<T>, TimeParser<T> {
 
     private T from;
     private T to;
+    private int hashCode;
 
     protected BaseTimeframe() { }
 
@@ -17,7 +19,9 @@ abstract class BaseTimeframe<T> implements Timeframe<T>, TimeParser<T> {
         this.from = validator.normalize(parser, from);
         this.to   = validator.normalize(parser, to);
         //noinspection unchecked
-        return (BaseTimeframe<T>) validator.validate(this);
+        final BaseTimeframe<T> self = (BaseTimeframe<T>) validator.validate(this);
+        this.hashCode = computeHashCode();
+        return self;
     }
 
     @Override
@@ -36,10 +40,7 @@ abstract class BaseTimeframe<T> implements Timeframe<T>, TimeParser<T> {
 
     @Override
     public int hashCode() {
-        int result = from.hashCode();
-        result = 31 * result + to.hashCode();
-        result = 31 * result + type().hashCode();
-        return result;
+        return hashCode;
     }
 
     @Override
@@ -56,6 +57,13 @@ abstract class BaseTimeframe<T> implements Timeframe<T>, TimeParser<T> {
     @Override
     public String toString() {
         return "TimeFrame{type=" + type().getName() + ", (" + from + ", " + to + ")}";
+    }
+
+    private int computeHashCode() {
+        int result = type().hashCode();
+        result = 31 * result + Optional.ofNullable(from).map(Object::hashCode).orElse(0);
+        result = 31 * result + Optional.ofNullable(to).map(Object::hashCode).orElse(0);
+        return result;
     }
 
 }

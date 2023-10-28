@@ -2,6 +2,7 @@ package io.github.zero88.schedulerx.trigger;
 
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -35,7 +36,7 @@ import io.vertx.junit5.VertxTestContext;
 @ExtendWith(VertxExtension.class)
 class EventSchedulerTest {
 
-    private static Stream<Arguments> provide_invalid_interval() {
+    private static Stream<Arguments> provide_predicate() {
         final Arguments arg1 = arguments(EventTriggerPredicate.<String>create(o -> o.startsWith("CO")),
                                          Arrays.asList(1, "COMPLETED"), (Consumer<ExecutionResult<Void>>) (r) -> {
                 final TriggerCondition condition = r.triggerContext().condition();
@@ -84,7 +85,7 @@ class EventSchedulerTest {
     }
 
     @ParameterizedTest
-    @MethodSource("provide_invalid_interval")
+    @MethodSource("provide_predicate")
     void test_event_trigger_misfire(EventTriggerPredicate<String> predicate, List<Object> data,
                                     Consumer<ExecutionResult<Void>> validator, Vertx vertx,
                                     VertxTestContext testContext) {
@@ -117,7 +118,7 @@ class EventSchedulerTest {
                       .start();
         data.forEach(d -> {
             vertx.eventBus().publish(address, d);
-            TestUtils.sleep(1000, testContext);
+            TestUtils.block(Duration.ofSeconds(1), testContext);
         });
     }
 
@@ -171,7 +172,7 @@ class EventSchedulerTest {
                       .build()
                       .start();
         for (int i = 0; i < totalRound; i++) {
-            TestUtils.sleep(1000, testContext);
+            TestUtils.block(Duration.ofSeconds(1), testContext);
             vertx.eventBus().publish(address, message + i);
         }
     }
@@ -202,7 +203,7 @@ class EventSchedulerTest {
                       .start();
         data.forEach(d -> {
             vertx.eventBus().publish(address, d);
-            TestUtils.sleep(1000, testContext);
+            TestUtils.block(Duration.ofSeconds(1), testContext);
         });
     }
 

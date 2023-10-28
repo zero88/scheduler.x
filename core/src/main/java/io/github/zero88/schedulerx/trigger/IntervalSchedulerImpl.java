@@ -1,7 +1,8 @@
 package io.github.zero88.schedulerx.trigger;
 
+import static io.github.zero88.schedulerx.impl.Utils.brackets;
+
 import java.time.Instant;
-import java.util.function.LongSupplier;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -24,28 +25,30 @@ final class IntervalSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, In
         super(vertx, monitor, jobData, task, trigger);
     }
 
-    protected @NotNull Future<Long> registerTimer(@NotNull Promise<Long> promise, WorkerExecutor workerExecutor) {
+    protected @NotNull Future<Long> registerTimer(WorkerExecutor workerExecutor) {
         try {
-            LongSupplier supplier = () -> vertx().setPeriodic(trigger().intervalInMilliseconds(),
-                                                              timerId -> run(workerExecutor, TriggerContextFactory.init(
-                                                                  trigger().type())));
             if (trigger().noDelay()) {
-                promise.complete(supplier.getAsLong());
-            } else {
-                final long delay = trigger().delayInMilliseconds();
-                log(Instant.now(), "Delay [" + delay + "ms] then register the task in the scheduler");
-                vertx().setTimer(delay, ignore -> promise.complete(supplier.getAsLong()));
+                return Future.succeededFuture(createPeriodicTimer(workerExecutor));
             }
+            final Promise<Long> promise = Promise.promise();
+            final long delay = trigger().delayInMilliseconds();
+            log(Instant.now(), "Delay " + brackets(delay + "ms") + " then register the trigger in the scheduler");
+            vertx().setTimer(delay, ignore -> promise.complete(createPeriodicTimer(workerExecutor)));
+            return promise.future();
         } catch (Exception e) {
-            promise.fail(e);
+            return Future.failedFuture(e);
         }
-        return promise.future();
     }
 
     @Override
     protected void unregisterTimer(long timerId) {
         boolean result = vertx().cancelTimer(timerId);
-        log(Instant.now(), "Unregistered timerId[" + timerId + "][" + result + "]");
+        log(Instant.now(), "Unregistered timerId" + brackets(timerId) + brackets(result));
+    }
+
+    private long createPeriodicTimer(WorkerExecutor executor) {
+        return vertx().setPeriodic(trigger().intervalInMilliseconds(),
+                                   id -> onProcess(executor, TriggerContextFactory.kickoff(trigger().type(), onFire(id))));
     }
 
     // @formatter:off

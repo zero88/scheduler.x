@@ -90,12 +90,14 @@ public class SimpleDateTimeTimeframe implements Timeframe<Date> {
 
         SimpleDateTimeTimeframe that = (SimpleDateTimeTimeframe) o;
 
-        return from.equals(that.from) && Objects.equals(to, that.to) && Objects.equals(zone, that.zone);
+        return type().equals(that.type()) && Objects.equals(from, that.from) && Objects.equals(to, that.to) &&
+               Objects.equals(zone, that.zone);
     }
 
     @Override
     public int hashCode() {
-        int result = from != null ? from.hashCode() : 0;
+        int result = type().hashCode();
+        result = 31 * result + (from != null ? from.hashCode() : 0);
         result = 31 * result + (to != null ? to.hashCode() : 0);
         result = 31 * result + (zone != null ? zone.hashCode() : 0);
         return result;

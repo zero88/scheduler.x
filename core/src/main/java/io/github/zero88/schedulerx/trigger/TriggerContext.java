@@ -1,11 +1,9 @@
 package io.github.zero88.schedulerx.trigger;
 
-import java.time.Instant;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import io.github.zero88.schedulerx.Scheduler;
+import io.github.zero88.schedulerx.trigger.TriggerCondition.TriggerStatus;
 
 /**
  * A runtime trigger information
@@ -13,14 +11,6 @@ import io.github.zero88.schedulerx.Scheduler;
  * @since 2.0.0
  */
 public interface TriggerContext extends HasTriggerType {
-
-    /**
-     * The time that the trigger is fired.
-     *
-     * @apiNote In most case this value is {@code not null}, only when the trigger is cancel manually via
-     *     {@link Scheduler#cancel()}, it will be {@code null}
-     */
-    @Nullable Instant triggerAt();
 
     /**
      * The current trigger condition
@@ -38,5 +28,35 @@ public interface TriggerContext extends HasTriggerType {
      * </ul>
      */
     default @Nullable Object info() { return null; }
+
+    /**
+     * Check whether the trigger has been scheduled.
+     */
+    default boolean isScheduled() { return TriggerStatus.SCHEDULED == condition().status(); }
+
+    /**
+     * Check whether the trigger has invalid configuration or unable to schedule for some reason.
+     */
+    default boolean isError() { return TriggerStatus.ERROR == condition().status(); }
+
+    /**
+     * Check whether the trigger has invalid configuration.
+     */
+    default boolean isKickoff() { return TriggerStatus.KICKOFF == condition().status(); }
+
+    /**
+     * Check whether the trigger is ready or not.
+     */
+    default boolean isReady() { return TriggerStatus.READY == condition().status(); }
+
+    /**
+     * Check whether the trigger is skipped or not.
+     */
+    default boolean isSkipped() { return TriggerStatus.SKIPPED == condition().status(); }
+
+    /**
+     * Check whether the trigger is stopped or not.
+     */
+    default boolean isStopped() { return TriggerStatus.STOPPED == condition().status(); }
 
 }
