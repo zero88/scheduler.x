@@ -124,28 +124,29 @@ extends <a href="SchedulingMonitor.html" title="interface in io.github.zero88.sc
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#onCompleted(io.github.zero88.schedulerx.ExecutionResult)" class="member-name-link">onCompleted</a><wbr>(@NotNull <a href="ExecutionResult.html" title="interface in io.github.zero88.schedulerx">ExecutionResult</a>&lt;<a href="SchedulingLogMonitor.html" title="type parameter in SchedulingLogMonitor">OUT</a>&gt;&nbsp;result)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">This method is invoked when the executor is completed, means no execution round is executed</div>
+<div class="block">This method is invoked when the executor is completed, means no execution round is executed.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#onEach(io.github.zero88.schedulerx.ExecutionResult)" class="member-name-link">onEach</a><wbr>(@NotNull <a href="ExecutionResult.html" title="interface in io.github.zero88.schedulerx">ExecutionResult</a>&lt;<a href="SchedulingLogMonitor.html" title="type parameter in SchedulingLogMonitor">OUT</a>&gt;&nbsp;result)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">This method is invoked when the executor finishes each execution round regardless an execution result is success
- or fail</div>
+ or fail.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#onMisfire(io.github.zero88.schedulerx.ExecutionResult)" class="member-name-link">onMisfire</a><wbr>(@NotNull <a href="ExecutionResult.html" title="interface in io.github.zero88.schedulerx">ExecutionResult</a>&lt;<a href="SchedulingLogMonitor.html" title="type parameter in SchedulingLogMonitor">OUT</a>&gt;&nbsp;result)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">This method is invoked when the executor misfires the execution</div>
+<div class="block">This method is invoked when the executor misfires the execution.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#onSchedule(io.github.zero88.schedulerx.ExecutionResult)" class="member-name-link">onSchedule</a><wbr>(@NotNull <a href="ExecutionResult.html" title="interface in io.github.zero88.schedulerx">ExecutionResult</a>&lt;<a href="SchedulingLogMonitor.html" title="type parameter in SchedulingLogMonitor">OUT</a>&gt;&nbsp;result)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">This method is invoked when the executor is scheduled or rescheduled</div>
+<div class="block">This method is invoked when the executor is scheduled or rescheduled.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#onUnableSchedule(io.github.zero88.schedulerx.ExecutionResult)" class="member-name-link">onUnableSchedule</a><wbr>(@NotNull <a href="ExecutionResult.html" title="interface in io.github.zero88.schedulerx">ExecutionResult</a>&lt;<a href="SchedulingLogMonitor.html" title="type parameter in SchedulingLogMonitor">OUT</a>&gt;&nbsp;result)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">This method is invoked when the executor is unable to schedule</div>
+<div class="block">This method is invoked when the executor is unable to schedule due to the trigger has invalid configuration that
+ is verified by <a href="trigger/Trigger.html#validate()"><code>Trigger.validate()</code></a>.</div>
 </div>
 </div>
 </div>
@@ -187,7 +188,8 @@ extends <a href="SchedulingMonitor.html" title="interface in io.github.zero88.sc
 <div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">onUnableSchedule</span><wbr><span class="parameters">(@NotNull
  @NotNull <a href="ExecutionResult.html" title="interface in io.github.zero88.schedulerx">ExecutionResult</a>&lt;<a href="SchedulingLogMonitor.html" title="type parameter in SchedulingLogMonitor">OUT</a>&gt;&nbsp;result)</span></div>
 <div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="SchedulingMonitor.html#onUnableSchedule(io.github.zero88.schedulerx.ExecutionResult)">SchedulingMonitor</a></code></span></div>
-<div class="block">This method is invoked when the executor is unable to schedule</div>
+<div class="block">This method is invoked when the executor is unable to schedule due to the trigger has invalid configuration that
+ is verified by <a href="trigger/Trigger.html#validate()"><code>Trigger.validate()</code></a>.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="SchedulingMonitor.html#onUnableSchedule(io.github.zero88.schedulerx.ExecutionResult)">onUnableSchedule</a></code>&nbsp;in interface&nbsp;<code><a href="SchedulingMonitor.html" title="interface in io.github.zero88.schedulerx">SchedulingMonitor</a>&lt;<a href="SchedulingLogMonitor.html" title="type parameter in SchedulingLogMonitor">OUT</a>&gt;</code></dd>
@@ -208,7 +210,7 @@ extends <a href="SchedulingMonitor.html" title="interface in io.github.zero88.sc
 <div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">onSchedule</span><wbr><span class="parameters">(@NotNull
  @NotNull <a href="ExecutionResult.html" title="interface in io.github.zero88.schedulerx">ExecutionResult</a>&lt;<a href="SchedulingLogMonitor.html" title="type parameter in SchedulingLogMonitor">OUT</a>&gt;&nbsp;result)</span></div>
 <div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="SchedulingMonitor.html#onSchedule(io.github.zero88.schedulerx.ExecutionResult)">SchedulingMonitor</a></code></span></div>
-<div class="block">This method is invoked when the executor is scheduled or rescheduled</div>
+<div class="block">This method is invoked when the executor is scheduled or rescheduled.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="SchedulingMonitor.html#onSchedule(io.github.zero88.schedulerx.ExecutionResult)">onSchedule</a></code>&nbsp;in interface&nbsp;<code><a href="SchedulingMonitor.html" title="interface in io.github.zero88.schedulerx">SchedulingMonitor</a>&lt;<a href="SchedulingLogMonitor.html" title="type parameter in SchedulingLogMonitor">OUT</a>&gt;</code></dd>
@@ -223,7 +225,7 @@ extends <a href="SchedulingMonitor.html" title="interface in io.github.zero88.sc
 <div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">onMisfire</span><wbr><span class="parameters">(@NotNull
  @NotNull <a href="ExecutionResult.html" title="interface in io.github.zero88.schedulerx">ExecutionResult</a>&lt;<a href="SchedulingLogMonitor.html" title="type parameter in SchedulingLogMonitor">OUT</a>&gt;&nbsp;result)</span></div>
 <div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="SchedulingMonitor.html#onMisfire(io.github.zero88.schedulerx.ExecutionResult)">SchedulingMonitor</a></code></span></div>
-<div class="block">This method is invoked when the executor misfires the execution
+<div class="block">This method is invoked when the executor misfires the execution.
  <p/>
  one reason is due to task is still running when trigger a new round execution</div>
 <dl class="notes">
@@ -241,7 +243,7 @@ extends <a href="SchedulingMonitor.html" title="interface in io.github.zero88.sc
  @NotNull <a href="ExecutionResult.html" title="interface in io.github.zero88.schedulerx">ExecutionResult</a>&lt;<a href="SchedulingLogMonitor.html" title="type parameter in SchedulingLogMonitor">OUT</a>&gt;&nbsp;result)</span></div>
 <div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="SchedulingMonitor.html#onEach(io.github.zero88.schedulerx.ExecutionResult)">SchedulingMonitor</a></code></span></div>
 <div class="block">This method is invoked when the executor finishes each execution round regardless an execution result is success
- or fail</div>
+ or fail.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="SchedulingMonitor.html#onEach(io.github.zero88.schedulerx.ExecutionResult)">onEach</a></code>&nbsp;in interface&nbsp;<code><a href="SchedulingMonitor.html" title="interface in io.github.zero88.schedulerx">SchedulingMonitor</a>&lt;<a href="SchedulingLogMonitor.html" title="type parameter in SchedulingLogMonitor">OUT</a>&gt;</code></dd>
@@ -256,7 +258,7 @@ extends <a href="SchedulingMonitor.html" title="interface in io.github.zero88.sc
 <div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">onCompleted</span><wbr><span class="parameters">(@NotNull
  @NotNull <a href="ExecutionResult.html" title="interface in io.github.zero88.schedulerx">ExecutionResult</a>&lt;<a href="SchedulingLogMonitor.html" title="type parameter in SchedulingLogMonitor">OUT</a>&gt;&nbsp;result)</span></div>
 <div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="SchedulingMonitor.html#onCompleted(io.github.zero88.schedulerx.ExecutionResult)">SchedulingMonitor</a></code></span></div>
-<div class="block">This method is invoked when the executor is completed, means no execution round is executed</div>
+<div class="block">This method is invoked when the executor is completed, means no execution round is executed.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="SchedulingMonitor.html#onCompleted(io.github.zero88.schedulerx.ExecutionResult)">onCompleted</a></code>&nbsp;in interface&nbsp;<code><a href="SchedulingMonitor.html" title="interface in io.github.zero88.schedulerx">SchedulingMonitor</a>&lt;<a href="SchedulingLogMonitor.html" title="type parameter in SchedulingLogMonitor">OUT</a>&gt;</code></dd>

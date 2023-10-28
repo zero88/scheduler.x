@@ -73,11 +73,11 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>Type Parameters:</dt>
-<dd><code>OUTPUT</code> - Type of task result data</dd>
+<dd><code>OUTPUT</code> - Type of execution result</dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">ExecutionResult&lt;OUTPUT&gt;</span></div>
-<div class="block">Represents for task result will be pass on each event of <a href="SchedulingMonitor.html" title="interface in io.github.zero88.schedulerx"><code>SchedulingMonitor</code></a></div>
+<div class="block">Represents for an execution result will be pass on each event of <a href="SchedulingMonitor.html" title="interface in io.github.zero88.schedulerx"><code>SchedulingMonitor</code></a></div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>2.0.0</dd>
@@ -107,27 +107,27 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#availableAt()" class="member-name-link">availableAt</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Task executor is available to run, in other words "task is scheduled at a time"</div>
+<div class="block">Identify the trigger is registered on the system timer at a clock time.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#completedAt()" class="member-name-link">completedAt</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Task executor completes at time</div>
+<div class="block">Identify the trigger is completed at a clock time, that means no more is fired by the system timer.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="ExecutionResult.html" title="type parameter in ExecutionResult">OUTPUT</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#data()" class="member-name-link">data</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Task result data per each round or latest result data when <code>isCompleted = true</code></div>
+<div class="block">Task result data per each round or latest result data if trigger is completed.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#error()" class="member-name-link">error</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Task result error per each round or latest result error when <code>isCompleted = true</code></div>
+<div class="block">Task result error per each round or latest result error if trigger is completed.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#executedAt()" class="member-name-link">executedAt</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Task executor executes task round at time</div>
+<div class="block">Identify the trigger task that is started to execute at a clock time.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>&lt;T&gt;&nbsp;T</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#externalId()" class="member-name-link">externalId</a>()</code></div>
@@ -137,12 +137,13 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#finishedAt()" class="member-name-link">finishedAt</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Task executor finishes task round at time</div>
+<div class="block">Identify the trigger tick time is already processed at a clock time, regardless its status is misfire or its task
+ is executed.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#isCompleted()" class="member-name-link">isCompleted</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#firedAt()" class="member-name-link">firedAt</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Identify task executor is completed by cancel event or reach to limit round</div>
+<div class="block">Identify the system timer fires the trigger at a clock time.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#isError()" class="member-name-link">isError</a>()</code></div>
@@ -152,35 +153,39 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#isReschedule()" class="member-name-link">isReschedule</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">Identify task is reschedule or not</div>
+<div class="block">Check whether the trigger is re-registered in the system timer or not after the trigger is available, only in
+ case of trigger type is <code>cron</code>.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#rescheduledAt()" class="member-name-link">rescheduledAt</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Only <code>not null</code> if reschedule <a href="SchedulingMonitor.html#onUnableSchedule(io.github.zero88.schedulerx.ExecutionResult)"><code>SchedulingMonitor.onUnableSchedule(ExecutionResult)</code></a></div>
+<div class="block">Identify the trigger is re-scheduled on the system timer at a clock time, only in case of trigger type is
+ <code>cron</code>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>long</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#round()" class="member-name-link">round</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">The execution round</div>
+<div class="block">The current number of times that the trigger's task is executed.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>long</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#tick()" class="member-name-link">tick</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">The execution tick</div>
+<div class="block">The current number of times that the system timer fires the trigger.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#triggerContext()" class="member-name-link">triggerContext</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Identify the current trigger information in the execution runtime.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#triggeredAt()" class="member-name-link">triggeredAt</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Task executor triggers task round at time</div>
+<div class="block">Identify the trigger is ready to run new execution round at a clock time.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#unscheduledAt()" class="member-name-link">unscheduledAt</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Only <code>not null</code> in <a href="SchedulingMonitor.html#onUnableSchedule(io.github.zero88.schedulerx.ExecutionResult)"><code>SchedulingMonitor.onUnableSchedule(ExecutionResult)</code></a></div>
+<div class="block">Identify the trigger that cannot be scheduled on the system timer at a clock time.</div>
 </div>
 </div>
 </div>
@@ -217,31 +222,25 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="triggerContext()">
 <h3>triggerContext</h3>
 <div class="member-signature"><span class="return-type"><a href="trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></span>&nbsp;<span class="element-name">triggerContext</span>()</div>
+<div class="block">Identify the current trigger information in the execution runtime.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the trigger context</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="unscheduledAt()">
 <h3>unscheduledAt</h3>
 <div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></span>&nbsp;<span class="element-name">unscheduledAt</span>()</div>
-<div class="block">Only <code>not null</code> in <a href="SchedulingMonitor.html#onUnableSchedule(io.github.zero88.schedulerx.ExecutionResult)"><code>SchedulingMonitor.onUnableSchedule(ExecutionResult)</code></a></div>
+<div class="block">Identify the trigger that cannot be scheduled on the system timer at a clock time.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>unschedule at time</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="rescheduledAt()">
-<h3>rescheduledAt</h3>
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></span>&nbsp;<span class="element-name">rescheduledAt</span>()</div>
-<div class="block">Only <code>not null</code> if reschedule <a href="SchedulingMonitor.html#onUnableSchedule(io.github.zero88.schedulerx.ExecutionResult)"><code>SchedulingMonitor.onUnableSchedule(ExecutionResult)</code></a></div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>reschedule at time</dd>
 <dt>See Also:</dt>
 <dd>
-<ul class="see-list">
-<li><a href="#isReschedule()"><code>isReschedule()</code></a></li>
+<ul class="see-list-long">
+<li><a href="SchedulingMonitor.html#onUnableSchedule(io.github.zero88.schedulerx.ExecutionResult)"><code>SchedulingMonitor.onUnableSchedule(ExecutionResult)</code></a></li>
 </ul>
 </dd>
 </dl>
@@ -251,10 +250,52 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="availableAt()">
 <h3>availableAt</h3>
 <div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></span>&nbsp;<span class="element-name">availableAt</span>()</div>
-<div class="block">Task executor is available to run, in other words "task is scheduled at a time"</div>
+<div class="block">Identify the trigger is registered on the system timer at a clock time.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>available at time</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list-long">
+<li><a href="SchedulingMonitor.html#onSchedule(io.github.zero88.schedulerx.ExecutionResult)"><code>SchedulingMonitor.onSchedule(ExecutionResult)</code></a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="rescheduledAt()">
+<h3>rescheduledAt</h3>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></span>&nbsp;<span class="element-name">rescheduledAt</span>()</div>
+<div class="block">Identify the trigger is re-scheduled on the system timer at a clock time, only in case of trigger type is
+ <code>cron</code>.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>rescheduled at time</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list-long">
+<li><a href="SchedulingMonitor.html#onSchedule(io.github.zero88.schedulerx.ExecutionResult)"><code>SchedulingMonitor.onSchedule(ExecutionResult)</code></a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="firedAt()">
+<h3>firedAt</h3>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></span>&nbsp;<span class="element-name">firedAt</span>()</div>
+<div class="block">Identify the system timer fires the trigger at a clock time.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>fired at time</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list-long">
+<li><a href="SchedulingMonitor.html#onEach(io.github.zero88.schedulerx.ExecutionResult)"><code>SchedulingMonitor.onEach(ExecutionResult)</code></a></li>
+<li><a href="SchedulingMonitor.html#onMisfire(io.github.zero88.schedulerx.ExecutionResult)"><code>SchedulingMonitor.onMisfire(ExecutionResult)</code></a></li>
+</ul>
+</dd>
 </dl>
 </section>
 </li>
@@ -262,10 +303,16 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="triggeredAt()">
 <h3>triggeredAt</h3>
 <div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></span>&nbsp;<span class="element-name">triggeredAt</span>()</div>
-<div class="block">Task executor triggers task round at time</div>
+<div class="block">Identify the trigger is ready to run new execution round at a clock time.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>task round triggered at time</dd>
+<dd>triggered at time</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list-long">
+<li><a href="SchedulingMonitor.html#onEach(io.github.zero88.schedulerx.ExecutionResult)"><code>SchedulingMonitor.onEach(ExecutionResult)</code></a></li>
+</ul>
+</dd>
 </dl>
 </section>
 </li>
@@ -273,10 +320,16 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="executedAt()">
 <h3>executedAt</h3>
 <div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></span>&nbsp;<span class="element-name">executedAt</span>()</div>
-<div class="block">Task executor executes task round at time</div>
+<div class="block">Identify the trigger task that is started to execute at a clock time.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>task round executed at time</dd>
+<dd>executed at time</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list-long">
+<li><a href="SchedulingMonitor.html#onEach(io.github.zero88.schedulerx.ExecutionResult)"><code>SchedulingMonitor.onEach(ExecutionResult)</code></a></li>
+</ul>
+</dd>
 </dl>
 </section>
 </li>
@@ -284,10 +337,18 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="finishedAt()">
 <h3>finishedAt</h3>
 <div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></span>&nbsp;<span class="element-name">finishedAt</span>()</div>
-<div class="block">Task executor finishes task round at time</div>
+<div class="block">Identify the trigger tick time is already processed at a clock time, regardless its status is misfire or its task
+ is executed.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>task round finished at time</dd>
+<dd>finished at time</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list-long">
+<li><a href="SchedulingMonitor.html#onEach(io.github.zero88.schedulerx.ExecutionResult)"><code>SchedulingMonitor.onEach(ExecutionResult)</code></a></li>
+<li><a href="SchedulingMonitor.html#onMisfire(io.github.zero88.schedulerx.ExecutionResult)"><code>SchedulingMonitor.onMisfire(ExecutionResult)</code></a></li>
+</ul>
+</dd>
 </dl>
 </section>
 </li>
@@ -295,10 +356,16 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="completedAt()">
 <h3>completedAt</h3>
 <div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></span>&nbsp;<span class="element-name">completedAt</span>()</div>
-<div class="block">Task executor completes at time</div>
+<div class="block">Identify the trigger is completed at a clock time, that means no more is fired by the system timer.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>completed at time</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list-long">
+<li><a href="SchedulingMonitor.html#onCompleted(io.github.zero88.schedulerx.ExecutionResult)"><code>SchedulingMonitor.onCompleted(ExecutionResult)</code></a></li>
+</ul>
+</dd>
 </dl>
 </section>
 </li>
@@ -306,10 +373,13 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="tick()">
 <h3>tick</h3>
 <div class="member-signature"><span class="return-type">long</span>&nbsp;<span class="element-name">tick</span>()</div>
-<div class="block">The execution tick</div>
+<div class="block">The current number of times that the system timer fires the trigger. This value can be greater than
+ <a href="#round()"><code>round()</code></a> due to misfire.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the execution tick. It can be greater than <code>round</code> due to misfire</dd>
+<dd>the tick</dd>
+<dt>API Note:</dt>
+<dd>The time at which the number of rounds is changed is <a href="#firedAt()"><code>firedAt()</code></a></dd>
 </dl>
 </section>
 </li>
@@ -317,10 +387,12 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="round()">
 <h3>round</h3>
 <div class="member-signature"><span class="return-type">long</span>&nbsp;<span class="element-name">round</span>()</div>
-<div class="block">The execution round</div>
+<div class="block">The current number of times that the trigger's task is executed.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the execution round</dd>
+<dd>the round</dd>
+<dt>API Note:</dt>
+<dd>The time at which the number of rounds is changed is <a href="#triggeredAt()"><code>triggeredAt()</code></a></dd>
 </dl>
 </section>
 </li>
@@ -329,7 +401,7 @@ loadScripts(document, 'script');</script>
 <h3>data</h3>
 <div class="member-signature"><span class="annotations">@Nullable
 </span><span class="return-type"><a href="ExecutionResult.html" title="type parameter in ExecutionResult">OUTPUT</a></span>&nbsp;<span class="element-name">data</span>()</div>
-<div class="block">Task result data per each round or latest result data when <code>isCompleted = true</code></div>
+<div class="block">Task result data per each round or latest result data if trigger is completed.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>task result data, might be null</dd>
@@ -341,21 +413,10 @@ loadScripts(document, 'script');</script>
 <h3>error</h3>
 <div class="member-signature"><span class="annotations">@Nullable
 </span><span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a></span>&nbsp;<span class="element-name">error</span>()</div>
-<div class="block">Task result error per each round or latest result error when <code>isCompleted = true</code></div>
+<div class="block">Task result error per each round or latest result error if trigger is completed.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>task result error, might be null</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="isCompleted()">
-<h3>isCompleted</h3>
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">isCompleted</span>()</div>
-<div class="block">Identify task executor is completed by cancel event or reach to limit round</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd><code>true</code> if completed</dd>
 </dl>
 </section>
 </li>
@@ -374,10 +435,17 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="isReschedule()">
 <h3>isReschedule</h3>
 <div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isReschedule</span>()</div>
-<div class="block">Identify task is reschedule or not</div>
+<div class="block">Check whether the trigger is re-registered in the system timer or not after the trigger is available, only in
+ case of trigger type is <code>cron</code>.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd><code>true</code> if reschedule</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="#rescheduledAt()"><code>rescheduledAt()</code></a></li>
+</ul>
+</dd>
 </dl>
 </section>
 </li>

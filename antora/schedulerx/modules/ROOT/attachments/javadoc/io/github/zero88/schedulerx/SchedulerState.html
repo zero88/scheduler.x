@@ -93,7 +93,7 @@ loadScripts(document, 'script');</script>
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab3" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab3', 3)" class="table-tab">Abstract Methods</button><button id="method-summary-table-tab5" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab5', 3)" class="table-tab">Default Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab3" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab3', 3)" class="table-tab">Abstract Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel">
 <div class="summary-table three-column-summary" aria-labelledby="method-summary-table-tab0">
 <div class="table-header col-first">Modifier and Type</div>
@@ -102,54 +102,42 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#availableAt()" class="member-name-link">availableAt</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Identifies an executor is on scheduler at time</div>
+<div class="block">Identify the trigger is registered on the system timer at a clock time.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#completed()" class="member-name-link">completed</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Check whether <code>executor</code> is <code>completed</code> state that means safe to remove out of a <code>scheduler</code></div>
+<div class="block">Check whether the trigger is <code>completed</code> state that means safe to remove out of a <code>scheduler</code>.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#executing()" class="member-name-link">executing</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Check whether <code>executor</code> is in executing state</div>
+<div class="block">Check whether the trigger is in processing: validation phase or execution phase.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#idle()" class="member-name-link">idle</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">Check whether <code>executor</code> is <code>idle</code> state that means is in <code>scheduler</code> but in <code>break-time</code>
- between 2 executions</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="SchedulerState.html" title="type parameter in SchedulerState">OUT</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#lastData()" class="member-name-link">lastData</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Latest data of previous round</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#lastError()" class="member-name-link">lastError</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="SchedulerState.html" title="type parameter in SchedulerState">OUT</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#lastData()" class="member-name-link">lastData</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Latest error of previous round</div>
+<div class="block">Get the data of latest round.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#pending()" class="member-name-link">pending</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#lastError()" class="member-name-link">lastError</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Check whether executor is in <code>pending</code> state that means is not in a <code>scheduler</code></div>
+<div class="block">Get the error of latest round.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>long</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#round()" class="member-name-link">round</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#pending()" class="member-name-link">pending</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Current number of times that trigger is executed</div>
+<div class="block">Check whether the trigger is in <code>pending</code> state that means is not yet registered in a <code>scheduler</code>.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>long</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#tick()" class="member-name-link">tick</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Current number of times that trigger is fired</div>
-</div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#round()" class="member-name-link">round</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>long</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#timerId()" class="member-name-link">timerId</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Timer id</div>
-</div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#tick()" class="member-name-link">tick</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>long</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#timerId()" class="member-name-link">timerId</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -168,10 +156,9 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="timerId()">
 <h3>timerId</h3>
 <div class="member-signature"><span class="return-type">long</span>&nbsp;<span class="element-name">timerId</span>()</div>
-<div class="block">Timer id</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>timer id</dd>
+<dd>The system timer id</dd>
 </dl>
 </section>
 </li>
@@ -179,7 +166,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="availableAt()">
 <h3>availableAt</h3>
 <div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></span>&nbsp;<span class="element-name">availableAt</span>()</div>
-<div class="block">Identifies an executor is on scheduler at time</div>
+<div class="block">Identify the trigger is registered on the system timer at a clock time.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>available at time</dd>
@@ -190,10 +177,9 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="tick()">
 <h3>tick</h3>
 <div class="member-signature"><span class="return-type">long</span>&nbsp;<span class="element-name">tick</span>()</div>
-<div class="block">Current number of times that trigger is fired</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>tick</dd>
+<dd>The current number of times that the system timer fires the trigger.</dd>
 </dl>
 </section>
 </li>
@@ -201,10 +187,9 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="round()">
 <h3>round</h3>
 <div class="member-signature"><span class="return-type">long</span>&nbsp;<span class="element-name">round</span>()</div>
-<div class="block">Current number of times that trigger is executed</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>round</dd>
+<dd>The current number of times that the trigger is executed.</dd>
 </dl>
 </section>
 </li>
@@ -212,7 +197,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="pending()">
 <h3>pending</h3>
 <div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">pending</span>()</div>
-<div class="block">Check whether executor is in <code>pending</code> state that means is not in a <code>scheduler</code></div>
+<div class="block">Check whether the trigger is in <code>pending</code> state that means is not yet registered in a <code>scheduler</code>.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd><code>true</code> if pending</dd>
@@ -223,22 +208,10 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="executing()">
 <h3>executing</h3>
 <div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">executing</span>()</div>
-<div class="block">Check whether <code>executor</code> is in executing state</div>
+<div class="block">Check whether the trigger is in processing: validation phase or execution phase.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd><code>true</code> if in executing</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="idle()">
-<h3>idle</h3>
-<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">idle</span>()</div>
-<div class="block">Check whether <code>executor</code> is <code>idle</code> state that means is in <code>scheduler</code> but in <code>break-time</code>
- between 2 executions</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd><code>true</code> if idle</dd>
+<dd><code>true</code> if in progress</dd>
 </dl>
 </section>
 </li>
@@ -246,7 +219,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="completed()">
 <h3>completed</h3>
 <div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">completed</span>()</div>
-<div class="block">Check whether <code>executor</code> is <code>completed</code> state that means safe to remove out of a <code>scheduler</code></div>
+<div class="block">Check whether the trigger is <code>completed</code> state that means safe to remove out of a <code>scheduler</code>.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd><code>true</code> if completed</dd>
@@ -258,7 +231,7 @@ loadScripts(document, 'script');</script>
 <h3>lastData</h3>
 <div class="member-signature"><span class="annotations">@Nullable
 </span><span class="return-type"><a href="SchedulerState.html" title="type parameter in SchedulerState">OUT</a></span>&nbsp;<span class="element-name">lastData</span>()</div>
-<div class="block">Latest data of previous round</div>
+<div class="block">Get the data of latest round.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>latest data</dd>
@@ -270,7 +243,7 @@ loadScripts(document, 'script');</script>
 <h3>lastError</h3>
 <div class="member-signature"><span class="annotations">@Nullable
 </span><span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a></span>&nbsp;<span class="element-name">lastError</span>()</div>
-<div class="block">Latest error of previous round</div>
+<div class="block">Get the error of latest round.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>latest error</dd>

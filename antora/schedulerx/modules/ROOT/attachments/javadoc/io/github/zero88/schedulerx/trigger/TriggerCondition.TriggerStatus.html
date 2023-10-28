@@ -107,16 +107,30 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Enum Constant</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code><a href="#FAILED" class="member-name-link">FAILED</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code><a href="#INITIALIZED" class="member-name-link">INITIALIZED</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code><a href="#ERROR" class="member-name-link">ERROR</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">Identify the trigger is error due to invalid configuration or any unexpected error in system timer</div>
+</div>
+<div class="col-first odd-row-color"><code><a href="#KICKOFF" class="member-name-link">KICKOFF</a></code></div>
+<div class="col-last odd-row-color">
+<div class="block">Identify the trigger is fired by system timer</div>
+</div>
 <div class="col-first even-row-color"><code><a href="#READY" class="member-name-link">READY</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code><a href="#SKIP" class="member-name-link">SKIP</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code><a href="#STOP" class="member-name-link">STOP</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Identify the trigger is satisfied every predicate then ready to execute the task</div>
+</div>
+<div class="col-first odd-row-color"><code><a href="#SCHEDULED" class="member-name-link">SCHEDULED</a></code></div>
+<div class="col-last odd-row-color">
+<div class="block">Identify the trigger is scheduled successfully</div>
+</div>
+<div class="col-first even-row-color"><code><a href="#SKIPPED" class="member-name-link">SKIPPED</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">Identify the trigger is skipped to execute the task</div>
+</div>
+<div class="col-first odd-row-color"><code><a href="#STOPPED" class="member-name-link">STOPPED</a></code></div>
+<div class="col-last odd-row-color">
+<div class="block">Identify the trigger is stopped by configuration or manually.</div>
+</div>
 </div>
 </section>
 </li>
@@ -163,33 +177,45 @@ the order they are declared.</div>
 <h2>Enum Constant Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="INITIALIZED">
-<h3>INITIALIZED</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="TriggerCondition.TriggerStatus.html" title="enum class in io.github.zero88.schedulerx.trigger">TriggerCondition.TriggerStatus</a></span>&nbsp;<span class="element-name">INITIALIZED</span></div>
+<section class="detail" id="SCHEDULED">
+<h3>SCHEDULED</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="TriggerCondition.TriggerStatus.html" title="enum class in io.github.zero88.schedulerx.trigger">TriggerCondition.TriggerStatus</a></span>&nbsp;<span class="element-name">SCHEDULED</span></div>
+<div class="block">Identify the trigger is scheduled successfully</div>
 </section>
 </li>
 <li>
-<section class="detail" id="FAILED">
-<h3>FAILED</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="TriggerCondition.TriggerStatus.html" title="enum class in io.github.zero88.schedulerx.trigger">TriggerCondition.TriggerStatus</a></span>&nbsp;<span class="element-name">FAILED</span></div>
+<section class="detail" id="ERROR">
+<h3>ERROR</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="TriggerCondition.TriggerStatus.html" title="enum class in io.github.zero88.schedulerx.trigger">TriggerCondition.TriggerStatus</a></span>&nbsp;<span class="element-name">ERROR</span></div>
+<div class="block">Identify the trigger is error due to invalid configuration or any unexpected error in system timer</div>
+</section>
+</li>
+<li>
+<section class="detail" id="KICKOFF">
+<h3>KICKOFF</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="TriggerCondition.TriggerStatus.html" title="enum class in io.github.zero88.schedulerx.trigger">TriggerCondition.TriggerStatus</a></span>&nbsp;<span class="element-name">KICKOFF</span></div>
+<div class="block">Identify the trigger is fired by system timer</div>
 </section>
 </li>
 <li>
 <section class="detail" id="READY">
 <h3>READY</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="TriggerCondition.TriggerStatus.html" title="enum class in io.github.zero88.schedulerx.trigger">TriggerCondition.TriggerStatus</a></span>&nbsp;<span class="element-name">READY</span></div>
+<div class="block">Identify the trigger is satisfied every predicate then ready to execute the task</div>
 </section>
 </li>
 <li>
-<section class="detail" id="STOP">
-<h3>STOP</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="TriggerCondition.TriggerStatus.html" title="enum class in io.github.zero88.schedulerx.trigger">TriggerCondition.TriggerStatus</a></span>&nbsp;<span class="element-name">STOP</span></div>
+<section class="detail" id="SKIPPED">
+<h3>SKIPPED</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="TriggerCondition.TriggerStatus.html" title="enum class in io.github.zero88.schedulerx.trigger">TriggerCondition.TriggerStatus</a></span>&nbsp;<span class="element-name">SKIPPED</span></div>
+<div class="block">Identify the trigger is skipped to execute the task</div>
 </section>
 </li>
 <li>
-<section class="detail" id="SKIP">
-<h3>SKIP</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="TriggerCondition.TriggerStatus.html" title="enum class in io.github.zero88.schedulerx.trigger">TriggerCondition.TriggerStatus</a></span>&nbsp;<span class="element-name">SKIP</span></div>
+<section class="detail" id="STOPPED">
+<h3>STOPPED</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="TriggerCondition.TriggerStatus.html" title="enum class in io.github.zero88.schedulerx.trigger">TriggerCondition.TriggerStatus</a></span>&nbsp;<span class="element-name">STOPPED</span></div>
+<div class="block">Identify the trigger is stopped by configuration or manually.</div>
 </section>
 </li>
 </ul>
