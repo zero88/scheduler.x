@@ -101,9 +101,10 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#check(java.time.Instant)" class="member-name-link">check</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;instant)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#check(java.time.Instant,java.time.Duration)" class="member-name-link">check</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;instant,
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;leeway)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Verify the given time is in range of <a href="#from()"><code>from()</code></a> and <a href="#to()"><code>to()</code></a></div>
+<div class="block">Verify the given time is in range of <a href="#from()"><code>from()</code></a> and <a href="#to()"><code>to()</code></a> within allowable time margin.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1"><code>static &lt;TF extends <a href="Timeframe.html" title="interface in io.github.zero88.schedulerx.trigger.rule">Timeframe</a>&lt;?&gt;&gt;<br>TF</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#create(java.lang.String,java.lang.Object,java.lang.Object)" class="member-name-link">create</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;type,
@@ -257,14 +258,17 @@ T&gt;</span>&nbsp;<span class="return-type">TF</span>&nbsp;<span class="element-
 </section>
 </li>
 <li>
-<section class="detail" id="check(java.time.Instant)">
+<section class="detail" id="check(java.time.Instant,java.time.Duration)">
 <h3>check</h3>
 <div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">check</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;instant)</span></div>
-<div class="block">Verify the given time is in range of <a href="#from()"><code>from()</code></a> and <a href="#to()"><code>to()</code></a></div>
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;instant,
+ @NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;leeway)</span></div>
+<div class="block">Verify the given time is in range of <a href="#from()"><code>from()</code></a> and <a href="#to()"><code>to()</code></a> within allowable time margin.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>instant</code> - A given time that is an instantaneous point on the time-line</dd>
+<dd><code>instant</code> - a given time that is an instantaneous point on the time-line</dd>
+<dd><code>leeway</code> - a leeway time</dd>
 <dt>Returns:</dt>
 <dd><code>true</code> if the given time is in range, otherwise is <code>false</code></dd>
 </dl>
