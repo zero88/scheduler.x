@@ -1,5 +1,6 @@
 package io.github.zero88.schedulerx.trigger.rule;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
@@ -13,11 +14,13 @@ final class TriggerRuleImpl implements TriggerRule {
 
     private final List<Timeframe> timeframes;
     private final Instant until;
+    private final Duration leeway;
     private final int hashCode;
 
-    TriggerRuleImpl(List<Timeframe> timeframes, Instant until) {
+    TriggerRuleImpl(List<Timeframe> timeframes, Instant until, Duration leeway) {
         this.timeframes = Optional.ofNullable(timeframes).orElseGet(Collections::emptyList);
         this.until      = until;
+        this.leeway     = validateLeewayTime(leeway);
         this.hashCode   = computeHashCode();
     }
 
@@ -28,6 +31,9 @@ final class TriggerRuleImpl implements TriggerRule {
     public Instant until() { return until; }
 
     @Override
+    public @NotNull Duration leeway() { return leeway; }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
@@ -35,7 +41,8 @@ final class TriggerRuleImpl implements TriggerRule {
             return false;
 
         TriggerRuleImpl that = (TriggerRuleImpl) o;
-        return Objects.equals(until, that.until) && timeframes.equals(that.timeframes);
+        return Objects.equals(until, that.until) && Objects.equals(leeway, that.leeway) &&
+               timeframes.equals(that.timeframes);
     }
 
     @Override
@@ -45,13 +52,26 @@ final class TriggerRuleImpl implements TriggerRule {
 
     @Override
     public String toString() {
-        return "TriggerRule{until=" + until + ", " + timeframes + "}";
+        return "TriggerRule{until=" + until + ", leeway=" + leeway + ", " + timeframes + "}";
     }
 
     private int computeHashCode() {
         int result = Optional.ofNullable(until).map(Instant::hashCode).orElse(0);
+        result = 31 * result + leeway.hashCode();
         result = 31 * result + timeframes.hashCode();
         return result;
+    }
+
+    @NotNull
+    private static Duration validateLeewayTime(Duration leeway) {
+        final Duration given = Optional.ofNullable(leeway).orElse(Duration.ZERO);
+        if (given.compareTo(MAX_LEEWAY) > 0) {
+            return MAX_LEEWAY;
+        }
+        if (given.isNegative()) {
+            return Duration.ZERO;
+        }
+        return given;
     }
 
 }

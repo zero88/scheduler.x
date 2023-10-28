@@ -27,17 +27,22 @@ import io.vertx.core.json.jackson.DatabindCodec;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 class CronTriggerTest {
 
     static ObjectMapper mapper;
 
     @BeforeAll
-    static void setup() { mapper = DatabindCodec.mapper(); }
+    static void setup() {
+        mapper = DatabindCodec.mapper()
+                              .findAndRegisterModules()
+                              .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+    }
 
     static Stream<Arguments> validData() {
         final TriggerRule rule = TriggerRule.create(
-            Collections.singletonList(Timeframe.of(Instant.parse("2023-10-10T10" + ":10:00Z"), null)),
+            Collections.singletonList(Timeframe.of(Instant.parse("2023-10-10T10:10:00Z"), null)),
             Instant.parse("2023-10-20T10:10:00Z"));
         final JsonObject ruleJson = JsonObject.of("until", "2023-10-20T10:10:00Z", "timeframes", JsonArray.of(
             JsonObject.of("type", "java.time.Instant", "from", "2023-10-10T10:10:00Z")));

@@ -1,5 +1,6 @@
 package io.github.zero88.schedulerx.trigger.rule;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -12,9 +13,9 @@ public class LocalDateTimeTimeframe extends BaseTimeframe<LocalDateTime> impleme
     public final @NotNull Class<LocalDateTime> type() { return LocalDateTime.class; }
 
     @Override
-    public boolean check(@NotNull Instant instant) {
+    public boolean check(@NotNull Instant instant, @NotNull Duration leeway) {
         final LocalDateTime given = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
-        return (from() == null || given.isAfter(from())) && (to() == null || given.isBefore(to()));
+        return (from() == null || given.isAfter(from())) && (to() == null || given.isBefore(to().plus(leeway)));
     }
 
     @Override

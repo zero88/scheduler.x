@@ -1,5 +1,6 @@
 package io.github.zero88.schedulerx.trigger.rule;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
@@ -86,12 +87,13 @@ public interface Timeframe<T> {
     @Nullable T to();
 
     /**
-     * Verify the given time is in range of {@link #from()} and {@link #to()}
+     * Verify the given time is in range of {@link #from()} and {@link #to()} within allowable time margin.
      *
-     * @param instant A given time that is an instantaneous point on the time-line
+     * @param instant a given time that is an instantaneous point on the time-line
+     * @param leeway  a leeway time
      * @return {@code true} if the given time is in range, otherwise is {@code false}
      */
-    boolean check(@NotNull Instant instant);
+    boolean check(@NotNull Instant instant, @NotNull Duration leeway);
 
     /**
      * @return a time parser
