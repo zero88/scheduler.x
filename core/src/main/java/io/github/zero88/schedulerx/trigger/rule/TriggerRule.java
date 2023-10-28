@@ -1,5 +1,6 @@
 package io.github.zero88.schedulerx.trigger.rule;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
@@ -17,6 +18,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @SuppressWarnings("rawtypes")
 public interface TriggerRule {
+
+    /**
+     * A maximum of leeway time
+     */
+    Duration MAX_LEEWAY = Duration.ofSeconds(30);
 
     /**
      * A no-op trigger rule.
@@ -41,24 +47,33 @@ public interface TriggerRule {
     Instant until();
 
     /**
-     * Check if the trigger time is satisfied to at least one timeframe.
+     * Declares the allowable margin of time in the time validation of {@link #satisfy(Instant)} and {@link #until()}
      *
-     * @param triggerAt the trigger time
+     * @return the leeway time
+     */
+    @JsonGetter
+    @NotNull Duration leeway();
+
+    /**
+     * Check if the fired time is satisfied to at least one timeframe.
+     *
+     * @param firedAt a clock time that the system timer fires the trigger
      * @return {@code true} if the trigger time is satisfied, otherwise is {@code false}
      * @see #timeframes()
      */
-    default boolean satisfy(@NotNull Instant triggerAt) {
-        return timeframes().isEmpty() || timeframes().stream().anyMatch(timeframe -> timeframe.check(triggerAt));
+    default boolean satisfy(@NotNull Instant firedAt) {
+        return timeframes().isEmpty() ||
+               timeframes().stream().anyMatch(timeframe -> timeframe.check(firedAt, leeway()));
     }
 
     /**
-     * Check if the trigger time is exceeded the registered {@link #until()} time.
+     * Check if the fired time is exceeded the registered {@link #until()} time.
      *
-     * @param triggerAt the trigger time
+     * @param firedAt a clock time that the system timer fires the trigger
      * @return {@code true} if the trigger time is exceeded, otherwise is {@code false}
      */
-    default boolean isExceeded(@NotNull Instant triggerAt) {
-        return until() != null && triggerAt.isAfter(until());
+    default boolean isExceeded(@NotNull Instant firedAt) {
+        return until() != null && firedAt.isAfter(until().plus(leeway()));
     }
 
     /**
@@ -68,7 +83,7 @@ public interface TriggerRule {
      * @return a new Trigger rule
      */
     static @NotNull TriggerRule create(List<Timeframe> timeframes) {
-        return create(timeframes, null);
+        return create(timeframes, null, null);
     }
 
     /**
@@ -78,7 +93,7 @@ public interface TriggerRule {
      * @return a new Trigger rule
      */
     static @NotNull TriggerRule create(Instant until) {
-        return create(null, until);
+        return create(null, until, null);
     }
 
     /**
@@ -88,10 +103,22 @@ public interface TriggerRule {
      * @param until      the given until
      * @return a new trigger rule
      */
+    static @NotNull TriggerRule create(List<Timeframe> timeframes, Instant until) {
+        return create(timeframes, until, null);
+    }
+
+    /**
+     * Create a new trigger rule
+     *
+     * @param timeframes the given timeframes
+     * @param until      the given until
+     * @param leeway     the given leeway
+     * @return a new trigger rule
+     */
     @JsonCreator
     static @NotNull TriggerRule create(@JsonProperty("timeframes") List<Timeframe> timeframes,
-                                       @JsonProperty("until") Instant until) {
-        return new TriggerRuleImpl(timeframes, until);
+                                       @JsonProperty("until") Instant until, @JsonProperty("leeway") Duration leeway) {
+        return new TriggerRuleImpl(timeframes, until, leeway);
     }
 
 }

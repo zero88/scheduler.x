@@ -1,5 +1,6 @@
 package io.github.zero88.schedulerx.trigger.rule;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -13,10 +14,10 @@ public class OffsetDateTimeTimeframe extends BaseTimeframe<OffsetDateTime> imple
     public final @NotNull Class<OffsetDateTime> type() { return OffsetDateTime.class; }
 
     @Override
-    public boolean check(@NotNull Instant instant) {
+    public boolean check(@NotNull Instant instant, @NotNull Duration leeway) {
         final ZoneOffset offset = Optional.ofNullable(from()).orElseGet(this::to).getOffset();
         final OffsetDateTime given = instant.atZone(offset).toOffsetDateTime();
-        return (from() == null || given.isAfter(from())) && (to() == null || given.isBefore(to()));
+        return (from() == null || given.isAfter(from())) && (to() == null || given.isBefore(to().plus(leeway)));
     }
 
     @Override

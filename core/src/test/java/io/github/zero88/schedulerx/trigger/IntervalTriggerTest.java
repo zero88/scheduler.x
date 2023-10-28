@@ -27,6 +27,7 @@ import io.vertx.core.json.jackson.DatabindCodec;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 class IntervalTriggerTest {
@@ -34,7 +35,11 @@ class IntervalTriggerTest {
     static ObjectMapper mapper;
 
     @BeforeAll
-    static void setup() { mapper = DatabindCodec.mapper(); }
+    static void setup() {
+        mapper = DatabindCodec.mapper()
+                              .findAndRegisterModules()
+                              .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+    }
 
     static Stream<Arguments> validData() {
         TriggerRule rule = TriggerRule.create(
@@ -69,7 +74,8 @@ class IntervalTriggerTest {
 
     static Stream<Arguments> invalidData() {
         return Stream.of(arguments(JsonObject.of("repeat", 0), IllegalArgumentException.class, "Invalid repeat value"),
-                         arguments(JsonObject.of("repeat", -10), IllegalArgumentException.class, "Invalid repeat value"),
+                         arguments(JsonObject.of("repeat", -10), IllegalArgumentException.class,
+                                   "Invalid repeat value"),
                          arguments(JsonObject.of("interval", -1), IllegalArgumentException.class,
                                    "Invalid interval value"),
                          arguments(JsonObject.of("initialDelayTimeUnit", "SECONDS"), IllegalArgumentException.class,
@@ -80,7 +86,8 @@ class IntervalTriggerTest {
 
     @ParameterizedTest
     @MethodSource("invalidData")
-    void test_deserialize_invalid_value(JsonObject input, Class<Exception> exCls, String expected) throws JsonProcessingException {
+    void test_deserialize_invalid_value(JsonObject input, Class<Exception> exCls, String expected)
+        throws JsonProcessingException {
         final IntervalTrigger intervalTrigger = mapper.readValue(input.encode(), IntervalTrigger.class);
         Throwable cause = Assertions.assertThrows(exCls, intervalTrigger::validate);
         Assertions.assertEquals(expected, cause.getMessage());

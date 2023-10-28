@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
@@ -46,7 +47,7 @@ public class SimpleDateTimeTimeframe implements Timeframe<Date> {
     public String getTo() { return formatter.format(to); }
 
     @Override
-    public boolean check(@NotNull Instant instant) {
+    public boolean check(@NotNull Instant instant, @NotNull Duration leeway) {
         return false;
     }
 
