@@ -77,7 +77,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <dl class="notes">
 <dt>All Known Implementing Classes:</dt>
-<dd><code><a href="InstantTimeframe.html" title="class in io.github.zero88.schedulerx.trigger.rule">InstantTimeframe</a></code>, <code><a href="LocalDateTimeFrame.html" title="class in io.github.zero88.schedulerx.trigger.rule">LocalDateTimeFrame</a></code>, <code><a href="LocalDateTimeTimeframe.html" title="class in io.github.zero88.schedulerx.trigger.rule">LocalDateTimeTimeframe</a></code>, <code><a href="LocalTimeTimeframe.html" title="class in io.github.zero88.schedulerx.trigger.rule">LocalTimeTimeframe</a></code>, <code><a href="OffsetDateTimeTimeframe.html" title="class in io.github.zero88.schedulerx.trigger.rule">OffsetDateTimeTimeframe</a></code>, <code><a href="OffsetTimeTimeframe.html" title="class in io.github.zero88.schedulerx.trigger.rule">OffsetTimeTimeframe</a></code></dd>
+<dd><code><a href="InstantRange.html" title="class in io.github.zero88.schedulerx.trigger.rule">InstantRange</a></code>, <code><a href="LocalDateRange.html" title="class in io.github.zero88.schedulerx.trigger.rule">LocalDateRange</a></code>, <code><a href="LocalDateTimeRange.html" title="class in io.github.zero88.schedulerx.trigger.rule">LocalDateTimeRange</a></code>, <code><a href="LocalTimeRange.html" title="class in io.github.zero88.schedulerx.trigger.rule">LocalTimeRange</a></code>, <code><a href="OffsetDateTimeRange.html" title="class in io.github.zero88.schedulerx.trigger.rule">OffsetDateTimeRange</a></code>, <code><a href="OffsetTimeRange.html" title="class in io.github.zero88.schedulerx.trigger.rule">OffsetTimeRange</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">Timeframe&lt;T&gt;</span></div>
@@ -122,25 +122,37 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="Timeframe.html" title="type parameter in Timeframe">T</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#from()" class="member-name-link">from</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1"><code>static &lt;TF extends <a href="Timeframe.html" title="interface in io.github.zero88.schedulerx.trigger.rule">Timeframe</a>&lt;?&gt;,<wbr>
-T&gt;<br>TF</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#of(T,T)" class="member-name-link">of</a><wbr>(T&nbsp;from,
- T&nbsp;to)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1"><code>static &lt;T,<wbr>
+TF extends <a href="Timeframe.html" title="interface in io.github.zero88.schedulerx.trigger.rule">Timeframe</a>&lt;T&gt;&gt;<br>TF</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#from(T)" class="member-name-link">from</a><wbr>(T&nbsp;from)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1">
+<div class="block">Obtains an instance of Timeframe by <code>from</code>.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1"><code>static &lt;T,<wbr>
+TF extends <a href="Timeframe.html" title="interface in io.github.zero88.schedulerx.trigger.rule">Timeframe</a>&lt;T&gt;&gt;<br>TF</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#of(T,T)" class="member-name-link">of</a><wbr>(T&nbsp;from,
+ T&nbsp;to)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1">
 <div class="block">Obtains an instance of Timeframe by <code>from</code> value and <code>to</code> value.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="TimeParser.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TimeParser</a>&lt;<a href="Timeframe.html" title="type parameter in Timeframe">T</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#parser()" class="member-name-link">parser</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="Timeframe.html" title="interface in io.github.zero88.schedulerx.trigger.rule">Timeframe</a>&lt;<a href="Timeframe.html" title="type parameter in Timeframe">T</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#set(java.lang.String,java.lang.Object)" class="member-name-link">set</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;field,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="TimeParser.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TimeParser</a>&lt;<a href="Timeframe.html" title="type parameter in Timeframe">T</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#parser()" class="member-name-link">parser</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="Timeframe.html" title="interface in io.github.zero88.schedulerx.trigger.rule">Timeframe</a>&lt;<a href="Timeframe.html" title="type parameter in Timeframe">T</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#set(java.lang.String,java.lang.Object)" class="member-name-link">set</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;field,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;value)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Set property value in the timeframe.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="Timeframe.html" title="type parameter in Timeframe">T</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#to()" class="member-name-link">to</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="Timeframe.html" title="type parameter in Timeframe">T</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#to()" class="member-name-link">to</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1"><code>static &lt;T,<wbr>
+TF extends <a href="Timeframe.html" title="interface in io.github.zero88.schedulerx.trigger.rule">Timeframe</a>&lt;T&gt;&gt;<br>TF</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#to(T)" class="member-name-link">to</a><wbr>(T&nbsp;to)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1">
+<div class="block">Obtains an instance of Timeframe by <code>to</code>.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;<a href="Timeframe.html" title="type parameter in Timeframe">T</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#type()" class="member-name-link">type</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
@@ -162,19 +174,61 @@ T&gt;<br>TF</code></div>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="from(T)">
+<h3 id="from(java.lang.Object)">from</h3>
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;T,<wbr>
+TF extends <a href="Timeframe.html" title="interface in io.github.zero88.schedulerx.trigger.rule">Timeframe</a>&lt;T&gt;&gt;</span>&nbsp;<span class="return-type">TF</span>&nbsp;<span class="element-name">from</span><wbr><span class="parameters">(@NotNull
+ T&nbsp;from)</span></div>
+<div class="block">Obtains an instance of Timeframe by <code>from</code>.</div>
+<dl class="notes">
+<dt>Type Parameters:</dt>
+<dd><code>T</code> - Type of time frame value</dd>
+<dd><code>TF</code> - Type of time frame</dd>
+<dt>Parameters:</dt>
+<dd><code>from</code> - a minimum allowed value (inclusive)</dd>
+<dt>Returns:</dt>
+<dd>new instance of timeframe that allows a time starts from to the given <code>from</code> value</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if the given <code>from</code> value is null</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="to(T)">
+<h3 id="to(java.lang.Object)">to</h3>
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;T,<wbr>
+TF extends <a href="Timeframe.html" title="interface in io.github.zero88.schedulerx.trigger.rule">Timeframe</a>&lt;T&gt;&gt;</span>&nbsp;<span class="return-type">TF</span>&nbsp;<span class="element-name">to</span><wbr><span class="parameters">(@NotNull
+ T&nbsp;to)</span></div>
+<div class="block">Obtains an instance of Timeframe by <code>to</code>.</div>
+<dl class="notes">
+<dt>Type Parameters:</dt>
+<dd><code>T</code> - Type of time frame value</dd>
+<dd><code>TF</code> - Type of time frame</dd>
+<dt>Parameters:</dt>
+<dd><code>to</code> - a maximum allowed value (exclusive)</dd>
+<dt>Returns:</dt>
+<dd>new instance of timeframe that allows a time is until to the given <code>to</code> value</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if the given <code>to</code> value is null</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="of(T,T)">
 <h3 id="of(java.lang.Object,java.lang.Object)">of</h3>
 <div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;TF extends <a href="Timeframe.html" title="interface in io.github.zero88.schedulerx.trigger.rule">Timeframe</a>&lt;?&gt;,<wbr>
-T&gt;</span>&nbsp;<span class="return-type">TF</span>&nbsp;<span class="element-name">of</span><wbr><span class="parameters">(T&nbsp;from,
+</span><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;T,<wbr>
+TF extends <a href="Timeframe.html" title="interface in io.github.zero88.schedulerx.trigger.rule">Timeframe</a>&lt;T&gt;&gt;</span>&nbsp;<span class="return-type">TF</span>&nbsp;<span class="element-name">of</span><wbr><span class="parameters">(T&nbsp;from,
  T&nbsp;to)</span></div>
 <div class="block">Obtains an instance of Timeframe by <code>from</code> value and <code>to</code> value.</div>
 <dl class="notes">
 <dt>Type Parameters:</dt>
-<dd><code>TF</code> - Type of time frame</dd>
 <dd><code>T</code> - Type of time frame value</dd>
+<dd><code>TF</code> - Type of time frame</dd>
 <dt>Parameters:</dt>
-<dd><code>from</code> - a minimum allowed value (exclusive)</dd>
+<dd><code>from</code> - a minimum allowed value (inclusive)</dd>
 <dd><code>to</code> - a maximum allowed value (exclusive)</dd>
 <dt>Returns:</dt>
 <dd>new instance of timeframe, not null</dd>
@@ -197,7 +251,7 @@ T&gt;</span>&nbsp;<span class="return-type">TF</span>&nbsp;<span class="element-
 <dd><code>TF</code> - Type of timeframe</dd>
 <dt>Parameters:</dt>
 <dd><code>type</code> - a type of timeframe value</dd>
-<dd><code>from</code> - a minimum allowed value (exclusive)</dd>
+<dd><code>from</code> - a minimum allowed value (inclusive)</dd>
 <dd><code>to</code> - a maximum allowed value (exclusive)</dd>
 <dt>Returns:</dt>
 <dd>new instance of timeframe, not null</dd>
@@ -242,7 +296,7 @@ T&gt;</span>&nbsp;<span class="return-type">TF</span>&nbsp;<span class="element-
 </span><span class="return-type"><a href="Timeframe.html" title="type parameter in Timeframe">T</a></span>&nbsp;<span class="element-name">from</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>minimum allowed value (exclusive)</dd>
+<dd>minimum allowed value (inclusive)</dd>
 </dl>
 </section>
 </li>
