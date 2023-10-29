@@ -39,9 +39,7 @@ abstract class BaseTimeframe<T> implements Timeframe<T>, TimeParser<T> {
     }
 
     @Override
-    public int hashCode() {
-        return hashCode;
-    }
+    public int hashCode() { return hashCode; }
 
     @Override
     public boolean equals(Object o) {
@@ -56,7 +54,9 @@ abstract class BaseTimeframe<T> implements Timeframe<T>, TimeParser<T> {
 
     @Override
     public String toString() {
-        return "TimeFrame{type=" + type().getName() + ", (" + from + ", " + to + ")}";
+        String fromStr = from == null ? "-" : from.toString();
+        String toStr = to == null ? "-" : to.toString();
+        return "TimeFrame{type=" + type().getName() + ", [" + fromStr + ", " + toStr + ")}";
     }
 
     private int computeHashCode() {

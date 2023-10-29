@@ -5,14 +5,14 @@ import java.time.Instant;
 
 import org.jetbrains.annotations.NotNull;
 
-public class InstantTimeframe extends BaseTimeframe<Instant> implements TimeRangeConstraint {
+public class InstantRange extends BaseTimeframe<Instant> implements TimeRangeConstraint {
 
     @Override
     public final @NotNull Class<Instant> type() { return Instant.class; }
 
     @Override
     public boolean check(@NotNull Instant instant, @NotNull Duration leeway) {
-        return (from() == null || instant.isAfter(from())) && (to() == null || instant.isBefore(to().plus(leeway)));
+        return (from() == null || !instant.isBefore(from())) && (to() == null || instant.isBefore(to().plus(leeway)));
     }
 
     @Override

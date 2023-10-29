@@ -7,7 +7,7 @@ import java.time.ZoneId;
 
 import org.jetbrains.annotations.NotNull;
 
-public class LocalDateTimeFrame extends BaseTimeframe<LocalDate> implements TimeRangeConstraint {
+public class LocalDateRange extends BaseTimeframe<LocalDate> implements TimeRangeConstraint {
 
     @Override
     public final @NotNull Class<LocalDate> type() { return LocalDate.class; }
@@ -15,7 +15,7 @@ public class LocalDateTimeFrame extends BaseTimeframe<LocalDate> implements Time
     @Override
     public boolean check(@NotNull Instant instant, @NotNull Duration leeway) {
         final LocalDate given = instant.atZone(ZoneId.systemDefault()).toLocalDate();
-        return (from() == null || given.isAfter(from())) && (to() == null || given.isBefore(to()));
+        return (from() == null || !given.isBefore(from())) && (to() == null || given.isBefore(to()));
     }
 
     @Override
