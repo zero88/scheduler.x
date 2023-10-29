@@ -1,6 +1,6 @@
-io.github.zero88.schedulerx.trigger.rule.InstantTimeframe
-io.github.zero88.schedulerx.trigger.rule.LocalTimeTimeframe
-io.github.zero88.schedulerx.trigger.rule.LocalDateTimeFrame
-io.github.zero88.schedulerx.trigger.rule.LocalDateTimeTimeframe
-io.github.zero88.schedulerx.trigger.rule.OffsetTimeTimeframe
-io.github.zero88.schedulerx.trigger.rule.OffsetDateTimeTimeframe
+io.github.zero88.schedulerx.trigger.rule.InstantRange
+io.github.zero88.schedulerx.trigger.rule.LocalTimeRange
+io.github.zero88.schedulerx.trigger.rule.LocalDateRange
+io.github.zero88.schedulerx.trigger.rule.LocalDateTimeRange
+io.github.zero88.schedulerx.trigger.rule.OffsetTimeRange
+io.github.zero88.schedulerx.trigger.rule.OffsetDateTimeRange

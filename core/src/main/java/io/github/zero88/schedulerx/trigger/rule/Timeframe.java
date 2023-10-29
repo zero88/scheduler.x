@@ -3,6 +3,7 @@ package io.github.zero88.schedulerx.trigger.rule;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.jetbrains.annotations.NotNull;
@@ -20,17 +21,43 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 public interface Timeframe<T> {
 
     /**
+     * Obtains an instance of Timeframe by {@code from}.
+     *
+     * @param from a minimum allowed value (inclusive)
+     * @param <T>  Type of time frame value
+     * @param <TF> Type of time frame
+     * @return new instance of timeframe that allows a time starts from to the given {@code from} value
+     * @throws NullPointerException if the given {@code from} value is null
+     */
+    static @NotNull <T, TF extends Timeframe<T>> TF from(@NotNull T from) {
+        return of(Objects.requireNonNull(from), null);
+    }
+
+    /**
+     * Obtains an instance of Timeframe by {@code to}.
+     *
+     * @param to   a maximum allowed value (exclusive)
+     * @param <T>  Type of time frame value
+     * @param <TF> Type of time frame
+     * @return new instance of timeframe that allows a time is until to the given {@code to} value
+     * @throws NullPointerException if the given {@code to} value is null
+     */
+    static @NotNull <T, TF extends Timeframe<T>> TF to(@NotNull T to) {
+        return of(null, Objects.requireNonNull(to));
+    }
+
+    /**
      * Obtains an instance of Timeframe by {@code from} value and {@code to} value.
      *
-     * @param from a minimum allowed value (exclusive)
+     * @param from a minimum allowed value (inclusive)
      * @param to   a maximum allowed value (exclusive)
-     * @param <TF> Type of time frame
      * @param <T>  Type of time frame value
+     * @param <TF> Type of time frame
      * @return new instance of timeframe, not null
      * @throws IllegalArgumentException      if unable to parse the given values
      * @throws UnsupportedOperationException if unknown timeframe type
      */
-    static @NotNull <TF extends Timeframe<?>, T> TF of(T from, T to) {
+    static @NotNull <T, TF extends Timeframe<T>> TF of(T from, T to) {
         return create(Optional.ofNullable(Optional.ofNullable(from).orElse(to))
                               .map(Object::getClass)
                               .map(Class::getName)
@@ -42,7 +69,7 @@ public interface Timeframe<T> {
      * {@code to}.
      *
      * @param type a type of timeframe value
-     * @param from a minimum allowed value (exclusive)
+     * @param from a minimum allowed value (inclusive)
      * @param to   a maximum allowed value (exclusive)
      * @param <TF> Type of timeframe
      * @return new instance of timeframe, not null
@@ -75,7 +102,7 @@ public interface Timeframe<T> {
     @NotNull Class<T> type();
 
     /**
-     * @return minimum allowed value (exclusive)
+     * @return minimum allowed value (inclusive)
      */
     @JsonGetter
     @Nullable T from();

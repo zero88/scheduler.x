@@ -52,12 +52,14 @@ object TestLibs {
     object Version {
 
         const val junit5 = "5.9.1"
+        const val pioneer = "2.1.0"
     }
 
     const val junit5Api = "org.junit.jupiter:junit-jupiter-api:${Version.junit5}"
     const val junit5Engine = "org.junit.jupiter:junit-jupiter-engine:${Version.junit5}"
     const val junit5Vintage = "org.junit.vintage:junit-vintage-engine:${Version.junit5}"
     const val junit5Params = "org.junit.jupiter:junit-jupiter-params:${Version.junit5}"
+    const val junitPioneer = "org.junit-pioneer:junit-pioneer:${Version.pioneer}"
 
 }
 

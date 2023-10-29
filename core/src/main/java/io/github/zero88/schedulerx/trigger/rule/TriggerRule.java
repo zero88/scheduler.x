@@ -86,6 +86,18 @@ public interface TriggerRule {
         return create(timeframes, null, null);
     }
 
+
+    /**
+     * Create a new trigger rule
+     *
+     * @param timeframes the given timeframes
+     * @param leeway the given leeway
+     * @return a new Trigger rule
+     */
+    static @NotNull TriggerRule create(List<Timeframe> timeframes, Duration leeway) {
+        return create(timeframes, null, leeway);
+    }
+
     /**
      * Create a new trigger rule
      *
@@ -94,6 +106,17 @@ public interface TriggerRule {
      */
     static @NotNull TriggerRule create(Instant until) {
         return create(null, until, null);
+    }
+
+    /**
+     * Create a new trigger rule
+     *
+     * @param until the given until
+     * @param leeway the given leeway
+     * @return a new Trigger rule
+     */
+    static @NotNull TriggerRule create(Instant until, Duration leeway) {
+        return create(null, until, leeway);
     }
 
     /**

@@ -26,8 +26,8 @@ dependencies {
     codeGenerator(VertxLibs.rx3)
     codeGenerator(MutinyLibs.core)
 
-    testImplementation(LogLibs.logback)
     testImplementation(TestLibs.junit5Params)
+    testImplementation(TestLibs.junitPioneer)
     testImplementation(JacksonLibs.databind)
     testImplementation(JacksonLibs.jsr310)
     testImplementation(LogLibs.logback)

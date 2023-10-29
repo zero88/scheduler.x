@@ -50,10 +50,10 @@ public interface Trigger extends HasTriggerType, TriggerRepresentation {
      * <p/>
      * This method will be invoked right away before each execution round is started.
      *
-     * @param triggerAt the trigger time
+     * @param firedAt a clock time that the system timer fires the trigger
      * @since 2.0.0
      */
-    default boolean shouldExecute(@NotNull Instant triggerAt) { return rule().satisfy(triggerAt); }
+    default boolean shouldExecute(@NotNull Instant firedAt) { return rule().satisfy(firedAt); }
 
     /**
      * Verify the execution should be stopped after the current execution round is out of the trigger rule.
