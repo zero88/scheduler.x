@@ -5,7 +5,6 @@ import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
 
-import io.github.zero88.schedulerx.trigger.TriggerContext;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 
@@ -13,7 +12,7 @@ final class ExecutionContextImpl<OUTPUT> implements ExecutionContextInternal<OUT
 
     private final Vertx vertx;
     private final long round;
-    private final TriggerContext triggerContext;
+    private final TriggerTransitionContext triggerContext;
     private final Instant triggeredAt;
     private Instant executedAt;
     private Promise<Object> promise;
@@ -21,7 +20,7 @@ final class ExecutionContextImpl<OUTPUT> implements ExecutionContextInternal<OUT
     private Throwable error;
     private boolean forceStop = false;
 
-    ExecutionContextImpl(Vertx vertx, TriggerContext triggerContext, long round) {
+    ExecutionContextImpl(Vertx vertx, TriggerTransitionContext triggerContext, long round) {
         this.vertx          = vertx;
         this.round          = round;
         this.triggerContext = triggerContext;
@@ -40,7 +39,7 @@ final class ExecutionContextImpl<OUTPUT> implements ExecutionContextInternal<OUT
 
     public @NotNull Vertx vertx()                   { return this.vertx; }
 
-    public @NotNull TriggerContext triggerContext() { return this.triggerContext; }
+    public @NotNull TriggerTransitionContext triggerContext() { return this.triggerContext; }
 
     @Override
     public @NotNull Instant triggeredAt() { return this.triggeredAt; }

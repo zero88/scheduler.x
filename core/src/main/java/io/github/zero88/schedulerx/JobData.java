@@ -53,7 +53,7 @@ public interface JobData<T> {
      * @since 2.0.0
      */
     static <D> JobData<D> empty(@NotNull Object externalId) {
-        return new JobData<D>() {
+        return new JobData<>() {
             public @Nullable D get() { return null; }
 
             @Override
@@ -80,7 +80,7 @@ public interface JobData<T> {
      * @since 2.0.0
      */
     static <D> JobData<D> create(@NotNull D data, @NotNull Object externalId) {
-        return new JobData<D>() {
+        return new JobData<>() {
             public D get() { return data; }
 
             @Override

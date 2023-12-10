@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.SchedulingMonitor;
 import io.github.zero88.schedulerx.Task;
+import io.github.zero88.schedulerx.TimeoutPolicy;
 import io.github.zero88.schedulerx.impl.AbstractScheduler;
 import io.github.zero88.schedulerx.impl.AbstractSchedulerBuilder;
 import io.github.zero88.schedulerx.impl.TriggerContextFactory;
@@ -21,8 +22,9 @@ final class IntervalSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, In
     implements IntervalScheduler<IN, OUT> {
 
     IntervalSchedulerImpl(@NotNull Vertx vertx, @NotNull SchedulingMonitor<OUT> monitor, @NotNull JobData<IN> jobData,
-                          @NotNull Task<IN, OUT> task, @NotNull IntervalTrigger trigger) {
-        super(vertx, monitor, jobData, task, trigger);
+                          @NotNull Task<IN, OUT> task, @NotNull IntervalTrigger trigger,
+                          @NotNull TimeoutPolicy timeoutPolicy) {
+        super(vertx, monitor, jobData, task, trigger, timeoutPolicy);
     }
 
     protected @NotNull Future<Long> registerTimer(WorkerExecutor workerExecutor) {
@@ -47,8 +49,10 @@ final class IntervalSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, In
     }
 
     private long createPeriodicTimer(WorkerExecutor executor) {
-        return vertx().setPeriodic(trigger().intervalInMilliseconds(),
-                                   id -> onProcess(executor, TriggerContextFactory.kickoff(trigger().type(), onFire(id))));
+        return vertx().setPeriodic(trigger().intervalInMilliseconds(), id -> onProcess(executor,
+                                                                                       TriggerContextFactory.kickoff(
+                                                                                           trigger().type(),
+                                                                                           onFire(id))));
     }
 
     // @formatter:off
@@ -58,7 +62,7 @@ final class IntervalSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, In
     // @formatter:on
 
         public @NotNull IntervalScheduler<IN, OUT> build() {
-            return new IntervalSchedulerImpl<>(vertx(), monitor(), jobData(), task(), trigger());
+            return new IntervalSchedulerImpl<>(vertx(), monitor(), jobData(), task(), trigger(), timeoutPolicy());
         }
 
     }

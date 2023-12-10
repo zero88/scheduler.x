@@ -1,6 +1,7 @@
 package io.github.zero88.schedulerx.impl;
 
 import java.security.SecureRandom;
+import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 
@@ -59,6 +60,14 @@ public final class Utils {
             throw ex;
             // @formatter:on
         }
+    }
+
+    public static class HumanReadableTimeFormat {
+
+        public static String format(Duration duration) {
+            return duration.toString().substring(2).replaceAll("(\\d[HMS])(?!$)", "$1 ").toLowerCase();
+        }
+
     }
 
 }

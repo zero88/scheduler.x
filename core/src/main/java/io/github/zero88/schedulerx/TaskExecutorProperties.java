@@ -46,12 +46,21 @@ public interface TaskExecutorProperties<IN, OUT> {
     @NotNull Task<IN, OUT> task();
 
     /**
-     * Defines job data as input task data
+     * Declares the job input data
      *
      * @return job data
      * @see JobData
      */
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
     @NotNull JobData<IN> jobData();
+
+    /**
+     * Declares the timeout policy
+     *
+     * @return timeout policy
+     * @see TimeoutPolicy
+     */
+    @GenIgnore(GenIgnore.PERMITTED_TYPE)
+    @NotNull TimeoutPolicy timeoutPolicy();
 
 }

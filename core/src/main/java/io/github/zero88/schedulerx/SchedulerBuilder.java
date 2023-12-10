@@ -31,6 +31,8 @@ public interface SchedulerBuilder<IN, OUT, TRIGGER extends Trigger, SCHEDULER ex
 
     @NotNull SELF setJobData(@NotNull JobData<IN> jobData);
 
+    @NotNull SELF setTimeoutPolicy(@NotNull TimeoutPolicy timeoutPolicy);
+
     @NotNull SELF setMonitor(@NotNull SchedulingMonitor<OUT> monitor);
 
     @NotNull SCHEDULER build();

@@ -12,6 +12,7 @@ import io.github.zero88.schedulerx.SchedulerBuilder;
 import io.github.zero88.schedulerx.SchedulingLogMonitor;
 import io.github.zero88.schedulerx.SchedulingMonitor;
 import io.github.zero88.schedulerx.Task;
+import io.github.zero88.schedulerx.TimeoutPolicy;
 import io.github.zero88.schedulerx.trigger.Trigger;
 import io.vertx.core.Vertx;
 
@@ -29,6 +30,7 @@ public abstract class AbstractSchedulerBuilder<IN, OUT, T extends Trigger, S ext
     private JobData<IN> jobData;
     private Task<IN, OUT> task;
     private T trigger;
+    private TimeoutPolicy timeoutPolicy;
 
     @Override
     public @NotNull Vertx vertx() {
@@ -48,6 +50,11 @@ public abstract class AbstractSchedulerBuilder<IN, OUT, T extends Trigger, S ext
 
     @Override
     public @NotNull JobData<IN> jobData() { return Optional.ofNullable(jobData).orElseGet(JobData::empty); }
+
+    @Override
+    public @NotNull TimeoutPolicy timeoutPolicy() {
+        return Optional.ofNullable(timeoutPolicy).orElseGet(TimeoutPolicy::byDefault);
+    }
 
     public @NotNull B setVertx(@NotNull Vertx vertx) {
         this.vertx = vertx;
@@ -71,6 +78,12 @@ public abstract class AbstractSchedulerBuilder<IN, OUT, T extends Trigger, S ext
 
     public @NotNull B setJobData(@NotNull JobData<IN> jobData) {
         this.jobData = jobData;
+        return (B) this;
+    }
+
+    @Override
+    public @NotNull B setTimeoutPolicy(@NotNull TimeoutPolicy timeoutPolicy) {
+        this.timeoutPolicy = timeoutPolicy;
         return (B) this;
     }
 

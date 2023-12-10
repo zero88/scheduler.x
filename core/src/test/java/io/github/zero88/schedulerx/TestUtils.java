@@ -11,7 +11,12 @@ import java.util.concurrent.TimeUnit;
 
 import io.vertx.core.impl.logging.Logger;
 import io.vertx.core.impl.logging.LoggerFactory;
+import io.vertx.core.json.jackson.DatabindCodec;
 import io.vertx.junit5.VertxTestContext;
+
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 public final class TestUtils {
 
@@ -40,6 +45,15 @@ public final class TestUtils {
         block(Duration.ofMillis(10), testContext);
         latch.countDown();
         return store;
+    }
+
+    public static ObjectMapper defaultMapper() {
+        return DatabindCodec.mapper()
+                            .copy()
+                            .findAndRegisterModules()
+                            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+                            .disable(SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS)
+                            .setSerializationInclusion(Include.NON_NULL);
     }
 
     public static class TestWorker extends Thread {
