@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import io.github.zero88.schedulerx.Job;
+import io.github.zero88.schedulerx.trigger.policy.TriggerRateLimitConfig;
 import io.github.zero88.schedulerx.trigger.repr.TriggerRepresentation;
 import io.github.zero88.schedulerx.trigger.repr.TriggerRepresentationServiceLoader;
 import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
@@ -33,6 +34,18 @@ public interface Trigger extends HasTriggerType, TriggerRepresentation {
     @JsonProperty
     default @NotNull TriggerRule rule() {
         return TriggerRule.NOOP;
+    }
+
+    /**
+     * Defines the rate-limit configuration
+     *
+     * @return the rate-limit configuration or {@code null} means restrict one execution per trigger that can be run
+     *     in a certain time
+     * @see TriggerRateLimitConfig
+     * @since 2.0.0
+     */
+    default @Nullable TriggerRateLimitConfig ratelimitConfig() {
+        return null;
     }
 
     /**
@@ -73,6 +86,7 @@ public interface Trigger extends HasTriggerType, TriggerRepresentation {
     default JsonObject toJson() {
         JsonObject json = JsonObject.of("type", type());
         if (rule() != TriggerRule.NOOP) { json.put("rule", rule()); }
+        if (ratelimitConfig() != null) { json.put("ratelimit", ratelimitConfig().toJson()); }
         return json;
     }
 

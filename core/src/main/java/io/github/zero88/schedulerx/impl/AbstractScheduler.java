@@ -34,6 +34,8 @@ import io.github.zero88.schedulerx.trigger.Trigger;
 import io.github.zero88.schedulerx.trigger.TriggerCondition.ReasonCode;
 import io.github.zero88.schedulerx.trigger.TriggerContext;
 import io.github.zero88.schedulerx.trigger.TriggerEvaluator;
+import io.github.zero88.schedulerx.trigger.policy.TriggerRateLimitConfig;
+import io.github.zero88.schedulerx.trigger.policy.TriggerRateLimitRepository;
 import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
@@ -69,6 +71,8 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger>
     private boolean didStart = false;
     private boolean didTriggerValidation = false;
     private IllegalArgumentException invalidTrigger;
+    private Object policyKey;
+    private TriggerRateLimitRepository repository;
 
     protected AbstractScheduler(Vertx vertx, TimeClock clock, SchedulingMonitor<OUT> monitor, Job<IN, OUT> job,
                                 JobData<IN> jobData, TimeoutPolicy timeoutPolicy, T trigger,
@@ -108,14 +112,23 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger>
     @Override
     @SuppressWarnings({ "java:S1193", "unchecked" })
     public final @NotNull T trigger() {
+        if (didTriggerValidation) {
+            if (invalidTrigger == null) { return trigger; }
+            throw invalidTrigger;
+        }
         lock.lock();
         try {
-            if (didTriggerValidation) {
-                if (invalidTrigger == null) { return trigger; }
-                throw invalidTrigger;
-            }
             try {
-                return (T) this.trigger.validate();
+                final T theTrigger = (T) this.trigger.validate();
+                final TriggerRateLimitConfig rateLimitConfig = theTrigger.ratelimitConfig();
+                if (rateLimitConfig != null) {
+                    if (rateLimitConfig.keyGenerator().requireExternalKey() && jobData().externalId() == null) {
+                        throw new IllegalArgumentException(
+                            "The external id is required to make rate-limit policy works properly");
+                    }
+                    this.policyKey = rateLimitConfig.keyGenerator().generate(theTrigger, jobData().externalId());
+                }
+                return theTrigger;
             } catch (Exception ex) {
                 if (ex instanceof IllegalArgumentException) {
                     this.invalidTrigger = (IllegalArgumentException) ex;

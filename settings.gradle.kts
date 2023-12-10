@@ -17,14 +17,17 @@ val profile: String by settings
 val pools = mutableMapOf(
     projectName to arrayOf(":schedulerx", ":ext"),
     "sample" to emptyArray(),
-    "integtest" to emptyArray()
+    "integtest" to emptyArray(),
+    "ratelimit" to arrayOf(":ratelimit", ":ratelimit:api"),
 )
 val docs = arrayOf(":docs")
-val excludeCISonar = docs
+val ratelimitDocs = arrayOf(":ratelimit:asciidoc")
+val excludeCISonar = docs + ratelimitDocs
 val excludeCIBuild = pools["sample"]!! + pools["integtest"]!! + excludeCISonar
 pools.putAll(
     mapOf(
-        "$projectName:docs" to pools[projectName]!!.plus(docs)
+        "$projectName:docs" to pools[projectName]!!.plus(docs),
+        "ratelimit:docs" to pools["ratelimit"]!!.plus(ratelimitDocs)
     )
 )
 
@@ -46,5 +49,5 @@ if (gradle is ExtensionAware) {
     val extensions = (gradle as ExtensionAware).extensions
     extensions.add("BASE_NAME", projectName)
     extensions.add("PROJECT_POOL", pools.toMap())
-    extensions.add("SKIP_PUBLISH", excludeCIBuild + arrayOf(":docs", ":sample", ":integtest"))
+    extensions.add("SKIP_PUBLISH", excludeCIBuild + arrayOf(":docs", ":sample", ":integtest", ":ratelimit"))
 }
