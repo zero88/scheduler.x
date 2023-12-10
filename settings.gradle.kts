@@ -15,7 +15,7 @@ pluginManagement {
 val projectName = "schedulerx"
 val profile: String by settings
 val pools = mutableMapOf(
-    projectName to arrayOf(":core", ":ext"),
+    projectName to arrayOf(":schedulerx", ":ext"),
     "sample" to emptyArray(),
     "integtest" to emptyArray()
 )
@@ -28,15 +28,19 @@ pools.putAll(
     )
 )
 
-fun flatten(): List<String> = pools.values.toTypedArray().flatten()
+fun flatten(): List<String> = pools.values.toTypedArray().flatten().toSet().toList()
 
 rootProject.name = "$projectName-parent"
-when {
+val pp = when {
     profile.isBlank() || profile == "all" -> flatten().toTypedArray()
     profile == "ciBuild"                  -> flatten().filter { !excludeCIBuild.contains(it) }.toTypedArray()
     profile == "ciSonar"                  -> flatten().filter { !excludeCISonar.contains(it) }.toTypedArray()
     else                                  -> pools.getOrElse(profile) { throw IllegalArgumentException("Not found profile[$profile]") }
-}.forEach { include(it) }
+}
+pp.forEach { include(it) }
+if (pp.contains(":schedulerx")) {
+    project(":schedulerx").projectDir = file("core")
+}
 
 if (gradle is ExtensionAware) {
     val extensions = (gradle as ExtensionAware).extensions

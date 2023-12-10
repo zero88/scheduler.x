@@ -7,7 +7,7 @@ plugins {
 }
 
 dependencies {
-    compileOnly(project(":core"))
+    compileOnly(project(":schedulerx"))
     compileOnly(VertxLibs.rx3)
     compileOnly(MutinyLibs.core)
 }
