@@ -1,8 +1,8 @@
 dependencies {
-    api(project(":core"))
+    api(project(":schedulerx"))
     api(VertxLibs.jsonSchema)
 
     compileOnly(UtilLibs.jetbrainsAnnotations)
 
-    testImplementation(testFixtures(project(":core")))
+    testImplementation(testFixtures(project(":schedulerx")))
 }
