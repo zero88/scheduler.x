@@ -302,7 +302,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
 
     protected final void onResult(@NotNull ExecutionContext<OUT> executionContext, @Nullable Throwable asyncCause) {
         final ExecutionContextInternal<OUT> ctx = (ExecutionContextInternal<OUT>) executionContext;
-        final TriggerTransitionContext triggerContext = ctx.triggerContext();
+        final TriggerTransitionContext triggerContext = TriggerContextFactory.executed(ctx.triggerContext());
         final Instant finishedAt = state.markFinished(triggerContext.tick());
         log(finishedAt, "On result", triggerContext.tick(), ctx.round());
         if (asyncCause instanceof TimeoutException) {

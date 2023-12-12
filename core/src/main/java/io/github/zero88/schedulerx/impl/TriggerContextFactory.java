@@ -78,12 +78,22 @@ public final class TriggerContextFactory {
     }
 
     /**
+     * Transition trigger context to {@link TriggerStatus#EXECUTED} state.
+     *
+     * @param ctx the current trigger context
+     */
+    public static @NotNull TriggerTransitionContext executed(@NotNull TriggerTransitionContext ctx) {
+        return transition(ctx, TriggerStatus.EXECUTED, null, null);
+    }
+
+    /**
      * Transition trigger context to {@link TriggerStatus#SKIPPED} state.
      *
      * @param ctx    the current trigger context
      * @param reason the transition reason
      */
-    public static @NotNull TriggerTransitionContext skip(@NotNull TriggerTransitionContext ctx, @NotNull String reason) {
+    public static @NotNull TriggerTransitionContext skip(@NotNull TriggerTransitionContext ctx,
+                                                         @NotNull String reason) {
         return transition(ctx, TriggerStatus.SKIPPED, reason, null);
     }
 
@@ -105,7 +115,8 @@ public final class TriggerContextFactory {
      * @param ctx    the current trigger context
      * @param reason the transition reason
      */
-    public static @NotNull TriggerTransitionContext stop(@NotNull TriggerTransitionContext ctx, @Nullable String reason) {
+    public static @NotNull TriggerTransitionContext stop(@NotNull TriggerTransitionContext ctx,
+                                                         @Nullable String reason) {
         return transition(ctx, TriggerStatus.STOPPED, reason, null);
     }
 

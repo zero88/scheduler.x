@@ -50,6 +50,11 @@ public interface TriggerContext extends HasTriggerType {
     default boolean isReady() { return TriggerStatus.READY == condition().status(); }
 
     /**
+     * Check whether the trigger is executed or not.
+     */
+    default boolean isExecuted() { return TriggerStatus.EXECUTED == condition().status(); }
+
+    /**
      * Check whether the trigger is skipped or not.
      */
     default boolean isSkipped() { return TriggerStatus.SKIPPED == condition().status(); }

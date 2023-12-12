@@ -46,6 +46,10 @@ public interface TriggerCondition {
          */
         READY,
         /**
+         * Identify the trigger is already run
+         */
+        EXECUTED,
+        /**
          * Identify the trigger is skipped to execute the task
          */
         SKIPPED,
