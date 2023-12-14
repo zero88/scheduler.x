@@ -133,20 +133,23 @@ extends <a href="TaskExecutorProperties.html" title="interface in io.github.zero
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setTask(io.github.zero88.schedulerx.Task)" class="member-name-link">setTask</a><wbr>(@NotNull <a href="Task.html" title="interface in io.github.zero88.schedulerx">Task</a>&lt;<a href="SchedulerBuilder.html" title="type parameter in SchedulerBuilder">IN</a>,<wbr><a href="SchedulerBuilder.html" title="type parameter in SchedulerBuilder">OUT</a>&gt;&nbsp;task)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="SchedulerBuilder.html" title="type parameter in SchedulerBuilder">SELF</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setTrigger(TRIGGER)" class="member-name-link">setTrigger</a><wbr>(<a href="SchedulerBuilder.html" title="type parameter in SchedulerBuilder">TRIGGER</a>&nbsp;trigger)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setTimeoutPolicy(io.github.zero88.schedulerx.TimeoutPolicy)" class="member-name-link">setTimeoutPolicy</a><wbr>(@NotNull <a href="TimeoutPolicy.html" title="class in io.github.zero88.schedulerx">TimeoutPolicy</a>&nbsp;timeoutPolicy)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="SchedulerBuilder.html" title="type parameter in SchedulerBuilder">SELF</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setVertx(io.vertx.core.Vertx)" class="member-name-link">setVertx</a><wbr>(@NotNull io.vertx.core.Vertx&nbsp;vertx)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setTrigger(TRIGGER)" class="member-name-link">setTrigger</a><wbr>(<a href="SchedulerBuilder.html" title="type parameter in SchedulerBuilder">TRIGGER</a>&nbsp;trigger)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="SchedulerBuilder.html" title="type parameter in SchedulerBuilder">TRIGGER</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#trigger()" class="member-name-link">trigger</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="SchedulerBuilder.html" title="type parameter in SchedulerBuilder">SELF</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setVertx(io.vertx.core.Vertx)" class="member-name-link">setVertx</a><wbr>(@NotNull io.vertx.core.Vertx&nbsp;vertx)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="SchedulerBuilder.html" title="type parameter in SchedulerBuilder">TRIGGER</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#trigger()" class="member-name-link">trigger</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-io.github.zero88.schedulerx.TaskExecutorProperties">Methods inherited from interface&nbsp;io.github.zero88.schedulerx.<a href="TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx">TaskExecutorProperties</a></h3>
-<code><a href="TaskExecutorProperties.html#jobData()">jobData</a>, <a href="TaskExecutorProperties.html#monitor()">monitor</a>, <a href="TaskExecutorProperties.html#task()">task</a>, <a href="TaskExecutorProperties.html#vertx()">vertx</a></code></div>
+<code><a href="TaskExecutorProperties.html#jobData()">jobData</a>, <a href="TaskExecutorProperties.html#monitor()">monitor</a>, <a href="TaskExecutorProperties.html#task()">task</a>, <a href="TaskExecutorProperties.html#timeoutPolicy()">timeoutPolicy</a>, <a href="TaskExecutorProperties.html#vertx()">vertx</a></code></div>
 </section>
 </li>
 </ul>
@@ -195,6 +198,14 @@ extends <a href="TaskExecutorProperties.html" title="interface in io.github.zero
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="return-type"><a href="SchedulerBuilder.html" title="type parameter in SchedulerBuilder">SELF</a></span>&nbsp;<span class="element-name">setJobData</span><wbr><span class="parameters">(@NotNull
  @NotNull <a href="JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;<a href="SchedulerBuilder.html" title="type parameter in SchedulerBuilder">IN</a>&gt;&nbsp;jobData)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="setTimeoutPolicy(io.github.zero88.schedulerx.TimeoutPolicy)">
+<h3>setTimeoutPolicy</h3>
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="return-type"><a href="SchedulerBuilder.html" title="type parameter in SchedulerBuilder">SELF</a></span>&nbsp;<span class="element-name">setTimeoutPolicy</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="TimeoutPolicy.html" title="class in io.github.zero88.schedulerx">TimeoutPolicy</a>&nbsp;timeoutPolicy)</span></div>
 </section>
 </li>
 <li>

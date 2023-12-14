@@ -90,14 +90,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a></code></div>
-<div class="col-second even-row-color"><code><a href="#MAX_LEEWAY" class="member-name-link">MAX_LEEWAY</a></code></div>
+<div class="col-first even-row-color"><code>static final <a href="TriggerRule.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TriggerRule</a></code></div>
+<div class="col-second even-row-color"><code><a href="#NOOP" class="member-name-link">NOOP</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">A maximum of leeway time</div>
-</div>
-<div class="col-first odd-row-color"><code>static final <a href="TriggerRule.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TriggerRule</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#NOOP" class="member-name-link">NOOP</a></code></div>
-<div class="col-last odd-row-color">
 <div class="block">A no-op trigger rule.</div>
 </div>
 </div>
@@ -157,7 +152,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#leeway()" class="member-name-link">leeway</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Declares the allowable margin of time in the time validation of <a href="#satisfy(java.time.Instant)"><code>satisfy(Instant)</code></a> and <a href="#until()"><code>until()</code></a></div>
+<div class="block">Declares the allowable margin of time in the time validation of <a href="#satisfy(java.time.Instant)"><code>satisfy(Instant)</code></a> and <a href="#until()"><code>until()</code></a>.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#satisfy(java.time.Instant)" class="member-name-link">satisfy</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;firedAt)</code></div>
@@ -188,13 +183,6 @@ loadScripts(document, 'script');</script>
 <section class="field-details" id="field-detail">
 <h2>Field Details</h2>
 <ul class="member-list">
-<li>
-<section class="detail" id="MAX_LEEWAY">
-<h3>MAX_LEEWAY</h3>
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a></span>&nbsp;<span class="element-name">MAX_LEEWAY</span></div>
-<div class="block">A maximum of leeway time</div>
-</section>
-</li>
 <li>
 <section class="detail" id="NOOP">
 <h3>NOOP</h3>
@@ -244,7 +232,14 @@ loadScripts(document, 'script');</script>
 <h3>leeway</h3>
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a></span>&nbsp;<span class="element-name">leeway</span>()</div>
-<div class="block">Declares the allowable margin of time in the time validation of <a href="#satisfy(java.time.Instant)"><code>satisfy(Instant)</code></a> and <a href="#until()"><code>until()</code></a></div>
+<div class="block">Declares the allowable margin of time in the time validation of <a href="#satisfy(java.time.Instant)"><code>satisfy(Instant)</code></a> and <a href="#until()"><code>until()</code></a>.
+ <p>
+ The leeway time has constraints:
+ <ul>
+ <li>when given argument is negative, the leeway time fallback to <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html#ZERO" title="class or interface in java.time" class="external-link"><code>Duration.ZERO</code></a></li>
+ <li>when given argument is greater than <a href="../../DefaultOptions.html#maxTriggerRuleLeeway"><code>DefaultOptions.maxTriggerRuleLeeway</code></a>, the leeway time fallback
+ to max default value</li>
+ </ul></div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the leeway time</dd>
