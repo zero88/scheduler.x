@@ -1,7 +1,7 @@
 package io.github.zero88.schedulerx;
 
 import java.time.Duration;
-import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -31,8 +31,8 @@ public final class TimeoutPolicy {
     @JsonCreator
     public static TimeoutPolicy create(@JsonProperty("evaluationTimeout") @Nullable Duration evaluationTimeout,
                                        @JsonProperty("executionTimeout") @Nullable Duration executionTimeout) {
-        final BiFunction<Duration, Duration, Duration> check = (duration, defaultMax) -> {
-            if (duration == null || duration.isNegative() || duration.isZero() || duration.compareTo(defaultMax) > 0) {
+        final BinaryOperator<Duration> check = (duration, defaultMax) -> {
+            if (duration == null || duration.compareTo(Duration.ZERO) <= 0 || duration.compareTo(defaultMax) > 0) {
                 return defaultMax;
             }
             return duration;

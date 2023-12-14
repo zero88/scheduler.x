@@ -35,12 +35,12 @@ public final class TimeoutBlock {
 
     static class NoStackTraceTimeoutException extends TimeoutException {
 
-        NoStackTraceTimeoutException(Duration timeout) {
-            super(timeout == null ? "Timeout" : "Timeout after " + HumanReadableTimeFormat.format(timeout));
+        NoStackTraceTimeoutException(@NotNull Duration timeout) {
+            super("Timeout after " + HumanReadableTimeFormat.format(timeout));
         }
 
         @Override
-        public Throwable fillInStackTrace() { return this; }
+        public synchronized Throwable fillInStackTrace() { return this; }
 
     }
 

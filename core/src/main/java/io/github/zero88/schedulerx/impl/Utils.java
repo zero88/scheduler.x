@@ -64,6 +64,8 @@ public final class Utils {
 
     public static class HumanReadableTimeFormat {
 
+        private HumanReadableTimeFormat() { }
+
         public static String format(Duration duration) {
             return duration.toString().substring(2).replaceAll("(\\d[HMS])(?!$)", "$1 ").toLowerCase();
         }
