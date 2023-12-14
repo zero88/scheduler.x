@@ -73,7 +73,7 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>Type Parameters:</dt>
-<dd><code>OUT</code> - Type of task result data</dd>
+<dd><code>OUT</code> - Type of job result data</dd>
 </dl>
 <dl class="notes">
 <dt>All Known Subinterfaces:</dt>
@@ -81,7 +81,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">SchedulingMonitor&lt;OUT&gt;</span></div>
-<div class="block">Represents for a monitor that watches lifecycle event in the task executor.
+<div class="block">Represents for a monitor that watches lifecycle event in the job executor.
  <p/>
  It can be used to distribute and persist the execution result per each round to an external system.</div>
 <dl class="notes">
@@ -189,7 +189,7 @@ loadScripts(document, 'script');</script>
  @NotNull <a href="ExecutionResult.html" title="interface in io.github.zero88.schedulerx">ExecutionResult</a>&lt;<a href="SchedulingMonitor.html" title="type parameter in SchedulingMonitor">OUT</a>&gt;&nbsp;result)</span></div>
 <div class="block">This method is invoked when the executor misfires the execution.
  <p/>
- one reason is due to task is still running when trigger a new round execution</div>
+ one reason is due to job is still running when trigger a new round execution</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>result</code> - the execution result</dd>

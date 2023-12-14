@@ -82,7 +82,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">Trigger</span><span class="extends-implements">
 extends <a href="HasTriggerType.html" title="interface in io.github.zero88.schedulerx.trigger">HasTriggerType</a>, <a href="repr/TriggerRepresentation.html" title="interface in io.github.zero88.schedulerx.trigger.repr">TriggerRepresentation</a></span></div>
-<div class="block">Represents for inspecting settings specific to a Trigger, which is used to fire a <code><a href="../Task.html" title="interface in io.github.zero88.schedulerx"><code>Task</code></a></code> at given
+<div class="block">Represents for inspecting settings specific to a Trigger, which is used to fire a <code><a href="../Job.html" title="interface in io.github.zero88.schedulerx"><code>Job</code></a></code> at given
  moments in time.</div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -125,7 +125,7 @@ extends <a href="HasTriggerType.html" title="interface in io.github.zero88.sched
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#shouldExecute(java.time.Instant)" class="member-name-link">shouldExecute</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;firedAt)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">Verify if the trigger time still appropriate to execute the task.</div>
+<div class="block">Verify if the trigger time still appropriate to execute the job.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#shouldStop(long)" class="member-name-link">shouldStop</a><wbr>(long&nbsp;round)</code></div>
@@ -203,7 +203,7 @@ extends <a href="HasTriggerType.html" title="interface in io.github.zero88.sched
 <h3>shouldExecute</h3>
 <div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">shouldExecute</span><wbr><span class="parameters">(@NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;firedAt)</span></div>
-<div class="block">Verify if the trigger time still appropriate to execute the task.
+<div class="block">Verify if the trigger time still appropriate to execute the job.
  <p/>
  This method will be invoked right away before each execution round is started.</div>
 <dl class="notes">

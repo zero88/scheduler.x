@@ -82,7 +82,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/FunctionalInterface.html" title="class or interface in java.lang" class="external-link">@FunctionalInterface</a>
 </span><span class="modifiers">public interface </span><span class="element-name type-name-label">JobData&lt;T&gt;</span></div>
-<div class="block">Represents for a provider that supplies input data before the execution is started, and that will be sent to the task
+<div class="block">Represents for a provider that supplies input data before the execution is started, and that will be sent to the job
  in runtime execution.</div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -126,7 +126,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#externalId()" class="member-name-link">externalId</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">Declares a unique id in an external system that will be propagated to the task result.</div>
+<div class="block">Declares a unique id in an external system that will be propagated to the job result.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="JobData.html" title="type parameter in JobData">T</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#get()" class="member-name-link">get</a>()</code></div>
@@ -155,7 +155,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Get an input data.
  <p/>
  It might be a static input value or a preloaded value from an external system
- or a configuration to instruct how to get actual input data of the task in runtime execution.</div>
+ or a configuration to instruct how to get actual input data of the job in runtime execution.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>input data</dd>
@@ -167,9 +167,9 @@ loadScripts(document, 'script');</script>
 <h3>externalId</h3>
 <div class="member-signature"><span class="annotations">@Nullable
 </span><span class="modifiers">default</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span>&nbsp;<span class="element-name">externalId</span>()</div>
-<div class="block">Declares a unique id in an external system that will be propagated to the task result.
+<div class="block">Declares a unique id in an external system that will be propagated to the job result.
  <p/>
- That makes the integration between the task monitoring and the external system seamless and easier.</div>
+ That makes the integration between the job monitoring and the external system seamless and easier.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>an external id</dd>

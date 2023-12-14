@@ -117,17 +117,17 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="ExecutionResult.html" title="type parameter in ExecutionResult">OUTPUT</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#data()" class="member-name-link">data</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Task result data per each round or latest result data if trigger is completed.</div>
+<div class="block">Job result data per each round or latest result data if trigger is completed.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#error()" class="member-name-link">error</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Task result error per each round or latest result error if trigger is completed.</div>
+<div class="block">Job result error per each round or latest result error if trigger is completed.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#executedAt()" class="member-name-link">executedAt</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Identify the trigger task that is started to execute at a clock time.</div>
+<div class="block">Identify the trigger job that is started to execute at a clock time.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>&lt;T&gt;&nbsp;T</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#externalId()" class="member-name-link">externalId</a>()</code></div>
@@ -137,7 +137,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#finishedAt()" class="member-name-link">finishedAt</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Identify the trigger tick time is already processed at a clock time, regardless its status is misfire or its task
+<div class="block">Identify the trigger tick time is already processed at a clock time, regardless its status is misfire or its job
  is executed.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></code></div>
@@ -148,7 +148,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#isError()" class="member-name-link">isError</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">Identify task execution is error or not</div>
+<div class="block">Identify Job execution is error or not</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#isReschedule()" class="member-name-link">isReschedule</a>()</code></div>
@@ -159,7 +159,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#isTimeout()" class="member-name-link">isTimeout</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">Identify task execution is timed out</div>
+<div class="block">Identify Job execution is timed out</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#rescheduledAt()" class="member-name-link">rescheduledAt</a>()</code></div>
@@ -170,7 +170,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>long</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#round()" class="member-name-link">round</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">The current number of times that the trigger's task is executed.</div>
+<div class="block">The current number of times that the trigger's job is executed.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>long</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#tick()" class="member-name-link">tick</a>()</code></div>
@@ -325,7 +325,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="executedAt()">
 <h3>executedAt</h3>
 <div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></span>&nbsp;<span class="element-name">executedAt</span>()</div>
-<div class="block">Identify the trigger task that is started to execute at a clock time.</div>
+<div class="block">Identify the trigger job that is started to execute at a clock time.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>executed at time</dd>
@@ -342,7 +342,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="finishedAt()">
 <h3>finishedAt</h3>
 <div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></span>&nbsp;<span class="element-name">finishedAt</span>()</div>
-<div class="block">Identify the trigger tick time is already processed at a clock time, regardless its status is misfire or its task
+<div class="block">Identify the trigger tick time is already processed at a clock time, regardless its status is misfire or its job
  is executed.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -392,7 +392,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="round()">
 <h3>round</h3>
 <div class="member-signature"><span class="return-type">long</span>&nbsp;<span class="element-name">round</span>()</div>
-<div class="block">The current number of times that the trigger's task is executed.</div>
+<div class="block">The current number of times that the trigger's job is executed.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the round</dd>
@@ -406,10 +406,10 @@ loadScripts(document, 'script');</script>
 <h3>data</h3>
 <div class="member-signature"><span class="annotations">@Nullable
 </span><span class="return-type"><a href="ExecutionResult.html" title="type parameter in ExecutionResult">OUTPUT</a></span>&nbsp;<span class="element-name">data</span>()</div>
-<div class="block">Task result data per each round or latest result data if trigger is completed.</div>
+<div class="block">Job result data per each round or latest result data if trigger is completed.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>task result data, might be null</dd>
+<dd>job result data, might be null</dd>
 </dl>
 </section>
 </li>
@@ -418,10 +418,10 @@ loadScripts(document, 'script');</script>
 <h3>error</h3>
 <div class="member-signature"><span class="annotations">@Nullable
 </span><span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a></span>&nbsp;<span class="element-name">error</span>()</div>
-<div class="block">Task result error per each round or latest result error if trigger is completed.</div>
+<div class="block">Job result error per each round or latest result error if trigger is completed.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>task result error, might be null</dd>
+<dd>job result error, might be null</dd>
 </dl>
 </section>
 </li>
@@ -429,7 +429,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="isError()">
 <h3>isError</h3>
 <div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isError</span>()</div>
-<div class="block">Identify task execution is error or not</div>
+<div class="block">Identify Job execution is error or not</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd><code>true</code> if error</dd>
@@ -440,7 +440,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="isTimeout()">
 <h3>isTimeout</h3>
 <div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isTimeout</span>()</div>
-<div class="block">Identify task execution is timed out</div>
+<div class="block">Identify Job execution is timed out</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd><code>true</code> if timeout error</dd>

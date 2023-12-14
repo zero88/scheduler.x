@@ -74,17 +74,17 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Type Parameters:</dt>
 <dd><code>IN</code> - Type of job input data</dd>
-<dd><code>OUT</code> - Type of task result data</dd>
+<dd><code>OUT</code> - Type of job result data</dd>
 <dd><code>T</code> - Type of event message</dd>
 </dl>
 <dl class="notes">
 <dt>All Superinterfaces:</dt>
-<dd><code><a href="../Scheduler.html" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;IN,<wbr>OUT,<wbr><a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;T&gt;&gt;</code>, <code><a href="../TaskExecutor.html" title="interface in io.github.zero88.schedulerx">TaskExecutor</a>&lt;IN,<wbr>OUT&gt;</code>, <code><a href="../TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx">TaskExecutorProperties</a>&lt;IN,<wbr>OUT&gt;</code></dd>
+<dd><code><a href="../JobExecutor.html" title="interface in io.github.zero88.schedulerx">JobExecutor</a>&lt;IN,<wbr>OUT&gt;</code>, <code><a href="../JobExecutorProperties.html" title="interface in io.github.zero88.schedulerx">JobExecutorProperties</a>&lt;IN,<wbr>OUT&gt;</code>, <code><a href="../Scheduler.html" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;IN,<wbr>OUT,<wbr><a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;T&gt;&gt;</code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">EventScheduler&lt;IN,<wbr>OUT,<wbr>T&gt;</span><span class="extends-implements">
 extends <a href="../Scheduler.html" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;IN,<wbr>OUT,<wbr><a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;T&gt;&gt;</span></div>
-<div class="block">An event-base scheduler that triggers to run a task when receive an event from specific <code>event-bus</code> address.</div>
+<div class="block">An event-base scheduler that triggers to run a job when receive an event from specific <code>event-bus</code> address.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>2.0.0</dd>
@@ -124,14 +124,14 @@ V&gt;&nbsp;<a href="EventSchedulerBuilder.html" title="interface in io.github.ze
 </div>
 </div>
 <div class="inherited-list">
+<h3 id="methods-inherited-from-class-io.github.zero88.schedulerx.JobExecutor">Methods inherited from interface&nbsp;io.github.zero88.schedulerx.<a href="../JobExecutor.html" title="interface in io.github.zero88.schedulerx">JobExecutor</a></h3>
+<code><a href="../JobExecutor.html#executeJob(io.github.zero88.schedulerx.ExecutionContext)">executeJob</a></code></div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-io.github.zero88.schedulerx.JobExecutorProperties">Methods inherited from interface&nbsp;io.github.zero88.schedulerx.<a href="../JobExecutorProperties.html" title="interface in io.github.zero88.schedulerx">JobExecutorProperties</a></h3>
+<code><a href="../JobExecutorProperties.html#job()">job</a>, <a href="../JobExecutorProperties.html#jobData()">jobData</a>, <a href="../JobExecutorProperties.html#monitor()">monitor</a>, <a href="../JobExecutorProperties.html#timeoutPolicy()">timeoutPolicy</a>, <a href="../JobExecutorProperties.html#vertx()">vertx</a></code></div>
+<div class="inherited-list">
 <h3 id="methods-inherited-from-class-io.github.zero88.schedulerx.Scheduler">Methods inherited from interface&nbsp;io.github.zero88.schedulerx.<a href="../Scheduler.html" title="interface in io.github.zero88.schedulerx">Scheduler</a></h3>
-<code><a href="../Scheduler.html#executeTask(io.github.zero88.schedulerx.ExecutionContext)">executeTask</a></code></div>
-<div class="inherited-list">
-<h3 id="methods-inherited-from-class-io.github.zero88.schedulerx.TaskExecutor">Methods inherited from interface&nbsp;io.github.zero88.schedulerx.<a href="../TaskExecutor.html" title="interface in io.github.zero88.schedulerx">TaskExecutor</a></h3>
-<code><a href="../TaskExecutor.html#cancel()">cancel</a>, <a href="../TaskExecutor.html#start()">start</a>, <a href="../TaskExecutor.html#start(io.vertx.core.WorkerExecutor)">start</a></code></div>
-<div class="inherited-list">
-<h3 id="methods-inherited-from-class-io.github.zero88.schedulerx.TaskExecutorProperties">Methods inherited from interface&nbsp;io.github.zero88.schedulerx.<a href="../TaskExecutorProperties.html" title="interface in io.github.zero88.schedulerx">TaskExecutorProperties</a></h3>
-<code><a href="../TaskExecutorProperties.html#jobData()">jobData</a>, <a href="../TaskExecutorProperties.html#monitor()">monitor</a>, <a href="../TaskExecutorProperties.html#task()">task</a>, <a href="../TaskExecutorProperties.html#timeoutPolicy()">timeoutPolicy</a>, <a href="../TaskExecutorProperties.html#vertx()">vertx</a></code></div>
+<code><a href="../Scheduler.html#cancel()">cancel</a>, <a href="../Scheduler.html#start()">start</a>, <a href="../Scheduler.html#start(io.vertx.core.WorkerExecutor)">start</a></code></div>
 </section>
 </li>
 </ul>

@@ -73,7 +73,7 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>Type Parameters:</dt>
-<dd><code>OUT</code> - Type of task result data</dd>
+<dd><code>OUT</code> - Type of job result data</dd>
 </dl>
 <dl class="notes">
 <dt>All Superinterfaces:</dt>
@@ -82,7 +82,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">SchedulingLogMonitor&lt;OUT&gt;</span><span class="extends-implements">
 extends <a href="SchedulingMonitor.html" title="interface in io.github.zero88.schedulerx">SchedulingMonitor</a>&lt;OUT&gt;</span></div>
-<div class="block">Represents for a log monitor that observes and do log on each lifecycle event of the task executor.</div>
+<div class="block">Represents for a log monitor that observes and do log on each lifecycle event of the job executor.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>2.0.0</dd>
@@ -227,7 +227,7 @@ extends <a href="SchedulingMonitor.html" title="interface in io.github.zero88.sc
 <div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="SchedulingMonitor.html#onMisfire(io.github.zero88.schedulerx.ExecutionResult)">SchedulingMonitor</a></code></span></div>
 <div class="block">This method is invoked when the executor misfires the execution.
  <p/>
- one reason is due to task is still running when trigger a new round execution</div>
+ one reason is due to job is still running when trigger a new round execution</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="SchedulingMonitor.html#onMisfire(io.github.zero88.schedulerx.ExecutionResult)">onMisfire</a></code>&nbsp;in interface&nbsp;<code><a href="SchedulingMonitor.html" title="interface in io.github.zero88.schedulerx">SchedulingMonitor</a>&lt;<a href="SchedulingLogMonitor.html" title="type parameter in SchedulingLogMonitor">OUT</a>&gt;</code></dd>
