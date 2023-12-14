@@ -77,9 +77,7 @@ class JsonSchemaMessageFilterTest {
                       .setTask(NoopTask.create(totalEvent))
                       .build()
                       .start();
-        data.forEach(d -> {
-            vertx.eventBus().publish(address, d);
-        });
+        data.forEach(d -> vertx.eventBus().publish(address, d));
     }
 
 }

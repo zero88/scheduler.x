@@ -109,7 +109,7 @@ public final class SchedulingAsserter<OUT> implements SchedulingMonitor<OUT> {
             Assertions.assertNotNull(result.firedAt());
             Assertions.assertNotNull(result.triggeredAt());
             Assertions.assertNotNull(result.triggerContext());
-            Assertions.assertTrue(result.triggerContext().isReady());
+            Assertions.assertTrue(result.triggerContext().isExecuted());
             Assertions.assertNotNull(result.executedAt());
             Assertions.assertNotNull(result.finishedAt());
             Assertions.assertNull(result.rescheduledAt());
