@@ -11,7 +11,7 @@ interface ExecutionContextInternal<OUTPUT> extends ExecutionContext<OUTPUT> {
     @NotNull TriggerTransitionContext triggerContext();
 
     /**
-     * Prepare to execute task
+     * Prepare to execute job
      *
      * @param promise promise
      * @return a reference to this for fluent API

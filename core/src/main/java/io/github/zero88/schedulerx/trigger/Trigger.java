@@ -7,7 +7,7 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import io.github.zero88.schedulerx.Task;
+import io.github.zero88.schedulerx.Job;
 import io.github.zero88.schedulerx.trigger.repr.TriggerRepresentation;
 import io.github.zero88.schedulerx.trigger.repr.TriggerRepresentationServiceLoader;
 import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Represents for inspecting settings specific to a Trigger, which is used to fire a <code>{@link Task}</code> at given
+ * Represents for inspecting settings specific to a Trigger, which is used to fire a <code>{@link Job}</code> at given
  * moments in time.
  *
  * @since 1.0.0
@@ -46,7 +46,7 @@ public interface Trigger extends HasTriggerType, TriggerRepresentation {
     @NotNull Trigger validate();
 
     /**
-     * Verify if the trigger time still appropriate to execute the task.
+     * Verify if the trigger time still appropriate to execute the job.
      * <p/>
      * This method will be invoked right away before each execution round is started.
      *

@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import io.github.zero88.schedulerx.ExecutionResult;
-import io.github.zero88.schedulerx.NoopTask;
+import io.github.zero88.schedulerx.NoopJob;
 import io.github.zero88.schedulerx.SchedulingAsserter;
 import io.github.zero88.schedulerx.SchedulingMonitor;
 import io.github.zero88.schedulerx.trigger.EventScheduler;
@@ -74,7 +74,7 @@ class JsonSchemaMessageFilterTest {
                       .setVertx(vertx)
                       .setMonitor(asserter)
                       .setTrigger(trigger)
-                      .setTask(NoopTask.create(totalEvent))
+                      .setJob(NoopJob.create(totalEvent))
                       .build()
                       .start();
         data.forEach(d -> vertx.eventBus().publish(address, d));

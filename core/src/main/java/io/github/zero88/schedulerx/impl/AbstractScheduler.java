@@ -18,10 +18,10 @@ import org.jetbrains.annotations.Nullable;
 
 import io.github.zero88.schedulerx.ExecutionContext;
 import io.github.zero88.schedulerx.ExecutionResult;
+import io.github.zero88.schedulerx.Job;
 import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.Scheduler;
 import io.github.zero88.schedulerx.SchedulingMonitor;
-import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.TimeoutBlock;
 import io.github.zero88.schedulerx.TimeoutPolicy;
 import io.github.zero88.schedulerx.WorkerExecutorFactory;
@@ -39,7 +39,7 @@ import io.vertx.core.impl.logging.LoggerFactory;
 /**
  * The base scheduler
  *
- * @param <IN>  Type of task input data
+ * @param <IN>  Type of job input data
  * @param <OUT> Type of output data
  * @param <T>   Type of trigger
  */
@@ -53,7 +53,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     private final @NotNull SchedulerStateInternal<OUT> state;
     private final @NotNull SchedulingMonitor<OUT> monitor;
     private final @NotNull JobData<IN> jobData;
-    private final @NotNull Task<IN, OUT> task;
+    private final @NotNull Job<IN, OUT> job;
     private final @NotNull T trigger;
     private final @NotNull TimeoutPolicy timeoutPolicy;
     private final Lock lock = new ReentrantLock();
@@ -62,13 +62,13 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     private IllegalArgumentException invalidTrigger;
 
     protected AbstractScheduler(@NotNull Vertx vertx, @NotNull SchedulingMonitor<OUT> monitor,
-                                @NotNull JobData<IN> jobData, @NotNull Task<IN, OUT> task, @NotNull T trigger,
+                                @NotNull JobData<IN> jobData, @NotNull Job<IN, OUT> job, @NotNull T trigger,
                                 @NotNull TimeoutPolicy timeoutPolicy) {
         this.vertx         = vertx;
         this.monitor       = monitor;
-        this.jobData       = jobData;
-        this.task          = task;
-        this.trigger       = trigger;
+        this.jobData = jobData;
+        this.job     = job;
+        this.trigger = trigger;
         this.timeoutPolicy = timeoutPolicy;
         this.state         = new SchedulerStateImpl<>();
     }
@@ -83,7 +83,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     public final @NotNull JobData<IN> jobData() { return this.jobData; }
 
     @Override
-    public final @NotNull Task<IN, OUT> task() { return this.task; }
+    public final @NotNull Job<IN, OUT> job() { return this.job; }
 
     @Override
     public @NotNull TimeoutPolicy timeoutPolicy() { return this.timeoutPolicy; }
@@ -130,11 +130,11 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     }
 
     @Override
-    public final void executeTask(@NotNull ExecutionContext<OUT> executionContext) {
+    public final void executeJob(@NotNull ExecutionContext<OUT> executionContext) {
         try {
             log(executionContext.executedAt(), "On execute");
-            task.execute(jobData(), executionContext);
-            if (!task.isAsync()) {
+            job.execute(jobData(), executionContext);
+            if (!job.isAsync()) {
                 ((ExecutionContextInternal<OUT>) executionContext).internalComplete();
             }
         } catch (Exception ex) {
@@ -181,7 +181,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
             return TriggerContextFactory.skip(kickOffContext, ReasonCode.ALREADY_STOPPED);
         }
         if (state.executing()) {
-            return TriggerContextFactory.skip(kickOffContext, ReasonCode.TASK_IS_RUNNING);
+            return TriggerContextFactory.skip(kickOffContext, ReasonCode.JOB_IS_RUNNING);
         }
         return evaluateTriggerRule(kickOffContext);
     }
@@ -192,7 +192,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     protected final TriggerTransitionContext shouldStop(@NotNull TriggerTransitionContext triggerContext,
                                                         boolean isForceStop, long round) {
         if (isForceStop) {
-            return TriggerContextFactory.stop(triggerContext, ReasonCode.STOP_BY_TASK);
+            return TriggerContextFactory.stop(triggerContext, ReasonCode.STOP_BY_JOB);
         }
         return trigger().shouldStop(round)
                ? TriggerContextFactory.stop(triggerContext, ReasonCode.STOP_BY_CONFIG)
@@ -248,7 +248,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
         final ExecutionContextInternal<OUT> executionContext = new ExecutionContextImpl<>(vertx, triggerContext,
                                                                                           state.increaseRound());
         log(executionContext.triggeredAt(), "On trigger", triggerContext.tick(), executionContext.round());
-        this.executeBlocking(workerExecutor, p -> executeTask(
+        this.executeBlocking(workerExecutor, p -> executeJob(
                 executionContext.setup(wrapTimeout(timeoutPolicy().executionTimeout(), p))))
             .onComplete(ar -> onResult(executionContext, ar.cause()));
     }

@@ -42,7 +42,7 @@ public interface TriggerCondition {
          */
         KICKOFF,
         /**
-         * Identify the trigger is satisfied every predicate then ready to execute the task
+         * Identify the trigger is satisfied every predicate then ready to execute the job
          */
         READY,
         /**
@@ -50,7 +50,7 @@ public interface TriggerCondition {
          */
         EXECUTED,
         /**
-         * Identify the trigger is skipped to execute the task
+         * Identify the trigger is skipped to execute the job
          */
         SKIPPED,
         /**
@@ -68,10 +68,10 @@ public interface TriggerCondition {
         public static final String ALREADY_STOPPED = "TriggerIsAlreadyStopped";
         public static final String CONDITION_IS_NOT_MATCHED = "ConditionIsNotMatched";
         public static final String EVALUATION_TIMEOUT = "TriggerEvaluationTimeout";
-        public static final String STOP_BY_TASK = "ForceStop";
+        public static final String STOP_BY_JOB = "ForceStop";
         public static final String STOP_BY_CONFIG = "StopByTriggerConfig";
         public static final String STOP_BY_MANUAL = "ManualStop";
-        public static final String TASK_IS_RUNNING = "TaskIsRunning";
+        public static final String JOB_IS_RUNNING = "JobIsRunning";
         public static final String UNEXPECTED_ERROR = "UnexpectedError";
 
         private ReasonCode() { }

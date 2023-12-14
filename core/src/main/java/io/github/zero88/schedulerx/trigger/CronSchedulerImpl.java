@@ -7,9 +7,9 @@ import java.time.temporal.ChronoUnit;
 
 import org.jetbrains.annotations.NotNull;
 
+import io.github.zero88.schedulerx.Job;
 import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.SchedulingMonitor;
-import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.TimeoutPolicy;
 import io.github.zero88.schedulerx.impl.AbstractScheduler;
 import io.github.zero88.schedulerx.impl.AbstractSchedulerBuilder;
@@ -24,8 +24,8 @@ final class CronSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, CronTr
     private long nextTimerId;
 
     CronSchedulerImpl(@NotNull Vertx vertx, @NotNull SchedulingMonitor<OUT> monitor, @NotNull JobData<IN> jobData,
-                      @NotNull Task<IN, OUT> task, @NotNull CronTrigger trigger, @NotNull TimeoutPolicy timeoutPolicy) {
-        super(vertx, monitor, jobData, task, trigger, timeoutPolicy);
+                      @NotNull Job<IN, OUT> job, @NotNull CronTrigger trigger, @NotNull TimeoutPolicy timeoutPolicy) {
+        super(vertx, monitor, jobData, job, trigger, timeoutPolicy);
     }
 
     @Override
@@ -56,7 +56,7 @@ final class CronSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, CronTr
         implements CronSchedulerBuilder<IN, OUT> {
 
         public @NotNull CronScheduler<IN, OUT> build() {
-            return new CronSchedulerImpl<>(vertx(), monitor(), jobData(), task(), trigger(), timeoutPolicy());
+            return new CronSchedulerImpl<>(vertx(), monitor(), jobData(), job(), trigger(), timeoutPolicy());
         }
 
     }

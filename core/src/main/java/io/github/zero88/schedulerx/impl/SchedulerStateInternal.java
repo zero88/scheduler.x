@@ -55,7 +55,7 @@ interface SchedulerStateInternal<OUTPUT> extends SchedulerState<OUTPUT> {
     long increaseRound();
 
     /**
-     * Add the task result data per round
+     * Add the job result data per round
      *
      * @param round round
      * @param data  data
@@ -64,10 +64,10 @@ interface SchedulerStateInternal<OUTPUT> extends SchedulerState<OUTPUT> {
     @Nullable OUTPUT addData(long round, @Nullable OUTPUT data);
 
     /**
-     * Add the task result error per round
+     * Add the job result error per round
      *
      * @param round round
-     * @param error error when executing task
+     * @param error error when executing job
      * @return current error, might be {@code null}
      */
     @Nullable Throwable addError(long round, @Nullable Throwable error);

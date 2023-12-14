@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Nullable;
 import io.github.zero88.schedulerx.impl.Utils;
 
 /**
- * Represents for a provider that supplies input data before the execution is started, and that will be sent to the task
+ * Represents for a provider that supplies input data before the execution is started, and that will be sent to the job
  * in runtime execution.
  *
  * @param <T> Type of data
@@ -19,16 +19,16 @@ public interface JobData<T> {
      * Get an input data.
      * <p/>
      * It might be a static input value or a preloaded value from an external system
-     * or a configuration to instruct how to get actual input data of the task in runtime execution.
+     * or a configuration to instruct how to get actual input data of the job in runtime execution.
      *
      * @return input data
      */
     @Nullable T get();
 
     /**
-     * Declares a unique id in an external system that will be propagated to the task result.
+     * Declares a unique id in an external system that will be propagated to the job result.
      * <p/>
-     * That makes the integration between the task monitoring and the external system seamless and easier.
+     * That makes the integration between the job monitoring and the external system seamless and easier.
      *
      * @return an external id
      * @see ExecutionResult#externalId()

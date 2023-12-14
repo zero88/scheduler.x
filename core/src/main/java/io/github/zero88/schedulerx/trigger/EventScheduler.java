@@ -9,10 +9,10 @@ import io.vertx.codegen.annotations.VertxGen;
 import io.vertx.core.eventbus.EventBus;
 
 /**
- * An event-base scheduler that triggers to run a task when receive an event from specific {@code event-bus} address.
+ * An event-base scheduler that triggers to run a job when receive an event from specific {@code event-bus} address.
  *
  * @param <IN>  Type of job input data
- * @param <OUT> Type of task result data
+ * @param <OUT> Type of job result data
  * @param <T>   Type of event message
  * @see EventTrigger
  * @see EventBus

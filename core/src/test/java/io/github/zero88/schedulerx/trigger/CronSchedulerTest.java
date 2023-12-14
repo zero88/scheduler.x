@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import io.github.zero88.schedulerx.ExecutionResult;
-import io.github.zero88.schedulerx.NoopTask;
+import io.github.zero88.schedulerx.Job;
+import io.github.zero88.schedulerx.NoopJob;
 import io.github.zero88.schedulerx.SchedulingAsserter;
-import io.github.zero88.schedulerx.Task;
 import io.vertx.core.Vertx;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
@@ -24,14 +24,14 @@ class CronSchedulerTest {
         CronScheduler.builder()
                      .setVertx(vertx)
                      .setTrigger(trigger)
-                     .setTask(NoopTask.create())
+                     .setJob(NoopJob.create())
                      .setMonitor(SchedulingAsserter.unableScheduleAsserter(testContext))
                      .build()
                      .start();
     }
 
     @Test
-    void test_run_task_by_cron(Vertx vertx, VertxTestContext testContext) {
+    void test_run_job_by_cron(Vertx vertx, VertxTestContext testContext) {
         final Consumer<ExecutionResult<String>> onSchedule = result -> {
             if (!result.isReschedule()) {
                 Assertions.assertEquals(0, result.tick());
@@ -65,7 +65,7 @@ class CronSchedulerTest {
                                                                       .setCompleted(onCompleted)
                                                                       .build();
         final CronTrigger trigger = CronTrigger.builder().expression("0/2 * * ? * * *").build();
-        final Task<Void, String> task = (jobData, ctx) -> {
+        final Job<Void, String> job = (jobData, ctx) -> {
             final long round = ctx.round();
             if (round == 1) {
                 throw new RuntimeException("throw in execution");
@@ -87,7 +87,7 @@ class CronSchedulerTest {
                      .setVertx(vertx)
                      .setMonitor(asserter)
                      .setTrigger(trigger)
-                     .setTask(task)
+                     .setJob(job)
                      .build()
                      .start();
     }

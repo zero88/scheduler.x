@@ -6,12 +6,12 @@ import java.util.Optional;
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.NotNull;
 
+import io.github.zero88.schedulerx.Job;
 import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.Scheduler;
 import io.github.zero88.schedulerx.SchedulerBuilder;
 import io.github.zero88.schedulerx.SchedulingLogMonitor;
 import io.github.zero88.schedulerx.SchedulingMonitor;
-import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.TimeoutPolicy;
 import io.github.zero88.schedulerx.trigger.Trigger;
 import io.vertx.core.Vertx;
@@ -28,7 +28,7 @@ public abstract class AbstractSchedulerBuilder<IN, OUT, T extends Trigger, S ext
     private Vertx vertx;
     private SchedulingMonitor<OUT> monitor;
     private JobData<IN> jobData;
-    private Task<IN, OUT> task;
+    private Job<IN, OUT> job;
     private T trigger;
     private TimeoutPolicy timeoutPolicy;
 
@@ -46,7 +46,7 @@ public abstract class AbstractSchedulerBuilder<IN, OUT, T extends Trigger, S ext
     public @NotNull T trigger() { return Objects.requireNonNull(trigger, "Trigger is required"); }
 
     @Override
-    public @NotNull Task<IN, OUT> task() { return Objects.requireNonNull(task, "Task is required"); }
+    public @NotNull Job<IN, OUT> job() { return Objects.requireNonNull(job, "Job is required"); }
 
     @Override
     public @NotNull JobData<IN> jobData() { return Optional.ofNullable(jobData).orElseGet(JobData::empty); }
@@ -61,8 +61,8 @@ public abstract class AbstractSchedulerBuilder<IN, OUT, T extends Trigger, S ext
         return (B) this;
     }
 
-    public @NotNull B setTask(@NotNull Task<IN, OUT> task) {
-        this.task = task;
+    public @NotNull B setJob(@NotNull Job<IN, OUT> job) {
+        this.job = job;
         return (B) this;
     }
 

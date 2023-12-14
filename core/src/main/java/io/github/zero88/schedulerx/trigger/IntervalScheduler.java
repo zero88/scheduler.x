@@ -11,7 +11,7 @@ import io.vertx.codegen.annotations.VertxGen;
  * A timebase scheduler supports the interval schedules.
  *
  * @param <IN>  Type of job input data
- * @param <OUT> Type of task result data
+ * @param <OUT> Type of job result data
  * @see IntervalTrigger
  * @since 2.0.0
  */

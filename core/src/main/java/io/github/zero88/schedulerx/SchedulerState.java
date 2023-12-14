@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Represents for a management state of the execution lifecycle.
  *
- * @param <OUT> Type of task result data
+ * @param <OUT> Type of job result data
  * @apiNote This interface is renamed from {@code TaskExecutorState} since {@code 2.0.0}
  * @since 2.0.0
  */

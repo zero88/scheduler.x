@@ -4,14 +4,15 @@ import io.vertx.codegen.annotations.VertxGen;
 import io.vertx.core.WorkerExecutor;
 
 /**
- * Represents for an executor run a {@code task} in conditional loop.
+ * Represents for an executor run a {@code job} in conditional loop.
  *
- * @param <IN>  Type of task input data
- * @param <OUT> Type of task result data
+ * @param <IN>  Type of job input data
+ * @param <OUT> Type of job result data
+ * @apiNote This interface is renamed from {@code TaskExecutor} since {@code 2.0.0}
  * @since 1.0.0
  */
 @VertxGen(concrete = false)
-public interface TaskExecutor<IN, OUT> extends TaskExecutorProperties<IN, OUT> {
+public interface JobExecutor<IN, OUT> extends JobExecutorProperties<IN, OUT> {
 
     /**
      * Start and run in {@code Vertx worker thread pool}

@@ -17,10 +17,10 @@ import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
 
 @ExtendWith(VertxExtension.class)
-class HttpClientTaskTest {
+class HttpClientJobTest {
 
     @Test
-    void test_http_task(Vertx vertx, VertxTestContext testContext) {
+    void test_http_job(Vertx vertx, VertxTestContext testContext) {
         final String host = "postman-echo.com";
         final String path = "/get?foo1=bar1&foo2=bar2";
         final Consumer<ExecutionResult<JsonObject>> verification = result -> {
@@ -38,7 +38,7 @@ class HttpClientTaskTest {
         IntervalScheduler.<JsonObject, JsonObject>builder()
                          .setVertx(vertx)
                          .setTrigger(trigger)
-                         .setTask(new HttpClientTask())
+                         .setJob(new HttpClientJob())
                          .setMonitor(asserter)
                          .setJobData(jobData)
                          .build()

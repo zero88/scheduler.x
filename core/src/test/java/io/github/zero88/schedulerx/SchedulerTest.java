@@ -48,7 +48,7 @@ class SchedulerTest {
         final CronScheduler<Void, Void> scheduler = CronScheduler.<Void, Void>builder()
                                                                  .setVertx(vertx)
                                                                  .setTrigger(trigger)
-                                                                 .setTask(NoopTask.create(2))
+                                                                 .setJob(NoopJob.create(2))
                                                                  .setMonitor(asserter)
                                                                  .build();
 
@@ -65,18 +65,18 @@ class SchedulerTest {
     }
 
     @Test
-    void test_scheduler_should_run_task_in_dedicated_thread(Vertx vertx, VertxTestContext testContext) {
+    void test_scheduler_should_run_job_in_dedicated_thread(Vertx vertx, VertxTestContext testContext) {
         final String threadName = "HELLO";
         final WorkerExecutor worker = vertx.createSharedWorkerExecutor(threadName, 1);
         final SchedulingAsserter<Object> asserter = SchedulingAsserter.builder().setTestContext(testContext).build();
-        final Task<Object, Object> task = (d, ec) -> Assertions.assertEquals(threadName + "-0",
-                                                                             Thread.currentThread().getName());
+        final Job<Object, Object> job = (d, ec) -> Assertions.assertEquals(threadName + "-0",
+                                                                           Thread.currentThread().getName());
         final IntervalTrigger trigger = IntervalTrigger.builder().interval(2).repeat(1).build();
         IntervalScheduler.builder()
                          .setVertx(vertx)
                          .setMonitor(asserter)
                          .setTrigger(trigger)
-                         .setTask(task)
+                         .setJob(job)
                          .build()
                          .start(worker);
     }
@@ -103,7 +103,7 @@ class SchedulerTest {
                       .setVertx(vertx)
                       .setMonitor(asserter)
                       .setTrigger(trigger)
-                      .setTask(NoopTask.create(1))
+                      .setJob(NoopJob.create(1))
                       .build()
                       .start(worker);
         vertx.eventBus().publish("dedicated.thread", "test");
@@ -111,7 +111,7 @@ class SchedulerTest {
 
     @ParameterizedTest
     @MethodSource("provide_external_ids")
-    void test_scheduler_should_maintain_external_id_from_jobData_to_task_result(Object declaredId, Class<?> typeOfId,
+    void test_scheduler_should_maintain_external_id_from_jobData_to_job_result(Object declaredId, Class<?> typeOfId,
                                                                                 Vertx vertx, VertxTestContext ctx) {
         final Consumer<ExecutionResult<Void>> ensureExternalIdIsSet = result -> {
             Assertions.assertNotNull(result.externalId());
@@ -132,7 +132,7 @@ class SchedulerTest {
                          .setVertx(vertx)
                          .setMonitor(asserter)
                          .setTrigger(trigger)
-                         .setTask(NoopTask.create())
+                         .setJob(NoopJob.create())
                          .setJobData(jobdata)
                          .build()
                          .start();
@@ -151,7 +151,7 @@ class SchedulerTest {
                                                                       .setTestContext(testContext)
                                                                       .setEach(timeoutAsserter)
                                                                       .build();
-        final Task<Object, Object> task = (jobData, executionContext) -> {
+        final Job<Object, Object> job = (jobData, executionContext) -> {
             TestUtils.block(runningTime, testContext);
             Assertions.assertTrue(Thread.currentThread().getName().startsWith("scheduler.x-worker-thread"));
         };
@@ -159,7 +159,7 @@ class SchedulerTest {
                          .setVertx(vertx)
                          .setMonitor(asserter)
                          .setTrigger(IntervalTrigger.builder().interval(5).repeat(1).build())
-                         .setTask(task)
+                         .setJob(job)
                          .setTimeoutPolicy(TimeoutPolicy.create(timeout))
                          .build()
                          .start();
@@ -171,7 +171,7 @@ class SchedulerTest {
             Assertions.assertEquals(3, result.round());
             Assertions.assertEquals(3, result.tick());
             Assertions.assertTrue(result.triggerContext().isStopped());
-            Assertions.assertEquals(ReasonCode.STOP_BY_TASK, result.triggerContext().condition().reasonCode());
+            Assertions.assertEquals(ReasonCode.STOP_BY_JOB, result.triggerContext().condition().reasonCode());
         };
         final SchedulingAsserter<Object> asserter = SchedulingAsserter.builder()
                                                                       .setTestContext(testContext)
@@ -182,7 +182,7 @@ class SchedulerTest {
                          .setVertx(vertx)
                          .setMonitor(asserter)
                          .setTrigger(trigger)
-                         .setTask(NoopTask.create(3))
+                         .setJob(NoopJob.create(3))
                          .build()
                          .start();
     }
@@ -202,7 +202,7 @@ class SchedulerTest {
                                                                              .setVertx(vertx)
                                                                              .setMonitor(asserter)
                                                                              .setTrigger(trigger)
-                                                                             .setTask(NoopTask.create())
+                                                                             .setJob(NoopJob.create())
                                                                              .build();
         scheduler.start();
         TestUtils.block(Duration.ofSeconds(3), testContext);

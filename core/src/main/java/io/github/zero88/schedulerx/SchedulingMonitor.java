@@ -5,11 +5,11 @@ import org.jetbrains.annotations.NotNull;
 import io.github.zero88.schedulerx.trigger.Trigger;
 
 /**
- * Represents for a monitor that watches lifecycle event in the task executor.
+ * Represents for a monitor that watches lifecycle event in the job executor.
  * <p/>
  * It can be used to distribute and persist the execution result per each round to an external system.
  *
- * @param <OUT> Type of task result data
+ * @param <OUT> Type of job result data
  * @apiNote This interface is renamed from {@code TaskExecutorMonitor} since {@code 2.0.0}
  * @see ExecutionResult
  * @since 2.0.0
@@ -35,7 +35,7 @@ public interface SchedulingMonitor<OUT> {
     /**
      * This method is invoked when the executor misfires the execution.
      * <p/>
-     * one reason is due to task is still running when trigger a new round execution
+     * one reason is due to job is still running when trigger a new round execution
      *
      * @param result the execution result
      */

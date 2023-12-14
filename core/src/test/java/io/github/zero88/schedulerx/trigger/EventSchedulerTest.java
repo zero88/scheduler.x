@@ -19,10 +19,10 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import io.github.zero88.schedulerx.ExecutionResult;
-import io.github.zero88.schedulerx.NoopTask;
+import io.github.zero88.schedulerx.Job;
+import io.github.zero88.schedulerx.NoopJob;
 import io.github.zero88.schedulerx.SchedulingAsserter;
 import io.github.zero88.schedulerx.SchedulingMonitor;
-import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.TestUtils;
 import io.github.zero88.schedulerx.trigger.TriggerCondition.ReasonCode;
 import io.github.zero88.schedulerx.trigger.predicate.EventTriggerPredicate;
@@ -113,7 +113,7 @@ class EventSchedulerTest {
                       .setVertx(vertx)
                       .setMonitor(asserter)
                       .setTrigger(trigger)
-                      .setTask(NoopTask.create(data.size() - 1))
+                      .setJob(NoopJob.create(data.size() - 1))
                       .build()
                       .start();
         data.forEach(d -> {
@@ -123,7 +123,7 @@ class EventSchedulerTest {
     }
 
     @Test
-    void test_run_task_when_receive_event(Vertx vertx, VertxTestContext testContext) {
+    void test_run_job_when_receive_event(Vertx vertx, VertxTestContext testContext) {
         final int message = 10;
         final int totalRound = 4;
         final Consumer<ExecutionResult<String>> each = result -> {
@@ -148,7 +148,7 @@ class EventSchedulerTest {
                                                          .address(address)
                                                          .predicate(EventTriggerPredicate.any())
                                                          .build();
-        final Task<Void, String> task = (jobData, ctx) -> {
+        final Job<Void, String> job = (jobData, ctx) -> {
             final Object info = ctx.triggerContext().info();
             final long round = ctx.round();
             if (round == 1) {
@@ -168,7 +168,7 @@ class EventSchedulerTest {
                       .setVertx(vertx)
                       .setMonitor(asserter)
                       .setTrigger(trigger)
-                      .setTask(task)
+                      .setJob(job)
                       .build()
                       .start();
         for (int i = 0; i < totalRound; i++) {
@@ -198,7 +198,7 @@ class EventSchedulerTest {
                       .setVertx(vertx)
                       .setMonitor(asserter)
                       .setTrigger(trigger)
-                      .setTask(NoopTask.create(totalEvent))
+                      .setJob(NoopJob.create(totalEvent))
                       .build()
                       .start();
         data.forEach(d -> {

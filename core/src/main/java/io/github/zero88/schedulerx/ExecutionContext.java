@@ -11,7 +11,7 @@ import io.vertx.core.Vertx;
 /**
  * Represents for a runtime context per each execution round.
  *
- * @param <OUT> Type of task result data
+ * @param <OUT> Type of job result data
  * @apiNote This interface is renamed from {@code TaskExecutionContext} since {@code 2.0.0}
  * @since 1.0.0
  */
@@ -69,7 +69,7 @@ public interface ExecutionContext<OUT> {
      * Notify finish an execution per each round with its result data
      *
      * @param data object data
-     * @apiNote if task is {@code async} then it should be invoked in handling async result stage
+     * @apiNote if job is {@code async} then it should be invoked in handling async result stage
      */
     void complete(@Nullable OUT data);
 
@@ -77,7 +77,7 @@ public interface ExecutionContext<OUT> {
      * Notify finish an execution per each round with its error data
      *
      * @param throwable execution error
-     * @apiNote if task is {@code async} then it should be invoked in handling async result stage
+     * @apiNote if job is {@code async} then it should be invoked in handling async result stage
      */
     void fail(@Nullable Throwable throwable);
 

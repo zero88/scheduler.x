@@ -42,9 +42,9 @@ public final class SchedulingAsserterBuilder<OUTPUT> {
     }
 
     /**
-     * Set a task result verification when unable to schedule task
+     * Set a job result verification when unable to schedule job
      *
-     * @param unableSchedule a verification when unable to schedule task
+     * @param unableSchedule a verification when unable to schedule job
      * @return this for fluent API
      * @see ExecutionResult
      * @see SchedulingMonitor#onUnableSchedule(ExecutionResult))
@@ -55,9 +55,9 @@ public final class SchedulingAsserterBuilder<OUTPUT> {
     }
 
     /**
-     * Set a task result verification when schedule task
+     * Set a job result verification when schedule job
      *
-     * @param schedule a verification when schedule task
+     * @param schedule a verification when schedule job
      * @return this for fluent API
      * @see ExecutionResult
      * @see SchedulingMonitor#onSchedule(ExecutionResult))
@@ -68,9 +68,9 @@ public final class SchedulingAsserterBuilder<OUTPUT> {
     }
 
     /**
-     * Set a task result verification when misfire task
+     * Set a job result verification when misfire job
      *
-     * @param misfire a verification when misfire task
+     * @param misfire a verification when misfire job
      * @return this for fluent API
      * @see ExecutionResult
      * @see SchedulingMonitor#onMisfire(ExecutionResult))
@@ -81,7 +81,7 @@ public final class SchedulingAsserterBuilder<OUTPUT> {
     }
 
     /**
-     * Set a task result verification when each round is finished
+     * Set a job result verification when each round is finished
      *
      * @param each a verification when each round is finished of schedule
      * @return this for fluent API
@@ -94,7 +94,7 @@ public final class SchedulingAsserterBuilder<OUTPUT> {
     }
 
     /**
-     * Set a task result verification when execution is completed
+     * Set a job result verification when execution is completed
      *
      * @param completed a verification when execution is completed
      * @return this for fluent API
@@ -109,7 +109,7 @@ public final class SchedulingAsserterBuilder<OUTPUT> {
     /**
      * Build an asserter
      *
-     * @return TaskExecutorAsserter
+     * @return SchedulingAsserter
      */
     public SchedulingAsserter<OUTPUT> build() {
         return new SchedulingAsserter<>(testContext, logMonitor, unableSchedule, schedule, misfire, each, completed);
