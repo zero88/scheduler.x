@@ -10,9 +10,9 @@ import io.vertx.core.impl.logging.Logger;
 import io.vertx.core.impl.logging.LoggerFactory;
 
 /**
- * Represents for a log monitor that observes and do log on each lifecycle event of the task executor.
+ * Represents for a log monitor that observes and do log on each lifecycle event of the job executor.
  *
- * @param <OUT> Type of task result data
+ * @param <OUT> Type of job result data
  * @apiNote This interface is renamed from {@code TaskExecutorLogMonitor} since {@code 2.0.0}
  * @since 2.0.0
  */

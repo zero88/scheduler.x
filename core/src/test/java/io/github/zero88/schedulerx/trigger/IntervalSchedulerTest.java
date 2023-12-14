@@ -15,10 +15,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import io.github.zero88.schedulerx.ExecutionResult;
-import io.github.zero88.schedulerx.NoopTask;
+import io.github.zero88.schedulerx.Job;
+import io.github.zero88.schedulerx.NoopJob;
 import io.github.zero88.schedulerx.SchedulingAsserter;
 import io.github.zero88.schedulerx.SchedulingMonitor;
-import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.TestUtils;
 import io.github.zero88.schedulerx.trigger.TriggerCondition.ReasonCode;
 import io.vertx.core.Vertx;
@@ -43,20 +43,20 @@ class IntervalSchedulerTest {
     @ParameterizedTest
     @MethodSource("provide_invalid_interval")
     @SuppressWarnings("java:S2699")
-    void test_run_task_unable_schedule_due_to_interval(IntervalTrigger trigger, String errorMsg, Vertx vertx,
-                                                       VertxTestContext testContext) {
+    void test_unable_schedule_job_due_to_invalid_config(IntervalTrigger trigger, String errorMsg, Vertx vertx,
+                                                        VertxTestContext testContext) {
         SchedulingMonitor<Object> asserter = SchedulingAsserter.unableScheduleAsserter(testContext, errorMsg);
         IntervalScheduler.builder()
                          .setVertx(vertx)
                          .setMonitor(asserter)
                          .setTrigger(trigger)
-                         .setTask(NoopTask.create())
+                         .setJob(NoopJob.create())
                          .build()
                          .start();
     }
 
     @Test
-    void test_run_task_after_delay(Vertx vertx, VertxTestContext ctx) {
+    void test_run_job_after_delay(Vertx vertx, VertxTestContext ctx) {
         final Consumer<ExecutionResult<Void>> onSchedule = result -> {
             Assertions.assertEquals(0, result.tick());
             Assertions.assertEquals(0, result.round());
@@ -75,13 +75,13 @@ class IntervalSchedulerTest {
                          .setVertx(vertx)
                          .setMonitor(asserter)
                          .setTrigger(trigger)
-                         .setTask(NoopTask.create())
+                         .setJob(NoopJob.create())
                          .build()
                          .start();
     }
 
     @Test
-    void test_run_blocking_task_in_the_end(Vertx vertx, VertxTestContext testContext) {
+    void test_run_blocking_job_till_the_end(Vertx vertx, VertxTestContext testContext) {
         final AtomicLong lastTickOnEach = new AtomicLong();
         final Consumer<ExecutionResult<Void>> onEach = result -> {
             lastTickOnEach.set(result.tick());
@@ -94,7 +94,7 @@ class IntervalSchedulerTest {
         final Consumer<ExecutionResult<Void>> onMisfire = result -> {
             Assertions.assertTrue(result.tick() > result.round());
             Assertions.assertTrue(result.tick() > lastTickOnEach.get());
-            Assertions.assertEquals("TaskIsRunning", result.triggerContext().condition().reasonCode());
+            Assertions.assertEquals("JobIsRunning", result.triggerContext().condition().reasonCode());
         };
         final Consumer<ExecutionResult<Void>> onComplete = result -> {
             Assertions.assertEquals(3, result.round());
@@ -113,13 +113,13 @@ class IntervalSchedulerTest {
                          .setVertx(vertx)
                          .setMonitor(asserter)
                          .setTrigger(trigger)
-                         .setTask((jobData, ctx) -> TestUtils.block(Duration.ofSeconds(3), testContext))
+                         .setJob((jobData, ctx) -> TestUtils.block(Duration.ofSeconds(3), testContext))
                          .build()
                          .start(worker);
     }
 
     @Test
-    void test_task_should_be_executed_in_interval_trigger(Vertx vertx, VertxTestContext context) {
+    void test_job_should_be_executed_in_interval_trigger(Vertx vertx, VertxTestContext context) {
         final Consumer<ExecutionResult<String>> onEach = result -> {
             if (result.round() < 3) {
                 Assertions.assertTrue(result.isError());
@@ -138,7 +138,7 @@ class IntervalSchedulerTest {
                                                                       .setTestContext(context)
                                                                       .setEach(onEach)
                                                                       .build();
-        final Task<Void, String> task = (jobData, ctx) -> {
+        final Job<Void, String> job = (jobData, ctx) -> {
             final long round = ctx.round();
             if (round == 1) {
                 throw new IllegalArgumentException("throw in execution");
@@ -155,7 +155,7 @@ class IntervalSchedulerTest {
                          .setVertx(vertx)
                          .setMonitor(asserter)
                          .setTrigger(trigger)
-                         .setTask(task)
+                         .setJob(job)
                          .build()
                          .start();
     }
@@ -175,7 +175,7 @@ class IntervalSchedulerTest {
                          .setVertx(vertx)
                          .setMonitor(asserter)
                          .setTrigger(trigger)
-                         .setTask(NoopTask.create())
+                         .setJob(NoopJob.create())
                          .build()
                          .start();
     }

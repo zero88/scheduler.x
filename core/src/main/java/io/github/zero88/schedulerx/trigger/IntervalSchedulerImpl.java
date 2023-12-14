@@ -6,9 +6,9 @@ import java.time.Instant;
 
 import org.jetbrains.annotations.NotNull;
 
+import io.github.zero88.schedulerx.Job;
 import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.SchedulingMonitor;
-import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.TimeoutPolicy;
 import io.github.zero88.schedulerx.impl.AbstractScheduler;
 import io.github.zero88.schedulerx.impl.AbstractSchedulerBuilder;
@@ -22,9 +22,9 @@ final class IntervalSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, In
     implements IntervalScheduler<IN, OUT> {
 
     IntervalSchedulerImpl(@NotNull Vertx vertx, @NotNull SchedulingMonitor<OUT> monitor, @NotNull JobData<IN> jobData,
-                          @NotNull Task<IN, OUT> task, @NotNull IntervalTrigger trigger,
+                          @NotNull Job<IN, OUT> job, @NotNull IntervalTrigger trigger,
                           @NotNull TimeoutPolicy timeoutPolicy) {
-        super(vertx, monitor, jobData, task, trigger, timeoutPolicy);
+        super(vertx, monitor, jobData, job, trigger, timeoutPolicy);
     }
 
     protected @NotNull Future<Long> registerTimer(WorkerExecutor workerExecutor) {
@@ -62,7 +62,7 @@ final class IntervalSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, In
     // @formatter:on
 
         public @NotNull IntervalScheduler<IN, OUT> build() {
-            return new IntervalSchedulerImpl<>(vertx(), monitor(), jobData(), task(), trigger(), timeoutPolicy());
+            return new IntervalSchedulerImpl<>(vertx(), monitor(), jobData(), job(), trigger(), timeoutPolicy());
         }
 
     }

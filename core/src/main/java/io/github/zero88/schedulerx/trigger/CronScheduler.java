@@ -11,7 +11,7 @@ import io.vertx.codegen.annotations.VertxGen;
  * A timebase scheduler supports the cron-like scheduling.
  *
  * @param <IN>  Type of job input data
- * @param <OUT> Type of task result data
+ * @param <OUT> Type of job result data
  * @see CronTrigger
  * @since 2.0.0
  */

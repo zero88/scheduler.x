@@ -10,6 +10,11 @@ import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 
+/**
+ * Represents for a helper to create a timeout block.
+ *
+ * @since 2.0.0
+ */
 public final class TimeoutBlock {
 
     private final Vertx vertx;
@@ -20,6 +25,13 @@ public final class TimeoutBlock {
         this.timeout = timeout;
     }
 
+    /**
+     * Wrap a given promise with the definition timeout
+     *
+     * @param promise promise
+     * @param <T>     type of promise result
+     * @return a promise. if timeout, the promise fails by {@link TimeoutException}
+     */
     public <T> Promise<T> wrap(@NotNull Promise<T> promise) {
         if (timeout.isNegative() || timeout.isZero()) {
             return promise;

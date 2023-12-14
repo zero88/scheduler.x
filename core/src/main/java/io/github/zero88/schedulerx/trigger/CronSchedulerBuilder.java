@@ -2,10 +2,10 @@ package io.github.zero88.schedulerx.trigger;
 
 import org.jetbrains.annotations.NotNull;
 
+import io.github.zero88.schedulerx.Job;
 import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.SchedulerBuilder;
 import io.github.zero88.schedulerx.SchedulingMonitor;
-import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.TimeoutPolicy;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.codegen.annotations.GenIgnore;
@@ -15,8 +15,8 @@ import io.vertx.core.Vertx;
 /**
  * Represents a builder that constructs {@link CronScheduler}
  *
- * @param <IN>  Type of task input data
- * @param <OUT> Type of task result data
+ * @param <IN>  Type of job input data
+ * @param <OUT> Type of job result data
  * @since 2.0.0
  */
 @VertxGen
@@ -31,7 +31,7 @@ public interface CronSchedulerBuilder<IN, OUT>
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull CronSchedulerBuilder<IN, OUT> setTask(@NotNull Task<IN, OUT> task);
+    @NotNull CronSchedulerBuilder<IN, OUT> setJob(@NotNull Job<IN, OUT> job);
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)

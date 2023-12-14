@@ -7,9 +7,9 @@ import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
 
+import io.github.zero88.schedulerx.Job;
 import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.SchedulingMonitor;
-import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.TimeoutPolicy;
 import io.github.zero88.schedulerx.impl.AbstractScheduler;
 import io.github.zero88.schedulerx.impl.AbstractSchedulerBuilder;
@@ -30,9 +30,9 @@ final class EventSchedulerImpl<IN, OUT, T> extends AbstractScheduler<IN, OUT, Ev
     private MessageConsumer<Object> consumer;
 
     EventSchedulerImpl(@NotNull Vertx vertx, @NotNull SchedulingMonitor<OUT> monitor, @NotNull JobData<IN> jobData,
-                       @NotNull Task<IN, OUT> task, @NotNull EventTrigger<T> trigger,
+                       @NotNull Job<IN, OUT> job, @NotNull EventTrigger<T> trigger,
                        @NotNull TimeoutPolicy timeoutPolicy) {
-        super(vertx, monitor, jobData, task, trigger, timeoutPolicy);
+        super(vertx, monitor, jobData, job, trigger, timeoutPolicy);
     }
 
     @Override
@@ -104,7 +104,7 @@ final class EventSchedulerImpl<IN, OUT, T> extends AbstractScheduler<IN, OUT, Ev
     // @formatter:on
 
         public @NotNull EventScheduler<IN, OUT, T> build() {
-            return new EventSchedulerImpl<>(vertx(), monitor(), jobData(), task(), trigger(), timeoutPolicy());
+            return new EventSchedulerImpl<>(vertx(), monitor(), jobData(), job(), trigger(), timeoutPolicy());
         }
 
     }

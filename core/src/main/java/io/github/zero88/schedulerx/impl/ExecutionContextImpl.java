@@ -30,7 +30,7 @@ final class ExecutionContextImpl<OUTPUT> implements ExecutionContextInternal<OUT
     @Override
     public @NotNull ExecutionContextInternal<OUTPUT> setup(@NotNull Promise<Object> promise) {
         if (Objects.nonNull(this.promise)) {
-            throw new IllegalStateException("TaskExecutionContext is already setup");
+            throw new IllegalStateException("ExecutionContext is already setup");
         }
         this.promise    = promise;
         this.executedAt = Instant.now();

@@ -2,10 +2,10 @@ package io.github.zero88.schedulerx.trigger;
 
 import org.jetbrains.annotations.NotNull;
 
+import io.github.zero88.schedulerx.Job;
 import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.SchedulerBuilder;
 import io.github.zero88.schedulerx.SchedulingMonitor;
-import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.TimeoutPolicy;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.codegen.annotations.GenIgnore;
@@ -30,7 +30,7 @@ public interface IntervalSchedulerBuilder<IN, OUT>
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull IntervalSchedulerBuilder<IN, OUT> setTask(@NotNull Task<IN, OUT> task);
+    @NotNull IntervalSchedulerBuilder<IN, OUT> setJob(@NotNull Job<IN, OUT> job);
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)

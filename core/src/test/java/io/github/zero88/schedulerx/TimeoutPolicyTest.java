@@ -26,6 +26,7 @@ class TimeoutPolicyTest {
         final TimeoutPolicy deserialized = mapper.readerFor(TimeoutPolicy.class).readValue(expected);
         Assertions.assertEquals(timeoutPolicy.evaluationTimeout(), deserialized.evaluationTimeout());
         Assertions.assertEquals(timeoutPolicy.executionTimeout(), deserialized.executionTimeout());
+        Assertions.assertEquals(timeoutPolicy, deserialized);
     }
 
     @Test

@@ -78,7 +78,7 @@ public interface ExecutionResult<OUTPUT> {
     Instant triggeredAt();
 
     /**
-     * Identify the trigger task that is started to execute at a clock time.
+     * Identify the trigger job that is started to execute at a clock time.
      *
      * @return executed at time
      * @see SchedulingMonitor#onEach(ExecutionResult)
@@ -86,7 +86,7 @@ public interface ExecutionResult<OUTPUT> {
     Instant executedAt();
 
     /**
-     * Identify the trigger tick time is already processed at a clock time, regardless its status is misfire or its task
+     * Identify the trigger tick time is already processed at a clock time, regardless its status is misfire or its job
      * is executed.
      *
      * @return finished at time
@@ -113,7 +113,7 @@ public interface ExecutionResult<OUTPUT> {
     long tick();
 
     /**
-     * The current number of times that the trigger's task is executed.
+     * The current number of times that the trigger's job is executed.
      *
      * @return the round
      * @apiNote The time at which the number of rounds is changed is {@link #triggeredAt()}
@@ -121,28 +121,28 @@ public interface ExecutionResult<OUTPUT> {
     long round();
 
     /**
-     * Task result data per each round or latest result data if trigger is completed.
+     * Job result data per each round or latest result data if trigger is completed.
      *
-     * @return task result data, might be null
+     * @return job result data, might be null
      */
     @Nullable OUTPUT data();
 
     /**
-     * Task result error per each round or latest result error if trigger is completed.
+     * Job result error per each round or latest result error if trigger is completed.
      *
-     * @return task result error, might be null
+     * @return job result error, might be null
      */
     @Nullable Throwable error();
 
     /**
-     * Identify task execution is error or not
+     * Identify Job execution is error or not
      *
      * @return {@code true} if error
      */
     default boolean isError() { return Objects.nonNull(error()); }
 
     /**
-     * Identify task execution is timed out
+     * Identify Job execution is timed out
      *
      * @return {@code true} if timeout error
      */
