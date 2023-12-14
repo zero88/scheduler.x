@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 
+import io.github.zero88.schedulerx.DefaultOptions;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -18,11 +20,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @SuppressWarnings("rawtypes")
 public interface TriggerRule {
-
-    /**
-     * A maximum of leeway time
-     */
-    Duration MAX_LEEWAY = Duration.ofSeconds(30);
 
     /**
      * A no-op trigger rule.
@@ -47,7 +44,14 @@ public interface TriggerRule {
     Instant until();
 
     /**
-     * Declares the allowable margin of time in the time validation of {@link #satisfy(Instant)} and {@link #until()}
+     * Declares the allowable margin of time in the time validation of {@link #satisfy(Instant)} and {@link #until()}.
+     * <p>
+     * The leeway time has constraints:
+     * <ul>
+     * <li>when given argument is negative, the leeway time fallback to {@link Duration#ZERO}</li>
+     * <li>when given argument is greater than {@link DefaultOptions#maxTriggerRuleLeeway}, the leeway time fallback
+     * to max default value</li>
+     * </ul>
      *
      * @return the leeway time
      */
@@ -86,12 +90,11 @@ public interface TriggerRule {
         return create(timeframes, null, null);
     }
 
-
     /**
      * Create a new trigger rule
      *
      * @param timeframes the given timeframes
-     * @param leeway the given leeway
+     * @param leeway     the given leeway
      * @return a new Trigger rule
      */
     static @NotNull TriggerRule create(List<Timeframe> timeframes, Duration leeway) {
@@ -111,7 +114,7 @@ public interface TriggerRule {
     /**
      * Create a new trigger rule
      *
-     * @param until the given until
+     * @param until  the given until
      * @param leeway the given leeway
      * @return a new Trigger rule
      */

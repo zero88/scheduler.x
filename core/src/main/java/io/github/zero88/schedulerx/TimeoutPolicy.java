@@ -6,9 +6,6 @@ import java.util.function.BiFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import io.github.zero88.schedulerx.impl.Utils;
-import io.vertx.core.VertxOptions;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -40,19 +37,12 @@ public final class TimeoutPolicy {
             }
             return duration;
         };
-        final Duration evTimeout = check.apply(evaluationTimeout,
-                                               Duration.of(VertxOptions.DEFAULT_MAX_EVENT_LOOP_EXECUTE_TIME,
-                                                           Utils.toChronoUnit(
-                                                               VertxOptions.DEFAULT_MAX_EVENT_LOOP_EXECUTE_TIME_UNIT)));
-        final Duration exeTimeout = check.apply(executionTimeout,
-                                                Duration.of(VertxOptions.DEFAULT_MAX_WORKER_EXECUTE_TIME,
-                                                            Utils.toChronoUnit(
-                                                                VertxOptions.DEFAULT_MAX_WORKER_EXECUTE_TIME_UNIT)));
-        return new TimeoutPolicy(evTimeout, exeTimeout);
+        return new TimeoutPolicy(check.apply(evaluationTimeout, DefaultOptions.getInstance().maxEvaluationTimeout),
+                                 check.apply(executionTimeout, DefaultOptions.getInstance().maxExecutionTimeout));
     }
 
     /**
-     * Declares the evaluation timeout.
+     * Declares the evaluation timeout. Default is {@link DefaultOptions#maxEvaluationTimeout}
      *
      * @return the evaluation timeout
      * @since 2.0.0
@@ -61,7 +51,7 @@ public final class TimeoutPolicy {
     public @NotNull Duration evaluationTimeout() { return evaluationTimeout; }
 
     /**
-     * Declares the execution timeout.
+     * Declares the execution timeout. Default is {@link DefaultOptions#maxExecutionTimeout}
      *
      * @return the execution timeout
      * @since 2.0.0

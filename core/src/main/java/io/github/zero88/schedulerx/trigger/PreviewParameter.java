@@ -9,6 +9,7 @@ import java.util.TimeZone;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import io.github.zero88.schedulerx.DefaultOptions;
 import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
 
 /**
@@ -17,8 +18,6 @@ import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
  * @since 2.0.0
  */
 public final class PreviewParameter {
-
-    public static final int MAX_TIMES = 30;
 
     private int times;
     private Instant startedAt = Instant.now();
@@ -55,10 +54,10 @@ public final class PreviewParameter {
     }
 
     /**
-     * @return the number of a preview item, maximum is {@link #MAX_TIMES}
+     * @return the number of a preview item, maximum is {@link DefaultOptions#maxTriggerPreviewCount}
      */
     public int getTimes() {
-        return Math.max(1, Math.min(times, MAX_TIMES));
+        return Math.max(1, Math.min(times, DefaultOptions.getInstance().maxTriggerPreviewCount));
     }
 
     /**
