@@ -14,6 +14,7 @@ import io.github.zero88.schedulerx.SchedulingLogMonitor;
 import io.github.zero88.schedulerx.SchedulingMonitor;
 import io.github.zero88.schedulerx.TimeoutPolicy;
 import io.github.zero88.schedulerx.trigger.Trigger;
+import io.github.zero88.schedulerx.trigger.TriggerEvaluator;
 import io.vertx.core.Vertx;
 
 /**
@@ -30,6 +31,7 @@ public abstract class AbstractSchedulerBuilder<IN, OUT, T extends Trigger, S ext
     private JobData<IN> jobData;
     private Job<IN, OUT> job;
     private T trigger;
+    private TriggerEvaluator evaluator;
     private TimeoutPolicy timeoutPolicy;
 
     @Override
@@ -44,6 +46,11 @@ public abstract class AbstractSchedulerBuilder<IN, OUT, T extends Trigger, S ext
 
     @Override
     public @NotNull T trigger() { return Objects.requireNonNull(trigger, "Trigger is required"); }
+
+    @Override
+    public @NotNull TriggerEvaluator triggerEvaluator() {
+        return Optional.ofNullable(evaluator).orElseGet(AbstractTriggerEvaluator::noop);
+    }
 
     @Override
     public @NotNull Job<IN, OUT> job() { return Objects.requireNonNull(job, "Job is required"); }
@@ -68,6 +75,12 @@ public abstract class AbstractSchedulerBuilder<IN, OUT, T extends Trigger, S ext
 
     public @NotNull B setTrigger(@NotNull T trigger) {
         this.trigger = trigger;
+        return (B) this;
+    }
+
+    @Override
+    public @NotNull B setTriggerEvaluator(@NotNull TriggerEvaluator evaluator) {
+        this.evaluator = evaluator;
         return (B) this;
     }
 

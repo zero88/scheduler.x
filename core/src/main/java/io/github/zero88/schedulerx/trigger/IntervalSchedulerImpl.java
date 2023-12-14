@@ -21,10 +21,10 @@ import io.vertx.core.WorkerExecutor;
 final class IntervalSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, IntervalTrigger>
     implements IntervalScheduler<IN, OUT> {
 
-    IntervalSchedulerImpl(@NotNull Vertx vertx, @NotNull SchedulingMonitor<OUT> monitor, @NotNull JobData<IN> jobData,
-                          @NotNull Job<IN, OUT> job, @NotNull IntervalTrigger trigger,
-                          @NotNull TimeoutPolicy timeoutPolicy) {
-        super(vertx, monitor, jobData, job, trigger, timeoutPolicy);
+    IntervalSchedulerImpl(@NotNull Job<IN, OUT> job, @NotNull JobData<IN> jobData, @NotNull TimeoutPolicy timeoutPolicy,
+                          @NotNull SchedulingMonitor<OUT> monitor, @NotNull IntervalTrigger trigger,
+                          @NotNull TriggerEvaluator evaluator, @NotNull Vertx vertx) {
+        super(job, jobData, timeoutPolicy, monitor, trigger, evaluator, vertx);
     }
 
     protected @NotNull Future<Long> registerTimer(WorkerExecutor workerExecutor) {
@@ -49,10 +49,9 @@ final class IntervalSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, In
     }
 
     private long createPeriodicTimer(WorkerExecutor executor) {
-        return vertx().setPeriodic(trigger().intervalInMilliseconds(), id -> onProcess(executor,
-                                                                                       TriggerContextFactory.kickoff(
-                                                                                           trigger().type(),
-                                                                                           onFire(id))));
+        return this.vertx()
+                   .setPeriodic(trigger().intervalInMilliseconds(),
+                                id -> onProcess(executor, TriggerContextFactory.kickoff(trigger().type(), onFire(id))));
     }
 
     // @formatter:off
@@ -62,7 +61,8 @@ final class IntervalSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, In
     // @formatter:on
 
         public @NotNull IntervalScheduler<IN, OUT> build() {
-            return new IntervalSchedulerImpl<>(vertx(), monitor(), jobData(), job(), trigger(), timeoutPolicy());
+            return new IntervalSchedulerImpl<>(job(), jobData(), timeoutPolicy(), monitor(), trigger(),
+                                               triggerEvaluator(), vertx());
         }
 
     }

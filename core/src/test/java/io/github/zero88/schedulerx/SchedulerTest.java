@@ -9,19 +9,26 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import io.github.zero88.schedulerx.impl.AbstractTriggerEvaluator;
 import io.github.zero88.schedulerx.trigger.CronScheduler;
 import io.github.zero88.schedulerx.trigger.CronTrigger;
 import io.github.zero88.schedulerx.trigger.EventScheduler;
 import io.github.zero88.schedulerx.trigger.EventTrigger;
 import io.github.zero88.schedulerx.trigger.IntervalScheduler;
 import io.github.zero88.schedulerx.trigger.IntervalTrigger;
+import io.github.zero88.schedulerx.trigger.Trigger;
+import io.github.zero88.schedulerx.trigger.TriggerContext;
+import io.github.zero88.schedulerx.trigger.TriggerEvaluator;
 import io.github.zero88.schedulerx.trigger.predicate.EventTriggerPredicate;
+import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
 import io.vertx.core.json.JsonArray;
@@ -160,6 +167,39 @@ class SchedulerTest {
                          .setTrigger(IntervalTrigger.builder().interval(5).repeat(1).build())
                          .setJob(job)
                          .setTimeoutPolicy(TimeoutPolicy.create(timeout))
+                         .build()
+                         .start();
+    }
+
+    @Test
+    void test_scheduler_should_timeout_in_evaluation(Vertx vertx, VertxTestContext testContext) {
+        final Duration timeout = Duration.ofSeconds(1);
+        final Duration runningTime = Duration.ofSeconds(3);
+        final Consumer<ExecutionResult<Object>> timeoutAsserter = result -> {
+            Assertions.assertEquals("TriggerEvaluationTimeout", result.triggerContext().condition().reasonCode());
+            Assertions.assertEquals("Timeout after 1s", result.triggerContext().condition().cause().getMessage());
+            testContext.completeNow();
+        };
+        final SchedulingAsserter<Object> asserter = SchedulingAsserter.builder()
+                                                                      .setTestContext(testContext)
+                                                                      .setMisfire(timeoutAsserter)
+                                                                      .build();
+        final TriggerEvaluator evaluator = new AbstractTriggerEvaluator() {
+            @Override
+            protected Future<TriggerContext> internalCheck(@NotNull Trigger trigger,
+                                                           @NotNull TriggerContext triggerContext,
+                                                           @Nullable Object externalId) {
+                TestUtils.block(runningTime, testContext);
+                return Future.succeededFuture(triggerContext);
+            }
+        };
+        IntervalScheduler.builder()
+                         .setVertx(vertx)
+                         .setMonitor(asserter)
+                         .setTrigger(IntervalTrigger.builder().interval(5).build())
+                         .setJob(NoopJob.create())
+                         .setTimeoutPolicy(TimeoutPolicy.create(timeout, null))
+                         .setTriggerEvaluator(evaluator)
                          .build()
                          .start();
     }

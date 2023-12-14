@@ -1,6 +1,5 @@
 package io.github.zero88.schedulerx.trigger;
 
-import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -44,16 +43,6 @@ public interface Trigger extends HasTriggerType, TriggerRepresentation {
      * @since 2.0.0
      */
     @NotNull Trigger validate();
-
-    /**
-     * Verify if the trigger time still appropriate to execute the job.
-     * <p/>
-     * This method will be invoked right away before each execution round is started.
-     *
-     * @param firedAt a clock time that the system timer fires the trigger
-     * @since 2.0.0
-     */
-    default boolean shouldExecute(@NotNull Instant firedAt) { return rule().satisfy(firedAt); }
 
     /**
      * Verify the execution should be stopped after the current execution round is out of the trigger rule.

@@ -30,6 +30,8 @@ import io.github.zero88.schedulerx.trigger.Trigger;
 import io.github.zero88.schedulerx.trigger.TriggerCondition.ReasonCode;
 import io.github.zero88.schedulerx.trigger.TriggerCondition.TriggerStatus;
 import io.github.zero88.schedulerx.trigger.TriggerContext;
+import io.github.zero88.schedulerx.trigger.TriggerEvaluator;
+import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
@@ -56,21 +58,23 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     private final @NotNull JobData<IN> jobData;
     private final @NotNull Job<IN, OUT> job;
     private final @NotNull T trigger;
+    private final @NotNull TriggerEvaluator evaluator;
     private final @NotNull TimeoutPolicy timeoutPolicy;
     private final Lock lock = new ReentrantLock();
     private boolean didStart = false;
     private boolean didTriggerValidation = false;
     private IllegalArgumentException invalidTrigger;
 
-    protected AbstractScheduler(@NotNull Vertx vertx, @NotNull SchedulingMonitor<OUT> monitor,
-                                @NotNull JobData<IN> jobData, @NotNull Job<IN, OUT> job, @NotNull T trigger,
-                                @NotNull TimeoutPolicy timeoutPolicy) {
+    protected AbstractScheduler(@NotNull Job<IN, OUT> job, @NotNull JobData<IN> jobData,
+                                @NotNull TimeoutPolicy timeoutPolicy, @NotNull SchedulingMonitor<OUT> monitor,
+                                @NotNull T trigger, @NotNull TriggerEvaluator evaluator, @NotNull Vertx vertx) {
         this.job           = job;
         this.jobData       = jobData;
         this.timeoutPolicy = timeoutPolicy;
         this.vertx         = vertx;
         this.trigger       = trigger;
         this.monitor       = monitor;
+        this.evaluator     = new InternalTriggerEvaluator(this).andThen(evaluator);
         this.state         = new SchedulerStateImpl<>();
     }
 
@@ -171,23 +175,6 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     protected abstract void unregisterTimer(long timerId);
 
     /**
-     * Check a trigger kickoff context whether to be able to run new execution or not
-     */
-    protected final TriggerContext shouldRun(@NotNull TriggerContext kickOffContext) {
-        log(Instant.now(), "On evaluate");
-        if (state.pending()) {
-            return TriggerContextFactory.skip(kickOffContext, ReasonCode.NOT_YET_SCHEDULED);
-        }
-        if (state.completed()) {
-            return TriggerContextFactory.skip(kickOffContext, ReasonCode.ALREADY_STOPPED);
-        }
-        if (state.executing()) {
-            return TriggerContextFactory.skip(kickOffContext, ReasonCode.JOB_IS_RUNNING);
-        }
-        return evaluateTriggerRule(kickOffContext);
-    }
-
-    /**
      * Check a trigger context whether to be able to stop by configuration or force stop
      */
     protected final TriggerContext shouldStop(@NotNull TriggerContext triggerContext, boolean isForceStop, long round) {
@@ -197,23 +184,6 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
         return trigger().shouldStop(round)
                ? TriggerContextFactory.stop(triggerContext, ReasonCode.STOP_BY_CONFIG)
                : triggerContext;
-    }
-
-    /**
-     * Evaluate a trigger kickoff context on trigger rule
-     */
-    protected TriggerContext evaluateTriggerRule(@NotNull TriggerContext triggerContext) {
-        if (!triggerContext.isKickoff()) {
-            throw new IllegalStateException("Trigger condition status must be " + TriggerStatus.KICKOFF);
-        }
-        final Instant firedAt = Objects.requireNonNull(triggerContext.firedAt(),
-                                                       "Kickoff context is missing a fired at time");
-        if (trigger().rule().isExceeded(firedAt)) {
-            return TriggerContextFactory.stop(triggerContext, ReasonCode.STOP_BY_CONFIG);
-        }
-        return trigger().shouldExecute(firedAt)
-               ? TriggerContextFactory.ready(triggerContext)
-               : TriggerContextFactory.skip(triggerContext, ReasonCode.CONDITION_IS_NOT_MATCHED);
     }
 
     /**
@@ -232,9 +202,9 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     protected final void onProcess(WorkerExecutor workerExecutor, TriggerContext ctx) {
         log(Objects.requireNonNull(ctx.firedAt()), "On fire");
         final Duration timeout = timeoutPolicy().evaluationTimeout();
-        this.<TriggerContext>executeBlocking(workerExecutor,
-                                             p -> wrapTimeout(timeoutPolicy().evaluationTimeout(), p).complete(
-                                                 shouldRun(ctx)))
+        this.<TriggerContext>executeBlocking(workerExecutor, p -> this.wrapTimeout(timeout, p)
+                                                                      .handle(evaluator.beforeRun(trigger, ctx,
+                                                                                                  jobData.externalId())))
             .onSuccess(context -> onTrigger(workerExecutor, context))
             .onFailure(t -> onMisfire(TriggerContextFactory.skip(ctx, t instanceof TimeoutException
                                                                       ? ReasonCode.EVALUATION_TIMEOUT
@@ -385,6 +355,46 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
 
     private <R> Promise<R> wrapTimeout(Duration timeout, Promise<R> promise) {
         return new TimeoutBlock(vertx, timeout).wrap(promise);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private static class InternalTriggerEvaluator extends AbstractTriggerEvaluator {
+
+        private final AbstractScheduler scheduler;
+
+        private InternalTriggerEvaluator(AbstractScheduler scheduler) { this.scheduler = scheduler; }
+
+        @Override
+        protected Future<TriggerContext> internalCheck(@NotNull Trigger trigger, @NotNull TriggerContext ctx,
+                                                       @Nullable Object externalId) {
+            if (!ctx.isKickoff()) {
+                throw new IllegalStateException("Trigger condition status must be " + TriggerStatus.KICKOFF);
+            }
+            return Future.succeededFuture(doCheck(ctx));
+        }
+
+        @NotNull
+        private TriggerContext doCheck(TriggerContext ctx) {
+            scheduler.log(Instant.now(), "On evaluate");
+            if (scheduler.state.pending()) {
+                return TriggerContextFactory.skip(ctx, ReasonCode.NOT_YET_SCHEDULED);
+            }
+            if (scheduler.state.completed()) {
+                return TriggerContextFactory.skip(ctx, ReasonCode.ALREADY_STOPPED);
+            }
+            if (scheduler.state.executing()) {
+                return TriggerContextFactory.skip(ctx, ReasonCode.JOB_IS_RUNNING);
+            }
+            final Instant firedAt = Objects.requireNonNull(ctx.firedAt());
+            final TriggerRule rule = scheduler.trigger().rule();
+            if (rule.isExceeded(firedAt)) {
+                return TriggerContextFactory.stop(ctx, ReasonCode.STOP_BY_CONFIG);
+            }
+            return rule.satisfy(firedAt)
+                   ? TriggerContextFactory.ready(ctx)
+                   : TriggerContextFactory.skip(ctx, ReasonCode.CONDITION_IS_NOT_MATCHED);
+        }
+
     }
 
 }
