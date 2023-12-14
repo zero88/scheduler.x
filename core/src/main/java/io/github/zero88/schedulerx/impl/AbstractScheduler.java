@@ -24,6 +24,7 @@ import io.github.zero88.schedulerx.SchedulingMonitor;
 import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.TimeoutBlock;
 import io.github.zero88.schedulerx.TimeoutPolicy;
+import io.github.zero88.schedulerx.WorkerExecutorFactory;
 import io.github.zero88.schedulerx.trigger.Trigger;
 import io.github.zero88.schedulerx.trigger.TriggerCondition.ReasonCode;
 import io.github.zero88.schedulerx.trigger.TriggerCondition.TriggerStatus;
@@ -121,7 +122,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
             if (didStart) {
                 throw new IllegalStateException("The executor is already started!");
             }
-            doStart(workerExecutor);
+            doStart(workerExecutor == null ? WorkerExecutorFactory.create(vertx, timeoutPolicy) : workerExecutor);
             didStart = true;
         } finally {
             lock.unlock();

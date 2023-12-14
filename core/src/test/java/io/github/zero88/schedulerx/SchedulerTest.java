@@ -151,7 +151,10 @@ class SchedulerTest {
                                                                       .setTestContext(testContext)
                                                                       .setEach(timeoutAsserter)
                                                                       .build();
-        final Task<Object, Object> task = (jobData, executionContext) -> TestUtils.block(runningTime, testContext);
+        final Task<Object, Object> task = (jobData, executionContext) -> {
+            TestUtils.block(runningTime, testContext);
+            Assertions.assertTrue(Thread.currentThread().getName().startsWith("scheduler.x-worker-thread"));
+        };
         IntervalScheduler.builder()
                          .setVertx(vertx)
                          .setMonitor(asserter)
