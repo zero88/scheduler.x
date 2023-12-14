@@ -6,6 +6,7 @@ import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.SchedulerBuilder;
 import io.github.zero88.schedulerx.SchedulingMonitor;
 import io.github.zero88.schedulerx.Task;
+import io.github.zero88.schedulerx.TimeoutPolicy;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.codegen.annotations.GenIgnore;
 import io.vertx.codegen.annotations.VertxGen;
@@ -38,6 +39,10 @@ public interface IntervalSchedulerBuilder<IN, OUT>
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
     @NotNull IntervalSchedulerBuilder<IN, OUT> setJobData(@NotNull JobData<IN> jobData);
+
+    @Fluent
+    @GenIgnore(GenIgnore.PERMITTED_TYPE)
+    @NotNull IntervalSchedulerBuilder<IN, OUT> setTimeoutPolicy(@NotNull TimeoutPolicy timeoutPolicy);
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)

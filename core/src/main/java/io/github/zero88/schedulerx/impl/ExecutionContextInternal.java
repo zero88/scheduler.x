@@ -8,6 +8,8 @@ import io.vertx.core.Promise;
 
 interface ExecutionContextInternal<OUTPUT> extends ExecutionContext<OUTPUT> {
 
+    @NotNull TriggerTransitionContext triggerContext();
+
     /**
      * Prepare to execute task
      *

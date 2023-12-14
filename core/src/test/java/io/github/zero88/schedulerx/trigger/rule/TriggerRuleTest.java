@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junitpioneer.jupiter.SetSystemProperty;
 import org.junitpioneer.jupiter.cartesian.ArgumentSets;
 import org.junitpioneer.jupiter.cartesian.CartesianTest;
 
@@ -80,8 +81,8 @@ class TriggerRuleTest {
 
     private static Stream<Arguments> leewayTestData() {
         return Stream.of(arguments(null, Duration.ZERO), arguments(0.0, Duration.ZERO), arguments(0, Duration.ZERO),
-                         arguments("-PT1H", Duration.ZERO), arguments("PT10S", Duration.ofSeconds(10)),
-                         arguments("PT1M", Duration.ofSeconds(30)));
+                         arguments("-PT1H", Duration.ZERO), arguments("PT5S", Duration.ofSeconds(5)),
+                         arguments("PT1M", Duration.ofSeconds(10)));
     }
 
     @ParameterizedTest
@@ -118,14 +119,14 @@ class TriggerRuleTest {
                                                       FiredAtArgument.of(Instant.parse("2023-09-22T09:00:00Z"), true),
                                                       FiredAtArgument.of(Instant.parse("2023-09-22T11:29:59Z"), true),
                                                       FiredAtArgument.of(Instant.parse("2023-09-23T00:00:01Z"), true),
-                                                      FiredAtArgument.of(Duration.ofSeconds(15),
-                                                                         Instant.parse("2023-09-22T03:30:14Z"), true),
+                                                      FiredAtArgument.of(Duration.ofSeconds(7),
+                                                                         Instant.parse("2023-09-22T03:30:06Z"), true),
                                                       FiredAtArgument.of(Instant.parse("2023-09-20T04:00:00Z"), false),
                                                       FiredAtArgument.of(Instant.parse("2023-09-21T08:59:59Z"), false),
                                                       FiredAtArgument.of(Instant.parse("2023-09-23T11:30:00Z"), false),
                                                       FiredAtArgument.of(Instant.parse("2023-09-24T22:00:00Z"), false),
-                                                      FiredAtArgument.of(Duration.ofSeconds(15),
-                                                                         Instant.parse("2023-09-25T03:30:16Z"), false));
+                                                      FiredAtArgument.of(Duration.ofSeconds(7),
+                                                                         Instant.parse("2023-09-25T03:30:08Z"), false));
     }
 
     @CartesianTest

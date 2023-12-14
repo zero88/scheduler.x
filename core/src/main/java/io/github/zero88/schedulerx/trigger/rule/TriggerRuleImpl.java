@@ -9,6 +9,8 @@ import java.util.Optional;
 
 import org.jetbrains.annotations.NotNull;
 
+import io.github.zero88.schedulerx.DefaultOptions;
+
 @SuppressWarnings("rawtypes")
 final class TriggerRuleImpl implements TriggerRule {
 
@@ -65,13 +67,11 @@ final class TriggerRuleImpl implements TriggerRule {
     @NotNull
     private static Duration validateLeewayTime(Duration leeway) {
         final Duration given = Optional.ofNullable(leeway).orElse(Duration.ZERO);
-        if (given.compareTo(MAX_LEEWAY) > 0) {
-            return MAX_LEEWAY;
-        }
         if (given.isNegative()) {
             return Duration.ZERO;
         }
-        return given;
+        final Duration maxLeeway = DefaultOptions.getInstance().maxTriggerRuleLeeway;
+        return given.compareTo(maxLeeway) > 0 ? maxLeeway : given;
     }
 
 }

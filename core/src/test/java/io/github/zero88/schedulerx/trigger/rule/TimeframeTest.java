@@ -18,23 +18,18 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import io.github.zero88.schedulerx.TestUtils;
 import io.github.zero88.schedulerx.trigger.rule.custom.SimpleDateTimeTimeframe;
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
 class TimeframeTest {
 
     static ObjectMapper mapper;
 
     @BeforeAll
-    static void setup() {
-        mapper = new ObjectMapper().findAndRegisterModules()
-                                   .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-                                   .setSerializationInclusion(Include.NON_NULL);
-    }
+    static void setup() { mapper = TestUtils.defaultMapper(); }
 
     private static Stream<Arguments> validValues() {
         // @formatter:off

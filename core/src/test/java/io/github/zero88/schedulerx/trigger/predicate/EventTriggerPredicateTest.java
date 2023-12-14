@@ -32,9 +32,7 @@ class EventTriggerPredicateTest {
     static ObjectMapper mapper;
 
     @BeforeAll
-    static void setup() {
-        mapper = DatabindCodec.mapper();
-    }
+    static void setup() { mapper = DatabindCodec.mapper(); }
 
     static Stream<Arguments> validData() {
         // @formatter:off

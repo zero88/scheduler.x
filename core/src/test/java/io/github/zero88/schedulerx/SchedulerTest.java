@@ -139,6 +139,33 @@ class SchedulerTest {
     }
 
     @Test
+    void test_scheduler_should_timeout_in_execution(Vertx vertx, VertxTestContext testContext) {
+        final Duration timeout = Duration.ofSeconds(2);
+        final Duration runningTime = Duration.ofSeconds(3);
+        final Consumer<ExecutionResult<Object>> timeoutAsserter = result -> {
+            Assertions.assertTrue(result.isError());
+            Assertions.assertTrue(result.isTimeout());
+            Assertions.assertEquals("Timeout after 2s", result.error().getMessage());
+        };
+        final SchedulingAsserter<Object> asserter = SchedulingAsserter.builder()
+                                                                      .setTestContext(testContext)
+                                                                      .setEach(timeoutAsserter)
+                                                                      .build();
+        final Task<Object, Object> task = (jobData, executionContext) -> {
+            TestUtils.block(runningTime, testContext);
+            Assertions.assertTrue(Thread.currentThread().getName().startsWith("scheduler.x-worker-thread"));
+        };
+        IntervalScheduler.builder()
+                         .setVertx(vertx)
+                         .setMonitor(asserter)
+                         .setTrigger(IntervalTrigger.builder().interval(5).repeat(1).build())
+                         .setTask(task)
+                         .setTimeoutPolicy(TimeoutPolicy.create(timeout))
+                         .build()
+                         .start();
+    }
+
+    @Test
     void test_scheduler_should_able_to_force_stop(Vertx vertx, VertxTestContext testContext) {
         final Consumer<ExecutionResult<Object>> completed = result -> {
             Assertions.assertEquals(3, result.round());

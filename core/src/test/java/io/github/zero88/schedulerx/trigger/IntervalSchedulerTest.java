@@ -22,7 +22,7 @@ import io.github.zero88.schedulerx.Task;
 import io.github.zero88.schedulerx.TestUtils;
 import io.github.zero88.schedulerx.trigger.TriggerCondition.ReasonCode;
 import io.vertx.core.Vertx;
-import io.vertx.junit5.Checkpoint;
+import io.vertx.core.WorkerExecutor;
 import io.vertx.junit5.RunTestOnContext;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
@@ -70,7 +70,7 @@ class IntervalSchedulerTest {
                                                                     .setSchedule(onSchedule)
                                                                     .setCompleted(onComplete)
                                                                     .build();
-        final IntervalTrigger trigger = IntervalTrigger.builder().initialDelay(2).interval(2).repeat(2).build();
+        final IntervalTrigger trigger = IntervalTrigger.builder().initialDelay(5).interval(2).repeat(2).build();
         IntervalScheduler.<Void, Void>builder()
                          .setVertx(vertx)
                          .setMonitor(asserter)
@@ -82,7 +82,6 @@ class IntervalSchedulerTest {
 
     @Test
     void test_run_blocking_task_in_the_end(Vertx vertx, VertxTestContext testContext) {
-        final Checkpoint checkpoint = testContext.checkpoint(3);
         final AtomicLong lastTickOnEach = new AtomicLong();
         final Consumer<ExecutionResult<Void>> onEach = result -> {
             lastTickOnEach.set(result.tick());
@@ -109,16 +108,14 @@ class IntervalSchedulerTest {
                                                                     .setCompleted(onComplete)
                                                                     .build();
         final IntervalTrigger trigger = IntervalTrigger.builder().interval(1).repeat(3).build();
+        final WorkerExecutor worker = vertx.createSharedWorkerExecutor("hello", 3, 500);
         IntervalScheduler.<Void, Void>builder()
                          .setVertx(vertx)
                          .setMonitor(asserter)
                          .setTrigger(trigger)
-                         .setTask((jobData, ctx) -> {
-                             TestUtils.block(Duration.ofSeconds(3), testContext);
-                             checkpoint.flag();
-                         })
+                         .setTask((jobData, ctx) -> TestUtils.block(Duration.ofSeconds(3), testContext))
                          .build()
-                         .start();
+                         .start(worker);
     }
 
     @Test
@@ -127,7 +124,7 @@ class IntervalSchedulerTest {
             if (result.round() < 3) {
                 Assertions.assertTrue(result.isError());
                 Assertions.assertNotNull(result.error());
-                Assertions.assertTrue(result.error() instanceof RuntimeException);
+                Assertions.assertInstanceOf(RuntimeException.class, result.error());
                 Assertions.assertNull(result.data());
             }
             if (result.round() == 3) {

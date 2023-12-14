@@ -2,6 +2,7 @@ package io.github.zero88.schedulerx;
 
 import java.time.Instant;
 import java.util.Objects;
+import java.util.concurrent.TimeoutException;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -139,6 +140,13 @@ public interface ExecutionResult<OUTPUT> {
      * @return {@code true} if error
      */
     default boolean isError() { return Objects.nonNull(error()); }
+
+    /**
+     * Identify task execution is timed out
+     *
+     * @return {@code true} if timeout error
+     */
+    default boolean isTimeout() { return error() instanceof TimeoutException; }
 
     /**
      * Check whether the trigger is re-registered in the system timer or not after the trigger is available, only in

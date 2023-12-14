@@ -63,9 +63,10 @@ public interface TriggerCondition {
         public static final String NOT_YET_SCHEDULED = "TriggerIsNotYetScheduled";
         public static final String ALREADY_STOPPED = "TriggerIsAlreadyStopped";
         public static final String CONDITION_IS_NOT_MATCHED = "ConditionIsNotMatched";
-        public static final String STOP_BY_TASK = "ForceStopByTask";
+        public static final String EVALUATION_TIMEOUT = "TriggerEvaluationTimeout";
+        public static final String STOP_BY_TASK = "ForceStop";
         public static final String STOP_BY_CONFIG = "StopByTriggerConfig";
-        public static final String STOP_BY_MANUAL = "StopManually";
+        public static final String STOP_BY_MANUAL = "ManualStop";
         public static final String TASK_IS_RUNNING = "TaskIsRunning";
         public static final String UNEXPECTED_ERROR = "UnexpectedError";
 
