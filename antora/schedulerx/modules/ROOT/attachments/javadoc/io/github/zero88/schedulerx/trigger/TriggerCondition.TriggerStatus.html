@@ -111,24 +111,28 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color">
 <div class="block">Identify the trigger is error due to invalid configuration or any unexpected error in system timer</div>
 </div>
-<div class="col-first odd-row-color"><code><a href="#KICKOFF" class="member-name-link">KICKOFF</a></code></div>
+<div class="col-first odd-row-color"><code><a href="#EXECUTED" class="member-name-link">EXECUTED</a></code></div>
 <div class="col-last odd-row-color">
+<div class="block">Identify the trigger is already run</div>
+</div>
+<div class="col-first even-row-color"><code><a href="#KICKOFF" class="member-name-link">KICKOFF</a></code></div>
+<div class="col-last even-row-color">
 <div class="block">Identify the trigger is fired by system timer</div>
 </div>
-<div class="col-first even-row-color"><code><a href="#READY" class="member-name-link">READY</a></code></div>
-<div class="col-last even-row-color">
+<div class="col-first odd-row-color"><code><a href="#READY" class="member-name-link">READY</a></code></div>
+<div class="col-last odd-row-color">
 <div class="block">Identify the trigger is satisfied every predicate then ready to execute the task</div>
 </div>
-<div class="col-first odd-row-color"><code><a href="#SCHEDULED" class="member-name-link">SCHEDULED</a></code></div>
-<div class="col-last odd-row-color">
+<div class="col-first even-row-color"><code><a href="#SCHEDULED" class="member-name-link">SCHEDULED</a></code></div>
+<div class="col-last even-row-color">
 <div class="block">Identify the trigger is scheduled successfully</div>
 </div>
-<div class="col-first even-row-color"><code><a href="#SKIPPED" class="member-name-link">SKIPPED</a></code></div>
-<div class="col-last even-row-color">
+<div class="col-first odd-row-color"><code><a href="#SKIPPED" class="member-name-link">SKIPPED</a></code></div>
+<div class="col-last odd-row-color">
 <div class="block">Identify the trigger is skipped to execute the task</div>
 </div>
-<div class="col-first odd-row-color"><code><a href="#STOPPED" class="member-name-link">STOPPED</a></code></div>
-<div class="col-last odd-row-color">
+<div class="col-first even-row-color"><code><a href="#STOPPED" class="member-name-link">STOPPED</a></code></div>
+<div class="col-last even-row-color">
 <div class="block">Identify the trigger is stopped by configuration or manually.</div>
 </div>
 </div>
@@ -202,6 +206,13 @@ the order they are declared.</div>
 <h3>READY</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="TriggerCondition.TriggerStatus.html" title="enum class in io.github.zero88.schedulerx.trigger">TriggerCondition.TriggerStatus</a></span>&nbsp;<span class="element-name">READY</span></div>
 <div class="block">Identify the trigger is satisfied every predicate then ready to execute the task</div>
+</section>
+</li>
+<li>
+<section class="detail" id="EXECUTED">
+<h3>EXECUTED</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="TriggerCondition.TriggerStatus.html" title="enum class in io.github.zero88.schedulerx.trigger">TriggerCondition.TriggerStatus</a></span>&nbsp;<span class="element-name">EXECUTED</span></div>
+<div class="block">Identify the trigger is already run</div>
 </section>
 </li>
 <li>
