@@ -1,7 +1,7 @@
 package io.github.zero88.schedulerx;
 
+import io.vertx.codegen.annotations.GenIgnore;
 import io.vertx.codegen.annotations.VertxGen;
-import io.vertx.core.WorkerExecutor;
 
 /**
  * Represents for an executor run a {@code job} in conditional loop.
@@ -15,21 +15,11 @@ import io.vertx.core.WorkerExecutor;
 public interface JobExecutor<IN, OUT> extends JobExecutorProperties<IN, OUT> {
 
     /**
-     * Start and run in {@code Vertx worker thread pool}
-     */
-    default void start() { start(null); }
-
-    /**
-     * Start and run in a dedicated thread pool that is provided by a customized worker executor
+     * Execute job
      *
-     * @param workerExecutor worker executor
-     * @see WorkerExecutor
+     * @param executionContext execution context
      */
-    void start(WorkerExecutor workerExecutor);
-
-    /**
-     * Cancel executor
-     */
-    void cancel();
+    @GenIgnore(GenIgnore.PERMITTED_TYPE)
+    void executeJob(ExecutionContext<OUT> executionContext);
 
 }

@@ -3,7 +3,7 @@ package io.github.zero88.schedulerx;
 import org.jetbrains.annotations.NotNull;
 
 import io.github.zero88.schedulerx.trigger.Trigger;
-import io.vertx.codegen.annotations.GenIgnore;
+import io.vertx.core.WorkerExecutor;
 
 /**
  * A scheduler schedules a job to run based on a particular trigger.
@@ -26,11 +26,21 @@ public interface Scheduler<IN, OUT, TRIGGER extends Trigger> extends JobExecutor
     @NotNull TRIGGER trigger();
 
     /**
-     * Execute job
-     *
-     * @param executionContext execution context
+     * Start and run the {@code scheduler} in {@code Vertx worker thread pool}.
      */
-    @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    void executeJob(ExecutionContext<OUT> executionContext);
+    default void start() { start(null); }
+
+    /**
+     * Start and run the {@code scheduler} in a dedicated thread pool that is provided by a customized worker executor
+     *
+     * @param workerExecutor worker executor
+     * @see WorkerExecutor
+     */
+    void start(WorkerExecutor workerExecutor);
+
+    /**
+     * Cancel executor
+     */
+    void cancel();
 
 }
