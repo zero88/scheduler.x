@@ -76,7 +76,7 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="../JobExecutorProperties.html" title="interface in io.github.zero88.schedulerx">JobExecutorProperties</a>&lt;IN,<wbr>OUT&gt;</code>, <code><a href="../SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr>T,<wbr>S,<wbr>B&gt;</code></dd>
+<dd><code><a href="../SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr>T,<wbr>S,<wbr>B&gt;</code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations">@Internal
@@ -113,19 +113,13 @@ implements <a href="../SchedulerBuilder.html" title="interface in io.github.zero
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="../Job.html" title="interface in io.github.zero88.schedulerx">Job</a>&lt;<a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">IN</a>,<wbr><a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">OUT</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#job()" class="member-name-link">job</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Job to execute per round</div>
-</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="../JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;<a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">IN</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jobData()" class="member-name-link">jobData</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Declares the job input data</div>
-</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="../SchedulingMonitor.html" title="interface in io.github.zero88.schedulerx">SchedulingMonitor</a>&lt;<a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">OUT</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#monitor()" class="member-name-link">monitor</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Defines a job executor monitor</div>
-</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">B</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setJob(io.github.zero88.schedulerx.Job)" class="member-name-link">setJob</a><wbr>(@NotNull <a href="../Job.html" title="interface in io.github.zero88.schedulerx">Job</a>&lt;<a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">IN</a>,<wbr><a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">OUT</a>&gt;&nbsp;job)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
@@ -146,17 +140,13 @@ implements <a href="../SchedulerBuilder.html" title="interface in io.github.zero
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="../TimeoutPolicy.html" title="class in io.github.zero88.schedulerx">TimeoutPolicy</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#timeoutPolicy()" class="member-name-link">timeoutPolicy</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Declares the timeout policy</div>
-</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">T</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#trigger()" class="member-name-link">trigger</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull io.vertx.core.Vertx</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#vertx()" class="member-name-link">vertx</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Vertx</div>
-</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -196,14 +186,6 @@ implements <a href="../SchedulerBuilder.html" title="interface in io.github.zero
 <h3>vertx</h3>
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull io.vertx.core.Vertx</span>&nbsp;<span class="element-name">vertx</span>()</div>
-<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../JobExecutorProperties.html#vertx()">JobExecutorProperties</a></code></span></div>
-<div class="block">Vertx</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../JobExecutorProperties.html#vertx()">vertx</a></code>&nbsp;in interface&nbsp;<code><a href="../JobExecutorProperties.html" title="interface in io.github.zero88.schedulerx">JobExecutorProperties</a>&lt;<a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">IN</a>,<wbr><a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">OUT</a>&gt;</code></dd>
-<dt>Returns:</dt>
-<dd>vertx</dd>
-</dl>
 </section>
 </li>
 <li>
@@ -211,20 +193,6 @@ implements <a href="../SchedulerBuilder.html" title="interface in io.github.zero
 <h3>monitor</h3>
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="../SchedulingMonitor.html" title="interface in io.github.zero88.schedulerx">SchedulingMonitor</a>&lt;<a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">OUT</a>&gt;</span>&nbsp;<span class="element-name">monitor</span>()</div>
-<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../JobExecutorProperties.html#monitor()">JobExecutorProperties</a></code></span></div>
-<div class="block">Defines a job executor monitor</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../JobExecutorProperties.html#monitor()">monitor</a></code>&nbsp;in interface&nbsp;<code><a href="../JobExecutorProperties.html" title="interface in io.github.zero88.schedulerx">JobExecutorProperties</a>&lt;<a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">IN</a>,<wbr><a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">OUT</a>&gt;</code></dd>
-<dt>Returns:</dt>
-<dd>job executor monitor</dd>
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../SchedulingMonitor.html" title="interface in io.github.zero88.schedulerx"><code>SchedulingMonitor</code></a></li>
-</ul>
-</dd>
-</dl>
 </section>
 </li>
 <li>
@@ -232,10 +200,6 @@ implements <a href="../SchedulerBuilder.html" title="interface in io.github.zero
 <h3>trigger</h3>
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">T</a></span>&nbsp;<span class="element-name">trigger</span>()</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../SchedulerBuilder.html#trigger()">trigger</a></code>&nbsp;in interface&nbsp;<code><a href="../SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;<a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">IN</a>,<wbr><a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">OUT</a>,<wbr><a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">T</a> extends <a href="../trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a>,<wbr><a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">S</a> extends <a href="../Scheduler.html" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;<a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">IN</a>,<wbr><a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">OUT</a>,<wbr><a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">T</a>&gt;,<wbr><a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">B</a> extends <a href="../SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;<a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">IN</a>,<wbr><a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">OUT</a>,<wbr><a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">T</a>,<wbr><a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">S</a>,<wbr><a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">B</a>&gt;&gt;</code></dd>
-</dl>
 </section>
 </li>
 <li>
@@ -243,20 +207,6 @@ implements <a href="../SchedulerBuilder.html" title="interface in io.github.zero
 <h3>job</h3>
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="../Job.html" title="interface in io.github.zero88.schedulerx">Job</a>&lt;<a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">IN</a>,<wbr><a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">OUT</a>&gt;</span>&nbsp;<span class="element-name">job</span>()</div>
-<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../JobExecutorProperties.html#job()">JobExecutorProperties</a></code></span></div>
-<div class="block">Job to execute per round</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../JobExecutorProperties.html#job()">job</a></code>&nbsp;in interface&nbsp;<code><a href="../JobExecutorProperties.html" title="interface in io.github.zero88.schedulerx">JobExecutorProperties</a>&lt;<a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">IN</a>,<wbr><a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">OUT</a>&gt;</code></dd>
-<dt>Returns:</dt>
-<dd>job</dd>
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../Job.html" title="interface in io.github.zero88.schedulerx"><code>Job</code></a></li>
-</ul>
-</dd>
-</dl>
 </section>
 </li>
 <li>
@@ -264,20 +214,6 @@ implements <a href="../SchedulerBuilder.html" title="interface in io.github.zero
 <h3>jobData</h3>
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="../JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;<a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">IN</a>&gt;</span>&nbsp;<span class="element-name">jobData</span>()</div>
-<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../JobExecutorProperties.html#jobData()">JobExecutorProperties</a></code></span></div>
-<div class="block">Declares the job input data</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../JobExecutorProperties.html#jobData()">jobData</a></code>&nbsp;in interface&nbsp;<code><a href="../JobExecutorProperties.html" title="interface in io.github.zero88.schedulerx">JobExecutorProperties</a>&lt;<a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">IN</a>,<wbr><a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">OUT</a>&gt;</code></dd>
-<dt>Returns:</dt>
-<dd>job data</dd>
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../JobData.html" title="interface in io.github.zero88.schedulerx"><code>JobData</code></a></li>
-</ul>
-</dd>
-</dl>
 </section>
 </li>
 <li>
@@ -285,20 +221,6 @@ implements <a href="../SchedulerBuilder.html" title="interface in io.github.zero
 <h3>timeoutPolicy</h3>
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="../TimeoutPolicy.html" title="class in io.github.zero88.schedulerx">TimeoutPolicy</a></span>&nbsp;<span class="element-name">timeoutPolicy</span>()</div>
-<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../JobExecutorProperties.html#timeoutPolicy()">JobExecutorProperties</a></code></span></div>
-<div class="block">Declares the timeout policy</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../JobExecutorProperties.html#timeoutPolicy()">timeoutPolicy</a></code>&nbsp;in interface&nbsp;<code><a href="../JobExecutorProperties.html" title="interface in io.github.zero88.schedulerx">JobExecutorProperties</a>&lt;<a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">IN</a>,<wbr><a href="AbstractSchedulerBuilder.html" title="type parameter in AbstractSchedulerBuilder">OUT</a>&gt;</code></dd>
-<dt>Returns:</dt>
-<dd>timeout policy</dd>
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../TimeoutPolicy.html" title="class in io.github.zero88.schedulerx"><code>TimeoutPolicy</code></a></li>
-</ul>
-</dd>
-</dl>
 </section>
 </li>
 <li>

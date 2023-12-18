@@ -68,29 +68,20 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">io.github.zero88.schedulerx</a></div>
-<h1 title="Interface JobExecutor" class="title">Interface JobExecutor&lt;IN,<wbr>OUT&gt;</h1>
+<h1 title="Interface JobExecutor" class="title">Interface JobExecutor&lt;OUT&gt;</h1>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>Type Parameters:</dt>
-<dd><code>IN</code> - Type of job input data</dd>
 <dd><code>OUT</code> - Type of job result data</dd>
-</dl>
-<dl class="notes">
-<dt>All Superinterfaces:</dt>
-<dd><code><a href="JobExecutorProperties.html" title="interface in io.github.zero88.schedulerx">JobExecutorProperties</a>&lt;IN,<wbr>OUT&gt;</code></dd>
-</dl>
-<dl class="notes">
-<dt>All Known Subinterfaces:</dt>
-<dd><code><a href="trigger/CronScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">CronScheduler</a>&lt;IN,<wbr>OUT&gt;</code>, <code><a href="trigger/EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;IN,<wbr>OUT,<wbr>T&gt;</code>, <code><a href="trigger/IntervalScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalScheduler</a>&lt;IN,<wbr>OUT&gt;</code>, <code><a href="Scheduler.html" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;IN,<wbr>OUT,<wbr>TRIGGER&gt;</code></dd>
 </dl>
 <dl class="notes">
 <dt>All Known Implementing Classes:</dt>
 <dd><code><a href="impl/AbstractScheduler.html" title="class in io.github.zero88.schedulerx.impl">AbstractScheduler</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">JobExecutor&lt;IN,<wbr>OUT&gt;</span><span class="extends-implements">
-extends <a href="JobExecutorProperties.html" title="interface in io.github.zero88.schedulerx">JobExecutorProperties</a>&lt;IN,<wbr>OUT&gt;</span></div>
+<div class="type-signature"><span class="annotations">@Internal
+</span><span class="modifiers">public interface </span><span class="element-name type-name-label">JobExecutor&lt;OUT&gt;</span></div>
 <div class="block">Represents for an executor run a <code>job</code> in conditional loop.</div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -120,9 +111,6 @@ extends <a href="JobExecutorProperties.html" title="interface in io.github.zero8
 </div>
 </div>
 </div>
-<div class="inherited-list">
-<h3 id="methods-inherited-from-class-io.github.zero88.schedulerx.JobExecutorProperties">Methods inherited from interface&nbsp;io.github.zero88.schedulerx.<a href="JobExecutorProperties.html" title="interface in io.github.zero88.schedulerx">JobExecutorProperties</a></h3>
-<code><a href="JobExecutorProperties.html#job()">job</a>, <a href="JobExecutorProperties.html#jobData()">jobData</a>, <a href="JobExecutorProperties.html#monitor()">monitor</a>, <a href="JobExecutorProperties.html#timeoutPolicy()">timeoutPolicy</a>, <a href="JobExecutorProperties.html#vertx()">vertx</a></code></div>
 </section>
 </li>
 </ul>
