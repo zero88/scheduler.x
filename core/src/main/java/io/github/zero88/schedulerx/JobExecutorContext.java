@@ -3,10 +3,6 @@ package io.github.zero88.schedulerx;
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.NotNull;
 
-import io.vertx.codegen.annotations.GenIgnore;
-import io.vertx.codegen.annotations.VertxGen;
-import io.vertx.core.Vertx;
-
 /**
  * Shared immutable fields between JobExecutor and its builder.
  * <p/>
@@ -17,24 +13,7 @@ import io.vertx.core.Vertx;
  * @since 2.0.0
  */
 @Internal
-@VertxGen(concrete = false)
-public interface JobExecutorProperties<IN, OUT> {
-
-    /**
-     * Vertx
-     *
-     * @return vertx
-     */
-    @NotNull Vertx vertx();
-
-    /**
-     * Defines a job executor monitor
-     *
-     * @return job executor monitor
-     * @see SchedulingMonitor
-     */
-    @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull SchedulingMonitor<OUT> monitor();
+interface JobExecutorContext<IN, OUT> {
 
     /**
      * Job to execute per round
@@ -42,7 +21,6 @@ public interface JobExecutorProperties<IN, OUT> {
      * @return job
      * @see Job
      */
-    @GenIgnore(GenIgnore.PERMITTED_TYPE)
     @NotNull Job<IN, OUT> job();
 
     /**
@@ -51,7 +29,6 @@ public interface JobExecutorProperties<IN, OUT> {
      * @return job data
      * @see JobData
      */
-    @GenIgnore(GenIgnore.PERMITTED_TYPE)
     @NotNull JobData<IN> jobData();
 
     /**
@@ -60,7 +37,6 @@ public interface JobExecutorProperties<IN, OUT> {
      * @return timeout policy
      * @see TimeoutPolicy
      */
-    @GenIgnore(GenIgnore.PERMITTED_TYPE)
     @NotNull TimeoutPolicy timeoutPolicy();
 
 }
