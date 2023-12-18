@@ -6,6 +6,7 @@ import io.github.zero88.schedulerx.Scheduler;
 import io.github.zero88.schedulerx.trigger.CronSchedulerImpl.CronSchedulerBuilderImpl;
 import io.vertx.codegen.annotations.GenIgnore;
 import io.vertx.codegen.annotations.VertxGen;
+import io.vertx.core.WorkerExecutor;
 
 /**
  * A timebase scheduler supports the cron-like scheduling.
@@ -25,5 +26,14 @@ public interface CronScheduler<IN, OUT> extends Scheduler<IN, OUT, CronTrigger> 
     @Override
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
     @NotNull CronTrigger trigger();
+
+    @Override
+    default void start() { start(null); }
+
+    @Override
+    void start(WorkerExecutor workerExecutor);
+
+    @Override
+    void cancel();
 
 }

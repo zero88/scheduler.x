@@ -6,6 +6,7 @@ import io.github.zero88.schedulerx.Scheduler;
 import io.github.zero88.schedulerx.trigger.EventSchedulerImpl.EventSchedulerBuilderImpl;
 import io.vertx.codegen.annotations.GenIgnore;
 import io.vertx.codegen.annotations.VertxGen;
+import io.vertx.core.WorkerExecutor;
 import io.vertx.core.eventbus.EventBus;
 
 /**
@@ -28,5 +29,14 @@ public interface EventScheduler<IN, OUT, T> extends Scheduler<IN, OUT, EventTrig
     @Override
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
     @NotNull EventTrigger<T> trigger();
+
+    @Override
+    default void start() { start(null); }
+
+    @Override
+    void start(WorkerExecutor workerExecutor);
+
+    @Override
+    void cancel();
 
 }

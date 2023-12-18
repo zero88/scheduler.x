@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import io.github.zero88.schedulerx.trigger.Trigger;
 
 /**
- * Represents for a monitor that watches lifecycle event in the job executor.
+ * Represents for a monitor that watches lifecycle event in the scheduler.
  * <p/>
  * It can be used to distribute and persist the execution result per each round to an external system.
  *

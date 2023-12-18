@@ -30,11 +30,15 @@ public interface IntervalSchedulerBuilder<IN, OUT>
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull IntervalSchedulerBuilder<IN, OUT> setJob(@NotNull Job<IN, OUT> job);
+    @NotNull IntervalSchedulerBuilder<IN, OUT> setTrigger(@NotNull IntervalTrigger trigger);
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull IntervalSchedulerBuilder<IN, OUT> setTrigger(@NotNull IntervalTrigger trigger);
+    @NotNull IntervalSchedulerBuilder<IN, OUT> setMonitor(@NotNull SchedulingMonitor<OUT> monitor);
+
+    @Fluent
+    @GenIgnore(GenIgnore.PERMITTED_TYPE)
+    @NotNull IntervalSchedulerBuilder<IN, OUT> setJob(@NotNull Job<IN, OUT> job);
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
@@ -43,10 +47,6 @@ public interface IntervalSchedulerBuilder<IN, OUT>
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
     @NotNull IntervalSchedulerBuilder<IN, OUT> setTimeoutPolicy(@NotNull TimeoutPolicy timeoutPolicy);
-
-    @Fluent
-    @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull IntervalSchedulerBuilder<IN, OUT> setMonitor(@NotNull SchedulingMonitor<OUT> monitor);
 
     @NotNull IntervalScheduler<IN, OUT> build();
 

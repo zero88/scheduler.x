@@ -31,11 +31,15 @@ public interface CronSchedulerBuilder<IN, OUT>
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull CronSchedulerBuilder<IN, OUT> setJob(@NotNull Job<IN, OUT> job);
+    @NotNull CronSchedulerBuilder<IN, OUT> setTrigger(@NotNull CronTrigger trigger);
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull CronSchedulerBuilder<IN, OUT> setTrigger(@NotNull CronTrigger trigger);
+    @NotNull CronSchedulerBuilder<IN, OUT> setMonitor(@NotNull SchedulingMonitor<OUT> monitor);
+
+    @Fluent
+    @GenIgnore(GenIgnore.PERMITTED_TYPE)
+    @NotNull CronSchedulerBuilder<IN, OUT> setJob(@NotNull Job<IN, OUT> job);
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
@@ -44,10 +48,6 @@ public interface CronSchedulerBuilder<IN, OUT>
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
     @NotNull CronSchedulerBuilder<IN, OUT> setTimeoutPolicy(@NotNull TimeoutPolicy timeoutPolicy);
-
-    @Fluent
-    @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull CronSchedulerBuilder<IN, OUT> setMonitor(@NotNull SchedulingMonitor<OUT> monitor);
 
     @NotNull CronScheduler<IN, OUT> build();
 

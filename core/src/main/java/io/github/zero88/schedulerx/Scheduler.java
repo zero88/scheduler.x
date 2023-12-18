@@ -1,7 +1,5 @@
 package io.github.zero88.schedulerx;
 
-import org.jetbrains.annotations.NotNull;
-
 import io.github.zero88.schedulerx.trigger.Trigger;
 import io.vertx.core.WorkerExecutor;
 
@@ -12,18 +10,11 @@ import io.vertx.core.WorkerExecutor;
  * @param <OUT>     Type of Job result data
  * @param <TRIGGER> Type of Trigger
  * @apiNote This interface is renamed from {@code TriggerTaskExecutor} since {@code 2.0.0}
- * @see JobExecutor
  * @see Trigger
  * @since 2.0.0
  */
-public interface Scheduler<IN, OUT, TRIGGER extends Trigger> extends JobExecutor<IN, OUT> {
-
-    /**
-     * Trigger type
-     *
-     * @return trigger
-     */
-    @NotNull TRIGGER trigger();
+public interface Scheduler<IN, OUT, TRIGGER extends Trigger>
+    extends JobExecutorContext<IN, OUT>, SchedulerContext<TRIGGER, OUT> {
 
     /**
      * Start and run the {@code scheduler} in {@code Vertx worker thread pool}.
@@ -39,7 +30,7 @@ public interface Scheduler<IN, OUT, TRIGGER extends Trigger> extends JobExecutor
     void start(WorkerExecutor workerExecutor);
 
     /**
-     * Cancel executor
+     * Cancel scheduler
      */
     void cancel();
 

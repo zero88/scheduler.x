@@ -32,11 +32,15 @@ public interface EventSchedulerBuilder<IN, OUT, T>
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull EventSchedulerBuilder<IN, OUT, T> setJob(@NotNull Job<IN, OUT> job);
+    @NotNull EventSchedulerBuilder<IN, OUT, T> setTrigger(@NotNull EventTrigger<T> trigger);
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull EventSchedulerBuilder<IN, OUT, T> setTrigger(@NotNull EventTrigger<T> trigger);
+    @NotNull EventSchedulerBuilder<IN, OUT, T> setMonitor(@NotNull SchedulingMonitor<OUT> monitor);
+
+    @Fluent
+    @GenIgnore(GenIgnore.PERMITTED_TYPE)
+    @NotNull EventSchedulerBuilder<IN, OUT, T> setJob(@NotNull Job<IN, OUT> job);
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
@@ -45,10 +49,6 @@ public interface EventSchedulerBuilder<IN, OUT, T>
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
     @NotNull EventSchedulerBuilder<IN, OUT, T> setTimeoutPolicy(@NotNull TimeoutPolicy timeoutPolicy);
-
-    @Fluent
-    @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull EventSchedulerBuilder<IN, OUT, T> setMonitor(@NotNull SchedulingMonitor<OUT> monitor);
 
     @NotNull EventScheduler<IN, OUT, T> build();
 

@@ -20,6 +20,7 @@ import io.github.zero88.schedulerx.ExecutionContext;
 import io.github.zero88.schedulerx.ExecutionResult;
 import io.github.zero88.schedulerx.Job;
 import io.github.zero88.schedulerx.JobData;
+import io.github.zero88.schedulerx.JobExecutor;
 import io.github.zero88.schedulerx.Scheduler;
 import io.github.zero88.schedulerx.SchedulingMonitor;
 import io.github.zero88.schedulerx.TimeoutBlock;
@@ -44,7 +45,7 @@ import io.vertx.core.impl.logging.LoggerFactory;
  * @param <T>   Type of trigger
  */
 @Internal
-public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements Scheduler<IN, OUT, T> {
+public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements Scheduler<IN, OUT, T>, JobExecutor<OUT> {
 
     @SuppressWarnings("java:S3416")
     protected static final Logger LOGGER = LoggerFactory.getLogger(Scheduler.class);
@@ -65,10 +66,10 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
                                 @NotNull JobData<IN> jobData, @NotNull Job<IN, OUT> job, @NotNull T trigger,
                                 @NotNull TimeoutPolicy timeoutPolicy) {
         this.vertx         = vertx;
+        this.trigger       = trigger;
         this.monitor       = monitor;
-        this.jobData = jobData;
-        this.job     = job;
-        this.trigger = trigger;
+        this.jobData       = jobData;
+        this.job           = job;
         this.timeoutPolicy = timeoutPolicy;
         this.state         = new SchedulerStateImpl<>();
     }
