@@ -10,6 +10,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
  * @since 1.0.0
  */
 @Internal
+@FunctionalInterface
 public interface JobExecutor<OUT> {
 
     /**

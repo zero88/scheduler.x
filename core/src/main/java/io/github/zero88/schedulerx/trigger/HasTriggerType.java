@@ -1,7 +1,9 @@
 package io.github.zero88.schedulerx.trigger;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.NotNull;
 
+@Internal
 public interface HasTriggerType {
 
     /**

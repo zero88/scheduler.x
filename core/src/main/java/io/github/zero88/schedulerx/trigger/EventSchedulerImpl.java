@@ -14,7 +14,6 @@ import io.github.zero88.schedulerx.TimeoutPolicy;
 import io.github.zero88.schedulerx.impl.AbstractScheduler;
 import io.github.zero88.schedulerx.impl.AbstractSchedulerBuilder;
 import io.github.zero88.schedulerx.impl.TriggerContextFactory;
-import io.github.zero88.schedulerx.impl.TriggerTransitionContext;
 import io.github.zero88.schedulerx.trigger.TriggerCondition.ReasonCode;
 import io.github.zero88.schedulerx.trigger.predicate.EventTriggerPredicate.EventTriggerPredicateException;
 import io.vertx.core.Future;
@@ -68,8 +67,8 @@ final class EventSchedulerImpl<IN, OUT, T> extends AbstractScheduler<IN, OUT, Ev
 
     @Override
     @SuppressWarnings("unchecked")
-    protected TriggerTransitionContext evaluateTriggerRule(@NotNull TriggerTransitionContext triggerContext) {
-        final TriggerTransitionContext ctx = super.evaluateTriggerRule(triggerContext);
+    protected TriggerContext evaluateTriggerRule(@NotNull TriggerContext triggerContext) {
+        final TriggerContext ctx = super.evaluateTriggerRule(triggerContext);
         try {
             if (ctx.condition().status() == TriggerCondition.TriggerStatus.READY &&
                 !trigger().getPredicate().test((T) triggerContext.info())) {
@@ -81,7 +80,7 @@ final class EventSchedulerImpl<IN, OUT, T> extends AbstractScheduler<IN, OUT, Ev
         return ctx;
     }
 
-    private TriggerTransitionContext createKickoffContext(Message<Object> msg, long tick) {
+    private TriggerContext createKickoffContext(Message<Object> msg, long tick) {
         try {
             T eventMsg = trigger().getPredicate().convert(msg.headers(), msg.body());
             return TriggerContextFactory.kickoff(trigger().type(), tick, eventMsg);
@@ -90,7 +89,7 @@ final class EventSchedulerImpl<IN, OUT, T> extends AbstractScheduler<IN, OUT, Ev
         }
     }
 
-    private TriggerTransitionContext handleException(TriggerTransitionContext context, Exception cause) {
+    private TriggerContext handleException(TriggerContext context, Exception cause) {
         String reason = cause instanceof ClassCastException || cause instanceof EventTriggerPredicateException
                         ? ReasonCode.CONDITION_IS_NOT_MATCHED
                         : ReasonCode.UNEXPECTED_ERROR;

@@ -12,7 +12,6 @@ import io.github.zero88.schedulerx.impl.Utils;
  * @param <T> Type of data
  * @since 1.0.0
  */
-@FunctionalInterface
 public interface JobData<T> {
 
     /**

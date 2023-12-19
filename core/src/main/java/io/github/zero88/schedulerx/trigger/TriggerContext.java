@@ -1,5 +1,7 @@
 package io.github.zero88.schedulerx.trigger;
 
+import java.time.Instant;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,6 +13,16 @@ import io.github.zero88.schedulerx.trigger.TriggerCondition.TriggerStatus;
  * @since 2.0.0
  */
 public interface TriggerContext extends HasTriggerType {
+
+    /**
+     * @return The current number of times that the system timer fires the trigger.
+     */
+    long tick();
+
+    /**
+     * @return The time that the system timer fires the trigger.
+     */
+    @Nullable Instant firedAt();
 
     /**
      * The current trigger condition

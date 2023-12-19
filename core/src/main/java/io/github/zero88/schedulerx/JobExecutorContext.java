@@ -4,7 +4,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Shared immutable fields between JobExecutor and its builder.
+ * Shared immutable fields between {@code JobExecutor} and its builder.
  * <p/>
  * This class is designed to internal usage, don't refer it in your code.
  *

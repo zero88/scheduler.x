@@ -20,7 +20,6 @@ import io.github.zero88.schedulerx.NoopJob;
 import io.github.zero88.schedulerx.SchedulingAsserter;
 import io.github.zero88.schedulerx.SchedulingMonitor;
 import io.github.zero88.schedulerx.TestUtils;
-import io.github.zero88.schedulerx.trigger.TriggerCondition.ReasonCode;
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
 import io.vertx.junit5.RunTestOnContext;
@@ -164,7 +163,7 @@ class IntervalSchedulerTest {
     void test_scheduler_should_be_stopped_when_reach_to_target_round(Vertx vertx, VertxTestContext context) {
         final Consumer<ExecutionResult<String>> onCompleted = result -> {
             Assertions.assertTrue(result.triggerContext().isStopped());
-            Assertions.assertEquals(ReasonCode.STOP_BY_CONFIG, result.triggerContext().condition().reasonCode());
+            Assertions.assertEquals("StopByTriggerConfig", result.triggerContext().condition().reasonCode());
         };
         final SchedulingAsserter<String> asserter = SchedulingAsserter.<String>builder()
                                                                       .setTestContext(context)

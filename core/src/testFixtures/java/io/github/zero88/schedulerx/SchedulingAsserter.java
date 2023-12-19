@@ -52,6 +52,7 @@ public final class SchedulingAsserter<OUT> implements SchedulingMonitor<OUT> {
             Assertions.assertNotNull(result.unscheduledAt());
             Assertions.assertNotNull(result.triggerContext());
             Assertions.assertTrue(result.triggerContext().isError());
+            Assertions.assertEquals("TriggerIsFailedToSchedule", result.triggerContext().condition().reasonCode());
             Assertions.assertEquals(-1, result.tick());
             Assertions.assertEquals(-1, result.round());
             Assertions.assertNull(result.availableAt());
