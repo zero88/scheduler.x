@@ -17,7 +17,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import io.github.zero88.schedulerx.impl.AbstractTriggerEvaluator;
+import io.github.zero88.schedulerx.impl.DefaultTriggerEvaluator;
 import io.github.zero88.schedulerx.trigger.CronScheduler;
 import io.github.zero88.schedulerx.trigger.CronTrigger;
 import io.github.zero88.schedulerx.trigger.EventScheduler;
@@ -184,11 +184,11 @@ class SchedulerTest {
                                                                       .setTestContext(testContext)
                                                                       .setMisfire(timeoutAsserter)
                                                                       .build();
-        final TriggerEvaluator evaluator = new AbstractTriggerEvaluator() {
+        final TriggerEvaluator evaluator = new DefaultTriggerEvaluator() {
             @Override
-            protected Future<TriggerContext> internalCheck(@NotNull Trigger trigger,
-                                                           @NotNull TriggerContext triggerContext,
-                                                           @Nullable Object externalId) {
+            protected Future<TriggerContext> internalBeforeTrigger(@NotNull Trigger trigger,
+                                                                   @NotNull TriggerContext triggerContext,
+                                                                   @Nullable Object externalId) {
                 TestUtils.block(runningTime, testContext);
                 return Future.succeededFuture(triggerContext);
             }

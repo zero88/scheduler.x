@@ -14,7 +14,7 @@ import io.github.zero88.schedulerx.SchedulingMonitor;
 import io.github.zero88.schedulerx.TimeoutPolicy;
 import io.github.zero88.schedulerx.impl.AbstractScheduler;
 import io.github.zero88.schedulerx.impl.AbstractSchedulerBuilder;
-import io.github.zero88.schedulerx.impl.AbstractTriggerEvaluator;
+import io.github.zero88.schedulerx.impl.DefaultTriggerEvaluator;
 import io.github.zero88.schedulerx.impl.TriggerContextFactory;
 import io.github.zero88.schedulerx.trigger.TriggerCondition.ReasonCode;
 import io.github.zero88.schedulerx.trigger.predicate.EventTriggerPredicate.EventTriggerPredicateException;
@@ -97,12 +97,12 @@ final class EventSchedulerImpl<IN, OUT, T> extends AbstractScheduler<IN, OUT, Ev
     }
 
 
-    static final class EventTriggerEvaluator<T> extends AbstractTriggerEvaluator {
+    static final class EventTriggerEvaluator<T> extends DefaultTriggerEvaluator {
 
         @Override
         @SuppressWarnings("unchecked")
-        protected Future<TriggerContext> internalCheck(@NotNull Trigger trigger, @NotNull TriggerContext ctx,
-                                                       @Nullable Object externalId) {
+        protected Future<TriggerContext> internalBeforeTrigger(@NotNull Trigger trigger, @NotNull TriggerContext ctx,
+                                                               @Nullable Object externalId) {
             try {
                 if (ctx.condition().status() == TriggerCondition.TriggerStatus.READY &&
                     !((EventTrigger<T>) trigger).getPredicate().test((T) ctx.info())) {

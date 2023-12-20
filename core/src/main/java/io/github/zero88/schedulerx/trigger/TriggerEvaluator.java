@@ -13,15 +13,24 @@ import io.vertx.core.Future;
 public interface TriggerEvaluator {
 
     /**
-     * Check whether the trigger is able to run
+     * Verify if the trigger can run before each execution round is started.
      *
-     * @param trigger    the trigger
-     * @param context    the trigger context
-     * @param externalId the job external id
+     * @param trigger        the trigger
+     * @param triggerContext the trigger context
+     * @param externalId     the job external id
      * @return a future of the trigger context that is evaluated
      */
-    @NotNull Future<TriggerContext> beforeRun(@NotNull Trigger trigger, @NotNull TriggerContext context,
-                                              @Nullable Object externalId);
+    @NotNull Future<TriggerContext> beforeTrigger(@NotNull Trigger trigger, @NotNull TriggerContext triggerContext,
+                                                  @Nullable Object externalId);
+
+    /**
+     * Verify if the trigger should stop executing immediately after one round of execution begins.
+     *
+     * @param round the current execution round
+     * @since 2.0.0
+     */
+    @NotNull Future<TriggerContext> afterTrigger(@NotNull Trigger trigger, @NotNull TriggerContext triggerContext,
+                                                 @Nullable Object externalId, long round);
 
     /**
      * Chain another evaluator

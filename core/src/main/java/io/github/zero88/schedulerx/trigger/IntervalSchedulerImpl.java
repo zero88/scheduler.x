@@ -5,6 +5,7 @@ import static io.github.zero88.schedulerx.impl.Utils.brackets;
 import java.time.Instant;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import io.github.zero88.schedulerx.Job;
 import io.github.zero88.schedulerx.JobData;
@@ -12,7 +13,9 @@ import io.github.zero88.schedulerx.SchedulingMonitor;
 import io.github.zero88.schedulerx.TimeoutPolicy;
 import io.github.zero88.schedulerx.impl.AbstractScheduler;
 import io.github.zero88.schedulerx.impl.AbstractSchedulerBuilder;
+import io.github.zero88.schedulerx.impl.DefaultTriggerEvaluator;
 import io.github.zero88.schedulerx.impl.TriggerContextFactory;
+import io.github.zero88.schedulerx.trigger.TriggerCondition.ReasonCode;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
@@ -24,7 +27,7 @@ final class IntervalSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, In
     IntervalSchedulerImpl(@NotNull Job<IN, OUT> job, @NotNull JobData<IN> jobData, @NotNull TimeoutPolicy timeoutPolicy,
                           @NotNull SchedulingMonitor<OUT> monitor, @NotNull IntervalTrigger trigger,
                           @NotNull TriggerEvaluator evaluator, @NotNull Vertx vertx) {
-        super(job, jobData, timeoutPolicy, monitor, trigger, evaluator, vertx);
+        super(job, jobData, timeoutPolicy, monitor, trigger, new IntervalTriggerEvaluator().andThen(evaluator), vertx);
     }
 
     protected @NotNull Future<Long> registerTimer(WorkerExecutor workerExecutor) {
@@ -63,6 +66,22 @@ final class IntervalSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, In
         public @NotNull IntervalScheduler<IN, OUT> build() {
             return new IntervalSchedulerImpl<>(job(), jobData(), timeoutPolicy(), monitor(), trigger(),
                                                triggerEvaluator(), vertx());
+        }
+
+    }
+
+
+    static final class IntervalTriggerEvaluator extends DefaultTriggerEvaluator {
+
+        @Override
+        protected Future<TriggerContext> internalAfterTrigger(@NotNull Trigger trigger,
+                                                              @NotNull TriggerContext triggerContext,
+                                                              @Nullable Object externalId, long round) {
+            IntervalTrigger interval = (IntervalTrigger) trigger;
+            if (interval.noRepeatIndefinitely() && round >= interval.getRepeat()) {
+                return Future.succeededFuture(TriggerContextFactory.stop(triggerContext, ReasonCode.STOP_BY_CONFIG));
+            }
+            return Future.succeededFuture(triggerContext);
         }
 
     }

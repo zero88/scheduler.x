@@ -160,8 +160,10 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     }
 
     protected final void doStop(long timerId, TriggerContext context) {
-        unregisterTimer(timerId);
-        onComplete(context);
+        if (context.isStopped()) {
+            unregisterTimer(timerId);
+            onComplete(context);
+        }
     }
 
     /**
@@ -173,18 +175,6 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
      * Unregister current timer id out of the system
      */
     protected abstract void unregisterTimer(long timerId);
-
-    /**
-     * Check a trigger context whether to be able to stop by configuration or force stop
-     */
-    protected final TriggerContext shouldStop(@NotNull TriggerContext triggerContext, boolean isForceStop, long round) {
-        if (isForceStop) {
-            return TriggerContextFactory.stop(triggerContext, ReasonCode.STOP_BY_JOB);
-        }
-        return trigger().shouldStop(round)
-               ? TriggerContextFactory.stop(triggerContext, ReasonCode.STOP_BY_CONFIG)
-               : triggerContext;
-    }
 
     /**
      * Register a timer id in internal state and increase tick time when the system timer fires
@@ -199,16 +189,13 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     /**
      * Processing the trigger right away after the system timer fires
      */
-    protected final void onProcess(WorkerExecutor workerExecutor, TriggerContext ctx) {
-        log(Objects.requireNonNull(ctx.firedAt()), "On fire");
-        final Duration timeout = timeoutPolicy().evaluationTimeout();
-        this.<TriggerContext>executeBlocking(workerExecutor, p -> this.wrapTimeout(timeout, p)
-                                                                      .handle(evaluator.beforeRun(trigger, ctx,
-                                                                                                  jobData.externalId())))
-            .onSuccess(context -> onTrigger(workerExecutor, context))
-            .onFailure(t -> onMisfire(TriggerContextFactory.skip(ctx, t instanceof TimeoutException
-                                                                      ? ReasonCode.EVALUATION_TIMEOUT
-                                                                      : ReasonCode.UNEXPECTED_ERROR, t)));
+    protected final void onProcess(WorkerExecutor workerExecutor, TriggerContext triggerContext) {
+        log(Objects.requireNonNull(triggerContext.firedAt()), "On fire");
+        this.onEvaluationBeforeTrigger(workerExecutor, triggerContext)
+            .onSuccess(ctx -> onTrigger(workerExecutor, ctx))
+            .onFailure(t -> onMisfire(TriggerContextFactory.skip(triggerContext, t instanceof TimeoutException
+                                                                                 ? ReasonCode.EVALUATION_TIMEOUT
+                                                                                 : ReasonCode.UNEXPECTED_ERROR, t)));
     }
 
     protected final void onTrigger(WorkerExecutor workerExecutor, TriggerContext triggerContext) {
@@ -216,12 +203,13 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
             onMisfire(triggerContext);
             return;
         }
-        final ExecutionContextInternal<OUT> executionContext = new ExecutionContextImpl<>(vertx, triggerContext,
-                                                                                          state.increaseRound());
+        final long round = state.increaseRound();
+        final ExecutionContextInternal<OUT> executionContext = new ExecutionContextImpl<>(vertx, triggerContext, round);
         final Duration timeout = timeoutPolicy().executionTimeout();
-        log(executionContext.triggeredAt(), "On trigger", triggerContext.tick(), executionContext.round());
-        this.executeBlocking(workerExecutor, p -> executeJob(executionContext.setup(wrapTimeout(timeout, p))))
-            .onComplete(ar -> onResult(executionContext, ar.cause()));
+        log(executionContext.triggeredAt(), "On trigger", triggerContext.tick(), round);
+        Future.join(onEvaluationAfterTrigger(workerExecutor, triggerContext, round),
+                    executeBlocking(workerExecutor, p -> executeJob(executionContext.setup(wrapTimeout(timeout, p)))))
+              .onComplete(ar -> onResult(executionContext, ar.result().cause(1)));
     }
 
     protected final void onSchedule(long timerId) {
@@ -260,6 +248,25 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
                                                     .build());
     }
 
+    protected final Future<TriggerContext> onEvaluationBeforeTrigger(WorkerExecutor worker, TriggerContext ctx) {
+        return executeBlocking(worker, p -> {
+            log(Instant.now(), "On before trigger");
+            this.wrapTimeout(timeoutPolicy().evaluationTimeout(), p)
+                .handle(evaluator.beforeTrigger(trigger, ctx, jobData.externalId()));
+        });
+    }
+
+    protected final Future<TriggerContext> onEvaluationAfterTrigger(WorkerExecutor worker, TriggerContext ctx,
+                                                                    long round) {
+        return executeBlocking(worker, p -> {
+            log(Instant.now(), "On after trigger");
+            wrapTimeout(timeoutPolicy().evaluationTimeout(), p).handle(
+                evaluator.afterTrigger(trigger(), ctx, jobData.externalId(), round)
+                         .onSuccess(c -> doStop(state.timerId(), c))
+                         .onFailure(t -> LOGGER.error(genMsg(ctx.tick(), round, Instant.now(), "After evaluate"), t)));
+        });
+    }
+
     protected final void onMisfire(@NotNull TriggerContext triggerCtx) {
         final Instant finishedAt = state.markFinished(triggerCtx.tick());
         final String reasonCode = triggerCtx.condition().reasonCode();
@@ -288,7 +295,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
         if (asyncCause instanceof TimeoutException) {
             LOGGER.warn(genMsg(triggerContext.tick(), ctx.round(), finishedAt, asyncCause.getMessage()));
         } else if (asyncCause != null) {
-            LOGGER.error(genMsg(triggerContext.tick(), ctx.round(), finishedAt, "System error"), asyncCause);
+            LOGGER.error(genMsg(triggerContext.tick(), ctx.round(), finishedAt, "On result::System error"), asyncCause);
         }
         monitor.onEach(ExecutionResultImpl.<OUT>builder()
                                           .setExternalId(jobData.externalId())
@@ -304,9 +311,8 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
                                           .setError(state.addError(ctx.round(),
                                                                    Optional.ofNullable(ctx.error()).orElse(asyncCause)))
                                           .build());
-        final TriggerContext transitionCtx = shouldStop(triggerContext, ctx.isForceStop(), ctx.round());
-        if (transitionCtx.isStopped()) {
-            doStop(state.timerId(), transitionCtx);
+        if (ctx.isForceStop()) {
+            doStop(state.timerId(), TriggerContextFactory.stop(triggerContext, ReasonCode.STOP_BY_JOB));
         }
     }
 
@@ -358,15 +364,15 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     }
 
     @SuppressWarnings("rawtypes")
-    private static class InternalTriggerEvaluator extends AbstractTriggerEvaluator {
+    private static class InternalTriggerEvaluator extends DefaultTriggerEvaluator {
 
         private final AbstractScheduler scheduler;
 
         private InternalTriggerEvaluator(AbstractScheduler scheduler) { this.scheduler = scheduler; }
 
         @Override
-        protected Future<TriggerContext> internalCheck(@NotNull Trigger trigger, @NotNull TriggerContext ctx,
-                                                       @Nullable Object externalId) {
+        protected Future<TriggerContext> internalBeforeTrigger(@NotNull Trigger trigger, @NotNull TriggerContext ctx,
+                                                               @Nullable Object externalId) {
             if (!ctx.isKickoff()) {
                 throw new IllegalStateException("Trigger condition status must be " + TriggerStatus.KICKOFF);
             }
@@ -375,7 +381,6 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
 
         @NotNull
         private TriggerContext doCheck(TriggerContext ctx) {
-            scheduler.log(Instant.now(), "On evaluate");
             if (scheduler.state.pending()) {
                 return TriggerContextFactory.skip(ctx, ReasonCode.NOT_YET_SCHEDULED);
             }
