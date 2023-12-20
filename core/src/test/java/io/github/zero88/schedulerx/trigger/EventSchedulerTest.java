@@ -24,7 +24,6 @@ import io.github.zero88.schedulerx.NoopJob;
 import io.github.zero88.schedulerx.SchedulingAsserter;
 import io.github.zero88.schedulerx.SchedulingMonitor;
 import io.github.zero88.schedulerx.TestUtils;
-import io.github.zero88.schedulerx.trigger.TriggerCondition.ReasonCode;
 import io.github.zero88.schedulerx.trigger.predicate.EventTriggerPredicate;
 import io.vertx.core.MultiMap;
 import io.vertx.core.Vertx;
@@ -41,15 +40,14 @@ class EventSchedulerTest {
                                          Arrays.asList(1, "COMPLETED"), (Consumer<ExecutionResult<Void>>) (r) -> {
                 final TriggerCondition condition = r.triggerContext().condition();
                 final Throwable err = condition.cause();
-                Assertions.assertEquals(ReasonCode.CONDITION_IS_NOT_MATCHED, condition.reasonCode());
+                Assertions.assertEquals("ConditionIsNotMatched", condition.reasonCode());
                 Assertions.assertNotNull(err);
                 Assertions.assertInstanceOf(ClassCastException.class, err);
             });
         final Arguments arg2 = arguments(EventTriggerPredicate.<String>create("COMPLETED"::equals),
                                          Arrays.asList("Hello", "COMPLETED"),
                                          (Consumer<ExecutionResult<Void>>) (r) -> Assertions.assertEquals(
-                                             ReasonCode.CONDITION_IS_NOT_MATCHED,
-                                             r.triggerContext().condition().reasonCode()));
+                                             "ConditionIsNotMatched", r.triggerContext().condition().reasonCode()));
         final Arguments arg3 = arguments(new EventTriggerPredicate<String>() {
             @Override
             public String convert(@NotNull MultiMap headers, @Nullable Object body) {
@@ -66,7 +64,7 @@ class EventSchedulerTest {
         }, Arrays.asList("1", "COMPLETED"), (Consumer<ExecutionResult<Void>>) (r) -> {
             final TriggerCondition condition = r.triggerContext().condition();
             final Throwable err = condition.cause();
-            Assertions.assertEquals(ReasonCode.UNEXPECTED_ERROR, condition.reasonCode());
+            Assertions.assertEquals("UnexpectedError", condition.reasonCode());
             Assertions.assertNotNull(err);
             Assertions.assertInstanceOf(RuntimeException.class, err);
         });
@@ -77,7 +75,7 @@ class EventSchedulerTest {
         }), Arrays.asList("1", "COMPLETED"), (Consumer<ExecutionResult<Void>>) (r) -> {
             final TriggerCondition condition = r.triggerContext().condition();
             final Throwable err = condition.cause();
-            Assertions.assertEquals(ReasonCode.UNEXPECTED_ERROR, condition.reasonCode());
+            Assertions.assertEquals("UnexpectedError", condition.reasonCode());
             Assertions.assertNotNull(err);
             Assertions.assertInstanceOf(IllegalArgumentException.class, err);
         });

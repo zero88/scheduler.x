@@ -36,15 +36,18 @@ class CronSchedulerTest {
             if (!result.isReschedule()) {
                 Assertions.assertEquals(0, result.tick());
                 Assertions.assertEquals(0, result.round());
+                Assertions.assertEquals("TriggerIsScheduled", result.triggerContext().condition().reasonCode());
             } else {
+                Assertions.assertNotEquals(0, result.tick());
                 Assertions.assertTrue(result.isReschedule());
+                Assertions.assertEquals("TriggerIsRescheduled", result.triggerContext().condition().reasonCode());
             }
         };
         final Consumer<ExecutionResult<String>> onEach = result -> {
             if (result.round() < 3) {
                 Assertions.assertTrue(result.isError());
                 Assertions.assertNotNull(result.error());
-                Assertions.assertTrue(result.error() instanceof RuntimeException);
+                Assertions.assertInstanceOf(RuntimeException.class, result.error());
                 Assertions.assertNull(result.data());
             }
             if (result.round() == 3) {

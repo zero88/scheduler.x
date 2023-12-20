@@ -3,6 +3,7 @@ package io.github.zero88.schedulerx.trigger;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -20,9 +21,9 @@ import io.github.zero88.schedulerx.NoopJob;
 import io.github.zero88.schedulerx.SchedulingAsserter;
 import io.github.zero88.schedulerx.SchedulingMonitor;
 import io.github.zero88.schedulerx.TestUtils;
-import io.github.zero88.schedulerx.trigger.TriggerCondition.ReasonCode;
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
+import io.vertx.junit5.Checkpoint;
 import io.vertx.junit5.RunTestOnContext;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
@@ -53,69 +54,6 @@ class IntervalSchedulerTest {
                          .setJob(NoopJob.create())
                          .build()
                          .start();
-    }
-
-    @Test
-    void test_run_job_after_delay(Vertx vertx, VertxTestContext ctx) {
-        final Consumer<ExecutionResult<Void>> onSchedule = result -> {
-            Assertions.assertEquals(0, result.tick());
-            Assertions.assertEquals(0, result.round());
-        };
-        final Consumer<ExecutionResult<Void>> onComplete = result -> {
-            Assertions.assertEquals(2, result.round());
-            Assertions.assertFalse(result.isError());
-        };
-        final SchedulingAsserter<Void> asserter = SchedulingAsserter.<Void>builder()
-                                                                    .setTestContext(ctx)
-                                                                    .setSchedule(onSchedule)
-                                                                    .setCompleted(onComplete)
-                                                                    .build();
-        final IntervalTrigger trigger = IntervalTrigger.builder().initialDelay(5).interval(2).repeat(2).build();
-        IntervalScheduler.<Void, Void>builder()
-                         .setVertx(vertx)
-                         .setMonitor(asserter)
-                         .setTrigger(trigger)
-                         .setJob(NoopJob.create())
-                         .build()
-                         .start();
-    }
-
-    @Test
-    void test_run_blocking_job_till_the_end(Vertx vertx, VertxTestContext testContext) {
-        final AtomicLong lastTickOnEach = new AtomicLong();
-        final Consumer<ExecutionResult<Void>> onEach = result -> {
-            lastTickOnEach.set(result.tick());
-            if (result.round() == 1) {
-                Assertions.assertEquals(result.tick(), result.round());
-            } else {
-                Assertions.assertTrue(result.tick() > result.round());
-            }
-        };
-        final Consumer<ExecutionResult<Void>> onMisfire = result -> {
-            Assertions.assertTrue(result.tick() > result.round());
-            Assertions.assertTrue(result.tick() > lastTickOnEach.get());
-            Assertions.assertEquals("JobIsRunning", result.triggerContext().condition().reasonCode());
-        };
-        final Consumer<ExecutionResult<Void>> onComplete = result -> {
-            Assertions.assertEquals(3, result.round());
-            Assertions.assertEquals(lastTickOnEach.get() + result.round(), result.tick());
-            Assertions.assertFalse(result.isError());
-        };
-        final SchedulingAsserter<Void> asserter = SchedulingAsserter.<Void>builder()
-                                                                    .setTestContext(testContext)
-                                                                    .setEach(onEach)
-                                                                    .setMisfire(onMisfire)
-                                                                    .setCompleted(onComplete)
-                                                                    .build();
-        final IntervalTrigger trigger = IntervalTrigger.builder().interval(1).repeat(3).build();
-        final WorkerExecutor worker = vertx.createSharedWorkerExecutor("hello", 3, 500);
-        IntervalScheduler.<Void, Void>builder()
-                         .setVertx(vertx)
-                         .setMonitor(asserter)
-                         .setTrigger(trigger)
-                         .setJob((jobData, ctx) -> TestUtils.block(Duration.ofSeconds(3), testContext))
-                         .build()
-                         .start(worker);
     }
 
     @Test
@@ -161,10 +99,83 @@ class IntervalSchedulerTest {
     }
 
     @Test
+    void test_job_should_be_executed_in_interval_trigger_after_delay(Vertx vertx, VertxTestContext ctx) {
+        final Duration initialDelay = Duration.ofSeconds(5);
+        final Instant startedTime = Instant.now();
+        final Consumer<ExecutionResult<Void>> onSchedule = result -> {
+            Assertions.assertEquals(0, result.tick());
+            Assertions.assertEquals(0, result.round());
+            final Duration timeLapsed = Duration.between(startedTime, result.availableAt());
+            Assertions.assertTrue(timeLapsed.compareTo(initialDelay) > 0);
+        };
+        final Consumer<ExecutionResult<Void>> onComplete = result -> Assertions.assertEquals(1, result.round());
+        final SchedulingAsserter<Void> asserter = SchedulingAsserter.<Void>builder()
+                                                                    .setTestContext(ctx)
+                                                                    .setSchedule(onSchedule)
+                                                                    .setCompleted(onComplete)
+                                                                    .build();
+        final IntervalTrigger trigger = IntervalTrigger.builder()
+                                                       .initialDelay(initialDelay.toSeconds())
+                                                       .interval(2)
+                                                       .repeat(1)
+                                                       .build();
+        IntervalScheduler.<Void, Void>builder()
+                         .setVertx(vertx)
+                         .setMonitor(asserter)
+                         .setTrigger(trigger)
+                         .setJob(NoopJob.create())
+                         .build()
+                         .start();
+    }
+
+    @Test
+    void test_run_blocking_job_till_the_end(Vertx vertx, VertxTestContext testContext) {
+        final Checkpoint flag = testContext.checkpoint(4);
+        final AtomicLong lastTickOnEach = new AtomicLong();
+        final Consumer<ExecutionResult<Void>> onEach = result -> {
+            lastTickOnEach.set(result.tick());
+            if (result.round() == 1) {
+                Assertions.assertEquals(result.tick(), result.round());
+            } else {
+                Assertions.assertTrue(result.tick() > result.round());
+            }
+            flag.flag();
+        };
+        final Consumer<ExecutionResult<Void>> onMisfire = result -> {
+            Assertions.assertTrue(result.tick() > result.round());
+            Assertions.assertTrue(result.tick() > lastTickOnEach.get());
+            Assertions.assertEquals("JobIsRunning", result.triggerContext().condition().reasonCode());
+        };
+        final Consumer<ExecutionResult<Void>> onComplete = result -> {
+            final long tickAtClosedTime = result.tick() - 1;
+            Assertions.assertEquals(lastTickOnEach.get() + result.round(), tickAtClosedTime);
+            Assertions.assertEquals(3, result.round());
+            flag.flag();
+        };
+        final SchedulingAsserter<Void> asserter = SchedulingAsserter.<Void>builder()
+                                                                    .setTestContext(testContext)
+                                                                    .setEach(onEach)
+                                                                    .setMisfire(onMisfire)
+                                                                    .setCompleted(onComplete)
+                                                                    .disableAutoCompleteTest()
+                                                                    .build();
+        final IntervalTrigger trigger = IntervalTrigger.builder().interval(1).repeat(3).build();
+        final WorkerExecutor worker = vertx.createSharedWorkerExecutor("hello", 3, 1000);
+        IntervalScheduler.<Void, Void>builder()
+                         .setVertx(vertx)
+                         .setMonitor(asserter)
+                         .setTrigger(trigger)
+                         .setJob((jobData, ctx) -> TestUtils.block(Duration.ofSeconds(3), testContext))
+                         .build()
+                         .start(worker);
+    }
+
+    @Test
     void test_scheduler_should_be_stopped_when_reach_to_target_round(Vertx vertx, VertxTestContext context) {
         final Consumer<ExecutionResult<String>> onCompleted = result -> {
+            Assertions.assertEquals(3, result.round());
             Assertions.assertTrue(result.triggerContext().isStopped());
-            Assertions.assertEquals(ReasonCode.STOP_BY_CONFIG, result.triggerContext().condition().reasonCode());
+            Assertions.assertEquals("StopByTriggerConfig", result.triggerContext().condition().reasonCode());
         };
         final SchedulingAsserter<String> asserter = SchedulingAsserter.<String>builder()
                                                                       .setTestContext(context)

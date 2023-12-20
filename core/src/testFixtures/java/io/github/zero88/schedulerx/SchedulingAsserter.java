@@ -30,18 +30,20 @@ public final class SchedulingAsserter<OUT> implements SchedulingMonitor<OUT> {
     private final Consumer<ExecutionResult<OUT>> misfire;
     private final Consumer<ExecutionResult<OUT>> each;
     private final Consumer<ExecutionResult<OUT>> completed;
+    private final boolean autoCompleteTest;
 
     SchedulingAsserter(@NotNull VertxTestContext testContext, @Nullable SchedulingMonitor<OUT> logMonitor,
                        Consumer<ExecutionResult<OUT>> unableSchedule, Consumer<ExecutionResult<OUT>> schedule,
                        Consumer<ExecutionResult<OUT>> misfire, Consumer<ExecutionResult<OUT>> each,
-                       Consumer<ExecutionResult<OUT>> completed) {
-        this.testContext    = Objects.requireNonNull(testContext, "Vertx Test context is required");
-        this.logMonitor     = Optional.ofNullable(logMonitor).orElse(SchedulingLogMonitor.create());
-        this.unableSchedule = unableSchedule;
-        this.schedule       = schedule;
-        this.misfire        = misfire;
-        this.each           = each;
-        this.completed      = completed;
+                       Consumer<ExecutionResult<OUT>> completed, boolean autoCompleteTest) {
+        this.testContext      = Objects.requireNonNull(testContext, "Vertx Test context is required");
+        this.logMonitor       = Optional.ofNullable(logMonitor).orElse(SchedulingLogMonitor.create());
+        this.unableSchedule   = unableSchedule;
+        this.schedule         = schedule;
+        this.misfire          = misfire;
+        this.each             = each;
+        this.completed        = completed;
+        this.autoCompleteTest = autoCompleteTest;
     }
 
     @Override
@@ -52,6 +54,7 @@ public final class SchedulingAsserter<OUT> implements SchedulingMonitor<OUT> {
             Assertions.assertNotNull(result.unscheduledAt());
             Assertions.assertNotNull(result.triggerContext());
             Assertions.assertTrue(result.triggerContext().isError());
+            Assertions.assertEquals("TriggerIsFailedToSchedule", result.triggerContext().condition().reasonCode());
             Assertions.assertEquals(-1, result.tick());
             Assertions.assertEquals(-1, result.round());
             Assertions.assertNull(result.availableAt());
@@ -131,7 +134,9 @@ public final class SchedulingAsserter<OUT> implements SchedulingMonitor<OUT> {
             Assertions.assertNull(result.finishedAt());
             Assertions.assertNull(result.rescheduledAt());
             verify(result, completed);
-            testContext.completeNow();
+            if (autoCompleteTest) {
+                testContext.completeNow();
+            }
         });
     }
 

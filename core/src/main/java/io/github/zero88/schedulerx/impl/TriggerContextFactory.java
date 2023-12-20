@@ -1,6 +1,7 @@
 package io.github.zero88.schedulerx.impl;
 
 import java.time.Instant;
+import java.util.Objects;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.NotNull;
@@ -22,12 +23,43 @@ public final class TriggerContextFactory {
     private TriggerContextFactory() { }
 
     /**
-     * Create trigger context in {@link TriggerStatus#SCHEDULED} state
+     * Create trigger context in {@link TriggerStatus#SCHEDULED} state with {@link ReasonCode#ON_SCHEDULE} reason
      *
      * @param triggerType the trigger type
      */
     public static @NotNull TriggerContext scheduled(@NotNull String triggerType) {
-        return create(triggerType, createCondition(TriggerStatus.SCHEDULED, ReasonCode.ON_SCHEDULE, null));
+        return create(triggerType, 0, createCondition(TriggerStatus.SCHEDULED, ReasonCode.ON_SCHEDULE, null));
+    }
+
+    /**
+     * Create trigger context in {@link TriggerStatus#SCHEDULED} state with {@link ReasonCode#ON_RESCHEDULE} reason
+     *
+     * @param triggerType the trigger type
+     * @param tick        the tick at the rescheduled time
+     */
+    public static @NotNull TriggerContext rescheduled(@NotNull String triggerType, long tick) {
+        return create(triggerType, tick, createCondition(TriggerStatus.SCHEDULED, ReasonCode.ON_RESCHEDULE, null));
+    }
+
+    /**
+     * Create a trigger context in {@link TriggerStatus#ERROR} state.
+     *
+     * @param triggerType the trigger type
+     * @param reason      the transition reason
+     * @param cause       the failed cause
+     */
+    public static TriggerContext error(String triggerType, String reason, @Nullable Throwable cause) {
+        return create(triggerType, -1, createCondition(TriggerStatus.ERROR, reason, cause));
+    }
+
+    /**
+     * Create a trigger context in {@link TriggerStatus#STOPPED} state with {@link ReasonCode#ON_CANCEL} reason.
+     *
+     * @param triggerType the trigger type
+     * @param tick        the current tick
+     */
+    public static @NotNull TriggerContext cancel(String triggerType, long tick) {
+        return create(triggerType, tick, createCondition(TriggerStatus.STOPPED, ReasonCode.ON_CANCEL, null));
     }
 
     /**
@@ -36,7 +68,7 @@ public final class TriggerContextFactory {
      * @param triggerType the trigger type
      * @param tick        the tick
      */
-    public static @NotNull TriggerTransitionContext kickoff(@NotNull String triggerType, long tick) {
+    public static @NotNull TriggerContext kickoff(@NotNull String triggerType, long tick) {
         return kickoff(triggerType, tick, null);
     }
 
@@ -47,11 +79,10 @@ public final class TriggerContextFactory {
      * @param tick        the tick
      * @param info        the trigger context info
      */
-    public static @NotNull <T> TriggerTransitionContext kickoff(@NotNull String triggerType, long tick,
-                                                                @Nullable T info) {
+    public static @NotNull <T> TriggerContext kickoff(@NotNull String triggerType, long tick, @Nullable T info) {
         final Instant firedAt = Instant.now();
         final TriggerCondition condition = createCondition(TriggerStatus.KICKOFF, null, null);
-        return new TriggerTransitionContext() {
+        return new TriggerContext() {
             @Override
             public @NotNull String type() { return triggerType; }
 
@@ -73,7 +104,7 @@ public final class TriggerContextFactory {
      *
      * @param ctx the current trigger context
      */
-    public static @NotNull TriggerTransitionContext ready(@NotNull TriggerTransitionContext ctx) {
+    public static @NotNull TriggerContext ready(@NotNull TriggerContext ctx) {
         return transition(ctx, TriggerStatus.READY, null, null);
     }
 
@@ -82,7 +113,7 @@ public final class TriggerContextFactory {
      *
      * @param ctx the current trigger context
      */
-    public static @NotNull TriggerTransitionContext executed(@NotNull TriggerTransitionContext ctx) {
+    public static @NotNull TriggerContext executed(@NotNull TriggerContext ctx) {
         return transition(ctx, TriggerStatus.EXECUTED, null, null);
     }
 
@@ -92,8 +123,7 @@ public final class TriggerContextFactory {
      * @param ctx    the current trigger context
      * @param reason the transition reason
      */
-    public static @NotNull TriggerTransitionContext skip(@NotNull TriggerTransitionContext ctx,
-                                                         @NotNull String reason) {
+    public static @NotNull TriggerContext skip(@NotNull TriggerContext ctx, @NotNull String reason) {
         return transition(ctx, TriggerStatus.SKIPPED, reason, null);
     }
 
@@ -104,8 +134,8 @@ public final class TriggerContextFactory {
      * @param reason the transition reason
      * @param cause  the transition cause
      */
-    public static @NotNull TriggerTransitionContext skip(@NotNull TriggerTransitionContext ctx, @NotNull String reason,
-                                                         @NotNull Throwable cause) {
+    public static @NotNull TriggerContext skip(@NotNull TriggerContext ctx, @NotNull String reason,
+                                               @NotNull Throwable cause) {
         return transition(ctx, TriggerStatus.SKIPPED, reason, cause);
     }
 
@@ -115,37 +145,16 @@ public final class TriggerContextFactory {
      * @param ctx    the current trigger context
      * @param reason the transition reason
      */
-    public static @NotNull TriggerTransitionContext stop(@NotNull TriggerTransitionContext ctx,
-                                                         @Nullable String reason) {
+    public static @NotNull TriggerContext stop(@NotNull TriggerContext ctx, @Nullable String reason) {
         return transition(ctx, TriggerStatus.STOPPED, reason, null);
     }
 
-    /**
-     * Create a trigger context in {@link TriggerStatus#STOPPED} state.
-     *
-     * @param triggerType the trigger type
-     * @param reason      the stopped reason
-     */
-    public static @NotNull TriggerContext stop(String triggerType, String reason) {
-        return create(triggerType, createCondition(TriggerStatus.STOPPED, reason, null));
-    }
-
-    /**
-     * Create a trigger context in {@link TriggerStatus#ERROR} state.
-     *
-     * @param triggerType the trigger type
-     * @param reason      the transition reason
-     * @param cause       the failed cause
-     */
-    public static TriggerContext error(String triggerType, String reason, @Nullable Throwable cause) {
-        return create(triggerType, createCondition(TriggerStatus.ERROR, reason, cause));
-    }
-
-    static @NotNull TriggerTransitionContext transition(@NotNull TriggerTransitionContext ctx,
-                                                        @NotNull TriggerStatus status, @Nullable String reason,
-                                                        @Nullable Throwable cause) {
+    static @NotNull TriggerContext transition(@NotNull TriggerContext ctx, @NotNull TriggerStatus status,
+                                              @Nullable String reason, @Nullable Throwable cause) {
+        final Instant firedAt = Objects.requireNonNull(ctx.firedAt(),
+                                                       "A fired at time is required in trigger transition");
         final TriggerCondition condition = createCondition(status, reason, cause);
-        return new TriggerTransitionContext() {
+        return new TriggerContext() {
 
             @Override
             public @NotNull String type() { return ctx.type(); }
@@ -154,7 +163,7 @@ public final class TriggerContextFactory {
             public long tick() { return ctx.tick(); }
 
             @Override
-            public @Nullable Instant firedAt() { return ctx.firedAt(); }
+            public @NotNull Instant firedAt() { return firedAt; }
 
             @Override
             public @NotNull TriggerCondition condition() { return condition; }
@@ -164,27 +173,19 @@ public final class TriggerContextFactory {
         };
     }
 
-    static @NotNull TriggerContext create(String triggerType, TriggerCondition condition) {
+    static @NotNull TriggerContext create(String triggerType, long tick, TriggerCondition condition) {
         return new TriggerContext() {
+            @Override
+            public long tick() { return tick; }
+
+            @Override
+            public @Nullable Instant firedAt() { return null; }
 
             @Override
             public @NotNull String type() { return triggerType; }
 
             @Override
             public @NotNull TriggerCondition condition() { return condition; }
-        };
-    }
-
-    static @NotNull TriggerContext convert(@NotNull TriggerContext internal) {
-        return new TriggerContext() {
-            @Override
-            public @NotNull TriggerCondition condition() { return internal.condition(); }
-
-            @Override
-            public @NotNull String type() { return internal.type(); }
-
-            @Override
-            public @Nullable Object info() { return internal.info(); }
         };
     }
 

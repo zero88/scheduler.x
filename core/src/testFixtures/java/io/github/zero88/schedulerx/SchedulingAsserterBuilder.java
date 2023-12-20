@@ -15,6 +15,7 @@ public final class SchedulingAsserterBuilder<OUTPUT> {
     private Consumer<ExecutionResult<OUTPUT>> misfire;
     private Consumer<ExecutionResult<OUTPUT>> each;
     private Consumer<ExecutionResult<OUTPUT>> completed;
+    private boolean autoCompleteTest = true;
 
     /**
      * Set Vertx test context
@@ -107,12 +108,24 @@ public final class SchedulingAsserterBuilder<OUTPUT> {
     }
 
     /**
+     * By default, when a trigger is completed, the test will be completed automatically also via
+     * {@link VertxTestContext#completeNow()}. This method flags the test needs to handle its completeness by itself.
+     *
+     * @return this for fluent API
+     */
+    public SchedulingAsserterBuilder<OUTPUT> disableAutoCompleteTest() {
+        this.autoCompleteTest = false;
+        return this;
+    }
+
+    /**
      * Build an asserter
      *
      * @return SchedulingAsserter
      */
     public SchedulingAsserter<OUTPUT> build() {
-        return new SchedulingAsserter<>(testContext, logMonitor, unableSchedule, schedule, misfire, each, completed);
+        return new SchedulingAsserter<>(testContext, logMonitor, unableSchedule, schedule, misfire, each, completed,
+                                        autoCompleteTest);
     }
 
 }

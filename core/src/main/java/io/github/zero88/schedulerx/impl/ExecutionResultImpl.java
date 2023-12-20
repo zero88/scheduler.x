@@ -147,7 +147,7 @@ final class ExecutionResultImpl<OUTPUT> implements ExecutionResult<OUTPUT> {
         }
 
         public ExecutionResultBuilder<OUTPUT> setTriggerContext(TriggerContext triggerContext) {
-            this.triggerContext = TriggerContextFactory.convert(triggerContext);
+            this.triggerContext = triggerContext;
             return this;
         }
 

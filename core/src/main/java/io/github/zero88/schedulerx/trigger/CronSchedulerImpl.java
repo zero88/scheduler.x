@@ -23,9 +23,10 @@ final class CronSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, CronTr
 
     private long nextTimerId;
 
-    CronSchedulerImpl(@NotNull Vertx vertx, @NotNull SchedulingMonitor<OUT> monitor, @NotNull JobData<IN> jobData,
-                      @NotNull Job<IN, OUT> job, @NotNull CronTrigger trigger, @NotNull TimeoutPolicy timeoutPolicy) {
-        super(vertx, monitor, jobData, job, trigger, timeoutPolicy);
+    CronSchedulerImpl(@NotNull Job<IN, OUT> job, @NotNull JobData<IN> jobData, @NotNull TimeoutPolicy timeoutPolicy,
+                      @NotNull SchedulingMonitor<OUT> monitor, @NotNull CronTrigger trigger,
+                      @NotNull TriggerEvaluator evaluator, @NotNull Vertx vertx) {
+        super(job, jobData, timeoutPolicy, monitor, trigger, evaluator, vertx);
     }
 
     @Override
@@ -56,7 +57,8 @@ final class CronSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, CronTr
         implements CronSchedulerBuilder<IN, OUT> {
 
         public @NotNull CronScheduler<IN, OUT> build() {
-            return new CronSchedulerImpl<>(vertx(), monitor(), jobData(), job(), trigger(), timeoutPolicy());
+            return new CronSchedulerImpl<>(job(), jobData(), timeoutPolicy(), monitor(), trigger(), triggerEvaluator(),
+                                           vertx());
         }
 
     }

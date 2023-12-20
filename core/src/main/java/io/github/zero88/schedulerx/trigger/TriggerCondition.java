@@ -63,6 +63,8 @@ public interface TriggerCondition {
     class ReasonCode {
 
         public static final String ON_SCHEDULE = "TriggerIsScheduled";
+        public static final String ON_RESCHEDULE = "TriggerIsRescheduled";
+        public static final String ON_CANCEL = "TriggerIsCancelled";
         public static final String FAILED_TO_SCHEDULE = "TriggerIsFailedToSchedule";
         public static final String NOT_YET_SCHEDULED = "TriggerIsNotYetScheduled";
         public static final String ALREADY_STOPPED = "TriggerIsAlreadyStopped";
@@ -70,7 +72,6 @@ public interface TriggerCondition {
         public static final String EVALUATION_TIMEOUT = "TriggerEvaluationTimeout";
         public static final String STOP_BY_JOB = "ForceStop";
         public static final String STOP_BY_CONFIG = "StopByTriggerConfig";
-        public static final String STOP_BY_MANUAL = "ManualStop";
         public static final String JOB_IS_RUNNING = "JobIsRunning";
         public static final String UNEXPECTED_ERROR = "UnexpectedError";
 

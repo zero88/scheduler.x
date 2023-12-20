@@ -3,6 +3,7 @@ package io.github.zero88.schedulerx;
 import org.jetbrains.annotations.NotNull;
 
 import io.github.zero88.schedulerx.trigger.Trigger;
+import io.github.zero88.schedulerx.trigger.TriggerEvaluator;
 import io.vertx.core.Vertx;
 
 /**
@@ -21,9 +22,13 @@ public interface SchedulerBuilder<IN, OUT, TRIGGER extends Trigger, SCHEDULER ex
                                      SELF extends SchedulerBuilder<IN, OUT, TRIGGER, SCHEDULER, SELF>>
     extends JobExecutorContext<IN, OUT>, SchedulerContext<TRIGGER, OUT> {
 
+    @NotNull TriggerEvaluator triggerEvaluator();
+
     @NotNull SELF setVertx(@NotNull Vertx vertx);
 
     @NotNull SELF setTrigger(@NotNull TRIGGER trigger);
+
+    @NotNull SELF setTriggerEvaluator(@NotNull TriggerEvaluator evaluator);
 
     @NotNull SELF setMonitor(@NotNull SchedulingMonitor<OUT> monitor);
 

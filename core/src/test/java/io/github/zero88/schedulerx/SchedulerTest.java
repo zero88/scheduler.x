@@ -21,8 +21,9 @@ import io.github.zero88.schedulerx.trigger.EventScheduler;
 import io.github.zero88.schedulerx.trigger.EventTrigger;
 import io.github.zero88.schedulerx.trigger.IntervalScheduler;
 import io.github.zero88.schedulerx.trigger.IntervalTrigger;
-import io.github.zero88.schedulerx.trigger.TriggerCondition.ReasonCode;
+import io.github.zero88.schedulerx.trigger.TriggerEvaluator;
 import io.github.zero88.schedulerx.trigger.predicate.EventTriggerPredicate;
+import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
 import io.vertx.core.json.JsonArray;
@@ -112,7 +113,7 @@ class SchedulerTest {
     @ParameterizedTest
     @MethodSource("provide_external_ids")
     void test_scheduler_should_maintain_external_id_from_jobData_to_job_result(Object declaredId, Class<?> typeOfId,
-                                                                                Vertx vertx, VertxTestContext ctx) {
+                                                                               Vertx vertx, VertxTestContext ctx) {
         final Consumer<ExecutionResult<Void>> ensureExternalIdIsSet = result -> {
             Assertions.assertNotNull(result.externalId());
             Assertions.assertInstanceOf(typeOfId, result.externalId());
@@ -166,12 +167,40 @@ class SchedulerTest {
     }
 
     @Test
+    void test_scheduler_should_timeout_in_evaluation(Vertx vertx, VertxTestContext testContext) {
+        final Duration timeout = Duration.ofSeconds(1);
+        final Duration runningTime = Duration.ofSeconds(3);
+        final Consumer<ExecutionResult<Object>> timeoutAsserter = result -> {
+            Assertions.assertEquals("TriggerEvaluationTimeout", result.triggerContext().condition().reasonCode());
+            Assertions.assertEquals("Timeout after 1s", result.triggerContext().condition().cause().getMessage());
+            testContext.completeNow();
+        };
+        final SchedulingAsserter<Object> asserter = SchedulingAsserter.builder()
+                                                                      .setTestContext(testContext)
+                                                                      .setMisfire(timeoutAsserter)
+                                                                      .build();
+        final TriggerEvaluator evaluator = TriggerEvaluator.byBefore((trigger, triggerContext, externalId) -> {
+            TestUtils.block(runningTime, testContext);
+            return Future.succeededFuture(triggerContext);
+        });
+        IntervalScheduler.builder()
+                         .setVertx(vertx)
+                         .setMonitor(asserter)
+                         .setTrigger(IntervalTrigger.builder().interval(5).build())
+                         .setJob(NoopJob.create())
+                         .setTimeoutPolicy(TimeoutPolicy.create(timeout, null))
+                         .setTriggerEvaluator(evaluator)
+                         .build()
+                         .start();
+    }
+
+    @Test
     void test_scheduler_should_able_to_force_stop(Vertx vertx, VertxTestContext testContext) {
         final Consumer<ExecutionResult<Object>> completed = result -> {
             Assertions.assertEquals(3, result.round());
             Assertions.assertEquals(3, result.tick());
             Assertions.assertTrue(result.triggerContext().isStopped());
-            Assertions.assertEquals(ReasonCode.STOP_BY_JOB, result.triggerContext().condition().reasonCode());
+            Assertions.assertEquals("ForceStop", result.triggerContext().condition().reasonCode());
         };
         final SchedulingAsserter<Object> asserter = SchedulingAsserter.builder()
                                                                       .setTestContext(testContext)
@@ -191,7 +220,8 @@ class SchedulerTest {
     void test_scheduler_should_able_to_cancel_manually(Vertx vertx, VertxTestContext testContext) {
         final Consumer<ExecutionResult<Object>> onCompleted = result -> {
             Assertions.assertTrue(result.triggerContext().isStopped());
-            Assertions.assertEquals(ReasonCode.STOP_BY_MANUAL, result.triggerContext().condition().reasonCode());
+            Assertions.assertEquals(result.tick(), result.triggerContext().tick());
+            Assertions.assertEquals("TriggerIsCancelled", result.triggerContext().condition().reasonCode());
         };
         final SchedulingAsserter<Object> asserter = SchedulingAsserter.builder()
                                                                       .setTestContext(testContext)

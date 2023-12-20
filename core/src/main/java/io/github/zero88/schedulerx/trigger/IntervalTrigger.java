@@ -81,11 +81,6 @@ public interface IntervalTrigger extends Trigger {
     @NotNull IntervalTrigger validate();
 
     @Override
-    default boolean shouldStop(long round) {
-        return noRepeatIndefinitely() && round >= getRepeat();
-    }
-
-    @Override
     default JsonObject toJson() {
         JsonObject self = JsonObject.of("repeat", getRepeat(), "initialDelay", getInitialDelay(),
                                         "initialDelayTimeUnit", getInitialDelayTimeUnit(), "interval", getInterval(),
