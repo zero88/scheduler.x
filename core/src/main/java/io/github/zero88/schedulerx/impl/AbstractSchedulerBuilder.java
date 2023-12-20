@@ -49,7 +49,7 @@ public abstract class AbstractSchedulerBuilder<IN, OUT, T extends Trigger, S ext
 
     @Override
     public @NotNull TriggerEvaluator triggerEvaluator() {
-        return Optional.ofNullable(evaluator).orElseGet(DefaultTriggerEvaluator::noop);
+        return Optional.ofNullable(evaluator).orElseGet(DefaultTriggerEvaluator::new);
     }
 
     @Override

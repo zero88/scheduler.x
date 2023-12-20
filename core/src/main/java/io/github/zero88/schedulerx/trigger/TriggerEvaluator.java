@@ -3,37 +3,50 @@ package io.github.zero88.schedulerx.trigger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import io.vertx.core.Future;
+import io.github.zero88.schedulerx.impl.DefaultTriggerEvaluator;
 
 /**
- * Represents for the trigger evaluator to assess whether the trigger is able to run
+ * Represents for the trigger evaluator to assess in 2 cases:
+ * <ul>
+ *     <li>if the trigger is can run before each execution round is started.</li>
+ *     <li>if the trigger should stop executing immediately after one round of execution begins.</li>
+ * </ul>
  *
+ * @see BeforeTriggerEvaluator
+ * @see AfterTriggerEvaluator
  * @since 2.0.0
  */
-public interface TriggerEvaluator {
+public interface TriggerEvaluator extends BeforeTriggerEvaluator, AfterTriggerEvaluator {
 
     /**
-     * Verify if the trigger can run before each execution round is started.
+     * Create a trigger evaluator with the before evaluator
      *
-     * @param trigger        the trigger
-     * @param triggerContext the trigger context
-     * @param externalId     the job external id
-     * @return a future of the trigger context that is evaluated
+     * @return new trigger evaluator instance
+     * @see BeforeTriggerEvaluator
      */
-    @NotNull Future<TriggerContext> beforeTrigger(@NotNull Trigger trigger, @NotNull TriggerContext triggerContext,
-                                                  @Nullable Object externalId);
+    static TriggerEvaluator byBefore(BeforeTriggerEvaluator beforeEvaluator) { return create(beforeEvaluator, null); }
 
     /**
-     * Verify if the trigger should stop executing immediately after one round of execution begins.
+     * Create a trigger evaluator with the after evaluator
      *
-     * @param round the current execution round
-     * @since 2.0.0
+     * @return new trigger evaluator instance
+     * @see AfterTriggerEvaluator
      */
-    @NotNull Future<TriggerContext> afterTrigger(@NotNull Trigger trigger, @NotNull TriggerContext triggerContext,
-                                                 @Nullable Object externalId, long round);
+    static TriggerEvaluator byAfter(AfterTriggerEvaluator afterEvaluator) { return create(null, afterEvaluator); }
 
     /**
-     * Chain another evaluator
+     * Create a trigger evaluator with the before and after evaluator
+     *
+     * @return new trigger evaluator instance
+     * @see BeforeTriggerEvaluator
+     * @see AfterTriggerEvaluator
+     */
+    static TriggerEvaluator create(BeforeTriggerEvaluator beforeEvaluator, AfterTriggerEvaluator afterEvaluator) {
+        return DefaultTriggerEvaluator.init(beforeEvaluator, afterEvaluator);
+    }
+
+    /**
+     * Chain with another trigger evaluator.
      *
      * @param another another evaluator
      * @return a reference to this for fluent API

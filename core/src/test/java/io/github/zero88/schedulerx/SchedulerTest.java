@@ -9,23 +9,18 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import io.github.zero88.schedulerx.impl.DefaultTriggerEvaluator;
 import io.github.zero88.schedulerx.trigger.CronScheduler;
 import io.github.zero88.schedulerx.trigger.CronTrigger;
 import io.github.zero88.schedulerx.trigger.EventScheduler;
 import io.github.zero88.schedulerx.trigger.EventTrigger;
 import io.github.zero88.schedulerx.trigger.IntervalScheduler;
 import io.github.zero88.schedulerx.trigger.IntervalTrigger;
-import io.github.zero88.schedulerx.trigger.Trigger;
-import io.github.zero88.schedulerx.trigger.TriggerContext;
 import io.github.zero88.schedulerx.trigger.TriggerEvaluator;
 import io.github.zero88.schedulerx.trigger.predicate.EventTriggerPredicate;
 import io.vertx.core.Future;
@@ -184,15 +179,10 @@ class SchedulerTest {
                                                                       .setTestContext(testContext)
                                                                       .setMisfire(timeoutAsserter)
                                                                       .build();
-        final TriggerEvaluator evaluator = new DefaultTriggerEvaluator() {
-            @Override
-            protected Future<TriggerContext> internalBeforeTrigger(@NotNull Trigger trigger,
-                                                                   @NotNull TriggerContext triggerContext,
-                                                                   @Nullable Object externalId) {
-                TestUtils.block(runningTime, testContext);
-                return Future.succeededFuture(triggerContext);
-            }
-        };
+        final TriggerEvaluator evaluator = TriggerEvaluator.byBefore((trigger, triggerContext, externalId) -> {
+            TestUtils.block(runningTime, testContext);
+            return Future.succeededFuture(triggerContext);
+        });
         IntervalScheduler.builder()
                          .setVertx(vertx)
                          .setMonitor(asserter)

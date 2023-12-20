@@ -1,9 +1,13 @@
 package io.github.zero88.schedulerx.impl;
 
+import java.util.Optional;
+
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import io.github.zero88.schedulerx.trigger.AfterTriggerEvaluator;
+import io.github.zero88.schedulerx.trigger.BeforeTriggerEvaluator;
 import io.github.zero88.schedulerx.trigger.Trigger;
 import io.github.zero88.schedulerx.trigger.TriggerContext;
 import io.github.zero88.schedulerx.trigger.TriggerEvaluator;
@@ -12,11 +16,20 @@ import io.vertx.core.Future;
 @Internal
 public class DefaultTriggerEvaluator implements TriggerEvaluator {
 
-    static TriggerEvaluator noop() {
-        return new DefaultTriggerEvaluator();
+    private BeforeTriggerEvaluator before = (trigger, ctx, externalId) -> Future.succeededFuture(ctx);
+    private AfterTriggerEvaluator after = (trigger, ctx, externalId, round) -> Future.succeededFuture(ctx);
+    private TriggerEvaluator next;
+
+    public DefaultTriggerEvaluator() { }
+
+    DefaultTriggerEvaluator(BeforeTriggerEvaluator beforeEvaluator, AfterTriggerEvaluator afterEvaluator) {
+        before = Optional.ofNullable(beforeEvaluator).orElse(before);
+        after  = Optional.ofNullable(afterEvaluator).orElse(after);
     }
 
-    private TriggerEvaluator next;
+    public static TriggerEvaluator init(BeforeTriggerEvaluator beforeEvaluator, AfterTriggerEvaluator afterEvaluator) {
+        return new DefaultTriggerEvaluator(beforeEvaluator, afterEvaluator);
+    }
 
     @Override
     public final @NotNull Future<TriggerContext> beforeTrigger(@NotNull Trigger trigger,
@@ -45,13 +58,13 @@ public class DefaultTriggerEvaluator implements TriggerEvaluator {
     protected Future<TriggerContext> internalBeforeTrigger(@NotNull Trigger trigger,
                                                            @NotNull TriggerContext triggerContext,
                                                            @Nullable Object externalId) {
-        return Future.succeededFuture(triggerContext);
+        return before.beforeTrigger(trigger, triggerContext, externalId);
     }
 
     protected Future<TriggerContext> internalAfterTrigger(@NotNull Trigger trigger,
                                                           @NotNull TriggerContext triggerContext,
                                                           @Nullable Object externalId, long round) {
-        return Future.succeededFuture(triggerContext);
+        return after.afterTrigger(trigger, triggerContext, externalId, round);
     }
 
 }
