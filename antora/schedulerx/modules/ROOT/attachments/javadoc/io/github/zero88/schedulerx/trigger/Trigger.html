@@ -122,16 +122,6 @@ extends <a href="HasTriggerType.html" title="interface in io.github.zero88.sched
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Defines the trigger rule</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#shouldExecute(java.time.Instant)" class="member-name-link">shouldExecute</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;firedAt)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">Verify if the trigger time still appropriate to execute the job.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#shouldStop(long)" class="member-name-link">shouldStop</a><wbr>(long&nbsp;round)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">Verify the execution should be stopped after the current execution round is out of the trigger rule.</div>
-</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default io.vertx.core.json.JsonObject</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#toJson()" class="member-name-link">toJson</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
@@ -193,38 +183,6 @@ extends <a href="HasTriggerType.html" title="interface in io.github.zero88.sched
 <dd>this for fluent API</dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if any configuration is wrong</dd>
-<dt>Since:</dt>
-<dd>2.0.0</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="shouldExecute(java.time.Instant)">
-<h3>shouldExecute</h3>
-<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">shouldExecute</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;firedAt)</span></div>
-<div class="block">Verify if the trigger time still appropriate to execute the job.
- <p/>
- This method will be invoked right away before each execution round is started.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>firedAt</code> - a clock time that the system timer fires the trigger</dd>
-<dt>Since:</dt>
-<dd>2.0.0</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="shouldStop(long)">
-<h3>shouldStop</h3>
-<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">shouldStop</span><wbr><span class="parameters">(long&nbsp;round)</span></div>
-<div class="block">Verify the execution should be stopped after the current execution round is out of the trigger rule.
- <p/>
- This method will be invoked right away after each execution round is finished regardless of the execution result
- is success or error.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>round</code> - the current execution round</dd>
 <dt>Since:</dt>
 <dd>2.0.0</dd>
 </dl>

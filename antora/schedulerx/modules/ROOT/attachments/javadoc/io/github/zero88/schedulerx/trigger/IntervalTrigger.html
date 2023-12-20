@@ -160,24 +160,19 @@ extends <a href="Trigger.html" title="interface in io.github.zero88.schedulerx.t
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#noRepeatIndefinitely()" class="member-name-link">noRepeatIndefinitely</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#shouldStop(long)" class="member-name-link">shouldStop</a><wbr>(long&nbsp;round)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default io.vertx.core.json.JsonObject</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#toJson()" class="member-name-link">toJson</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">Verify the execution should be stopped after the current execution round is out of the trigger rule.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default io.vertx.core.json.JsonObject</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#toJson()" class="member-name-link">toJson</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Serialize this trigger to json object that helps to persist in external system</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#type()" class="member-name-link">type</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#type()" class="member-name-link">type</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Declares the trigger type</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="IntervalTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTrigger</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#validate()" class="member-name-link">validate</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="IntervalTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTrigger</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#validate()" class="member-name-link">validate</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Do validate trigger in runtime.</div>
 </div>
 </div>
@@ -185,7 +180,7 @@ extends <a href="Trigger.html" title="interface in io.github.zero88.schedulerx.t
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-io.github.zero88.schedulerx.trigger.Trigger">Methods inherited from interface&nbsp;io.github.zero88.schedulerx.trigger.<a href="Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a></h3>
-<code><a href="Trigger.html#display(java.lang.String)">display</a>, <a href="Trigger.html#preview()">preview</a>, <a href="Trigger.html#preview(io.github.zero88.schedulerx.trigger.PreviewParameter)">preview</a>, <a href="Trigger.html#rule()">rule</a>, <a href="Trigger.html#shouldExecute(java.time.Instant)">shouldExecute</a></code></div>
+<code><a href="Trigger.html#display(java.lang.String)">display</a>, <a href="Trigger.html#preview()">preview</a>, <a href="Trigger.html#preview(io.github.zero88.schedulerx.trigger.PreviewParameter)">preview</a>, <a href="Trigger.html#rule()">rule</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-io.github.zero88.schedulerx.trigger.repr.TriggerRepresentation">Methods inherited from interface&nbsp;io.github.zero88.schedulerx.trigger.repr.<a href="repr/TriggerRepresentation.html" title="interface in io.github.zero88.schedulerx.trigger.repr">TriggerRepresentation</a></h3>
 <code><a href="repr/TriggerRepresentation.html#display()">display</a></code></div>
@@ -352,23 +347,6 @@ extends <a href="Trigger.html" title="interface in io.github.zero88.schedulerx.t
 <dd><code><a href="Trigger.html#validate()">validate</a></code>&nbsp;in interface&nbsp;<code><a href="Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a></code></dd>
 <dt>Returns:</dt>
 <dd>this for fluent API</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="shouldStop(long)">
-<h3>shouldStop</h3>
-<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">shouldStop</span><wbr><span class="parameters">(long&nbsp;round)</span></div>
-<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="Trigger.html#shouldStop(long)">Trigger</a></code></span></div>
-<div class="block">Verify the execution should be stopped after the current execution round is out of the trigger rule.
- <p/>
- This method will be invoked right away after each execution round is finished regardless of the execution result
- is success or error.</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="Trigger.html#shouldStop(long)">shouldStop</a></code>&nbsp;in interface&nbsp;<code><a href="Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a></code></dd>
-<dt>Parameters:</dt>
-<dd><code>round</code> - the current execution round</dd>
 </dl>
 </section>
 </li>

@@ -97,65 +97,71 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#error(java.lang.String,java.lang.String,java.lang.Throwable)" class="member-name-link">error</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;triggerType,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;reason,
- @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a>&nbsp;cause)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Create a trigger context in <a href="../trigger/TriggerCondition.TriggerStatus.html#ERROR"><code>TriggerCondition.TriggerStatus.ERROR</code></a> state.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @NotNull <a href="TriggerTransitionContext.html" title="interface in io.github.zero88.schedulerx.impl">TriggerTransitionContext</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#executed(io.github.zero88.schedulerx.impl.TriggerTransitionContext)" class="member-name-link">executed</a><wbr>(@NotNull <a href="TriggerTransitionContext.html" title="interface in io.github.zero88.schedulerx.impl">TriggerTransitionContext</a>&nbsp;ctx)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Transition trigger context to <a href="../trigger/TriggerCondition.TriggerStatus.html#EXECUTED"><code>TriggerCondition.TriggerStatus.EXECUTED</code></a> state.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @NotNull <a href="TriggerTransitionContext.html" title="interface in io.github.zero88.schedulerx.impl">TriggerTransitionContext</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#kickoff(java.lang.String,long)" class="member-name-link">kickoff</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;triggerType,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#cancel(java.lang.String,long)" class="member-name-link">cancel</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;triggerType,
  long&nbsp;tick)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Create trigger context in <a href="../trigger/TriggerCondition.TriggerStatus.html#KICKOFF"><code>TriggerCondition.TriggerStatus.KICKOFF</code></a> state</div>
+<div class="block">Create a trigger context in <a href="../trigger/TriggerCondition.TriggerStatus.html#STOPPED"><code>TriggerCondition.TriggerStatus.STOPPED</code></a> state with <a href="../trigger/TriggerCondition.ReasonCode.html#ON_CANCEL"><code>TriggerCondition.ReasonCode.ON_CANCEL</code></a> reason.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T&gt;&nbsp;@NotNull <a href="TriggerTransitionContext.html" title="interface in io.github.zero88.schedulerx.impl">TriggerTransitionContext</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#kickoff(java.lang.String,long,T)" class="member-name-link">kickoff</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;triggerType,
- long&nbsp;tick,
- T&nbsp;info)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#error(java.lang.String,java.lang.String,java.lang.Throwable)" class="member-name-link">error</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;triggerType,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;reason,
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a>&nbsp;cause)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Create a trigger context in <a href="../trigger/TriggerCondition.TriggerStatus.html#ERROR"><code>TriggerCondition.TriggerStatus.ERROR</code></a> state.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#executed(io.github.zero88.schedulerx.trigger.TriggerContext)" class="member-name-link">executed</a><wbr>(@NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a>&nbsp;ctx)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Transition trigger context to <a href="../trigger/TriggerCondition.TriggerStatus.html#EXECUTED"><code>TriggerCondition.TriggerStatus.EXECUTED</code></a> state.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#kickoff(java.lang.String,long)" class="member-name-link">kickoff</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;triggerType,
+ long&nbsp;tick)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Create trigger context in <a href="../trigger/TriggerCondition.TriggerStatus.html#KICKOFF"><code>TriggerCondition.TriggerStatus.KICKOFF</code></a> state</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @NotNull <a href="TriggerTransitionContext.html" title="interface in io.github.zero88.schedulerx.impl">TriggerTransitionContext</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#ready(io.github.zero88.schedulerx.impl.TriggerTransitionContext)" class="member-name-link">ready</a><wbr>(@NotNull <a href="TriggerTransitionContext.html" title="interface in io.github.zero88.schedulerx.impl">TriggerTransitionContext</a>&nbsp;ctx)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T&gt;&nbsp;@NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#kickoff(java.lang.String,long,T)" class="member-name-link">kickoff</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;triggerType,
+ long&nbsp;tick,
+ T&nbsp;info)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Create trigger context in <a href="../trigger/TriggerCondition.TriggerStatus.html#KICKOFF"><code>TriggerCondition.TriggerStatus.KICKOFF</code></a> state</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#ready(io.github.zero88.schedulerx.trigger.TriggerContext)" class="member-name-link">ready</a><wbr>(@NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a>&nbsp;ctx)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Transition trigger context to <a href="../trigger/TriggerCondition.TriggerStatus.html#READY"><code>TriggerCondition.TriggerStatus.READY</code></a> state.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#rescheduled(java.lang.String,long)" class="member-name-link">rescheduled</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;triggerType,
+ long&nbsp;tick)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Create trigger context in <a href="../trigger/TriggerCondition.TriggerStatus.html#SCHEDULED"><code>TriggerCondition.TriggerStatus.SCHEDULED</code></a> state with <a href="../trigger/TriggerCondition.ReasonCode.html#ON_RESCHEDULE"><code>TriggerCondition.ReasonCode.ON_RESCHEDULE</code></a> reason</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#scheduled(java.lang.String)" class="member-name-link">scheduled</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;triggerType)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Create trigger context in <a href="../trigger/TriggerCondition.TriggerStatus.html#SCHEDULED"><code>TriggerCondition.TriggerStatus.SCHEDULED</code></a> state</div>
+<div class="block">Create trigger context in <a href="../trigger/TriggerCondition.TriggerStatus.html#SCHEDULED"><code>TriggerCondition.TriggerStatus.SCHEDULED</code></a> state with <a href="../trigger/TriggerCondition.ReasonCode.html#ON_SCHEDULE"><code>TriggerCondition.ReasonCode.ON_SCHEDULE</code></a> reason</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @NotNull <a href="TriggerTransitionContext.html" title="interface in io.github.zero88.schedulerx.impl">TriggerTransitionContext</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#skip(io.github.zero88.schedulerx.impl.TriggerTransitionContext,java.lang.String)" class="member-name-link">skip</a><wbr>(@NotNull <a href="TriggerTransitionContext.html" title="interface in io.github.zero88.schedulerx.impl">TriggerTransitionContext</a>&nbsp;ctx,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#skip(io.github.zero88.schedulerx.trigger.TriggerContext,java.lang.String)" class="member-name-link">skip</a><wbr>(@NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a>&nbsp;ctx,
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;reason)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Transition trigger context to <a href="../trigger/TriggerCondition.TriggerStatus.html#SKIPPED"><code>TriggerCondition.TriggerStatus.SKIPPED</code></a> state.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @NotNull <a href="TriggerTransitionContext.html" title="interface in io.github.zero88.schedulerx.impl">TriggerTransitionContext</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#skip(io.github.zero88.schedulerx.impl.TriggerTransitionContext,java.lang.String,java.lang.Throwable)" class="member-name-link">skip</a><wbr>(@NotNull <a href="TriggerTransitionContext.html" title="interface in io.github.zero88.schedulerx.impl">TriggerTransitionContext</a>&nbsp;ctx,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#skip(io.github.zero88.schedulerx.trigger.TriggerContext,java.lang.String,java.lang.Throwable)" class="member-name-link">skip</a><wbr>(@NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a>&nbsp;ctx,
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;reason,
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a>&nbsp;cause)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Transition trigger context to <a href="../trigger/TriggerCondition.TriggerStatus.html#SKIPPED"><code>TriggerCondition.TriggerStatus.SKIPPED</code></a> state.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @NotNull <a href="TriggerTransitionContext.html" title="interface in io.github.zero88.schedulerx.impl">TriggerTransitionContext</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#stop(io.github.zero88.schedulerx.impl.TriggerTransitionContext,java.lang.String)" class="member-name-link">stop</a><wbr>(@NotNull <a href="TriggerTransitionContext.html" title="interface in io.github.zero88.schedulerx.impl">TriggerTransitionContext</a>&nbsp;ctx,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#stop(io.github.zero88.schedulerx.trigger.TriggerContext,java.lang.String)" class="member-name-link">stop</a><wbr>(@NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a>&nbsp;ctx,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;reason)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Transition trigger context to <a href="../trigger/TriggerCondition.TriggerStatus.html#STOPPED"><code>TriggerCondition.TriggerStatus.STOPPED</code></a> state.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#stop(java.lang.String,java.lang.String)" class="member-name-link">stop</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;triggerType,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;reason)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Create a trigger context in <a href="../trigger/TriggerCondition.TriggerStatus.html#STOPPED"><code>TriggerCondition.TriggerStatus.STOPPED</code></a> state.</div>
 </div>
 </div>
 </div>
@@ -180,7 +186,7 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></span>&nbsp;<span class="element-name">scheduled</span><wbr><span class="parameters">(@NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;triggerType)</span></div>
-<div class="block">Create trigger context in <a href="../trigger/TriggerCondition.TriggerStatus.html#SCHEDULED"><code>TriggerCondition.TriggerStatus.SCHEDULED</code></a> state</div>
+<div class="block">Create trigger context in <a href="../trigger/TriggerCondition.TriggerStatus.html#SCHEDULED"><code>TriggerCondition.TriggerStatus.SCHEDULED</code></a> state with <a href="../trigger/TriggerCondition.ReasonCode.html#ON_SCHEDULE"><code>TriggerCondition.ReasonCode.ON_SCHEDULE</code></a> reason</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>triggerType</code> - the trigger type</dd>
@@ -188,126 +194,17 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="kickoff(java.lang.String,long)">
-<h3>kickoff</h3>
+<section class="detail" id="rescheduled(java.lang.String,long)">
+<h3>rescheduled</h3>
 <div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NotNull <a href="TriggerTransitionContext.html" title="interface in io.github.zero88.schedulerx.impl">TriggerTransitionContext</a></span>&nbsp;<span class="element-name">kickoff</span><wbr><span class="parameters">(@NotNull
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></span>&nbsp;<span class="element-name">rescheduled</span><wbr><span class="parameters">(@NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;triggerType,
  long&nbsp;tick)</span></div>
-<div class="block">Create trigger context in <a href="../trigger/TriggerCondition.TriggerStatus.html#KICKOFF"><code>TriggerCondition.TriggerStatus.KICKOFF</code></a> state</div>
+<div class="block">Create trigger context in <a href="../trigger/TriggerCondition.TriggerStatus.html#SCHEDULED"><code>TriggerCondition.TriggerStatus.SCHEDULED</code></a> state with <a href="../trigger/TriggerCondition.ReasonCode.html#ON_RESCHEDULE"><code>TriggerCondition.ReasonCode.ON_RESCHEDULE</code></a> reason</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>triggerType</code> - the trigger type</dd>
-<dd><code>tick</code> - the tick</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="kickoff(java.lang.String,long,T)">
-<h3 id="kickoff(java.lang.String,long,java.lang.Object)">kickoff</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type">@NotNull <a href="TriggerTransitionContext.html" title="interface in io.github.zero88.schedulerx.impl">TriggerTransitionContext</a></span>&nbsp;<span class="element-name">kickoff</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;triggerType,
- long&nbsp;tick,
- @Nullable
- T&nbsp;info)</span></div>
-<div class="block">Create trigger context in <a href="../trigger/TriggerCondition.TriggerStatus.html#KICKOFF"><code>TriggerCondition.TriggerStatus.KICKOFF</code></a> state</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>triggerType</code> - the trigger type</dd>
-<dd><code>tick</code> - the tick</dd>
-<dd><code>info</code> - the trigger context info</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="ready(io.github.zero88.schedulerx.impl.TriggerTransitionContext)">
-<h3>ready</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NotNull <a href="TriggerTransitionContext.html" title="interface in io.github.zero88.schedulerx.impl">TriggerTransitionContext</a></span>&nbsp;<span class="element-name">ready</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="TriggerTransitionContext.html" title="interface in io.github.zero88.schedulerx.impl">TriggerTransitionContext</a>&nbsp;ctx)</span></div>
-<div class="block">Transition trigger context to <a href="../trigger/TriggerCondition.TriggerStatus.html#READY"><code>TriggerCondition.TriggerStatus.READY</code></a> state.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>ctx</code> - the current trigger context</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="executed(io.github.zero88.schedulerx.impl.TriggerTransitionContext)">
-<h3>executed</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NotNull <a href="TriggerTransitionContext.html" title="interface in io.github.zero88.schedulerx.impl">TriggerTransitionContext</a></span>&nbsp;<span class="element-name">executed</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="TriggerTransitionContext.html" title="interface in io.github.zero88.schedulerx.impl">TriggerTransitionContext</a>&nbsp;ctx)</span></div>
-<div class="block">Transition trigger context to <a href="../trigger/TriggerCondition.TriggerStatus.html#EXECUTED"><code>TriggerCondition.TriggerStatus.EXECUTED</code></a> state.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>ctx</code> - the current trigger context</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="skip(io.github.zero88.schedulerx.impl.TriggerTransitionContext,java.lang.String)">
-<h3>skip</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NotNull <a href="TriggerTransitionContext.html" title="interface in io.github.zero88.schedulerx.impl">TriggerTransitionContext</a></span>&nbsp;<span class="element-name">skip</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="TriggerTransitionContext.html" title="interface in io.github.zero88.schedulerx.impl">TriggerTransitionContext</a>&nbsp;ctx,
- @NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;reason)</span></div>
-<div class="block">Transition trigger context to <a href="../trigger/TriggerCondition.TriggerStatus.html#SKIPPED"><code>TriggerCondition.TriggerStatus.SKIPPED</code></a> state.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>ctx</code> - the current trigger context</dd>
-<dd><code>reason</code> - the transition reason</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="skip(io.github.zero88.schedulerx.impl.TriggerTransitionContext,java.lang.String,java.lang.Throwable)">
-<h3>skip</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NotNull <a href="TriggerTransitionContext.html" title="interface in io.github.zero88.schedulerx.impl">TriggerTransitionContext</a></span>&nbsp;<span class="element-name">skip</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="TriggerTransitionContext.html" title="interface in io.github.zero88.schedulerx.impl">TriggerTransitionContext</a>&nbsp;ctx,
- @NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;reason,
- @NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a>&nbsp;cause)</span></div>
-<div class="block">Transition trigger context to <a href="../trigger/TriggerCondition.TriggerStatus.html#SKIPPED"><code>TriggerCondition.TriggerStatus.SKIPPED</code></a> state.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>ctx</code> - the current trigger context</dd>
-<dd><code>reason</code> - the transition reason</dd>
-<dd><code>cause</code> - the transition cause</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="stop(io.github.zero88.schedulerx.impl.TriggerTransitionContext,java.lang.String)">
-<h3>stop</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NotNull <a href="TriggerTransitionContext.html" title="interface in io.github.zero88.schedulerx.impl">TriggerTransitionContext</a></span>&nbsp;<span class="element-name">stop</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="TriggerTransitionContext.html" title="interface in io.github.zero88.schedulerx.impl">TriggerTransitionContext</a>&nbsp;ctx,
- @Nullable
- @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;reason)</span></div>
-<div class="block">Transition trigger context to <a href="../trigger/TriggerCondition.TriggerStatus.html#STOPPED"><code>TriggerCondition.TriggerStatus.STOPPED</code></a> state.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>ctx</code> - the current trigger context</dd>
-<dd><code>reason</code> - the transition reason</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="stop(java.lang.String,java.lang.String)">
-<h3>stop</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></span>&nbsp;<span class="element-name">stop</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;triggerType,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;reason)</span></div>
-<div class="block">Create a trigger context in <a href="../trigger/TriggerCondition.TriggerStatus.html#STOPPED"><code>TriggerCondition.TriggerStatus.STOPPED</code></a> state.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>triggerType</code> - the trigger type</dd>
-<dd><code>reason</code> - the stopped reason</dd>
+<dd><code>tick</code> - the tick at the rescheduled time</dd>
 </dl>
 </section>
 </li>
@@ -324,6 +221,130 @@ loadScripts(document, 'script');</script>
 <dd><code>triggerType</code> - the trigger type</dd>
 <dd><code>reason</code> - the transition reason</dd>
 <dd><code>cause</code> - the failed cause</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="cancel(java.lang.String,long)">
+<h3>cancel</h3>
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></span>&nbsp;<span class="element-name">cancel</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;triggerType,
+ long&nbsp;tick)</span></div>
+<div class="block">Create a trigger context in <a href="../trigger/TriggerCondition.TriggerStatus.html#STOPPED"><code>TriggerCondition.TriggerStatus.STOPPED</code></a> state with <a href="../trigger/TriggerCondition.ReasonCode.html#ON_CANCEL"><code>TriggerCondition.ReasonCode.ON_CANCEL</code></a> reason.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>triggerType</code> - the trigger type</dd>
+<dd><code>tick</code> - the current tick</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="kickoff(java.lang.String,long)">
+<h3>kickoff</h3>
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></span>&nbsp;<span class="element-name">kickoff</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;triggerType,
+ long&nbsp;tick)</span></div>
+<div class="block">Create trigger context in <a href="../trigger/TriggerCondition.TriggerStatus.html#KICKOFF"><code>TriggerCondition.TriggerStatus.KICKOFF</code></a> state</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>triggerType</code> - the trigger type</dd>
+<dd><code>tick</code> - the tick</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="kickoff(java.lang.String,long,T)">
+<h3 id="kickoff(java.lang.String,long,java.lang.Object)">kickoff</h3>
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type">@NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></span>&nbsp;<span class="element-name">kickoff</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;triggerType,
+ long&nbsp;tick,
+ @Nullable
+ T&nbsp;info)</span></div>
+<div class="block">Create trigger context in <a href="../trigger/TriggerCondition.TriggerStatus.html#KICKOFF"><code>TriggerCondition.TriggerStatus.KICKOFF</code></a> state</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>triggerType</code> - the trigger type</dd>
+<dd><code>tick</code> - the tick</dd>
+<dd><code>info</code> - the trigger context info</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="ready(io.github.zero88.schedulerx.trigger.TriggerContext)">
+<h3>ready</h3>
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></span>&nbsp;<span class="element-name">ready</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a>&nbsp;ctx)</span></div>
+<div class="block">Transition trigger context to <a href="../trigger/TriggerCondition.TriggerStatus.html#READY"><code>TriggerCondition.TriggerStatus.READY</code></a> state.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>ctx</code> - the current trigger context</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="executed(io.github.zero88.schedulerx.trigger.TriggerContext)">
+<h3>executed</h3>
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></span>&nbsp;<span class="element-name">executed</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a>&nbsp;ctx)</span></div>
+<div class="block">Transition trigger context to <a href="../trigger/TriggerCondition.TriggerStatus.html#EXECUTED"><code>TriggerCondition.TriggerStatus.EXECUTED</code></a> state.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>ctx</code> - the current trigger context</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="skip(io.github.zero88.schedulerx.trigger.TriggerContext,java.lang.String)">
+<h3>skip</h3>
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></span>&nbsp;<span class="element-name">skip</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a>&nbsp;ctx,
+ @NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;reason)</span></div>
+<div class="block">Transition trigger context to <a href="../trigger/TriggerCondition.TriggerStatus.html#SKIPPED"><code>TriggerCondition.TriggerStatus.SKIPPED</code></a> state.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>ctx</code> - the current trigger context</dd>
+<dd><code>reason</code> - the transition reason</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="skip(io.github.zero88.schedulerx.trigger.TriggerContext,java.lang.String,java.lang.Throwable)">
+<h3>skip</h3>
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></span>&nbsp;<span class="element-name">skip</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a>&nbsp;ctx,
+ @NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;reason,
+ @NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a>&nbsp;cause)</span></div>
+<div class="block">Transition trigger context to <a href="../trigger/TriggerCondition.TriggerStatus.html#SKIPPED"><code>TriggerCondition.TriggerStatus.SKIPPED</code></a> state.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>ctx</code> - the current trigger context</dd>
+<dd><code>reason</code> - the transition reason</dd>
+<dd><code>cause</code> - the transition cause</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="stop(io.github.zero88.schedulerx.trigger.TriggerContext,java.lang.String)">
+<h3>stop</h3>
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></span>&nbsp;<span class="element-name">stop</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a>&nbsp;ctx,
+ @Nullable
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;reason)</span></div>
+<div class="block">Transition trigger context to <a href="../trigger/TriggerCondition.TriggerStatus.html#STOPPED"><code>TriggerCondition.TriggerStatus.STOPPED</code></a> state.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>ctx</code> - the current trigger context</dd>
+<dd><code>reason</code> - the transition reason</dd>
 </dl>
 </section>
 </li>

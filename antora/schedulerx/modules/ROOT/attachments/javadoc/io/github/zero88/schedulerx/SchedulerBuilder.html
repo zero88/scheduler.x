@@ -149,18 +149,24 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setTrigger(TRIGGER)" class="member-name-link">setTrigger</a><wbr>(<a href="SchedulerBuilder.html" title="type parameter in SchedulerBuilder">TRIGGER</a>&nbsp;trigger)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="SchedulerBuilder.html" title="type parameter in SchedulerBuilder">SELF</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setVertx(io.vertx.core.Vertx)" class="member-name-link">setVertx</a><wbr>(@NotNull io.vertx.core.Vertx&nbsp;vertx)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setTriggerEvaluator(io.github.zero88.schedulerx.trigger.TriggerEvaluator)" class="member-name-link">setTriggerEvaluator</a><wbr>(@NotNull <a href="trigger/TriggerEvaluator.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerEvaluator</a>&nbsp;evaluator)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="TimeoutPolicy.html" title="class in io.github.zero88.schedulerx">TimeoutPolicy</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#timeoutPolicy()" class="member-name-link">timeoutPolicy</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="SchedulerBuilder.html" title="type parameter in SchedulerBuilder">SELF</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setVertx(io.vertx.core.Vertx)" class="member-name-link">setVertx</a><wbr>(@NotNull io.vertx.core.Vertx&nbsp;vertx)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="TimeoutPolicy.html" title="class in io.github.zero88.schedulerx">TimeoutPolicy</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#timeoutPolicy()" class="member-name-link">timeoutPolicy</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Declares the timeout policy</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="SchedulerBuilder.html" title="type parameter in SchedulerBuilder">TRIGGER</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#trigger()" class="member-name-link">trigger</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="SchedulerBuilder.html" title="type parameter in SchedulerBuilder">TRIGGER</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#trigger()" class="member-name-link">trigger</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">The trigger</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="trigger/TriggerEvaluator.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerEvaluator</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#triggerEvaluator()" class="member-name-link">triggerEvaluator</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull io.vertx.core.Vertx</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#vertx()" class="member-name-link">vertx</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
@@ -181,6 +187,13 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="triggerEvaluator()">
+<h3>triggerEvaluator</h3>
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="return-type">@NotNull <a href="trigger/TriggerEvaluator.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerEvaluator</a></span>&nbsp;<span class="element-name">triggerEvaluator</span>()</div>
+</section>
+</li>
+<li>
 <section class="detail" id="setVertx(io.vertx.core.Vertx)">
 <h3>setVertx</h3>
 <div class="member-signature"><span class="annotations">@NotNull
@@ -194,6 +207,14 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="return-type"><a href="SchedulerBuilder.html" title="type parameter in SchedulerBuilder">SELF</a></span>&nbsp;<span class="element-name">setTrigger</span><wbr><span class="parameters">(@NotNull
  <a href="SchedulerBuilder.html" title="type parameter in SchedulerBuilder">TRIGGER</a>&nbsp;trigger)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="setTriggerEvaluator(io.github.zero88.schedulerx.trigger.TriggerEvaluator)">
+<h3>setTriggerEvaluator</h3>
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="return-type"><a href="SchedulerBuilder.html" title="type parameter in SchedulerBuilder">SELF</a></span>&nbsp;<span class="element-name">setTriggerEvaluator</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="trigger/TriggerEvaluator.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerEvaluator</a>&nbsp;evaluator)</span></div>
 </section>
 </li>
 <li>
