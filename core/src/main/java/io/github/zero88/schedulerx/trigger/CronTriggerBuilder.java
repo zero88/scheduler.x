@@ -2,6 +2,7 @@ package io.github.zero88.schedulerx.trigger;
 
 import java.util.TimeZone;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.NotNull;
 
 import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
@@ -12,6 +13,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 /**
  * Represents a builder that constructs {@link CronTrigger}
  */
+@Internal
 @JsonPOJOBuilder(withPrefix = "")
 @JsonIgnoreProperties(value = { "type" })
 public final class CronTriggerBuilder {
@@ -19,6 +21,8 @@ public final class CronTriggerBuilder {
     private TriggerRule rule;
     private String expression;
     private TimeZone timeZone;
+
+    CronTriggerBuilder() { }
 
     public CronTriggerBuilder rule(TriggerRule rule) {
         this.rule = rule;

@@ -16,7 +16,7 @@ final class EventTriggerImpl<T> implements EventTrigger<T> {
     private final EventTriggerPredicate<T> predicate;
 
     EventTriggerImpl(String address, boolean localOnly, EventTriggerPredicate<T> predicate, TriggerRule rule) {
-        this.rule      = rule;
+        this.rule      = Optional.ofNullable(rule).orElseGet(EventTrigger.super::rule);
         this.localOnly = localOnly;
         this.address   = Objects.requireNonNull(
             Optional.ofNullable(address).filter(a -> !a.trim().isEmpty()).orElse(null),
@@ -25,7 +25,7 @@ final class EventTriggerImpl<T> implements EventTrigger<T> {
     }
 
     @Override
-    public @NotNull TriggerRule rule() { return Optional.ofNullable(rule).orElseGet(EventTrigger.super::rule); }
+    public @NotNull TriggerRule rule() { return rule; }
 
     @Override
     public boolean isLocalOnly() { return localOnly; }

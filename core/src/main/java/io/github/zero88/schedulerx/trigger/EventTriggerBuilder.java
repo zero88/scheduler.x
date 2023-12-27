@@ -1,5 +1,7 @@
 package io.github.zero88.schedulerx.trigger;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import io.github.zero88.schedulerx.trigger.predicate.EventTriggerPredicate;
 import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
 
@@ -12,6 +14,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
  *
  * @since 2.0.0
  */
+@Internal
 @JsonPOJOBuilder(withPrefix = "")
 @JsonIgnoreProperties(value = { "type" })
 public final class EventTriggerBuilder<T> {
@@ -20,6 +23,8 @@ public final class EventTriggerBuilder<T> {
     private String address;
     private boolean localOnly = false;
     private EventTriggerPredicate<T> predicate;
+
+    EventTriggerBuilder() { }
 
     public EventTriggerBuilder<T> rule(TriggerRule rule) {
         this.rule = rule;

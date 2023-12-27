@@ -30,11 +30,11 @@ final class CronTriggerImpl implements CronTrigger {
     CronTriggerImpl(@NotNull String expression, TimeZone timeZone, TriggerRule rule) {
         this.expression = Objects.requireNonNull(expression, "Cron expression is required");
         this.timeZone   = timeZone == null ? TimeZone.getTimeZone(ZoneOffset.UTC.getId()) : timeZone;
-        this.rule       = rule;
+        this.rule       = Optional.ofNullable(rule).orElseGet(CronTrigger.super::rule);
     }
 
     @Override
-    public @NotNull TriggerRule rule() { return Optional.ofNullable(rule).orElseGet(CronTrigger.super::rule); }
+    public @NotNull TriggerRule rule() { return rule; }
 
     public @NotNull String getExpression() { return this.expression; }
 

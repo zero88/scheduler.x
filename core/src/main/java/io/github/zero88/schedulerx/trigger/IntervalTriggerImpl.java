@@ -1,62 +1,58 @@
 package io.github.zero88.schedulerx.trigger;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 import org.jetbrains.annotations.NotNull;
 
-import io.github.zero88.schedulerx.impl.Utils;
+import io.github.zero88.schedulerx.impl.Utils.HumanReadableTimeFormat;
 import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
 
 final class IntervalTriggerImpl implements IntervalTrigger {
 
-    private final TriggerRule rule;
+    private final Duration initialDelay;
+    private final Duration interval;
     private final long repeat;
-    private final long initialDelay;
-    private final TimeUnit initialDelayTimeUnit;
-    private final long interval;
-    private final TimeUnit intervalTimeUnit;
+    private final TriggerRule rule;
 
-    IntervalTriggerImpl(@NotNull TimeUnit initialDelayTimeUnit, long initialDelay, long repeat,
-                        @NotNull TimeUnit intervalTimeUnit, long interval, TriggerRule rule) {
-        this.rule                 = rule;
-        this.initialDelayTimeUnit = initialDelayTimeUnit;
-        this.initialDelay         = initialDelay;
-        this.repeat               = repeat;
-        this.intervalTimeUnit     = intervalTimeUnit;
-        this.interval             = interval;
+    IntervalTriggerImpl(Duration initialDelay, Duration interval, long repeat, TriggerRule rule) {
+        this.initialDelay = Optional.ofNullable(initialDelay).orElse(Duration.ZERO);
+        this.interval     = Objects.requireNonNull(interval, "Interval configuration is required");
+        this.repeat       = repeat;
+        this.rule         = Optional.ofNullable(rule).orElseGet(IntervalTrigger.super::rule);
     }
 
     @Override
-    public @NotNull TriggerRule rule() { return Optional.ofNullable(rule).orElseGet(IntervalTrigger.super::rule); }
+    public @NotNull TriggerRule rule() { return rule; }
 
     @Override
     public long getRepeat() { return repeat; }
 
     @Override
-    public long getInitialDelay() { return initialDelay; }
+    public @NotNull Duration initialDelay() { return initialDelay; }
 
     @Override
-    public @NotNull TimeUnit getInitialDelayTimeUnit() { return this.initialDelayTimeUnit; }
-
-    @Override
-    public long getInterval() { return interval; }
-
-    @Override
-    public @NotNull TimeUnit getIntervalTimeUnit() { return this.intervalTimeUnit; }
+    public @NotNull Duration interval() { return interval; }
 
     @Override
     @SuppressWarnings("java:S1192")
     public @NotNull IntervalTrigger validate() {
-        validate(repeat, false, true, "repeat");
-        validate(interval, false, false, "interval");
-        validate(initialDelay, true, false, "initial delay");
+        if (repeat != REPEAT_INDEFINITELY && repeat <= 0) {
+            throw new IllegalArgumentException("Invalid repeat value");
+        }
+        if (interval.isZero() || interval.isNegative()) {
+            throw new IllegalArgumentException("Invalid interval value");
+        }
+        if (initialDelay.isNegative()) {
+            throw new IllegalArgumentException("Invalid initial delay value");
+        }
         return this;
     }
 
@@ -67,9 +63,9 @@ final class IntervalTriggerImpl implements IntervalTrigger {
         final TriggerRule theRule = parameter.getRule();
         final ZoneId zoneId = Optional.ofNullable(parameter.getTimeZone()).orElse(ZoneOffset.UTC);
         Instant next = parameter.getStartedAt();
-        next = next.plus(initialDelay, Utils.toChronoUnit(initialDelayTimeUnit));
+        next = next.plus(initialDelay);
         do {
-            next = next.plus(interval, Utils.toChronoUnit(intervalTimeUnit));
+            next = next.plus(interval);
             if (theRule.isExceeded(next)) {
                 break;
             }
@@ -80,42 +76,33 @@ final class IntervalTriggerImpl implements IntervalTrigger {
         return result;
     }
 
-    static void validate(long number, boolean allowZero, boolean allowInfinite, String msg) {
-        if (number > 0 || (allowZero && number == 0) || (allowInfinite && number == REPEAT_INDEFINITELY)) {
-            return;
-        }
-        throw new IllegalArgumentException("Invalid " + msg + " value");
-    }
-
     @Override
     public boolean equals(Object o) {
-        if (this == o) { return true; }
-        if (o == null || getClass() != o.getClass()) { return false; }
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
         IntervalTriggerImpl that = (IntervalTriggerImpl) o;
 
-        if (initialDelay != that.initialDelay) { return false; }
         if (repeat != that.repeat) { return false; }
-        if (interval != that.interval) { return false; }
-        if (initialDelayTimeUnit != that.initialDelayTimeUnit) { return false; }
-        if (intervalTimeUnit != that.intervalTimeUnit) { return false; }
-        return rule().equals(that.rule());
+        if (interval.compareTo(that.interval) != 0) { return false; }
+        if (initialDelay.compareTo(that.initialDelay) != 0) { return false; }
+        return rule.equals(that.rule);
     }
 
     @Override
     public int hashCode() {
-        int result = initialDelayTimeUnit.hashCode();
-        result = 31 * result + (int) (initialDelay ^ (initialDelay >>> 32));
-        result = 31 * result + (int) (repeat ^ (repeat >>> 32));
-        result = 31 * result + intervalTimeUnit.hashCode();
-        result = 31 * result + (int) (interval ^ (interval >>> 32));
-        result = 31 * result + rule().hashCode();
+        int result = (int) (repeat ^ (repeat >>> 32));
+        result = 31 * result + initialDelay.hashCode();
+        result = 31 * result + interval.hashCode();
+        result = 31 * result + rule.hashCode();
         return result;
     }
 
     public String toString() {
-        return "IntervalTrigger(initialDelay=" + initialDelay + ", initialDelayTimeUnit=" + initialDelayTimeUnit +
-               ", interval=" + interval + ", intervalTimeUnit=" + intervalTimeUnit + ", repeat=" + repeat + ")";
+        return "IntervalTrigger(initialDelay=" + HumanReadableTimeFormat.format(initialDelay) + ", interval=" +
+               HumanReadableTimeFormat.format(interval) + ", repeat=" + repeat + ")";
     }
 
 }
