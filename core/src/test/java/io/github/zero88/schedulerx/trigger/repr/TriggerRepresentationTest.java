@@ -28,8 +28,7 @@ class TriggerRepresentationTest {
 
     private static Stream<Arguments> provide_trigger() {
         return Stream.of(arguments(IntervalTrigger.builder().interval(5).build(),
-                                   "IntervalTrigger(initialDelay=0, initialDelayTimeUnit=SECONDS, interval=5, " +
-                                   "intervalTimeUnit=SECONDS, repeat=-1)"),
+                                   "IntervalTrigger(initialDelay=0s, interval=5s, repeat=-1)"),
                          arguments(EventTrigger.builder().address("a.b").predicate(EventTriggerPredicate.any()).build(),
                                    "EventTrigger(address='a.b', localOnly=false, predicate='Accept any event')"));
     }

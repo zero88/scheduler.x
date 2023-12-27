@@ -1,12 +1,14 @@
 package io.github.zero88.schedulerx.trigger;
 
+import java.time.Duration;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.jetbrains.annotations.NotNull;
 
 import io.vertx.core.json.JsonObject;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
  * Represents for inspecting settings specific to a IntervalTrigger.
@@ -16,7 +18,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  *
  * @since 1.0.0
  */
-@JsonDeserialize(builder = IntervalTriggerBuilder.class)
 public interface IntervalTrigger extends Trigger {
 
     String TRIGGER_TYPE = "interval";
@@ -40,52 +41,64 @@ public interface IntervalTrigger extends Trigger {
     long getRepeat();
 
     /**
+     * @return the initial delay time before emitting trigger in the first time.
+     * @since 2.0.0
+     */
+    @NotNull Duration initialDelay();
+
+    /**
+     * @return the time interval at which the {@code IntervalTrigger} should repeat.
+     * @since 2.0.0
+     */
+    @NotNull Duration interval();
+
+    /**
      * Get the initial delay time (in {@link #getInitialDelayTimeUnit()}) before emitting trigger in the first time.
      *
      * @apiNote Default is {@code 0}
+     * @deprecated use {@link #initialDelay()}
      */
-    long getInitialDelay();
+    @Deprecated
+    default long getInitialDelay() { return initialDelay().toSeconds(); }
 
     /**
      * Delay time unit
      *
      * @apiNote Default is {@code SECONDS}
+     * @deprecated use {@link #initialDelay()}
      */
-    @NotNull TimeUnit getInitialDelayTimeUnit();
+    @Deprecated
+    default @NotNull TimeUnit getInitialDelayTimeUnit() { return TimeUnit.SECONDS; }
 
     /**
      * Get the time interval (in {@link #getIntervalTimeUnit()}) at which the {@code IntervalTrigger} should repeat.
+     *
+     * @deprecated use {@link #interval()}
      */
-    long getInterval();
+    @Deprecated
+    default long getInterval() { return interval().toSeconds(); }
 
     /**
      * Interval time unit
      *
      * @apiNote Default is {@code SECONDS}
+     * @deprecated use {@link #interval()}
      */
-    @NotNull TimeUnit getIntervalTimeUnit();
-
-    default boolean noDelay()              { return getInitialDelay() == 0; }
-
-    default boolean noRepeatIndefinitely() { return getRepeat() != REPEAT_INDEFINITELY; }
-
-    default long intervalInMilliseconds() {
-        return TimeUnit.MILLISECONDS.convert(getInterval(), getIntervalTimeUnit());
-    }
-
-    default long delayInMilliseconds() {
-        return TimeUnit.MILLISECONDS.convert(getInitialDelay(), getInitialDelayTimeUnit());
-    }
+    @Deprecated
+    default @NotNull TimeUnit getIntervalTimeUnit() { return TimeUnit.SECONDS; }
 
     @Override
     @NotNull IntervalTrigger validate();
 
     @Override
     default JsonObject toJson() {
-        JsonObject self = JsonObject.of("repeat", getRepeat(), "initialDelay", getInitialDelay(),
-                                        "initialDelayTimeUnit", getInitialDelayTimeUnit(), "interval", getInterval(),
-                                        "intervalTimeUnit", getIntervalTimeUnit());
+        JsonObject self = JsonObject.of("repeat", getRepeat(), "initialDelay", initialDelay(), "interval", interval());
         return Trigger.super.toJson().mergeIn(self);
+    }
+
+    @JsonCreator
+    static IntervalTrigger create(Map<String, Object> properties) {
+        return IntervalTriggerBuilder.create(properties);
     }
 
 }

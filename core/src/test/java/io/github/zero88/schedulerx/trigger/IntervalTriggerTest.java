@@ -2,6 +2,7 @@ package io.github.zero88.schedulerx.trigger;
 
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
@@ -28,7 +29,7 @@ import io.vertx.core.json.jackson.DatabindCodec;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.fasterxml.jackson.databind.exc.ValueInstantiationException;
 
 class IntervalTriggerTest {
 
@@ -38,7 +39,7 @@ class IntervalTriggerTest {
     static void setup() {
         mapper = DatabindCodec.mapper()
                               .findAndRegisterModules()
-                              .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+                              .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 
     static Stream<Arguments> validData() {
@@ -58,7 +59,11 @@ class IntervalTriggerTest {
             arguments(IntervalTrigger.builder().initialDelay(1).initialDelayTimeUnit(TimeUnit.HOURS).interval(10).intervalTimeUnit(TimeUnit.MINUTES).repeat(3).build(),
                       new JsonObject("{\"repeat\":3,\"initialDelay\":1,\"initialDelayTimeUnit\":\"HOURS\",\"interval\":10,\"intervalTimeUnit\":\"MINUTES\"}")),
             arguments(IntervalTrigger.builder().interval(30).rule(rule).build(),
-                      JsonObject.of("interval", 30, "rule", ruleJson)));
+                      JsonObject.of("interval", 30, "rule", ruleJson)),
+            arguments(IntervalTrigger.builder().initialDelay(Duration.ofSeconds(1)).interval(Duration.ofSeconds(60)).repeat(15).build(),
+                      JsonObject.of("type", "interval", "repeat", 15, "initialDelay", "PT1S","interval", "PT60S")),
+            arguments(IntervalTrigger.builder().interval(Duration.ofSeconds(15)).rule(rule).build(),
+                      JsonObject.of("interval", "PT15S", "rule", ruleJson)));
         // @formatter:on
     }
 
@@ -96,7 +101,9 @@ class IntervalTriggerTest {
     @ParameterizedTest
     @CsvSource({ "{\"initialDelayTimeUnit\":\"SECONDS1\"}" })
     void test_deserialize_invalid_format(String input) {
-        Assertions.assertThrows(InvalidFormatException.class, () -> mapper.readValue(input, IntervalTrigger.class));
+        final Throwable t = Assertions.assertThrows(ValueInstantiationException.class,
+                                                    () -> mapper.readValue(input, IntervalTrigger.class));
+        Assertions.assertInstanceOf(IllegalArgumentException.class, t.getCause());
     }
 
     @Test
@@ -108,8 +115,7 @@ class IntervalTriggerTest {
 
         final IntervalTrigger trigger = IntervalTrigger.builder()
                                                        .initialDelay(10)
-                                                       .interval(10)
-                                                       .intervalTimeUnit(TimeUnit.MINUTES)
+                                                       .interval(Duration.ofMinutes(10))
                                                        .repeat(3)
                                                        .build();
         final PreviewParameter parameter = PreviewParameter.byDefault()
@@ -126,10 +132,7 @@ class IntervalTriggerTest {
                                                             OffsetDateTime.parse("2023-07-30T20:01:00+07:00"),
                                                             OffsetDateTime.parse("2023-07-30T20:31:00+07:00"));
 
-        final IntervalTrigger trigger = IntervalTrigger.builder()
-                                                       .interval(30)
-                                                       .intervalTimeUnit(TimeUnit.MINUTES)
-                                                       .build();
+        final IntervalTrigger trigger = IntervalTrigger.builder().interval(Duration.ofMinutes(30)).build();
         final TriggerRule rule = TriggerRule.create(Collections.singletonList(
                                                         Timeframe.of(OffsetDateTime.parse("2023-07-30T19:00:00+07:00"),
                                                                      OffsetDateTime.parse("2023-07-31T00:00:00+07:00"))),

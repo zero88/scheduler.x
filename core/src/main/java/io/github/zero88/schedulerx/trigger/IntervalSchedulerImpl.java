@@ -1,7 +1,9 @@
 package io.github.zero88.schedulerx.trigger;
 
 import static io.github.zero88.schedulerx.impl.Utils.brackets;
+import static io.github.zero88.schedulerx.trigger.IntervalTrigger.REPEAT_INDEFINITELY;
 
+import java.time.Duration;
 import java.time.Instant;
 
 import org.jetbrains.annotations.NotNull;
@@ -30,11 +32,11 @@ final class IntervalSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, In
 
     protected @NotNull Future<Long> registerTimer(WorkerExecutor workerExecutor) {
         try {
-            if (trigger().noDelay()) {
+            if (Duration.ZERO.compareTo(trigger().initialDelay()) == 0) {
                 return Future.succeededFuture(createPeriodicTimer(workerExecutor));
             }
             final Promise<Long> promise = Promise.promise();
-            final long delay = trigger().delayInMilliseconds();
+            final long delay = trigger().initialDelay().toMillis();
             log(Instant.now(), "Delay " + brackets(delay + "ms") + " then register the trigger in the scheduler");
             vertx().setTimer(delay, ignore -> promise.complete(createPeriodicTimer(workerExecutor)));
             return promise.future();
@@ -51,7 +53,7 @@ final class IntervalSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, In
 
     private long createPeriodicTimer(WorkerExecutor executor) {
         return this.vertx()
-                   .setPeriodic(trigger().intervalInMilliseconds(),
+                   .setPeriodic(trigger().interval().toMillis(),
                                 id -> onProcess(executor, TriggerContextFactory.kickoff(trigger().type(), onFire(id))));
     }
 
@@ -71,7 +73,7 @@ final class IntervalSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, In
     static TriggerEvaluator createTriggerEvaluator() {
         return TriggerEvaluator.byAfter((trigger, triggerContext, externalId, round) -> {
             IntervalTrigger interval = (IntervalTrigger) trigger;
-            if (interval.noRepeatIndefinitely() && round >= interval.getRepeat()) {
+            if (interval.getRepeat() != REPEAT_INDEFINITELY && round >= interval.getRepeat()) {
                 return Future.succeededFuture(TriggerContextFactory.stop(triggerContext, ReasonCode.STOP_BY_CONFIG));
             }
             return Future.succeededFuture(triggerContext);
