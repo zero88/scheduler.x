@@ -36,17 +36,19 @@ public class DefaultTriggerEvaluator implements TriggerEvaluator {
                                                                @NotNull TriggerContext triggerContext,
                                                                @Nullable Object externalId) {
         return this.internalBeforeTrigger(trigger, triggerContext, externalId)
-                   .flatMap(c -> next == null ? Future.succeededFuture(c) : next.beforeTrigger(trigger, c, externalId));
+                   .flatMap(c -> next == null || !c.isReadiness()
+                                 ? Future.succeededFuture(c)
+                                 : next.beforeTrigger(trigger, c, externalId));
     }
 
     @Override
     public final @NotNull Future<TriggerContext> afterTrigger(@NotNull Trigger trigger,
                                                               @NotNull TriggerContext triggerContext,
                                                               @Nullable Object externalId, long round) {
-        // @formatter:off
-        return this.internalAfterTrigger(trigger, triggerContext, externalId, round )
-                   .flatMap(c -> next == null ? Future.succeededFuture(c) : next.afterTrigger(trigger, c, externalId, round));
-        // @formatter:on
+        return this.internalAfterTrigger(trigger, triggerContext, externalId, round)
+                   .flatMap(c -> next == null || c.isStopped()
+                                 ? Future.succeededFuture(c)
+                                 : next.afterTrigger(trigger, c, externalId, round));
     }
 
     @Override

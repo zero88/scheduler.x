@@ -104,8 +104,7 @@ final class EventSchedulerImpl<IN, OUT, T> extends AbstractScheduler<IN, OUT, Ev
         protected Future<TriggerContext> internalBeforeTrigger(@NotNull Trigger trigger, @NotNull TriggerContext ctx,
                                                                @Nullable Object externalId) {
             try {
-                if (ctx.condition().status() == TriggerCondition.TriggerStatus.READY &&
-                    !((EventTrigger<T>) trigger).getPredicate().test((T) ctx.info())) {
+                if (!((EventTrigger<T>) trigger).getPredicate().test((T) ctx.info())) {
                     return Future.succeededFuture(TriggerContextFactory.skip(ctx, ReasonCode.CONDITION_IS_NOT_MATCHED));
                 }
             } catch (Exception ex) {

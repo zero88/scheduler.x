@@ -67,6 +67,7 @@ class EventSchedulerTest {
             Assertions.assertEquals("UnexpectedError", condition.reasonCode());
             Assertions.assertNotNull(err);
             Assertions.assertInstanceOf(RuntimeException.class, err);
+            Assertions.assertEquals("failed in convert", err.getMessage());
         });
         final Arguments arg4 = arguments(EventTriggerPredicate.create(o -> {
             if ("1".equals(o))
@@ -78,6 +79,7 @@ class EventSchedulerTest {
             Assertions.assertEquals("UnexpectedError", condition.reasonCode());
             Assertions.assertNotNull(err);
             Assertions.assertInstanceOf(IllegalArgumentException.class, err);
+            Assertions.assertEquals("Throw in test", err.getMessage());
         });
         return Stream.of(arg1, arg2, arg3, arg4);
     }
