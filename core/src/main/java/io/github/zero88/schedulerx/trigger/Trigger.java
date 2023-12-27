@@ -45,12 +45,13 @@ public interface Trigger extends HasTriggerType, TriggerRepresentation {
     @NotNull Trigger validate();
 
     /**
-     * Simulate the next trigger times based on default preview parameter({@link PreviewParameter#byDefault()})
+     * Simulate the next trigger times based on the default preview parameter({@link PreviewParameter#byDefault()})
+     * within the current {@link #rule()}.
      *
      * @return the list of the next trigger time
      * @since 2.0.0
      */
-    default @NotNull List<OffsetDateTime> preview() { return preview(PreviewParameter.byDefault()); }
+    default @NotNull List<OffsetDateTime> preview() { return preview(PreviewParameter.byDefault().setRule(rule())); }
 
     /**
      * Simulate the next trigger times based on given preview parameter
