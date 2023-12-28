@@ -32,11 +32,11 @@ final class CronSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, CronTr
     @Override
     protected @NotNull Future<Long> registerTimer(WorkerExecutor workerExecutor) {
         try {
-            final Instant now = Instant.now();
+            final Instant now = clock().now();
             final long nextTriggerAfter = trigger().nextTriggerAfter(now);
             final Instant nextTriggerTime = now.plus(nextTriggerAfter, ChronoUnit.MILLIS);
             nextTimerId = vertx().setTimer(nextTriggerAfter, tId -> {
-                onProcess(workerExecutor, TriggerContextFactory.kickoff(trigger().type(), onFire(tId)));
+                onProcess(workerExecutor, TriggerContextFactory.kickoff(trigger().type(), clock().now(), onFire(tId)));
                 doStart(workerExecutor);
             });
             log(now, "Next schedule at" + brackets(nextTriggerTime) + " by timerId" + brackets(nextTimerId));
@@ -49,7 +49,7 @@ final class CronSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, CronTr
     @Override
     protected void unregisterTimer(long timerId) {
         boolean result = vertx().cancelTimer(nextTimerId);
-        log(Instant.now(), "Unregistered timerId" + brackets(nextTimerId) + brackets(result));
+        log(clock().now(), "Unregistered timerId" + brackets(nextTimerId) + brackets(result));
     }
 
     static final class CronSchedulerBuilderImpl<IN, OUT>

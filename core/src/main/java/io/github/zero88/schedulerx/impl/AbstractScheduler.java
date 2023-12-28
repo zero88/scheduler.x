@@ -23,6 +23,7 @@ import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.JobExecutor;
 import io.github.zero88.schedulerx.Scheduler;
 import io.github.zero88.schedulerx.SchedulingMonitor;
+import io.github.zero88.schedulerx.TimeClock;
 import io.github.zero88.schedulerx.TimeoutBlock;
 import io.github.zero88.schedulerx.TimeoutPolicy;
 import io.github.zero88.schedulerx.WorkerExecutorFactory;
@@ -59,6 +60,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     private final @NotNull T trigger;
     private final @NotNull TriggerEvaluator evaluator;
     private final @NotNull TimeoutPolicy timeoutPolicy;
+    private final @NotNull TimeClock clock;
     private final Lock lock = new ReentrantLock();
     private boolean didStart = false;
     private boolean didTriggerValidation = false;
@@ -74,11 +76,14 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
         this.trigger       = trigger;
         this.monitor       = monitor;
         this.evaluator     = new InternalTriggerEvaluator(this).andThen(evaluator);
-        this.state         = new SchedulerStateImpl<>();
+        this.clock         = new TimeClockImpl();
+        this.state         = new SchedulerStateImpl<>(clock);
     }
 
     @Override
     public final @NotNull Vertx vertx() { return this.vertx; }
+
+    public final @NotNull TimeClock clock() { return this.clock; }
 
     @Override
     public final @NotNull SchedulingMonitor<OUT> monitor() { return this.monitor; }
@@ -149,7 +154,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     @Override
     public final void cancel() {
         if (!state.completed()) {
-            log(Instant.now(), "On cancel");
+            log(clock.now(), "On cancel");
             doStop(state.timerId(), TriggerContextFactory.cancel(trigger().type(), state.tick()));
         }
     }
@@ -203,8 +208,9 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
             return;
         }
         final long round = state.increaseRound();
-        final ExecutionContextInternal<OUT> executionContext = new ExecutionContextImpl<>(vertx, triggerContext, round);
         final Duration timeout = timeoutPolicy().executionTimeout();
+        final ExecutionContextInternal<OUT> executionContext = new ExecutionContextImpl<>(vertx, clock, triggerContext,
+                                                                                          round);
         log(executionContext.triggeredAt(), "On trigger", triggerContext.tick(), round);
         Future.join(onEvaluationAfterTrigger(workerExecutor, triggerContext, round),
                     executeBlocking(workerExecutor, p -> executeJob(executionContext.setup(wrapTimeout(timeout, p)))))
@@ -228,7 +234,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
                                         .setExternalId(jobData.externalId())
                                         .setAvailableAt(state.availableAt())
                                         .setTriggerContext(context)
-                                        .setRescheduledAt(Instant.now())
+                                        .setRescheduledAt(clock.now())
                                         .setTick(context.tick())
                                         .setRound(state.round())
                                         .build();
@@ -241,7 +247,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
         monitor.onUnableSchedule(ExecutionResultImpl.<OUT>builder()
                                                     .setExternalId(jobData.externalId())
                                                     .setTriggerContext(ctx)
-                                                    .setUnscheduledAt(Instant.now())
+                                                    .setUnscheduledAt(clock.now())
                                                     .setTick(ctx.tick())
                                                     .setRound(ctx.tick())
                                                     .build());
@@ -249,7 +255,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
 
     protected final Future<TriggerContext> onEvaluationBeforeTrigger(WorkerExecutor worker, TriggerContext ctx) {
         return executeBlocking(worker, p -> {
-            log(Instant.now(), "On before trigger");
+            log(clock.now(), "On before trigger");
             wrapTimeout(timeoutPolicy().evaluationTimeout(), p).handle(
                 evaluator.beforeTrigger(trigger, ctx, jobData.externalId()));
         });
@@ -258,11 +264,11 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     protected final Future<TriggerContext> onEvaluationAfterTrigger(WorkerExecutor worker, TriggerContext ctx,
                                                                     long round) {
         return executeBlocking(worker, p -> {
-            log(Instant.now(), "On after trigger");
+            log(clock.now(), "On after trigger");
             wrapTimeout(timeoutPolicy().evaluationTimeout(), p).handle(
                 evaluator.afterTrigger(trigger(), ctx, jobData.externalId(), round)
                          .onSuccess(c -> doStop(state.timerId(), c))
-                         .onFailure(t -> LOGGER.error(genMsg(ctx.tick(), round, Instant.now(), "After evaluate"), t)));
+                         .onFailure(t -> LOGGER.error(genMsg(ctx.tick(), round, clock.now(), "After evaluate"), t)));
         });
     }
 

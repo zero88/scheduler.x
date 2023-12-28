@@ -14,6 +14,8 @@ import java.util.function.BinaryOperator;
 
 import org.jetbrains.annotations.NotNull;
 
+import io.github.zero88.schedulerx.TimeClock;
+
 final class SchedulerStateImpl<OUTPUT> implements SchedulerStateInternal<OUTPUT> {
 
     private final AtomicReference<Instant> availableAt = new AtomicReference<>();
@@ -24,7 +26,10 @@ final class SchedulerStateImpl<OUTPUT> implements SchedulerStateInternal<OUTPUT>
     private final AtomicBoolean pending = new AtomicBoolean(true);
     private final AtomicReference<Entry<Long, OUTPUT>> data = new AtomicReference<>(new SimpleEntry<>(0L, null));
     private final AtomicReference<Entry<Long, Throwable>> error = new AtomicReference<>(new SimpleEntry<>(0L, null));
+    private final TimeClock clock;
     private long timerId;
+
+    SchedulerStateImpl(TimeClock clock) { this.clock = clock; }
 
     @Override
     public Instant availableAt() { return availableAt.get(); }
@@ -73,20 +78,20 @@ final class SchedulerStateImpl<OUTPUT> implements SchedulerStateInternal<OUTPUT>
     @Override
     public @NotNull Instant markAvailable() {
         pending.set(false);
-        availableAt.set(Instant.now());
+        availableAt.set(clock.now());
         return availableAt();
     }
 
     @Override
     public @NotNull Instant markFinished(long tick) {
         inProgress.remove(tick);
-        return Instant.now();
+        return clock.now();
     }
 
     @Override
     public @NotNull Instant markCompleted() {
         completed.set(true);
-        return Instant.now();
+        return clock.now();
     }
 
     @Override

@@ -4,7 +4,6 @@ import static io.github.zero88.schedulerx.impl.Utils.brackets;
 import static io.github.zero88.schedulerx.trigger.IntervalTrigger.REPEAT_INDEFINITELY;
 
 import java.time.Duration;
-import java.time.Instant;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -37,7 +36,7 @@ final class IntervalSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, In
             }
             final Promise<Long> promise = Promise.promise();
             final long delay = trigger().initialDelay().toMillis();
-            log(Instant.now(), "Delay " + brackets(delay + "ms") + " then register the trigger in the scheduler");
+            log(clock().now(), "Delay " + brackets(delay + "ms") + " then register the trigger in the scheduler");
             vertx().setTimer(delay, ignore -> promise.complete(createPeriodicTimer(workerExecutor)));
             return promise.future();
         } catch (Exception e) {
@@ -48,13 +47,15 @@ final class IntervalSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, In
     @Override
     protected void unregisterTimer(long timerId) {
         boolean result = vertx().cancelTimer(timerId);
-        log(Instant.now(), "Unregistered timerId" + brackets(timerId) + brackets(result));
+        log(clock().now(), "Unregistered timerId" + brackets(timerId) + brackets(result));
     }
 
     private long createPeriodicTimer(WorkerExecutor executor) {
+        final long millis = trigger().interval().toMillis();
         return this.vertx()
-                   .setPeriodic(trigger().interval().toMillis(),
-                                id -> onProcess(executor, TriggerContextFactory.kickoff(trigger().type(), onFire(id))));
+                   .setPeriodic(millis, id -> onProcess(executor,
+                                                        TriggerContextFactory.kickoff(trigger().type(), clock().now(),
+                                                                                      onFire(id))));
     }
 
     // @formatter:off

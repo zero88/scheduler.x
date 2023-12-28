@@ -2,7 +2,6 @@ package io.github.zero88.schedulerx.trigger;
 
 import static io.github.zero88.schedulerx.impl.Utils.brackets;
 
-import java.time.Instant;
 import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
@@ -61,7 +60,7 @@ final class EventSchedulerImpl<IN, OUT, T> extends AbstractScheduler<IN, OUT, Ev
     protected void unregisterTimer(long timerId) {
         if (Objects.nonNull(consumer)) {
             consumer.unregister()
-                    .onComplete(r -> log(Instant.now(),
+                    .onComplete(r -> log(clock().now(),
                                          "Unregistered EventBus subscriber on address" + brackets(consumer.address()) +
                                          brackets(r.succeeded()) + brackets(r.cause())));
         }
@@ -70,9 +69,9 @@ final class EventSchedulerImpl<IN, OUT, T> extends AbstractScheduler<IN, OUT, Ev
     private TriggerContext createKickoffContext(Message<Object> msg, long tick) {
         try {
             T eventMsg = trigger().getPredicate().convert(msg.headers(), msg.body());
-            return TriggerContextFactory.kickoff(trigger().type(), tick, eventMsg);
+            return TriggerContextFactory.kickoff(trigger().type(), clock().now(), tick, eventMsg);
         } catch (Exception ex) {
-            return handleException(TriggerContextFactory.kickoff(trigger().type(), tick, msg), ex);
+            return handleException(TriggerContextFactory.kickoff(trigger().type(), clock().now(), tick, msg), ex);
         }
     }
 
