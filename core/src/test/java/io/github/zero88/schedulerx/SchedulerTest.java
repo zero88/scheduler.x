@@ -46,12 +46,12 @@ class SchedulerTest {
                                                                     .setTestContext(testCtx)
                                                                     .setCompleted(completed)
                                                                     .build();
-        final CronScheduler<Void, Void> scheduler = CronScheduler.<Void, Void>builder()
-                                                                 .setVertx(vertx)
-                                                                 .setTrigger(trigger)
-                                                                 .setJob(NoopJob.create(2))
-                                                                 .setMonitor(asserter)
-                                                                 .build();
+        final CronScheduler scheduler = CronScheduler.<Void, Void>builder()
+                                                     .setVertx(vertx)
+                                                     .setTrigger(trigger)
+                                                     .setJob(NoopJob.create(2))
+                                                     .setMonitor(asserter)
+                                                     .build();
 
         final int nbOfThreads = 5;
         final int nbOfFailed = nbOfThreads - 1;
@@ -228,12 +228,12 @@ class SchedulerTest {
                                                                       .setCompleted(onCompleted)
                                                                       .build();
         final IntervalTrigger trigger = IntervalTrigger.builder().interval(1).build();
-        final IntervalScheduler<Object, Object> scheduler = IntervalScheduler.builder()
-                                                                             .setVertx(vertx)
-                                                                             .setMonitor(asserter)
-                                                                             .setTrigger(trigger)
-                                                                             .setJob(NoopJob.create())
-                                                                             .build();
+        final IntervalScheduler scheduler = IntervalScheduler.builder()
+                                                             .setVertx(vertx)
+                                                             .setMonitor(asserter)
+                                                             .setTrigger(trigger)
+                                                             .setJob(NoopJob.create())
+                                                             .build();
         scheduler.start();
         TestUtils.block(Duration.ofSeconds(3), testContext);
         scheduler.cancel();

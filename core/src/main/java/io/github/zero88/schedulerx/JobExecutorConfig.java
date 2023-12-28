@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
  * @since 2.0.0
  */
 @Internal
-interface JobExecutorContext<IN, OUT> {
+public interface JobExecutorConfig<IN, OUT> {
 
     /**
      * Job to execute per round

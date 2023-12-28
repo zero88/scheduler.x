@@ -6,22 +6,24 @@ import io.github.zero88.schedulerx.Scheduler;
 import io.github.zero88.schedulerx.trigger.IntervalSchedulerImpl.IntervalSchedulerBuilderImpl;
 import io.vertx.codegen.annotations.GenIgnore;
 import io.vertx.codegen.annotations.VertxGen;
+import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
 
 /**
  * A timebase scheduler supports the interval schedules.
  *
- * @param <IN>  Type of job input data
- * @param <OUT> Type of job result data
  * @see IntervalTrigger
  * @since 2.0.0
  */
 @VertxGen
-public interface IntervalScheduler<IN, OUT> extends Scheduler<IN, OUT, IntervalTrigger> {
+public interface IntervalScheduler extends Scheduler<IntervalTrigger> {
 
     static <IN, OUT> IntervalSchedulerBuilder<IN, OUT> builder() {
         return new IntervalSchedulerBuilderImpl<>();
     }
+
+    @Override
+    @NotNull Vertx vertx();
 
     @Override
     @GenIgnore(GenIgnore.PERMITTED_TYPE)

@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import io.github.zero88.schedulerx.Job;
 import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.SchedulingMonitor;
+import io.github.zero88.schedulerx.TimeClock;
 import io.github.zero88.schedulerx.TimeoutPolicy;
 import io.github.zero88.schedulerx.impl.AbstractScheduler;
 import io.github.zero88.schedulerx.impl.AbstractSchedulerBuilder;
@@ -18,15 +19,14 @@ import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
 
-final class CronSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, CronTrigger>
-    implements CronScheduler<IN, OUT> {
+final class CronSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, CronTrigger> implements CronScheduler {
 
     private long nextTimerId;
 
-    CronSchedulerImpl(@NotNull Job<IN, OUT> job, @NotNull JobData<IN> jobData, @NotNull TimeoutPolicy timeoutPolicy,
-                      @NotNull SchedulingMonitor<OUT> monitor, @NotNull CronTrigger trigger,
-                      @NotNull TriggerEvaluator evaluator, @NotNull Vertx vertx) {
-        super(job, jobData, timeoutPolicy, monitor, trigger, evaluator, vertx);
+    CronSchedulerImpl(Vertx vertx, TimeClock clock, SchedulingMonitor<OUT> monitor, Job<IN, OUT> job,
+                      JobData<IN> jobData, TimeoutPolicy timeoutPolicy, CronTrigger trigger,
+                      TriggerEvaluator evaluator) {
+        super(vertx, clock, monitor, job, jobData, timeoutPolicy, trigger, evaluator);
     }
 
     @Override
@@ -53,12 +53,12 @@ final class CronSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, CronTr
     }
 
     static final class CronSchedulerBuilderImpl<IN, OUT>
-        extends AbstractSchedulerBuilder<IN, OUT, CronTrigger, CronScheduler<IN, OUT>, CronSchedulerBuilder<IN, OUT>>
+        extends AbstractSchedulerBuilder<IN, OUT, CronTrigger, CronScheduler, CronSchedulerBuilder<IN, OUT>>
         implements CronSchedulerBuilder<IN, OUT> {
 
-        public @NotNull CronScheduler<IN, OUT> build() {
-            return new CronSchedulerImpl<>(job(), jobData(), timeoutPolicy(), monitor(), trigger(), triggerEvaluator(),
-                                           vertx());
+        public @NotNull CronScheduler build() {
+            return new CronSchedulerImpl<>(vertx(), clock(), monitor(), job(), jobData(), timeoutPolicy(), trigger(),
+                                           triggerEvaluator());
         }
 
     }

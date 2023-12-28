@@ -19,10 +19,7 @@ import io.vertx.core.Vertx;
  */
 @VertxGen
 public interface IntervalSchedulerBuilder<IN, OUT>
-    extends SchedulerBuilder<IN, OUT, IntervalTrigger, IntervalScheduler<IN, OUT>, IntervalSchedulerBuilder<IN, OUT>> {
-
-    @GenIgnore(GenIgnore.PERMITTED_TYPE)
-    @NotNull IntervalTrigger trigger();
+    extends SchedulerBuilder<IN, OUT, IntervalTrigger, IntervalScheduler, IntervalSchedulerBuilder<IN, OUT>> {
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
@@ -31,6 +28,10 @@ public interface IntervalSchedulerBuilder<IN, OUT>
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
     @NotNull IntervalSchedulerBuilder<IN, OUT> setTrigger(@NotNull IntervalTrigger trigger);
+
+    @Override
+    @GenIgnore(GenIgnore.PERMITTED_TYPE)
+    @NotNull IntervalSchedulerBuilder<IN, OUT> setTriggerEvaluator(@NotNull TriggerEvaluator evaluator);
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
@@ -48,6 +49,6 @@ public interface IntervalSchedulerBuilder<IN, OUT>
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
     @NotNull IntervalSchedulerBuilder<IN, OUT> setTimeoutPolicy(@NotNull TimeoutPolicy timeoutPolicy);
 
-    @NotNull IntervalScheduler<IN, OUT> build();
+    @NotNull IntervalScheduler build();
 
 }

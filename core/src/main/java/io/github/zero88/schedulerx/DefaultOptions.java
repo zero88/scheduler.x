@@ -8,8 +8,7 @@ import io.github.zero88.schedulerx.trigger.Trigger;
 import io.vertx.core.VertxOptions;
 
 /**
- * Instances of this class are used to configure the default options for {@link Trigger}, and {@link Scheduler}
- * instances.
+ * Instances of this class are used to configure the default {@link Trigger} options, and {@link Job} options.
  *
  * @since 2.0.0
  */
