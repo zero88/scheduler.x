@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
 
+import io.github.zero88.schedulerx.TimeClock;
 import io.github.zero88.schedulerx.trigger.TriggerContext;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
@@ -14,6 +15,7 @@ final class ExecutionContextImpl<OUTPUT> implements ExecutionContextInternal<OUT
     private final Vertx vertx;
     private final long round;
     private final TriggerContext triggerContext;
+    private final TimeClock clock;
     private final Instant triggeredAt;
     private Instant executedAt;
     private Promise<Object> promise;
@@ -21,11 +23,12 @@ final class ExecutionContextImpl<OUTPUT> implements ExecutionContextInternal<OUT
     private Throwable error;
     private boolean forceStop = false;
 
-    ExecutionContextImpl(Vertx vertx, TriggerContext triggerContext, long round) {
+    ExecutionContextImpl(Vertx vertx, TimeClock clock, TriggerContext triggerContext, long round) {
         this.vertx          = vertx;
         this.round          = round;
         this.triggerContext = triggerContext;
-        this.triggeredAt    = Instant.now();
+        this.clock          = clock;
+        this.triggeredAt    = this.clock.now();
     }
 
     @Override
@@ -34,7 +37,7 @@ final class ExecutionContextImpl<OUTPUT> implements ExecutionContextInternal<OUT
             throw new IllegalStateException("ExecutionContext is already setup");
         }
         this.promise    = promise;
-        this.executedAt = Instant.now();
+        this.executedAt = this.clock.now();
         return this;
     }
 

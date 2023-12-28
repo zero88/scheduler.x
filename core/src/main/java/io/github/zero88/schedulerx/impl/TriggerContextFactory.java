@@ -66,21 +66,23 @@ public final class TriggerContextFactory {
      * Create trigger context in {@link TriggerStatus#KICKOFF} state
      *
      * @param triggerType the trigger type
+     * @param firedAt     the fired at
      * @param tick        the tick
      */
-    public static @NotNull TriggerContext kickoff(@NotNull String triggerType, long tick) {
-        return kickoff(triggerType, tick, null);
+    public static @NotNull TriggerContext kickoff(@NotNull String triggerType, @NotNull Instant firedAt, long tick) {
+        return kickoff(triggerType, firedAt, tick, null);
     }
 
     /**
      * Create trigger context in {@link TriggerStatus#KICKOFF} state
      *
      * @param triggerType the trigger type
+     * @param firedAt     the fired at
      * @param tick        the tick
      * @param info        the trigger context info
      */
-    public static @NotNull <T> TriggerContext kickoff(@NotNull String triggerType, long tick, @Nullable T info) {
-        final Instant firedAt = Instant.now();
+    public static @NotNull <T> TriggerContext kickoff(@NotNull String triggerType, @NotNull Instant firedAt, long tick,
+                                                      @Nullable T info) {
         final TriggerCondition condition = createCondition(TriggerStatus.KICKOFF, null, null);
         return new TriggerContext() {
             @Override
