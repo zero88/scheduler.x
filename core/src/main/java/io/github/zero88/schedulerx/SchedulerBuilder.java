@@ -18,19 +18,16 @@ import io.vertx.core.Vertx;
  * @see Scheduler
  * @since 2.0.0
  */
-public interface SchedulerBuilder<IN, OUT, TRIGGER extends Trigger, SCHEDULER extends Scheduler<IN, OUT, TRIGGER>,
-                                     SELF extends SchedulerBuilder<IN, OUT, TRIGGER, SCHEDULER, SELF>>
-    extends JobExecutorContext<IN, OUT>, SchedulerContext<TRIGGER, OUT> {
-
-    @NotNull TriggerEvaluator triggerEvaluator();
+public interface SchedulerBuilder<IN, OUT, TRIGGER extends Trigger, SCHEDULER extends Scheduler<TRIGGER>,
+                                     SELF extends SchedulerBuilder<IN, OUT, TRIGGER, SCHEDULER, SELF>> {
 
     @NotNull SELF setVertx(@NotNull Vertx vertx);
+
+    @NotNull SELF setMonitor(@NotNull SchedulingMonitor<OUT> monitor);
 
     @NotNull SELF setTrigger(@NotNull TRIGGER trigger);
 
     @NotNull SELF setTriggerEvaluator(@NotNull TriggerEvaluator evaluator);
-
-    @NotNull SELF setMonitor(@NotNull SchedulingMonitor<OUT> monitor);
 
     @NotNull SELF setJob(@NotNull Job<IN, OUT> job);
 

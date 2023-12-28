@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import io.github.zero88.schedulerx.Job;
 import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.SchedulingMonitor;
+import io.github.zero88.schedulerx.TimeClock;
 import io.github.zero88.schedulerx.TimeoutPolicy;
 import io.github.zero88.schedulerx.impl.AbstractScheduler;
 import io.github.zero88.schedulerx.impl.AbstractSchedulerBuilder;
@@ -25,14 +26,15 @@ import io.vertx.core.eventbus.Message;
 import io.vertx.core.eventbus.MessageConsumer;
 
 final class EventSchedulerImpl<IN, OUT, T> extends AbstractScheduler<IN, OUT, EventTrigger<T>>
-    implements EventScheduler<IN, OUT, T> {
+    implements EventScheduler<T> {
 
     private MessageConsumer<Object> consumer;
 
-    EventSchedulerImpl(@NotNull Job<IN, OUT> job, @NotNull JobData<IN> jobData, @NotNull TimeoutPolicy timeoutPolicy,
-                       @NotNull SchedulingMonitor<OUT> monitor, @NotNull EventTrigger<T> trigger,
-                       @NotNull TriggerEvaluator evaluator, @NotNull Vertx vertx) {
-        super(job, jobData, timeoutPolicy, monitor, trigger, new EventTriggerEvaluator<>().andThen(evaluator), vertx);
+    EventSchedulerImpl(Vertx vertx, TimeClock clock, SchedulingMonitor<OUT> monitor, Job<IN, OUT> job,
+                       JobData<IN> jobData, TimeoutPolicy timeoutPolicy, EventTrigger<T> trigger,
+                       TriggerEvaluator evaluator) {
+        super(vertx, clock, monitor, job, jobData, timeoutPolicy, trigger,
+              new EventTriggerEvaluator<>().andThen(evaluator));
     }
 
     @Override
@@ -82,15 +84,13 @@ final class EventSchedulerImpl<IN, OUT, T> extends AbstractScheduler<IN, OUT, Ev
         return TriggerContextFactory.skip(context, reason, cause);
     }
 
-    // @formatter:off
     static final class EventSchedulerBuilderImpl<IN, OUT, T>
-        extends AbstractSchedulerBuilder<IN, OUT, EventTrigger<T>, EventScheduler<IN, OUT, T>, EventSchedulerBuilder<IN, OUT, T>>
+        extends AbstractSchedulerBuilder<IN, OUT, EventTrigger<T>, EventScheduler<T>, EventSchedulerBuilder<IN, OUT, T>>
         implements EventSchedulerBuilder<IN, OUT, T> {
-    // @formatter:on
 
-        public @NotNull EventScheduler<IN, OUT, T> build() {
-            return new EventSchedulerImpl<>(job(), jobData(), timeoutPolicy(), monitor(), trigger(), triggerEvaluator(),
-                                            vertx());
+        public @NotNull EventScheduler<T> build() {
+            return new EventSchedulerImpl<>(vertx(), clock(), monitor(), job(), jobData(), timeoutPolicy(), trigger(),
+                                            triggerEvaluator());
         }
 
     }

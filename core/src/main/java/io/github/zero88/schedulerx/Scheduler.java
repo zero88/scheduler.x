@@ -6,15 +6,11 @@ import io.vertx.core.WorkerExecutor;
 /**
  * A scheduler schedules a job to run based on a particular trigger.
  *
- * @param <IN>      Type of Job input data
- * @param <OUT>     Type of Job result data
- * @param <TRIGGER> Type of Trigger
  * @apiNote This interface is renamed from {@code TriggerTaskExecutor} since {@code 2.0.0}
  * @see Trigger
  * @since 2.0.0
  */
-public interface Scheduler<IN, OUT, TRIGGER extends Trigger>
-    extends JobExecutorContext<IN, OUT>, SchedulerContext<TRIGGER, OUT> {
+public interface Scheduler<TRIGGER extends Trigger> extends HasTrigger<TRIGGER>, HasVertx {
 
     /**
      * Start and run the {@code scheduler} in {@code Vertx worker thread pool}.

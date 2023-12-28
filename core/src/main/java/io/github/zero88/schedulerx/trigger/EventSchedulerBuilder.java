@@ -22,7 +22,7 @@ import io.vertx.core.Vertx;
  */
 @VertxGen
 public interface EventSchedulerBuilder<IN, OUT, T>
-    extends SchedulerBuilder<IN, OUT, EventTrigger<T>, EventScheduler<IN, OUT, T>, EventSchedulerBuilder<IN, OUT, T>> {
+    extends SchedulerBuilder<IN, OUT, EventTrigger<T>, EventScheduler<T>, EventSchedulerBuilder<IN, OUT, T>> {
 
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
     @NotNull EventTrigger<T> trigger();
@@ -33,6 +33,10 @@ public interface EventSchedulerBuilder<IN, OUT, T>
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
     @NotNull EventSchedulerBuilder<IN, OUT, T> setTrigger(@NotNull EventTrigger<T> trigger);
+
+    @Override
+    @GenIgnore(GenIgnore.PERMITTED_TYPE)
+    @NotNull EventSchedulerBuilder<IN, OUT, T> setTriggerEvaluator(@NotNull TriggerEvaluator evaluator);
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
@@ -50,6 +54,6 @@ public interface EventSchedulerBuilder<IN, OUT, T>
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
     @NotNull EventSchedulerBuilder<IN, OUT, T> setTimeoutPolicy(@NotNull TimeoutPolicy timeoutPolicy);
 
-    @NotNull EventScheduler<IN, OUT, T> build();
+    @NotNull EventScheduler<T> build();
 
 }

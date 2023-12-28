@@ -2,9 +2,10 @@ package io.github.zero88.schedulerx;
 
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import io.github.zero88.schedulerx.trigger.Trigger;
-import io.vertx.core.Vertx;
+import io.github.zero88.schedulerx.trigger.TriggerEvaluator;
 
 /**
  * Shared immutable fields between {@code Scheduler} and its builder.
@@ -16,21 +17,9 @@ import io.vertx.core.Vertx;
  * @since 2.0.0
  */
 @Internal
-interface SchedulerContext<TRIGGER extends Trigger, OUT> {
+public interface SchedulerConfig<TRIGGER extends Trigger, OUT> extends HasTrigger<TRIGGER> {
 
-    /**
-     * Vertx
-     *
-     * @return vertx
-     */
-    @NotNull Vertx vertx();
-
-    /**
-     * The trigger
-     *
-     * @return trigger
-     */
-    @NotNull TRIGGER trigger();
+    @Nullable TimeClock clock();
 
     /**
      * Defines a scheduling monitor
@@ -39,5 +28,12 @@ interface SchedulerContext<TRIGGER extends Trigger, OUT> {
      * @see SchedulingMonitor
      */
     @NotNull SchedulingMonitor<OUT> monitor();
+
+    /**
+     * The trigger evaluator
+     *
+     * @return trigger evaluator
+     */
+    @NotNull TriggerEvaluator triggerEvaluator();
 
 }

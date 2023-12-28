@@ -21,7 +21,10 @@ import io.github.zero88.schedulerx.ExecutionResult;
 import io.github.zero88.schedulerx.Job;
 import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.JobExecutor;
+import io.github.zero88.schedulerx.JobExecutorConfig;
 import io.github.zero88.schedulerx.Scheduler;
+import io.github.zero88.schedulerx.SchedulerConfig;
+import io.github.zero88.schedulerx.SchedulingLogMonitor;
 import io.github.zero88.schedulerx.SchedulingMonitor;
 import io.github.zero88.schedulerx.TimeClock;
 import io.github.zero88.schedulerx.TimeoutBlock;
@@ -47,7 +50,8 @@ import io.vertx.core.impl.logging.LoggerFactory;
  * @param <T>   Type of trigger
  */
 @Internal
-public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements Scheduler<IN, OUT, T>, JobExecutor<OUT> {
+public abstract class AbstractScheduler<IN, OUT, T extends Trigger>
+    implements Scheduler<T>, SchedulerConfig<T, OUT>, JobExecutorConfig<IN, OUT>, JobExecutor<OUT> {
 
     @SuppressWarnings("java:S3416")
     protected static final Logger LOGGER = LoggerFactory.getLogger(Scheduler.class);
@@ -66,36 +70,40 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     private boolean didTriggerValidation = false;
     private IllegalArgumentException invalidTrigger;
 
-    protected AbstractScheduler(@NotNull Job<IN, OUT> job, @NotNull JobData<IN> jobData,
-                                @NotNull TimeoutPolicy timeoutPolicy, @NotNull SchedulingMonitor<OUT> monitor,
-                                @NotNull T trigger, @NotNull TriggerEvaluator evaluator, @NotNull Vertx vertx) {
-        this.job           = job;
-        this.jobData       = jobData;
-        this.timeoutPolicy = timeoutPolicy;
-        this.vertx         = vertx;
-        this.trigger       = trigger;
-        this.monitor       = monitor;
-        this.evaluator     = new InternalTriggerEvaluator(this).andThen(evaluator);
-        this.clock         = new TimeClockImpl();
-        this.state         = new SchedulerStateImpl<>(clock);
+    protected AbstractScheduler(Vertx vertx, TimeClock clock, SchedulingMonitor<OUT> monitor, Job<IN, OUT> job,
+                                JobData<IN> jobData, TimeoutPolicy timeoutPolicy, T trigger,
+                                TriggerEvaluator evaluator) {
+        this.vertx         = Objects.requireNonNull(vertx, "Vertx instance is required");
+        this.clock         = Optional.ofNullable(clock).orElseGet(TimeClockImpl::new);
+        this.monitor       = Optional.ofNullable(monitor).orElseGet(SchedulingLogMonitor::create);
+        this.state         = new SchedulerStateImpl<>(this.clock);
+        this.job           = Objects.requireNonNull(job, "Job is required");
+        this.jobData       = Optional.ofNullable(jobData).orElseGet(JobData::empty);
+        this.timeoutPolicy = Optional.ofNullable(timeoutPolicy).orElseGet(TimeoutPolicy::byDefault);
+        this.trigger       = Objects.requireNonNull(trigger, "Trigger is required");
+        this.evaluator     = new InternalTriggerEvaluator(this, evaluator);
     }
 
     @Override
-    public final @NotNull Vertx vertx() { return this.vertx; }
-
-    public final @NotNull TimeClock clock() { return this.clock; }
+    public final @NotNull Vertx vertx() { return vertx; }
 
     @Override
-    public final @NotNull SchedulingMonitor<OUT> monitor() { return this.monitor; }
+    public final @NotNull TimeClock clock() { return clock; }
 
     @Override
-    public final @NotNull JobData<IN> jobData() { return this.jobData; }
+    public final @NotNull SchedulingMonitor<OUT> monitor() { return monitor; }
 
     @Override
-    public final @NotNull Job<IN, OUT> job() { return this.job; }
+    public final @NotNull Job<IN, OUT> job() { return job; }
 
     @Override
-    public @NotNull TimeoutPolicy timeoutPolicy() { return this.timeoutPolicy; }
+    public final @NotNull JobData<IN> jobData() { return jobData; }
+
+    @Override
+    public @NotNull TimeoutPolicy timeoutPolicy() { return timeoutPolicy; }
+
+    @Override
+    public @NotNull TriggerEvaluator triggerEvaluator() { return evaluator; }
 
     @Override
     @SuppressWarnings({ "java:S1193", "unchecked" })
@@ -371,9 +379,12 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     @SuppressWarnings("rawtypes")
     private static class InternalTriggerEvaluator extends DefaultTriggerEvaluator {
 
-        private final AbstractScheduler scheduler;
+        private final @NotNull AbstractScheduler scheduler;
 
-        private InternalTriggerEvaluator(AbstractScheduler scheduler) { this.scheduler = scheduler; }
+        private InternalTriggerEvaluator(@NotNull AbstractScheduler scheduler, TriggerEvaluator evaluator) {
+            this.scheduler = scheduler;
+            andThen(Optional.ofNullable(evaluator).orElseGet(DefaultTriggerEvaluator::new));
+        }
 
         @Override
         protected Future<TriggerContext> internalBeforeTrigger(@NotNull Trigger trigger, @NotNull TriggerContext ctx,
@@ -381,8 +392,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
             return Future.succeededFuture(ctx.isKickoff() ? doCheck(ctx) : ctx);
         }
 
-        @NotNull
-        private TriggerContext doCheck(TriggerContext ctx) {
+        private @NotNull TriggerContext doCheck(TriggerContext ctx) {
             if (scheduler.state.pending()) {
                 return TriggerContextFactory.skip(ctx, ReasonCode.NOT_YET_SCHEDULED);
             }

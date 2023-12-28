@@ -21,7 +21,7 @@ import io.vertx.core.Vertx;
  */
 @VertxGen
 public interface CronSchedulerBuilder<IN, OUT>
-    extends SchedulerBuilder<IN, OUT, CronTrigger, CronScheduler<IN, OUT>, CronSchedulerBuilder<IN, OUT>> {
+    extends SchedulerBuilder<IN, OUT, CronTrigger, CronScheduler, CronSchedulerBuilder<IN, OUT>> {
 
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
     @NotNull CronTrigger trigger();
@@ -32,6 +32,10 @@ public interface CronSchedulerBuilder<IN, OUT>
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
     @NotNull CronSchedulerBuilder<IN, OUT> setTrigger(@NotNull CronTrigger trigger);
+
+    @Override
+    @GenIgnore(GenIgnore.PERMITTED_TYPE)
+    @NotNull CronSchedulerBuilder<IN, OUT> setTriggerEvaluator(@NotNull TriggerEvaluator evaluator);
 
     @Fluent
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
@@ -49,6 +53,6 @@ public interface CronSchedulerBuilder<IN, OUT>
     @GenIgnore(GenIgnore.PERMITTED_TYPE)
     @NotNull CronSchedulerBuilder<IN, OUT> setTimeoutPolicy(@NotNull TimeoutPolicy timeoutPolicy);
 
-    @NotNull CronScheduler<IN, OUT> build();
+    @NotNull CronScheduler build();
 
 }

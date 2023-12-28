@@ -1,17 +1,18 @@
 package io.github.zero88.schedulerx.impl;
 
-import java.util.Objects;
-import java.util.Optional;
-
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import io.github.zero88.schedulerx.HasVertx;
 import io.github.zero88.schedulerx.Job;
 import io.github.zero88.schedulerx.JobData;
+import io.github.zero88.schedulerx.JobExecutorConfig;
 import io.github.zero88.schedulerx.Scheduler;
 import io.github.zero88.schedulerx.SchedulerBuilder;
-import io.github.zero88.schedulerx.SchedulingLogMonitor;
+import io.github.zero88.schedulerx.SchedulerConfig;
 import io.github.zero88.schedulerx.SchedulingMonitor;
+import io.github.zero88.schedulerx.TimeClock;
 import io.github.zero88.schedulerx.TimeoutPolicy;
 import io.github.zero88.schedulerx.trigger.Trigger;
 import io.github.zero88.schedulerx.trigger.TriggerEvaluator;
@@ -22,46 +23,41 @@ import io.vertx.core.Vertx;
  */
 @SuppressWarnings("unchecked")
 @Internal
-public abstract class AbstractSchedulerBuilder<IN, OUT, T extends Trigger, S extends Scheduler<IN, OUT, T>,
+public abstract class AbstractSchedulerBuilder<IN, OUT, T extends Trigger, S extends Scheduler<T>,
                                                   B extends SchedulerBuilder<IN, OUT, T, S, B>>
-    implements SchedulerBuilder<IN, OUT, T, S, B> {
+    implements SchedulerBuilder<IN, OUT, T, S, B>, JobExecutorConfig<IN, OUT>, SchedulerConfig<T, OUT>, HasVertx {
 
     private Vertx vertx;
-    private SchedulingMonitor<OUT> monitor;
     private JobData<IN> jobData;
     private Job<IN, OUT> job;
+    private TimeoutPolicy timeoutPolicy;
     private T trigger;
     private TriggerEvaluator evaluator;
-    private TimeoutPolicy timeoutPolicy;
+    private SchedulingMonitor<OUT> monitor;
 
     @Override
-    public @NotNull Vertx vertx() {
-        return Objects.requireNonNull(vertx, "Vertx instance is required");
-    }
+    public @NotNull Vertx vertx() { return vertx; }
 
     @Override
-    public @NotNull SchedulingMonitor<OUT> monitor() {
-        return Optional.ofNullable(monitor).orElseGet(SchedulingLogMonitor::create);
-    }
+    public @Nullable TimeClock clock() { return null; }
 
     @Override
-    public @NotNull T trigger() { return Objects.requireNonNull(trigger, "Trigger is required"); }
+    public @NotNull SchedulingMonitor<OUT> monitor() { return monitor; }
 
     @Override
-    public @NotNull TriggerEvaluator triggerEvaluator() {
-        return Optional.ofNullable(evaluator).orElseGet(DefaultTriggerEvaluator::new);
-    }
+    public @NotNull T trigger() { return trigger; }
 
     @Override
-    public @NotNull Job<IN, OUT> job() { return Objects.requireNonNull(job, "Job is required"); }
+    public @NotNull TriggerEvaluator triggerEvaluator() { return evaluator; }
 
     @Override
-    public @NotNull JobData<IN> jobData() { return Optional.ofNullable(jobData).orElseGet(JobData::empty); }
+    public @NotNull Job<IN, OUT> job() { return job; }
 
     @Override
-    public @NotNull TimeoutPolicy timeoutPolicy() {
-        return Optional.ofNullable(timeoutPolicy).orElseGet(TimeoutPolicy::byDefault);
-    }
+    public @NotNull JobData<IN> jobData() { return jobData; }
+
+    @Override
+    public @NotNull TimeoutPolicy timeoutPolicy() { return timeoutPolicy; }
 
     public @NotNull B setVertx(@NotNull Vertx vertx) {
         this.vertx = vertx;

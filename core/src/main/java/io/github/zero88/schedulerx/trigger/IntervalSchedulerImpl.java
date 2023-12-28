@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import io.github.zero88.schedulerx.Job;
 import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.SchedulingMonitor;
+import io.github.zero88.schedulerx.TimeClock;
 import io.github.zero88.schedulerx.TimeoutPolicy;
 import io.github.zero88.schedulerx.impl.AbstractScheduler;
 import io.github.zero88.schedulerx.impl.AbstractSchedulerBuilder;
@@ -21,12 +22,12 @@ import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
 
 final class IntervalSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, IntervalTrigger>
-    implements IntervalScheduler<IN, OUT> {
+    implements IntervalScheduler {
 
-    IntervalSchedulerImpl(@NotNull Job<IN, OUT> job, @NotNull JobData<IN> jobData, @NotNull TimeoutPolicy timeoutPolicy,
-                          @NotNull SchedulingMonitor<OUT> monitor, @NotNull IntervalTrigger trigger,
-                          @NotNull TriggerEvaluator evaluator, @NotNull Vertx vertx) {
-        super(job, jobData, timeoutPolicy, monitor, trigger, createTriggerEvaluator().andThen(evaluator), vertx);
+    IntervalSchedulerImpl(Vertx vertx, TimeClock clock, SchedulingMonitor<OUT> monitor, Job<IN, OUT> job,
+                          JobData<IN> jobData, TimeoutPolicy timeoutPolicy, IntervalTrigger trigger,
+                          TriggerEvaluator evaluator) {
+        super(vertx, clock, monitor, job, jobData, timeoutPolicy, trigger, createTriggerEvaluator().andThen(evaluator));
     }
 
     protected @NotNull Future<Long> registerTimer(WorkerExecutor workerExecutor) {
@@ -58,15 +59,13 @@ final class IntervalSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, In
                                                                                       onFire(id))));
     }
 
-    // @formatter:off
     static final class IntervalSchedulerBuilderImpl<IN, OUT>
-        extends AbstractSchedulerBuilder<IN, OUT, IntervalTrigger, IntervalScheduler<IN, OUT>, IntervalSchedulerBuilder<IN, OUT>>
+        extends AbstractSchedulerBuilder<IN, OUT, IntervalTrigger, IntervalScheduler, IntervalSchedulerBuilder<IN, OUT>>
         implements IntervalSchedulerBuilder<IN, OUT> {
-    // @formatter:on
 
-        public @NotNull IntervalScheduler<IN, OUT> build() {
-            return new IntervalSchedulerImpl<>(job(), jobData(), timeoutPolicy(), monitor(), trigger(),
-                                               triggerEvaluator(), vertx());
+        public @NotNull IntervalScheduler build() {
+            return new IntervalSchedulerImpl<>(vertx(), clock(), monitor(), job(), jobData(), timeoutPolicy(),
+                                               trigger(), triggerEvaluator());
         }
 
     }
