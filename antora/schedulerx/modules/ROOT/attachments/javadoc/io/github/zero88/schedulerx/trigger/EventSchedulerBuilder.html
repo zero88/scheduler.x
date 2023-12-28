@@ -80,11 +80,11 @@ loadScripts(document, 'script');</script>
 </dl>
 <dl class="notes">
 <dt>All Superinterfaces:</dt>
-<dd><code><a href="../SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr><a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;T&gt;,<wbr><a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;IN,<wbr>OUT,<wbr>T&gt;,<wbr><a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr>T&gt;&gt;</code></dd>
+<dd><code><a href="../SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr><a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;T&gt;,<wbr><a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;T&gt;,<wbr><a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr>T&gt;&gt;</code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">EventSchedulerBuilder&lt;IN,<wbr>OUT,<wbr>T&gt;</span><span class="extends-implements">
-extends <a href="../SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr><a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;T&gt;,<wbr><a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;IN,<wbr>OUT,<wbr>T&gt;,<wbr><a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr>T&gt;&gt;</span></div>
+extends <a href="../SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr><a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;T&gt;,<wbr><a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;T&gt;,<wbr><a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr>T&gt;&gt;</span></div>
 <div class="block">Represents a builder that constructs <a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger"><code>EventScheduler</code></a></div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -104,61 +104,36 @@ extends <a href="../SchedulerBuilder.html" title="interface in io.github.zero88.
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#build()" class="member-name-link">build</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="../Job.html" title="interface in io.github.zero88.schedulerx">Job</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#job()" class="member-name-link">job</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Job to execute per round</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="../JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#jobData()" class="member-name-link">jobData</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Declares the job input data</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="../SchedulingMonitor.html" title="interface in io.github.zero88.schedulerx">SchedulingMonitor</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#monitor()" class="member-name-link">monitor</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Defines a scheduling monitor</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setJob(io.github.zero88.schedulerx.Job)" class="member-name-link">setJob</a><wbr>(@NotNull <a href="../Job.html" title="interface in io.github.zero88.schedulerx">Job</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>&gt;&nbsp;job)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setJobData(io.github.zero88.schedulerx.JobData)" class="member-name-link">setJobData</a><wbr>(@NotNull <a href="../JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>&gt;&nbsp;jobData)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setJob(io.github.zero88.schedulerx.Job)" class="member-name-link">setJob</a><wbr>(@NotNull <a href="../Job.html" title="interface in io.github.zero88.schedulerx">Job</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>&gt;&nbsp;job)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setMonitor(io.github.zero88.schedulerx.SchedulingMonitor)" class="member-name-link">setMonitor</a><wbr>(@NotNull <a href="../SchedulingMonitor.html" title="interface in io.github.zero88.schedulerx">SchedulingMonitor</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>&gt;&nbsp;monitor)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setJobData(io.github.zero88.schedulerx.JobData)" class="member-name-link">setJobData</a><wbr>(@NotNull <a href="../JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>&gt;&nbsp;jobData)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setTimeoutPolicy(io.github.zero88.schedulerx.TimeoutPolicy)" class="member-name-link">setTimeoutPolicy</a><wbr>(@NotNull <a href="../TimeoutPolicy.html" title="class in io.github.zero88.schedulerx">TimeoutPolicy</a>&nbsp;timeoutPolicy)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setMonitor(io.github.zero88.schedulerx.SchedulingMonitor)" class="member-name-link">setMonitor</a><wbr>(@NotNull <a href="../SchedulingMonitor.html" title="interface in io.github.zero88.schedulerx">SchedulingMonitor</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>&gt;&nbsp;monitor)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setTrigger(io.github.zero88.schedulerx.trigger.EventTrigger)" class="member-name-link">setTrigger</a><wbr>(@NotNull <a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;&nbsp;trigger)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setTimeoutPolicy(io.github.zero88.schedulerx.TimeoutPolicy)" class="member-name-link">setTimeoutPolicy</a><wbr>(@NotNull <a href="../TimeoutPolicy.html" title="class in io.github.zero88.schedulerx">TimeoutPolicy</a>&nbsp;timeoutPolicy)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setTrigger(io.github.zero88.schedulerx.trigger.EventTrigger)" class="member-name-link">setTrigger</a><wbr>(@NotNull <a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;&nbsp;trigger)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setTriggerEvaluator(io.github.zero88.schedulerx.trigger.TriggerEvaluator)" class="member-name-link">setTriggerEvaluator</a><wbr>(@NotNull <a href="TriggerEvaluator.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerEvaluator</a>&nbsp;evaluator)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setVertx(io.vertx.core.Vertx)" class="member-name-link">setVertx</a><wbr>(@NotNull io.vertx.core.Vertx&nbsp;vertx)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="../TimeoutPolicy.html" title="class in io.github.zero88.schedulerx">TimeoutPolicy</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#timeoutPolicy()" class="member-name-link">timeoutPolicy</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Declares the timeout policy</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#trigger()" class="member-name-link">trigger</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull io.vertx.core.Vertx</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#vertx()" class="member-name-link">vertx</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Vertx</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#trigger()" class="member-name-link">trigger</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 </div>
 </div>
 </div>
-</div>
-<div class="inherited-list">
-<h3 id="methods-inherited-from-class-io.github.zero88.schedulerx.SchedulerBuilder">Methods inherited from interface&nbsp;io.github.zero88.schedulerx.<a href="../SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a></h3>
-<code><a href="../SchedulerBuilder.html#setTriggerEvaluator(io.github.zero88.schedulerx.trigger.TriggerEvaluator)">setTriggerEvaluator</a>, <a href="../SchedulerBuilder.html#triggerEvaluator()">triggerEvaluator</a></code></div>
 </section>
 </li>
 </ul>
@@ -185,7 +160,7 @@ extends <a href="../SchedulerBuilder.html" title="interface in io.github.zero88.
  @NotNull io.vertx.core.Vertx&nbsp;vertx)</span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../SchedulerBuilder.html#setVertx(io.vertx.core.Vertx)">setVertx</a></code>&nbsp;in interface&nbsp;<code><a href="../SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;&gt;</code></dd>
+<dd><code><a href="../SchedulerBuilder.html#setVertx(io.vertx.core.Vertx)">setVertx</a></code>&nbsp;in interface&nbsp;<code><a href="../SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;&gt;</code></dd>
 </dl>
 </section>
 </li>
@@ -197,7 +172,19 @@ extends <a href="../SchedulerBuilder.html" title="interface in io.github.zero88.
  @NotNull <a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;&nbsp;trigger)</span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../SchedulerBuilder.html#setTrigger(TRIGGER)">setTrigger</a></code>&nbsp;in interface&nbsp;<code><a href="../SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;&gt;</code></dd>
+<dd><code><a href="../SchedulerBuilder.html#setTrigger(TRIGGER)">setTrigger</a></code>&nbsp;in interface&nbsp;<code><a href="../SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;&gt;</code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setTriggerEvaluator(io.github.zero88.schedulerx.trigger.TriggerEvaluator)">
+<h3>setTriggerEvaluator</h3>
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="return-type">@NotNull <a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;</span>&nbsp;<span class="element-name">setTriggerEvaluator</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="TriggerEvaluator.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerEvaluator</a>&nbsp;evaluator)</span></div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../SchedulerBuilder.html#setTriggerEvaluator(io.github.zero88.schedulerx.trigger.TriggerEvaluator)">setTriggerEvaluator</a></code>&nbsp;in interface&nbsp;<code><a href="../SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;&gt;</code></dd>
 </dl>
 </section>
 </li>
@@ -209,7 +196,7 @@ extends <a href="../SchedulerBuilder.html" title="interface in io.github.zero88.
  @NotNull <a href="../SchedulingMonitor.html" title="interface in io.github.zero88.schedulerx">SchedulingMonitor</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>&gt;&nbsp;monitor)</span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../SchedulerBuilder.html#setMonitor(io.github.zero88.schedulerx.SchedulingMonitor)">setMonitor</a></code>&nbsp;in interface&nbsp;<code><a href="../SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;&gt;</code></dd>
+<dd><code><a href="../SchedulerBuilder.html#setMonitor(io.github.zero88.schedulerx.SchedulingMonitor)">setMonitor</a></code>&nbsp;in interface&nbsp;<code><a href="../SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;&gt;</code></dd>
 </dl>
 </section>
 </li>
@@ -221,7 +208,7 @@ extends <a href="../SchedulerBuilder.html" title="interface in io.github.zero88.
  @NotNull <a href="../Job.html" title="interface in io.github.zero88.schedulerx">Job</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>&gt;&nbsp;job)</span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../SchedulerBuilder.html#setJob(io.github.zero88.schedulerx.Job)">setJob</a></code>&nbsp;in interface&nbsp;<code><a href="../SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;&gt;</code></dd>
+<dd><code><a href="../SchedulerBuilder.html#setJob(io.github.zero88.schedulerx.Job)">setJob</a></code>&nbsp;in interface&nbsp;<code><a href="../SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;&gt;</code></dd>
 </dl>
 </section>
 </li>
@@ -233,7 +220,7 @@ extends <a href="../SchedulerBuilder.html" title="interface in io.github.zero88.
  @NotNull <a href="../JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>&gt;&nbsp;jobData)</span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../SchedulerBuilder.html#setJobData(io.github.zero88.schedulerx.JobData)">setJobData</a></code>&nbsp;in interface&nbsp;<code><a href="../SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;&gt;</code></dd>
+<dd><code><a href="../SchedulerBuilder.html#setJobData(io.github.zero88.schedulerx.JobData)">setJobData</a></code>&nbsp;in interface&nbsp;<code><a href="../SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;&gt;</code></dd>
 </dl>
 </section>
 </li>
@@ -245,7 +232,7 @@ extends <a href="../SchedulerBuilder.html" title="interface in io.github.zero88.
  @NotNull <a href="../TimeoutPolicy.html" title="class in io.github.zero88.schedulerx">TimeoutPolicy</a>&nbsp;timeoutPolicy)</span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../SchedulerBuilder.html#setTimeoutPolicy(io.github.zero88.schedulerx.TimeoutPolicy)">setTimeoutPolicy</a></code>&nbsp;in interface&nbsp;<code><a href="../SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;&gt;</code></dd>
+<dd><code><a href="../SchedulerBuilder.html#setTimeoutPolicy(io.github.zero88.schedulerx.TimeoutPolicy)">setTimeoutPolicy</a></code>&nbsp;in interface&nbsp;<code><a href="../SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;&gt;</code></dd>
 </dl>
 </section>
 </li>
@@ -253,94 +240,10 @@ extends <a href="../SchedulerBuilder.html" title="interface in io.github.zero88.
 <section class="detail" id="build()">
 <h3>build</h3>
 <div class="member-signature"><span class="annotations">@NotNull
-</span><span class="return-type">@NotNull <a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;</span>&nbsp;<span class="element-name">build</span>()</div>
+</span><span class="return-type">@NotNull <a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;</span>&nbsp;<span class="element-name">build</span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../SchedulerBuilder.html#build()">build</a></code>&nbsp;in interface&nbsp;<code><a href="../SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;&gt;</code></dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="job()">
-<h3>job</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="return-type">@NotNull <a href="../Job.html" title="interface in io.github.zero88.schedulerx">Job</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>&gt;</span>&nbsp;<span class="element-name">job</span>()</div>
-<div class="block">Job to execute per round</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>job</dd>
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../Job.html" title="interface in io.github.zero88.schedulerx"><code>Job</code></a></li>
-</ul>
-</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="jobData()">
-<h3>jobData</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="return-type">@NotNull <a href="../JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>&gt;</span>&nbsp;<span class="element-name">jobData</span>()</div>
-<div class="block">Declares the job input data</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>job data</dd>
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../JobData.html" title="interface in io.github.zero88.schedulerx"><code>JobData</code></a></li>
-</ul>
-</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="timeoutPolicy()">
-<h3>timeoutPolicy</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="return-type">@NotNull <a href="../TimeoutPolicy.html" title="class in io.github.zero88.schedulerx">TimeoutPolicy</a></span>&nbsp;<span class="element-name">timeoutPolicy</span>()</div>
-<div class="block">Declares the timeout policy</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>timeout policy</dd>
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../TimeoutPolicy.html" title="class in io.github.zero88.schedulerx"><code>TimeoutPolicy</code></a></li>
-</ul>
-</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="vertx()">
-<h3>vertx</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="return-type">@NotNull io.vertx.core.Vertx</span>&nbsp;<span class="element-name">vertx</span>()</div>
-<div class="block">Vertx</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>vertx</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="monitor()">
-<h3>monitor</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="return-type">@NotNull <a href="../SchedulingMonitor.html" title="interface in io.github.zero88.schedulerx">SchedulingMonitor</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>&gt;</span>&nbsp;<span class="element-name">monitor</span>()</div>
-<div class="block">Defines a scheduling monitor</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>scheduling monitor</dd>
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../SchedulingMonitor.html" title="interface in io.github.zero88.schedulerx"><code>SchedulingMonitor</code></a></li>
-</ul>
-</dd>
+<dd><code><a href="../SchedulerBuilder.html#build()">build</a></code>&nbsp;in interface&nbsp;<code><a href="../SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;,<wbr><a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;<a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">IN</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">OUT</a>,<wbr><a href="EventSchedulerBuilder.html" title="type parameter in EventSchedulerBuilder">T</a>&gt;&gt;</code></dd>
 </dl>
 </section>
 </li>

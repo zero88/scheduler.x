@@ -76,8 +76,13 @@ loadScripts(document, 'script');</script>
 <dt>Type Parameters:</dt>
 <dd><code>OUT</code> - Type of job result data</dd>
 </dl>
+<dl class="notes">
+<dt>All Superinterfaces:</dt>
+<dd><code><a href="HasVertx.html" title="interface in io.github.zero88.schedulerx">HasVertx</a></code></dd>
+</dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">ExecutionContext&lt;OUT&gt;</span></div>
+<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">ExecutionContext&lt;OUT&gt;</span><span class="extends-implements">
+extends <a href="HasVertx.html" title="interface in io.github.zero88.schedulerx">HasVertx</a></span></div>
 <div class="block">Represents for a runtime context per each execution round.</div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -142,7 +147,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull io.vertx.core.Vertx</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#vertx()" class="member-name-link">vertx</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Current vertx</div>
+<div class="block">Vertx</div>
 </div>
 </div>
 </div>
@@ -163,8 +168,11 @@ loadScripts(document, 'script');</script>
 <h3>vertx</h3>
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="return-type">@NotNull io.vertx.core.Vertx</span>&nbsp;<span class="element-name">vertx</span>()</div>
-<div class="block">Current vertx</div>
+<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="HasVertx.html#vertx()">HasVertx</a></code></span></div>
+<div class="block">Vertx</div>
 <dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="HasVertx.html#vertx()">vertx</a></code>&nbsp;in interface&nbsp;<code><a href="HasVertx.html" title="interface in io.github.zero88.schedulerx">HasVertx</a></code></dd>
 <dt>Returns:</dt>
 <dd>vertx</dd>
 </dl>

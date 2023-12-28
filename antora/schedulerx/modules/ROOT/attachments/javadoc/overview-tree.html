@@ -54,7 +54,9 @@ loadScripts(document, 'script');</script>
 <li><a href="io/github/zero88/schedulerx/package-tree.html">io.github.zero88.schedulerx</a>, </li>
 <li><a href="io/github/zero88/schedulerx/ext/trigger/predicate/package-tree.html">io.github.zero88.schedulerx.ext.trigger.predicate</a>, </li>
 <li><a href="io/github/zero88/schedulerx/impl/package-tree.html">io.github.zero88.schedulerx.impl</a>, </li>
+<li><a href="io/github/zero88/schedulerx/mutiny/package-tree.html">io.github.zero88.schedulerx.mutiny</a>, </li>
 <li><a href="io/github/zero88/schedulerx/mutiny/trigger/package-tree.html">io.github.zero88.schedulerx.mutiny.trigger</a>, </li>
+<li><a href="io/github/zero88/schedulerx/rxjava3/package-tree.html">io.github.zero88.schedulerx.rxjava3</a>, </li>
 <li><a href="io/github/zero88/schedulerx/rxjava3/trigger/package-tree.html">io.github.zero88.schedulerx.rxjava3.trigger</a>, </li>
 <li><a href="io/github/zero88/schedulerx/trigger/package-tree.html">io.github.zero88.schedulerx.trigger</a>, </li>
 <li><a href="io/github/zero88/schedulerx/trigger/predicate/package-tree.html">io.github.zero88.schedulerx.trigger.predicate</a>, </li>
@@ -67,28 +69,30 @@ loadScripts(document, 'script');</script>
 <ul>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" class="type-name-link external-link" title="class or interface in java.lang">Object</a>
 <ul>
-<li class="circle">io.github.zero88.schedulerx.impl.<a href="io/github/zero88/schedulerx/impl/AbstractScheduler.html" class="type-name-link" title="class in io.github.zero88.schedulerx.impl">AbstractScheduler</a>&lt;IN,<wbr>OUT,<wbr>T&gt; (implements io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/JobExecutor.html" title="interface in io.github.zero88.schedulerx">JobExecutor</a>&lt;OUT&gt;, io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/Scheduler.html" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;IN,<wbr>OUT,<wbr>TRIGGER&gt;)</li>
-<li class="circle">io.github.zero88.schedulerx.impl.<a href="io/github/zero88/schedulerx/impl/AbstractSchedulerBuilder.html" class="type-name-link" title="class in io.github.zero88.schedulerx.impl">AbstractSchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr>T,<wbr>S,<wbr>B&gt; (implements io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr>TRIGGER,<wbr>SCHEDULER,<wbr>SELF&gt;)</li>
+<li class="circle">io.github.zero88.schedulerx.impl.<a href="io/github/zero88/schedulerx/impl/AbstractScheduler.html" class="type-name-link" title="class in io.github.zero88.schedulerx.impl">AbstractScheduler</a>&lt;IN,<wbr>OUT,<wbr>T&gt; (implements io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/JobExecutor.html" title="interface in io.github.zero88.schedulerx">JobExecutor</a>&lt;OUT&gt;, io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/JobExecutorConfig.html" title="interface in io.github.zero88.schedulerx">JobExecutorConfig</a>&lt;IN,<wbr>OUT&gt;, io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/Scheduler.html" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;TRIGGER&gt;, io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/SchedulerConfig.html" title="interface in io.github.zero88.schedulerx">SchedulerConfig</a>&lt;TRIGGER,<wbr>OUT&gt;)</li>
+<li class="circle">io.github.zero88.schedulerx.impl.<a href="io/github/zero88/schedulerx/impl/AbstractSchedulerBuilder.html" class="type-name-link" title="class in io.github.zero88.schedulerx.impl">AbstractSchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr>T,<wbr>S,<wbr>B&gt; (implements io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/HasVertx.html" title="interface in io.github.zero88.schedulerx">HasVertx</a>, io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/JobExecutorConfig.html" title="interface in io.github.zero88.schedulerx">JobExecutorConfig</a>&lt;IN,<wbr>OUT&gt;, io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr>TRIGGER,<wbr>SCHEDULER,<wbr>SELF&gt;, io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/SchedulerConfig.html" title="interface in io.github.zero88.schedulerx">SchedulerConfig</a>&lt;TRIGGER,<wbr>OUT&gt;)</li>
 <li class="circle">io.github.zero88.schedulerx.trigger.predicate.<a href="io/github/zero88/schedulerx/trigger/predicate/AllowAnyMessageBodyType.html" class="type-name-link" title="class in io.github.zero88.schedulerx.trigger.predicate">AllowAnyMessageBodyType</a> (implements io.github.zero88.schedulerx.trigger.predicate.<a href="io/github/zero88/schedulerx/trigger/predicate/EventTriggerPredicate.MessageConverter.html" title="interface in io.github.zero88.schedulerx.trigger.predicate">EventTriggerPredicate.MessageConverter</a>&lt;T&gt;)</li>
 <li class="circle">io.github.zero88.schedulerx.trigger.predicate.<a href="io/github/zero88/schedulerx/trigger/predicate/AnyEventTriggerPredicate.html" class="type-name-link" title="class in io.github.zero88.schedulerx.trigger.predicate">AnyEventTriggerPredicate</a> (implements io.github.zero88.schedulerx.trigger.predicate.<a href="io/github/zero88/schedulerx/trigger/predicate/EventTriggerPredicate.html" title="interface in io.github.zero88.schedulerx.trigger.predicate">EventTriggerPredicate</a>&lt;T&gt;)</li>
 <li class="circle">io.github.zero88.schedulerx.trigger.predicate.<a href="io/github/zero88/schedulerx/trigger/predicate/AutoCastMessageBody.html" class="type-name-link" title="class in io.github.zero88.schedulerx.trigger.predicate">AutoCastMessageBody</a>&lt;T&gt; (implements io.github.zero88.schedulerx.trigger.predicate.<a href="io/github/zero88/schedulerx/trigger/predicate/EventTriggerPredicate.MessageConverter.html" title="interface in io.github.zero88.schedulerx.trigger.predicate">EventTriggerPredicate.MessageConverter</a>&lt;T&gt;)</li>
 <li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/CronExpression.html" class="type-name-link" title="class in io.github.zero88.schedulerx.trigger">CronExpression</a> (implements java.io.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a>)</li>
-<li class="circle">io.github.zero88.schedulerx.mutiny.trigger.<a href="io/github/zero88/schedulerx/mutiny/trigger/CronScheduler.html" class="type-name-link" title="class in io.github.zero88.schedulerx.mutiny.trigger">CronScheduler</a>&lt;IN,<wbr>OUT&gt;</li>
-<li class="circle">io.github.zero88.schedulerx.rxjava3.trigger.<a href="io/github/zero88/schedulerx/rxjava3/trigger/CronScheduler.html" class="type-name-link" title="class in io.github.zero88.schedulerx.rxjava3.trigger">CronScheduler</a>&lt;IN,<wbr>OUT&gt;</li>
+<li class="circle">io.github.zero88.schedulerx.mutiny.trigger.<a href="io/github/zero88/schedulerx/mutiny/trigger/CronScheduler.html" class="type-name-link" title="class in io.github.zero88.schedulerx.mutiny.trigger">CronScheduler</a></li>
+<li class="circle">io.github.zero88.schedulerx.rxjava3.trigger.<a href="io/github/zero88/schedulerx/rxjava3/trigger/CronScheduler.html" class="type-name-link" title="class in io.github.zero88.schedulerx.rxjava3.trigger">CronScheduler</a></li>
 <li class="circle">io.github.zero88.schedulerx.mutiny.trigger.<a href="io/github/zero88/schedulerx/mutiny/trigger/CronSchedulerBuilder.html" class="type-name-link" title="class in io.github.zero88.schedulerx.mutiny.trigger">CronSchedulerBuilder</a>&lt;IN,<wbr>OUT&gt;</li>
 <li class="circle">io.github.zero88.schedulerx.rxjava3.trigger.<a href="io/github/zero88/schedulerx/rxjava3/trigger/CronSchedulerBuilder.html" class="type-name-link" title="class in io.github.zero88.schedulerx.rxjava3.trigger">CronSchedulerBuilder</a>&lt;IN,<wbr>OUT&gt;</li>
 <li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/CronTriggerBuilder.html" class="type-name-link" title="class in io.github.zero88.schedulerx.trigger">CronTriggerBuilder</a></li>
 <li class="circle">io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/DefaultOptions.html" class="type-name-link" title="class in io.github.zero88.schedulerx">DefaultOptions</a></li>
 <li class="circle">io.github.zero88.schedulerx.impl.<a href="io/github/zero88/schedulerx/impl/DefaultTriggerEvaluator.html" class="type-name-link" title="class in io.github.zero88.schedulerx.impl">DefaultTriggerEvaluator</a> (implements io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/TriggerEvaluator.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerEvaluator</a>)</li>
-<li class="circle">io.github.zero88.schedulerx.mutiny.trigger.<a href="io/github/zero88/schedulerx/mutiny/trigger/EventScheduler.html" class="type-name-link" title="class in io.github.zero88.schedulerx.mutiny.trigger">EventScheduler</a>&lt;IN,<wbr>OUT,<wbr>T&gt;</li>
-<li class="circle">io.github.zero88.schedulerx.rxjava3.trigger.<a href="io/github/zero88/schedulerx/rxjava3/trigger/EventScheduler.html" class="type-name-link" title="class in io.github.zero88.schedulerx.rxjava3.trigger">EventScheduler</a>&lt;IN,<wbr>OUT,<wbr>T&gt;</li>
+<li class="circle">io.github.zero88.schedulerx.mutiny.trigger.<a href="io/github/zero88/schedulerx/mutiny/trigger/EventScheduler.html" class="type-name-link" title="class in io.github.zero88.schedulerx.mutiny.trigger">EventScheduler</a>&lt;T&gt;</li>
+<li class="circle">io.github.zero88.schedulerx.rxjava3.trigger.<a href="io/github/zero88/schedulerx/rxjava3/trigger/EventScheduler.html" class="type-name-link" title="class in io.github.zero88.schedulerx.rxjava3.trigger">EventScheduler</a>&lt;T&gt;</li>
 <li class="circle">io.github.zero88.schedulerx.mutiny.trigger.<a href="io/github/zero88/schedulerx/mutiny/trigger/EventSchedulerBuilder.html" class="type-name-link" title="class in io.github.zero88.schedulerx.mutiny.trigger">EventSchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr>T&gt;</li>
 <li class="circle">io.github.zero88.schedulerx.rxjava3.trigger.<a href="io/github/zero88/schedulerx/rxjava3/trigger/EventSchedulerBuilder.html" class="type-name-link" title="class in io.github.zero88.schedulerx.rxjava3.trigger">EventSchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr>T&gt;</li>
 <li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/EventTriggerBuilder.html" class="type-name-link" title="class in io.github.zero88.schedulerx.trigger">EventTriggerBuilder</a>&lt;T&gt;</li>
 <li class="circle">io.github.zero88.schedulerx.trigger.predicate.<a href="io/github/zero88/schedulerx/trigger/predicate/EventTriggerPredicate.JsonKey.html" class="type-name-link" title="class in io.github.zero88.schedulerx.trigger.predicate">EventTriggerPredicate.JsonKey</a></li>
+<li class="circle">io.github.zero88.schedulerx.mutiny.<a href="io/github/zero88/schedulerx/mutiny/ExecutionContext.html" class="type-name-link" title="class in io.github.zero88.schedulerx.mutiny">ExecutionContext</a>&lt;OUT&gt;</li>
+<li class="circle">io.github.zero88.schedulerx.rxjava3.<a href="io/github/zero88/schedulerx/rxjava3/ExecutionContext.html" class="type-name-link" title="class in io.github.zero88.schedulerx.rxjava3">ExecutionContext</a>&lt;OUT&gt;</li>
 <li class="circle">io.github.zero88.schedulerx.trigger.rule.<a href="io/github/zero88/schedulerx/trigger/rule/InstantRange.html" class="type-name-link" title="class in io.github.zero88.schedulerx.trigger.rule">InstantRange</a> (implements io.github.zero88.schedulerx.trigger.rule.<a href="io/github/zero88/schedulerx/trigger/rule/TimeRangeConstraint.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TimeRangeConstraint</a>)</li>
-<li class="circle">io.github.zero88.schedulerx.mutiny.trigger.<a href="io/github/zero88/schedulerx/mutiny/trigger/IntervalScheduler.html" class="type-name-link" title="class in io.github.zero88.schedulerx.mutiny.trigger">IntervalScheduler</a>&lt;IN,<wbr>OUT&gt;</li>
-<li class="circle">io.github.zero88.schedulerx.rxjava3.trigger.<a href="io/github/zero88/schedulerx/rxjava3/trigger/IntervalScheduler.html" class="type-name-link" title="class in io.github.zero88.schedulerx.rxjava3.trigger">IntervalScheduler</a>&lt;IN,<wbr>OUT&gt;</li>
+<li class="circle">io.github.zero88.schedulerx.mutiny.trigger.<a href="io/github/zero88/schedulerx/mutiny/trigger/IntervalScheduler.html" class="type-name-link" title="class in io.github.zero88.schedulerx.mutiny.trigger">IntervalScheduler</a></li>
+<li class="circle">io.github.zero88.schedulerx.rxjava3.trigger.<a href="io/github/zero88/schedulerx/rxjava3/trigger/IntervalScheduler.html" class="type-name-link" title="class in io.github.zero88.schedulerx.rxjava3.trigger">IntervalScheduler</a></li>
 <li class="circle">io.github.zero88.schedulerx.mutiny.trigger.<a href="io/github/zero88/schedulerx/mutiny/trigger/IntervalSchedulerBuilder.html" class="type-name-link" title="class in io.github.zero88.schedulerx.mutiny.trigger">IntervalSchedulerBuilder</a>&lt;IN,<wbr>OUT&gt;</li>
 <li class="circle">io.github.zero88.schedulerx.rxjava3.trigger.<a href="io/github/zero88/schedulerx/rxjava3/trigger/IntervalSchedulerBuilder.html" class="type-name-link" title="class in io.github.zero88.schedulerx.rxjava3.trigger">IntervalSchedulerBuilder</a>&lt;IN,<wbr>OUT&gt;</li>
 <li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/IntervalTriggerBuilder.html" class="type-name-link" title="class in io.github.zero88.schedulerx.trigger">IntervalTriggerBuilder</a></li>
@@ -146,7 +150,6 @@ loadScripts(document, 'script');</script>
 </li>
 </ul>
 </li>
-<li class="circle">io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/ExecutionContext.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">ExecutionContext</a>&lt;OUT&gt;</li>
 <li class="circle">io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/ExecutionResult.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">ExecutionResult</a>&lt;OUTPUT&gt;</li>
 <li class="circle">io.github.zero88.schedulerx.trigger.predicate.ExtraPropertiesExtension&lt;T&gt;
 <ul>
@@ -164,6 +167,18 @@ loadScripts(document, 'script');</script>
 <li class="circle">io.github.zero88.schedulerx.trigger.repr.<a href="io/github/zero88/schedulerx/trigger/repr/IntervalTriggerRepresentationMapper.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger.repr">IntervalTriggerRepresentationMapper</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="circle">io.github.zero88.schedulerx.HasTrigger&lt;TRIGGER&gt;
+<ul>
+<li class="circle">io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/Scheduler.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;TRIGGER&gt; (also extends io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/HasVertx.html" title="interface in io.github.zero88.schedulerx">HasVertx</a>)
+<ul>
+<li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/CronScheduler.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">CronScheduler</a></li>
+<li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/EventScheduler.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;T&gt;</li>
+<li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/IntervalScheduler.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">IntervalScheduler</a></li>
+</ul>
+</li>
+<li class="circle">io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/SchedulerConfig.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">SchedulerConfig</a>&lt;TRIGGER,<wbr>OUT&gt;</li>
 </ul>
 </li>
 <li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/HasTriggerType.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">HasTriggerType</a>
@@ -185,27 +200,22 @@ loadScripts(document, 'script');</script>
 </li>
 </ul>
 </li>
+<li class="circle">io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/HasVertx.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">HasVertx</a>
+<ul>
+<li class="circle">io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/ExecutionContext.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">ExecutionContext</a>&lt;OUT&gt;</li>
+<li class="circle">io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/Scheduler.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;TRIGGER&gt;
+<ul>
+<li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/CronScheduler.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">CronScheduler</a></li>
+<li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/EventScheduler.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;T&gt;</li>
+<li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/IntervalScheduler.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">IntervalScheduler</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="circle">io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/Job.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">Job</a>&lt;INPUT,<wbr>OUTPUT&gt;</li>
 <li class="circle">io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/JobData.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;T&gt;</li>
 <li class="circle">io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/JobExecutor.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">JobExecutor</a>&lt;OUT&gt;</li>
-<li class="circle">io.github.zero88.schedulerx.JobExecutorContext&lt;IN,<wbr>OUT&gt;
-<ul>
-<li class="circle">io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/Scheduler.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;IN,<wbr>OUT,<wbr>TRIGGER&gt;
-<ul>
-<li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/CronScheduler.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">CronScheduler</a>&lt;IN,<wbr>OUT&gt;</li>
-<li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/EventScheduler.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;IN,<wbr>OUT,<wbr>T&gt;</li>
-<li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/IntervalScheduler.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">IntervalScheduler</a>&lt;IN,<wbr>OUT&gt;</li>
-</ul>
-</li>
-<li class="circle">io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/SchedulerBuilder.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr>TRIGGER,<wbr>SCHEDULER,<wbr>SELF&gt;
-<ul>
-<li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/CronSchedulerBuilder.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">CronSchedulerBuilder</a>&lt;IN,<wbr>OUT&gt;</li>
-<li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/EventSchedulerBuilder.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr>T&gt;</li>
-<li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/IntervalSchedulerBuilder.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">IntervalSchedulerBuilder</a>&lt;IN,<wbr>OUT&gt;</li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="circle">io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/JobExecutorConfig.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">JobExecutorConfig</a>&lt;IN,<wbr>OUT&gt;</li>
 <li class="circle">java.util.function.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Predicate.html" class="type-name-link external-link" title="class or interface in java.util.function">Predicate</a>&lt;T&gt;
 <ul>
 <li class="circle">io.github.zero88.schedulerx.trigger.predicate.<a href="io/github/zero88/schedulerx/trigger/predicate/EventTriggerPredicate.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger.predicate">EventTriggerPredicate</a>&lt;T&gt;
@@ -220,22 +230,11 @@ loadScripts(document, 'script');</script>
 </li>
 </ul>
 </li>
-<li class="circle">io.github.zero88.schedulerx.SchedulerContext&lt;TRIGGER,<wbr>OUT&gt;
-<ul>
-<li class="circle">io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/Scheduler.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;IN,<wbr>OUT,<wbr>TRIGGER&gt;
-<ul>
-<li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/CronScheduler.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">CronScheduler</a>&lt;IN,<wbr>OUT&gt;</li>
-<li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/EventScheduler.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&lt;IN,<wbr>OUT,<wbr>T&gt;</li>
-<li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/IntervalScheduler.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">IntervalScheduler</a>&lt;IN,<wbr>OUT&gt;</li>
-</ul>
-</li>
 <li class="circle">io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/SchedulerBuilder.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr>TRIGGER,<wbr>SCHEDULER,<wbr>SELF&gt;
 <ul>
 <li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/CronSchedulerBuilder.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">CronSchedulerBuilder</a>&lt;IN,<wbr>OUT&gt;</li>
 <li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/EventSchedulerBuilder.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">EventSchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr>T&gt;</li>
 <li class="circle">io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/IntervalSchedulerBuilder.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">IntervalSchedulerBuilder</a>&lt;IN,<wbr>OUT&gt;</li>
-</ul>
-</li>
 </ul>
 </li>
 <li class="circle">io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/SchedulerState.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">SchedulerState</a>&lt;OUT&gt;</li>

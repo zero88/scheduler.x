@@ -69,14 +69,14 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">io.github.zero88.schedulerx.rxjava3.trigger</a></div>
-<h1 title="Class EventScheduler" class="title">Class EventScheduler&lt;IN,<wbr>OUT,<wbr>T&gt;</h1>
+<h1 title="Class EventScheduler" class="title">Class EventScheduler&lt;T&gt;</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">io.github.zero88.schedulerx.rxjava3.trigger.EventScheduler&lt;IN,<wbr>OUT,<wbr>T&gt;</div>
+<div class="inheritance">io.github.zero88.schedulerx.rxjava3.trigger.EventScheduler&lt;T&gt;</div>
 </div>
 <section class="class-description" id="class-description">
 <hr>
-<div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">EventScheduler&lt;IN,<wbr>OUT,<wbr>T&gt;</span>
+<div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">EventScheduler&lt;T&gt;</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">An event-base scheduler that triggers to run a job when receive an event from specific <code>event-bus</code> address.
 
@@ -97,14 +97,8 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code>static final io.vertx.lang.rx.TypeArg&lt;<a href="EventScheduler.html" title="class in io.github.zero88.schedulerx.rxjava3.trigger">EventScheduler</a>&gt;</code></div>
 <div class="col-second even-row-color"><code><a href="#__TYPE_ARG" class="member-name-link">__TYPE_ARG</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>final io.vertx.lang.rx.TypeArg&lt;<a href="EventScheduler.html" title="type parameter in EventScheduler">IN</a>&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#__typeArg_0" class="member-name-link">__typeArg_0</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>final io.vertx.lang.rx.TypeArg&lt;<a href="EventScheduler.html" title="type parameter in EventScheduler">OUT</a>&gt;</code></div>
-<div class="col-second even-row-color"><code><a href="#__typeArg_1" class="member-name-link">__typeArg_1</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>final io.vertx.lang.rx.TypeArg&lt;<a href="EventScheduler.html" title="type parameter in EventScheduler">T</a>&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#__typeArg_2" class="member-name-link">__typeArg_2</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#__typeArg_0" class="member-name-link">__typeArg_0</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
@@ -119,10 +113,8 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.github.zero88.schedulerx.trigger.EventScheduler)" class="member-name-link">EventScheduler</a><wbr>(<a href="../../trigger/EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&nbsp;delegate)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.Object,io.vertx.lang.rx.TypeArg,io.vertx.lang.rx.TypeArg,io.vertx.lang.rx.TypeArg)" class="member-name-link">EventScheduler</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;delegate,
- io.vertx.lang.rx.TypeArg&lt;<a href="EventScheduler.html" title="type parameter in EventScheduler">IN</a>&gt;&nbsp;typeArg_0,
- io.vertx.lang.rx.TypeArg&lt;<a href="EventScheduler.html" title="type parameter in EventScheduler">OUT</a>&gt;&nbsp;typeArg_1,
- io.vertx.lang.rx.TypeArg&lt;<a href="EventScheduler.html" title="type parameter in EventScheduler">T</a>&gt;&nbsp;typeArg_2)</code></div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.Object,io.vertx.lang.rx.TypeArg)" class="member-name-link">EventScheduler</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;delegate,
+ io.vertx.lang.rx.TypeArg&lt;<a href="EventScheduler.html" title="type parameter in EventScheduler">T</a>&gt;&nbsp;typeArg_0)</code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
@@ -155,17 +147,11 @@ V&gt;&nbsp;<a href="EventSchedulerBuilder.html" title="class in io.github.zero88
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;IN,<wbr>
-OUT,<wbr>
-T&gt;&nbsp;<a href="EventScheduler.html" title="class in io.github.zero88.schedulerx.rxjava3.trigger">EventScheduler</a>&lt;IN,<wbr>OUT,<wbr>T&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T&gt;&nbsp;<a href="EventScheduler.html" title="class in io.github.zero88.schedulerx.rxjava3.trigger">EventScheduler</a>&lt;T&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#newInstance(io.github.zero88.schedulerx.trigger.EventScheduler)" class="member-name-link">newInstance</a><wbr>(<a href="../../trigger/EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&nbsp;arg)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;IN,<wbr>
-OUT,<wbr>
-T&gt;&nbsp;<a href="EventScheduler.html" title="class in io.github.zero88.schedulerx.rxjava3.trigger">EventScheduler</a>&lt;IN,<wbr>OUT,<wbr>T&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#newInstance(io.github.zero88.schedulerx.trigger.EventScheduler,io.vertx.lang.rx.TypeArg,io.vertx.lang.rx.TypeArg,io.vertx.lang.rx.TypeArg)" class="member-name-link">newInstance</a><wbr>(<a href="../../trigger/EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&nbsp;arg,
- io.vertx.lang.rx.TypeArg&lt;IN&gt;&nbsp;__typeArg_IN,
- io.vertx.lang.rx.TypeArg&lt;OUT&gt;&nbsp;__typeArg_OUT,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T&gt;&nbsp;<a href="EventScheduler.html" title="class in io.github.zero88.schedulerx.rxjava3.trigger">EventScheduler</a>&lt;T&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#newInstance(io.github.zero88.schedulerx.trigger.EventScheduler,io.vertx.lang.rx.TypeArg)" class="member-name-link">newInstance</a><wbr>(<a href="../../trigger/EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&nbsp;arg,
  io.vertx.lang.rx.TypeArg&lt;T&gt;&nbsp;__typeArg_T)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
@@ -180,6 +166,9 @@ T&gt;&nbsp;<a href="EventScheduler.html" title="class in io.github.zero88.schedu
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../trigger/EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a>&lt;<a href="EventScheduler.html" title="type parameter in EventScheduler">T</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#trigger()" class="member-name-link">trigger</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>io.vertx.rxjava3.core.Vertx</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#vertx()" class="member-name-link">vertx</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -206,19 +195,7 @@ T&gt;&nbsp;<a href="EventScheduler.html" title="class in io.github.zero88.schedu
 <li>
 <section class="detail" id="__typeArg_0">
 <h3>__typeArg_0</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">io.vertx.lang.rx.TypeArg&lt;<a href="EventScheduler.html" title="type parameter in EventScheduler">IN</a>&gt;</span>&nbsp;<span class="element-name">__typeArg_0</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="__typeArg_1">
-<h3>__typeArg_1</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">io.vertx.lang.rx.TypeArg&lt;<a href="EventScheduler.html" title="type parameter in EventScheduler">OUT</a>&gt;</span>&nbsp;<span class="element-name">__typeArg_1</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="__typeArg_2">
-<h3>__typeArg_2</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">io.vertx.lang.rx.TypeArg&lt;<a href="EventScheduler.html" title="type parameter in EventScheduler">T</a>&gt;</span>&nbsp;<span class="element-name">__typeArg_2</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">io.vertx.lang.rx.TypeArg&lt;<a href="EventScheduler.html" title="type parameter in EventScheduler">T</a>&gt;</span>&nbsp;<span class="element-name">__typeArg_0</span></div>
 </section>
 </li>
 </ul>
@@ -236,12 +213,10 @@ T&gt;&nbsp;<a href="EventScheduler.html" title="class in io.github.zero88.schedu
 </section>
 </li>
 <li>
-<section class="detail" id="&lt;init&gt;(java.lang.Object,io.vertx.lang.rx.TypeArg,io.vertx.lang.rx.TypeArg,io.vertx.lang.rx.TypeArg)">
+<section class="detail" id="&lt;init&gt;(java.lang.Object,io.vertx.lang.rx.TypeArg)">
 <h3>EventScheduler</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">EventScheduler</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;delegate,
- io.vertx.lang.rx.TypeArg&lt;<a href="EventScheduler.html" title="type parameter in EventScheduler">IN</a>&gt;&nbsp;typeArg_0,
- io.vertx.lang.rx.TypeArg&lt;<a href="EventScheduler.html" title="type parameter in EventScheduler">OUT</a>&gt;&nbsp;typeArg_1,
- io.vertx.lang.rx.TypeArg&lt;<a href="EventScheduler.html" title="type parameter in EventScheduler">T</a>&gt;&nbsp;typeArg_2)</span></div>
+ io.vertx.lang.rx.TypeArg&lt;<a href="EventScheduler.html" title="type parameter in EventScheduler">T</a>&gt;&nbsp;typeArg_0)</span></div>
 </section>
 </li>
 </ul>
@@ -298,6 +273,12 @@ V&gt;</span>
 </section>
 </li>
 <li>
+<section class="detail" id="vertx()">
+<h3>vertx</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">io.vertx.rxjava3.core.Vertx</span>&nbsp;<span class="element-name">vertx</span>()</div>
+</section>
+</li>
+<li>
 <section class="detail" id="start()">
 <h3>start</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">start</span>()</div>
@@ -324,19 +305,13 @@ V&gt;</span>
 <li>
 <section class="detail" id="newInstance(io.github.zero88.schedulerx.trigger.EventScheduler)">
 <h3>newInstance</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;IN,<wbr>
-OUT,<wbr>
-T&gt;</span>&nbsp;<span class="return-type"><a href="EventScheduler.html" title="class in io.github.zero88.schedulerx.rxjava3.trigger">EventScheduler</a>&lt;IN,<wbr>OUT,<wbr>T&gt;</span>&nbsp;<span class="element-name">newInstance</span><wbr><span class="parameters">(<a href="../../trigger/EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&nbsp;arg)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="EventScheduler.html" title="class in io.github.zero88.schedulerx.rxjava3.trigger">EventScheduler</a>&lt;T&gt;</span>&nbsp;<span class="element-name">newInstance</span><wbr><span class="parameters">(<a href="../../trigger/EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&nbsp;arg)</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="newInstance(io.github.zero88.schedulerx.trigger.EventScheduler,io.vertx.lang.rx.TypeArg,io.vertx.lang.rx.TypeArg,io.vertx.lang.rx.TypeArg)">
+<section class="detail" id="newInstance(io.github.zero88.schedulerx.trigger.EventScheduler,io.vertx.lang.rx.TypeArg)">
 <h3>newInstance</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;IN,<wbr>
-OUT,<wbr>
-T&gt;</span>&nbsp;<span class="return-type"><a href="EventScheduler.html" title="class in io.github.zero88.schedulerx.rxjava3.trigger">EventScheduler</a>&lt;IN,<wbr>OUT,<wbr>T&gt;</span>&nbsp;<span class="element-name">newInstance</span><wbr><span class="parameters">(<a href="../../trigger/EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&nbsp;arg,
- io.vertx.lang.rx.TypeArg&lt;IN&gt;&nbsp;__typeArg_IN,
- io.vertx.lang.rx.TypeArg&lt;OUT&gt;&nbsp;__typeArg_OUT,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="EventScheduler.html" title="class in io.github.zero88.schedulerx.rxjava3.trigger">EventScheduler</a>&lt;T&gt;</span>&nbsp;<span class="element-name">newInstance</span><wbr><span class="parameters">(<a href="../../trigger/EventScheduler.html" title="interface in io.github.zero88.schedulerx.trigger">EventScheduler</a>&nbsp;arg,
  io.vertx.lang.rx.TypeArg&lt;T&gt;&nbsp;__typeArg_T)</span></div>
 </section>
 </li>

@@ -79,6 +79,10 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color">
 <div class="block">The scheduler.x internal implementation.</div>
 </div>
+<div class="col-first odd-row-color"><a href="mutiny/package-summary.html">io.github.zero88.schedulerx.mutiny</a></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><a href="rxjava3/package-summary.html">io.github.zero88.schedulerx.rxjava3</a></div>
+<div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><a href="trigger/package-summary.html">io.github.zero88.schedulerx.trigger</a></div>
 <div class="col-last odd-row-color">
 <div class="block">Provides the classes and interfaces to define the trigger and its scheduler.</div>
@@ -95,8 +99,7 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color class-summary class-summary-tab2"><a href="DefaultOptions.html" title="class in io.github.zero88.schedulerx">DefaultOptions</a></div>
 <div class="col-last even-row-color class-summary class-summary-tab2">
-<div class="block">Instances of this class are used to configure the default options for <a href="trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger"><code>Trigger</code></a>, and <a href="Scheduler.html" title="interface in io.github.zero88.schedulerx"><code>Scheduler</code></a>
- instances.</div>
+<div class="block">Instances of this class are used to configure the default <a href="trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger"><code>Trigger</code></a> options, and <a href="Job.html" title="interface in io.github.zero88.schedulerx"><code>Job</code></a> options.</div>
 </div>
 <div class="col-first odd-row-color class-summary class-summary-tab1"><a href="ExecutionContext.html" title="interface in io.github.zero88.schedulerx">ExecutionContext</a>&lt;OUT&gt;</div>
 <div class="col-last odd-row-color class-summary class-summary-tab1">
@@ -106,53 +109,63 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color class-summary class-summary-tab1">
 <div class="block">Represents for an execution result will be pass on each event of <a href="SchedulingMonitor.html" title="interface in io.github.zero88.schedulerx"><code>SchedulingMonitor</code></a></div>
 </div>
-<div class="col-first odd-row-color class-summary class-summary-tab1"><a href="Job.html" title="interface in io.github.zero88.schedulerx">Job</a>&lt;INPUT,<wbr>OUTPUT&gt;</div>
-<div class="col-last odd-row-color class-summary class-summary-tab1">
+<div class="col-first odd-row-color class-summary class-summary-tab1"><a href="HasVertx.html" title="interface in io.github.zero88.schedulerx">HasVertx</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab1">&nbsp;</div>
+<div class="col-first even-row-color class-summary class-summary-tab1"><a href="Job.html" title="interface in io.github.zero88.schedulerx">Job</a>&lt;INPUT,<wbr>OUTPUT&gt;</div>
+<div class="col-last even-row-color class-summary class-summary-tab1">
 <div class="block">Represents for Job to run on each trigger time.</div>
 </div>
-<div class="col-first even-row-color class-summary class-summary-tab1"><a href="JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;T&gt;</div>
-<div class="col-last even-row-color class-summary class-summary-tab1">
+<div class="col-first odd-row-color class-summary class-summary-tab1"><a href="JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;T&gt;</div>
+<div class="col-last odd-row-color class-summary class-summary-tab1">
 <div class="block">Represents for a provider that supplies input data before the execution is started, and that will be sent to the job
  in runtime execution.</div>
 </div>
-<div class="col-first odd-row-color class-summary class-summary-tab1"><a href="JobExecutor.html" title="interface in io.github.zero88.schedulerx">JobExecutor</a>&lt;OUT&gt;</div>
-<div class="col-last odd-row-color class-summary class-summary-tab1">
+<div class="col-first even-row-color class-summary class-summary-tab1"><a href="JobExecutor.html" title="interface in io.github.zero88.schedulerx">JobExecutor</a>&lt;OUT&gt;</div>
+<div class="col-last even-row-color class-summary class-summary-tab1">
 <div class="block">Represents for an executor run a <code>job</code> in conditional loop.</div>
 </div>
-<div class="col-first even-row-color class-summary class-summary-tab1"><a href="Scheduler.html" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;IN,<wbr>OUT,<wbr>TRIGGER extends <a href="trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a>&gt;</div>
+<div class="col-first odd-row-color class-summary class-summary-tab1"><a href="JobExecutorConfig.html" title="interface in io.github.zero88.schedulerx">JobExecutorConfig</a>&lt;IN,<wbr>OUT&gt;</div>
+<div class="col-last odd-row-color class-summary class-summary-tab1">
+<div class="block">Shared immutable fields between <code>JobExecutor</code> and its builder.</div>
+</div>
+<div class="col-first even-row-color class-summary class-summary-tab1"><a href="Scheduler.html" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;TRIGGER extends <a href="trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a>&gt;</div>
 <div class="col-last even-row-color class-summary class-summary-tab1">
 <div class="block">A scheduler schedules a job to run based on a particular trigger.</div>
 </div>
-<div class="col-first odd-row-color class-summary class-summary-tab1"><a href="SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr>TRIGGER extends <a href="trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a>,<wbr>SCHEDULER extends <a href="Scheduler.html" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;IN,<wbr>OUT,<wbr>TRIGGER&gt;,<wbr>SELF extends <a href="SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr>TRIGGER,<wbr>SCHEDULER,<wbr>SELF&gt;&gt;</div>
+<div class="col-first odd-row-color class-summary class-summary-tab1"><a href="SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr>TRIGGER extends <a href="trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a>,<wbr>SCHEDULER extends <a href="Scheduler.html" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;TRIGGER&gt;,<wbr>SELF extends <a href="SchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">SchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr>TRIGGER,<wbr>SCHEDULER,<wbr>SELF&gt;&gt;</div>
 <div class="col-last odd-row-color class-summary class-summary-tab1">
 <div class="block">Represents for the high level of a builder that construct <code>Scheduler</code></div>
 </div>
-<div class="col-first even-row-color class-summary class-summary-tab1"><a href="SchedulerState.html" title="interface in io.github.zero88.schedulerx">SchedulerState</a>&lt;OUT&gt;</div>
+<div class="col-first even-row-color class-summary class-summary-tab1"><a href="SchedulerConfig.html" title="interface in io.github.zero88.schedulerx">SchedulerConfig</a>&lt;TRIGGER extends <a href="trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a>,<wbr>OUT&gt;</div>
 <div class="col-last even-row-color class-summary class-summary-tab1">
+<div class="block">Shared immutable fields between <code>Scheduler</code> and its builder.</div>
+</div>
+<div class="col-first odd-row-color class-summary class-summary-tab1"><a href="SchedulerState.html" title="interface in io.github.zero88.schedulerx">SchedulerState</a>&lt;OUT&gt;</div>
+<div class="col-last odd-row-color class-summary class-summary-tab1">
 <div class="block">Represents for a management state of the execution lifecycle.</div>
 </div>
-<div class="col-first odd-row-color class-summary class-summary-tab1"><a href="SchedulingLogMonitor.html" title="interface in io.github.zero88.schedulerx">SchedulingLogMonitor</a>&lt;OUT&gt;</div>
-<div class="col-last odd-row-color class-summary class-summary-tab1">
+<div class="col-first even-row-color class-summary class-summary-tab1"><a href="SchedulingLogMonitor.html" title="interface in io.github.zero88.schedulerx">SchedulingLogMonitor</a>&lt;OUT&gt;</div>
+<div class="col-last even-row-color class-summary class-summary-tab1">
 <div class="block">Represents for a log monitor that observes and do log on each lifecycle event of the job executor.</div>
 </div>
-<div class="col-first even-row-color class-summary class-summary-tab1"><a href="SchedulingMonitor.html" title="interface in io.github.zero88.schedulerx">SchedulingMonitor</a>&lt;OUT&gt;</div>
-<div class="col-last even-row-color class-summary class-summary-tab1">
+<div class="col-first odd-row-color class-summary class-summary-tab1"><a href="SchedulingMonitor.html" title="interface in io.github.zero88.schedulerx">SchedulingMonitor</a>&lt;OUT&gt;</div>
+<div class="col-last odd-row-color class-summary class-summary-tab1">
 <div class="block">Represents for a monitor that watches lifecycle event in the scheduler.</div>
 </div>
-<div class="col-first odd-row-color class-summary class-summary-tab1"><a href="TimeClock.html" title="interface in io.github.zero88.schedulerx">TimeClock</a></div>
-<div class="col-last odd-row-color class-summary class-summary-tab1">
+<div class="col-first even-row-color class-summary class-summary-tab1"><a href="TimeClock.html" title="interface in io.github.zero88.schedulerx">TimeClock</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab1">
 <div class="block">Represents for time clock</div>
 </div>
-<div class="col-first even-row-color class-summary class-summary-tab2"><a href="TimeoutBlock.html" title="class in io.github.zero88.schedulerx">TimeoutBlock</a></div>
-<div class="col-last even-row-color class-summary class-summary-tab2">
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="TimeoutBlock.html" title="class in io.github.zero88.schedulerx">TimeoutBlock</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab2">
 <div class="block">Represents for a helper to create a timeout block.</div>
 </div>
-<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="TimeoutPolicy.html" title="class in io.github.zero88.schedulerx">TimeoutPolicy</a></div>
-<div class="col-last odd-row-color class-summary class-summary-tab2">
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="TimeoutPolicy.html" title="class in io.github.zero88.schedulerx">TimeoutPolicy</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab2">
 <div class="block">Represents for holder to keep timeout configuration.</div>
 </div>
-<div class="col-first even-row-color class-summary class-summary-tab1"><a href="WorkerExecutorFactory.html" title="interface in io.github.zero88.schedulerx">WorkerExecutorFactory</a></div>
-<div class="col-last even-row-color class-summary class-summary-tab1">
+<div class="col-first odd-row-color class-summary class-summary-tab1"><a href="WorkerExecutorFactory.html" title="interface in io.github.zero88.schedulerx">WorkerExecutorFactory</a></div>
+<div class="col-last odd-row-color class-summary class-summary-tab1">
 <div class="block">A factory to create <code>WorkerExecutor</code> based on the execution timeout policy.</div>
 </div>
 </div>

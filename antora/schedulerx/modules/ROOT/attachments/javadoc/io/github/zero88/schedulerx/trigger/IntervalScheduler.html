@@ -69,21 +69,16 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">io.github.zero88.schedulerx.trigger</a></div>
-<h1 title="Interface IntervalScheduler" class="title">Interface IntervalScheduler&lt;IN,<wbr>OUT&gt;</h1>
+<h1 title="Interface IntervalScheduler" class="title">Interface IntervalScheduler</h1>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
-<dt>Type Parameters:</dt>
-<dd><code>IN</code> - Type of job input data</dd>
-<dd><code>OUT</code> - Type of job result data</dd>
-</dl>
-<dl class="notes">
 <dt>All Superinterfaces:</dt>
-<dd><code><a href="../Scheduler.html" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;IN,<wbr>OUT,<wbr><a href="IntervalTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTrigger</a>&gt;</code></dd>
+<dd><code><a href="../HasVertx.html" title="interface in io.github.zero88.schedulerx">HasVertx</a></code>, <code><a href="../Scheduler.html" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;<a href="IntervalTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTrigger</a>&gt;</code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">IntervalScheduler&lt;IN,<wbr>OUT&gt;</span><span class="extends-implements">
-extends <a href="../Scheduler.html" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;IN,<wbr>OUT,<wbr><a href="IntervalTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTrigger</a>&gt;</span></div>
+<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">IntervalScheduler</span><span class="extends-implements">
+extends <a href="../Scheduler.html" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;<a href="IntervalTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTrigger</a>&gt;</span></div>
 <div class="block">A timebase scheduler supports the interval schedules.</div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -118,35 +113,15 @@ OUT&gt;&nbsp;<a href="IntervalSchedulerBuilder.html" title="interface in io.gith
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Cancel scheduler</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="../Job.html" title="interface in io.github.zero88.schedulerx">Job</a>&lt;<a href="IntervalScheduler.html" title="type parameter in IntervalScheduler">IN</a>,<wbr><a href="IntervalScheduler.html" title="type parameter in IntervalScheduler">OUT</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#job()" class="member-name-link">job</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Job to execute per round</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="../JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;<a href="IntervalScheduler.html" title="type parameter in IntervalScheduler">IN</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#jobData()" class="member-name-link">jobData</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Declares the job input data</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="../SchedulingMonitor.html" title="interface in io.github.zero88.schedulerx">SchedulingMonitor</a>&lt;<a href="IntervalScheduler.html" title="type parameter in IntervalScheduler">OUT</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#monitor()" class="member-name-link">monitor</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Defines a scheduling monitor</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#start()" class="member-name-link">start</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#start()" class="member-name-link">start</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Start and run the <code>scheduler</code> in <code>Vertx worker thread pool</code>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#start(io.vertx.core.WorkerExecutor)" class="member-name-link">start</a><wbr>(io.vertx.core.WorkerExecutor&nbsp;workerExecutor)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Start and run the <code>scheduler</code> in a dedicated thread pool that is provided by a customized worker executor</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="../TimeoutPolicy.html" title="class in io.github.zero88.schedulerx">TimeoutPolicy</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#timeoutPolicy()" class="member-name-link">timeoutPolicy</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#start(io.vertx.core.WorkerExecutor)" class="member-name-link">start</a><wbr>(io.vertx.core.WorkerExecutor&nbsp;workerExecutor)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Declares the timeout policy</div>
+<div class="block">Start and run the <code>scheduler</code> in a dedicated thread pool that is provided by a customized worker executor</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="IntervalTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTrigger</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#trigger()" class="member-name-link">trigger</a>()</code></div>
@@ -178,6 +153,21 @@ OUT&gt;</span>&nbsp;<span class="return-type"><a href="IntervalSchedulerBuilder.
 </section>
 </li>
 <li>
+<section class="detail" id="vertx()">
+<h3>vertx</h3>
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="return-type">@NotNull io.vertx.core.Vertx</span>&nbsp;<span class="element-name">vertx</span>()</div>
+<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../HasVertx.html#vertx()">HasVertx</a></code></span></div>
+<div class="block">Vertx</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../HasVertx.html#vertx()">vertx</a></code>&nbsp;in interface&nbsp;<code><a href="../HasVertx.html" title="interface in io.github.zero88.schedulerx">HasVertx</a></code></dd>
+<dt>Returns:</dt>
+<dd>vertx</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="trigger()">
 <h3>trigger</h3>
 <div class="member-signature"><span class="annotations">@NotNull
@@ -192,7 +182,7 @@ OUT&gt;</span>&nbsp;<span class="return-type"><a href="IntervalSchedulerBuilder.
 <div class="block">Start and run the <code>scheduler</code> in <code>Vertx worker thread pool</code>.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../Scheduler.html#start()">start</a></code>&nbsp;in interface&nbsp;<code><a href="../Scheduler.html" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;<a href="IntervalScheduler.html" title="type parameter in IntervalScheduler">IN</a>,<wbr><a href="IntervalScheduler.html" title="type parameter in IntervalScheduler">OUT</a>,<wbr><a href="IntervalTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTrigger</a>&gt;</code></dd>
+<dd><code><a href="../Scheduler.html#start()">start</a></code>&nbsp;in interface&nbsp;<code><a href="../Scheduler.html" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;<a href="IntervalTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTrigger</a>&gt;</code></dd>
 </dl>
 </section>
 </li>
@@ -204,7 +194,7 @@ OUT&gt;</span>&nbsp;<span class="return-type"><a href="IntervalSchedulerBuilder.
 <div class="block">Start and run the <code>scheduler</code> in a dedicated thread pool that is provided by a customized worker executor</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../Scheduler.html#start(io.vertx.core.WorkerExecutor)">start</a></code>&nbsp;in interface&nbsp;<code><a href="../Scheduler.html" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;<a href="IntervalScheduler.html" title="type parameter in IntervalScheduler">IN</a>,<wbr><a href="IntervalScheduler.html" title="type parameter in IntervalScheduler">OUT</a>,<wbr><a href="IntervalTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTrigger</a>&gt;</code></dd>
+<dd><code><a href="../Scheduler.html#start(io.vertx.core.WorkerExecutor)">start</a></code>&nbsp;in interface&nbsp;<code><a href="../Scheduler.html" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;<a href="IntervalTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTrigger</a>&gt;</code></dd>
 <dt>Parameters:</dt>
 <dd><code>workerExecutor</code> - worker executor</dd>
 <dt>See Also:</dt>
@@ -224,91 +214,7 @@ OUT&gt;</span>&nbsp;<span class="return-type"><a href="IntervalSchedulerBuilder.
 <div class="block">Cancel scheduler</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../Scheduler.html#cancel()">cancel</a></code>&nbsp;in interface&nbsp;<code><a href="../Scheduler.html" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;<a href="IntervalScheduler.html" title="type parameter in IntervalScheduler">IN</a>,<wbr><a href="IntervalScheduler.html" title="type parameter in IntervalScheduler">OUT</a>,<wbr><a href="IntervalTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTrigger</a>&gt;</code></dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="job()">
-<h3>job</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="return-type">@NotNull <a href="../Job.html" title="interface in io.github.zero88.schedulerx">Job</a>&lt;<a href="IntervalScheduler.html" title="type parameter in IntervalScheduler">IN</a>,<wbr><a href="IntervalScheduler.html" title="type parameter in IntervalScheduler">OUT</a>&gt;</span>&nbsp;<span class="element-name">job</span>()</div>
-<div class="block">Job to execute per round</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>job</dd>
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../Job.html" title="interface in io.github.zero88.schedulerx"><code>Job</code></a></li>
-</ul>
-</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="jobData()">
-<h3>jobData</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="return-type">@NotNull <a href="../JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;<a href="IntervalScheduler.html" title="type parameter in IntervalScheduler">IN</a>&gt;</span>&nbsp;<span class="element-name">jobData</span>()</div>
-<div class="block">Declares the job input data</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>job data</dd>
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../JobData.html" title="interface in io.github.zero88.schedulerx"><code>JobData</code></a></li>
-</ul>
-</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="timeoutPolicy()">
-<h3>timeoutPolicy</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="return-type">@NotNull <a href="../TimeoutPolicy.html" title="class in io.github.zero88.schedulerx">TimeoutPolicy</a></span>&nbsp;<span class="element-name">timeoutPolicy</span>()</div>
-<div class="block">Declares the timeout policy</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>timeout policy</dd>
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../TimeoutPolicy.html" title="class in io.github.zero88.schedulerx"><code>TimeoutPolicy</code></a></li>
-</ul>
-</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="vertx()">
-<h3>vertx</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="return-type">@NotNull io.vertx.core.Vertx</span>&nbsp;<span class="element-name">vertx</span>()</div>
-<div class="block">Vertx</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>vertx</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="monitor()">
-<h3>monitor</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="return-type">@NotNull <a href="../SchedulingMonitor.html" title="interface in io.github.zero88.schedulerx">SchedulingMonitor</a>&lt;<a href="IntervalScheduler.html" title="type parameter in IntervalScheduler">OUT</a>&gt;</span>&nbsp;<span class="element-name">monitor</span>()</div>
-<div class="block">Defines a scheduling monitor</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>scheduling monitor</dd>
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../SchedulingMonitor.html" title="interface in io.github.zero88.schedulerx"><code>SchedulingMonitor</code></a></li>
-</ul>
-</dd>
+<dd><code><a href="../Scheduler.html#cancel()">cancel</a></code>&nbsp;in interface&nbsp;<code><a href="../Scheduler.html" title="interface in io.github.zero88.schedulerx">Scheduler</a>&lt;<a href="IntervalTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTrigger</a>&gt;</code></dd>
 </dl>
 </section>
 </li>
