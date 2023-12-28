@@ -264,6 +264,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="io/github/zero88/schedulerx/trigger/CronExpression.html#checkNext(int,java.lang.String,int,int)" class="member-name-link">checkNext(int, String, int, int)</a> - Method in class io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/CronExpression.html" title="class in io.github.zero88.schedulerx.trigger">CronExpression</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/github/zero88/schedulerx/impl/AbstractScheduler.html#clock()" class="member-name-link">clock()</a> - Method in class io.github.zero88.schedulerx.impl.<a href="io/github/zero88/schedulerx/impl/AbstractScheduler.html" title="class in io.github.zero88.schedulerx.impl">AbstractScheduler</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/github/zero88/schedulerx/ExecutionContext.html#complete(OUT)" class="member-name-link">complete(OUT)</a> - Method in interface io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/ExecutionContext.html" title="interface in io.github.zero88.schedulerx">ExecutionContext</a></dt>
 <dd>
 <div class="block">Notify finish an execution per each round with its result data</div>
@@ -1148,11 +1150,11 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:K">K</h2>
 <dl class="index">
-<dt><a href="io/github/zero88/schedulerx/impl/TriggerContextFactory.html#kickoff(java.lang.String,long)" class="member-name-link">kickoff(String, long)</a> - Static method in class io.github.zero88.schedulerx.impl.<a href="io/github/zero88/schedulerx/impl/TriggerContextFactory.html" title="class in io.github.zero88.schedulerx.impl">TriggerContextFactory</a></dt>
+<dt><a href="io/github/zero88/schedulerx/impl/TriggerContextFactory.html#kickoff(java.lang.String,java.time.Instant,long)" class="member-name-link">kickoff(String, Instant, long)</a> - Static method in class io.github.zero88.schedulerx.impl.<a href="io/github/zero88/schedulerx/impl/TriggerContextFactory.html" title="class in io.github.zero88.schedulerx.impl">TriggerContextFactory</a></dt>
 <dd>
 <div class="block">Create trigger context in <a href="io/github/zero88/schedulerx/trigger/TriggerCondition.TriggerStatus.html#KICKOFF"><code>TriggerCondition.TriggerStatus.KICKOFF</code></a> state</div>
 </dd>
-<dt><a href="io/github/zero88/schedulerx/impl/TriggerContextFactory.html#kickoff(java.lang.String,long,T)" class="member-name-link">kickoff(String, long, T)</a> - Static method in class io.github.zero88.schedulerx.impl.<a href="io/github/zero88/schedulerx/impl/TriggerContextFactory.html" title="class in io.github.zero88.schedulerx.impl">TriggerContextFactory</a></dt>
+<dt><a href="io/github/zero88/schedulerx/impl/TriggerContextFactory.html#kickoff(java.lang.String,java.time.Instant,long,T)" class="member-name-link">kickoff(String, Instant, long, T)</a> - Static method in class io.github.zero88.schedulerx.impl.<a href="io/github/zero88/schedulerx/impl/TriggerContextFactory.html" title="class in io.github.zero88.schedulerx.impl">TriggerContextFactory</a></dt>
 <dd>
 <div class="block">Create trigger context in <a href="io/github/zero88/schedulerx/trigger/TriggerCondition.TriggerStatus.html#KICKOFF"><code>TriggerCondition.TriggerStatus.KICKOFF</code></a> state</div>
 </dd>
@@ -1329,6 +1331,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="io/github/zero88/schedulerx/trigger/TriggerCondition.ReasonCode.html#NOT_YET_SCHEDULED" class="member-name-link">NOT_YET_SCHEDULED</a> - Static variable in class io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/TriggerCondition.ReasonCode.html" title="class in io.github.zero88.schedulerx.trigger">TriggerCondition.ReasonCode</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/github/zero88/schedulerx/TimeClock.html#now()" class="member-name-link">now()</a> - Method in interface io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/TimeClock.html" title="interface in io.github.zero88.schedulerx">TimeClock</a></dt>
+<dd>
+<div class="block">Obtains the current instant from the system clock.</div>
+</dd>
 <dt><a href="io/github/zero88/schedulerx/trigger/CronExpression.html#nthdayOfWeek" class="member-name-link">nthdayOfWeek</a> - Variable in class io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/CronExpression.html" title="class in io.github.zero88.schedulerx.trigger">CronExpression</a></dt>
 <dd>&nbsp;</dd>
 </dl>
@@ -1830,6 +1836,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/zero88/schedulerx/trigger/TriggerContext.html#tick()" class="member-name-link">tick()</a> - Method in interface io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/github/zero88/schedulerx/TimeClock.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">TimeClock</a> - Interface in <a href="io/github/zero88/schedulerx/package-summary.html">io.github.zero88.schedulerx</a></dt>
+<dd>
+<div class="block">Represents for time clock</div>
+</dd>
 <dt><a href="io/github/zero88/schedulerx/trigger/rule/Timeframe.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger.rule">Timeframe</a>&lt;<a href="io/github/zero88/schedulerx/trigger/rule/Timeframe.html" title="type parameter in Timeframe">T</a>&gt; - Interface in <a href="io/github/zero88/schedulerx/trigger/rule/package-summary.html">io.github.zero88.schedulerx.trigger.rule</a></dt>
 <dd>
 <div class="block">A particular period of time in which a trigger can be emitted.</div>

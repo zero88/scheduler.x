@@ -117,13 +117,15 @@ loadScripts(document, 'script');</script>
 <div class="block">Transition trigger context to <a href="../trigger/TriggerCondition.TriggerStatus.html#EXECUTED"><code>TriggerCondition.TriggerStatus.EXECUTED</code></a> state.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#kickoff(java.lang.String,long)" class="member-name-link">kickoff</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;triggerType,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#kickoff(java.lang.String,java.time.Instant,long)" class="member-name-link">kickoff</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;triggerType,
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;firedAt,
  long&nbsp;tick)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Create trigger context in <a href="../trigger/TriggerCondition.TriggerStatus.html#KICKOFF"><code>TriggerCondition.TriggerStatus.KICKOFF</code></a> state</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T&gt;&nbsp;@NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#kickoff(java.lang.String,long,T)" class="member-name-link">kickoff</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;triggerType,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#kickoff(java.lang.String,java.time.Instant,long,T)" class="member-name-link">kickoff</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;triggerType,
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;firedAt,
  long&nbsp;tick,
  T&nbsp;info)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
@@ -240,26 +242,31 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="kickoff(java.lang.String,long)">
+<section class="detail" id="kickoff(java.lang.String,java.time.Instant,long)">
 <h3>kickoff</h3>
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></span>&nbsp;<span class="element-name">kickoff</span><wbr><span class="parameters">(@NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;triggerType,
+ @NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;firedAt,
  long&nbsp;tick)</span></div>
 <div class="block">Create trigger context in <a href="../trigger/TriggerCondition.TriggerStatus.html#KICKOFF"><code>TriggerCondition.TriggerStatus.KICKOFF</code></a> state</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>triggerType</code> - the trigger type</dd>
+<dd><code>firedAt</code> - the fired at</dd>
 <dd><code>tick</code> - the tick</dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="kickoff(java.lang.String,long,T)">
-<h3 id="kickoff(java.lang.String,long,java.lang.Object)">kickoff</h3>
+<section class="detail" id="kickoff(java.lang.String,java.time.Instant,long,T)">
+<h3 id="kickoff(java.lang.String,java.time.Instant,long,java.lang.Object)">kickoff</h3>
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type">@NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></span>&nbsp;<span class="element-name">kickoff</span><wbr><span class="parameters">(@NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;triggerType,
+ @NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;firedAt,
  long&nbsp;tick,
  @Nullable
  T&nbsp;info)</span></div>
@@ -267,6 +274,7 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>triggerType</code> - the trigger type</dd>
+<dd><code>firedAt</code> - the fired at</dd>
 <dd><code>tick</code> - the tick</dd>
 <dd><code>info</code> - the trigger context info</dd>
 </dl>
