@@ -129,7 +129,8 @@ implements <a href="../trigger/TriggerEvaluator.html" title="interface in io.git
  @NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a>&nbsp;triggerContext,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;externalId)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Verify if the trigger can run before each execution round is started.</div>
+<div class="block">Verify if the trigger can run before each execution round is started, then transition the trigger context to a
+ desired state from <code>KICKOFF</code> to <code>READY</code> or <code>MISFIRE</code>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../trigger/TriggerEvaluator.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerEvaluator</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#init(io.github.zero88.schedulerx.trigger.BeforeTriggerEvaluator,io.github.zero88.schedulerx.trigger.AfterTriggerEvaluator)" class="member-name-link">init</a><wbr>(<a href="../trigger/BeforeTriggerEvaluator.html" title="interface in io.github.zero88.schedulerx.trigger">BeforeTriggerEvaluator</a>&nbsp;beforeEvaluator,
@@ -195,7 +196,11 @@ implements <a href="../trigger/TriggerEvaluator.html" title="interface in io.git
  @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;externalId)</span></div>
 <div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../trigger/BeforeTriggerEvaluator.html#beforeTrigger(io.github.zero88.schedulerx.trigger.Trigger,io.github.zero88.schedulerx.trigger.TriggerContext,java.lang.Object)">BeforeTriggerEvaluator</a></code></span></div>
-<div class="block">Verify if the trigger can run before each execution round is started.</div>
+<div class="block">Verify if the trigger can run before each execution round is started, then transition the trigger context to a
+ desired state from <code>KICKOFF</code> to <code>READY</code> or <code>MISFIRE</code>.
+ <p/>
+ Only final state is <code>READY</code>, the trigger will be scheduled to execute, other states will emit a trigger
+ misfire event.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../trigger/BeforeTriggerEvaluator.html#beforeTrigger(io.github.zero88.schedulerx.trigger.Trigger,io.github.zero88.schedulerx.trigger.TriggerContext,java.lang.Object)">beforeTrigger</a></code>&nbsp;in interface&nbsp;<code><a href="../trigger/BeforeTriggerEvaluator.html" title="interface in io.github.zero88.schedulerx.trigger">BeforeTriggerEvaluator</a></code></dd>
@@ -204,7 +209,7 @@ implements <a href="../trigger/TriggerEvaluator.html" title="interface in io.git
 <dd><code>triggerContext</code> - the trigger context</dd>
 <dd><code>externalId</code> - the job external id</dd>
 <dt>Returns:</dt>
-<dd>a future of the trigger context that is evaluated</dd>
+<dd>a future of the transition trigger context that is evaluated</dd>
 </dl>
 </section>
 </li>

@@ -132,7 +132,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/zero88/schedulerx/trigger/BeforeTriggerEvaluator.html#beforeTrigger(io.github.zero88.schedulerx.trigger.Trigger,io.github.zero88.schedulerx.trigger.TriggerContext,java.lang.Object)" class="member-name-link">beforeTrigger(Trigger, TriggerContext, Object)</a> - Method in interface io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/BeforeTriggerEvaluator.html" title="interface in io.github.zero88.schedulerx.trigger">BeforeTriggerEvaluator</a></dt>
 <dd>
-<div class="block">Verify if the trigger can run before each execution round is started.</div>
+<div class="block">Verify if the trigger can run before each execution round is started, then transition the trigger context to a
+ desired state from <code>KICKOFF</code> to <code>READY</code> or <code>MISFIRE</code>.</div>
 </dd>
 <dt><a href="io/github/zero88/schedulerx/trigger/BeforeTriggerEvaluator.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">BeforeTriggerEvaluator</a> - Interface in <a href="io/github/zero88/schedulerx/trigger/package-summary.html">io.github.zero88.schedulerx.trigger</a></dt>
 <dd>
@@ -1068,6 +1069,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/github/zero88/schedulerx/trigger/EventTrigger.html#isLocalOnly()" class="member-name-link">isLocalOnly()</a> - Method in interface io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/EventTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">EventTrigger</a></dt>
 <dd>
 <div class="block">Declares a flag to check whether the event trigger listens to the event from the cluster or only local.</div>
+</dd>
+<dt><a href="io/github/zero88/schedulerx/trigger/TriggerContext.html#isReadiness()" class="member-name-link">isReadiness()</a> - Method in interface io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></dt>
+<dd>
+<div class="block">Check whether the trigger is in kick-off state or ready</div>
 </dd>
 <dt><a href="io/github/zero88/schedulerx/trigger/TriggerContext.html#isReady()" class="member-name-link">isReady()</a> - Method in interface io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></dt>
 <dd>

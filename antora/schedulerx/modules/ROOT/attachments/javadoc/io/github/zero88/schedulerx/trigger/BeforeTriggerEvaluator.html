@@ -111,7 +111,8 @@ loadScripts(document, 'script');</script>
  @NotNull <a href="TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a>&nbsp;triggerContext,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;externalId)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Verify if the trigger can run before each execution round is started.</div>
+<div class="block">Verify if the trigger can run before each execution round is started, then transition the trigger context to a
+ desired state from <code>KICKOFF</code> to <code>READY</code> or <code>MISFIRE</code>.</div>
 </div>
 </div>
 </div>
@@ -137,14 +138,21 @@ loadScripts(document, 'script');</script>
  @NotNull <a href="TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a>&nbsp;triggerContext,
  @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;externalId)</span></div>
-<div class="block">Verify if the trigger can run before each execution round is started.</div>
+<div class="block">Verify if the trigger can run before each execution round is started, then transition the trigger context to a
+ desired state from <code>KICKOFF</code> to <code>READY</code> or <code>MISFIRE</code>.
+ <p/>
+ Only final state is <code>READY</code>, the trigger will be scheduled to execute, other states will emit a trigger
+ misfire event.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>trigger</code> - the trigger</dd>
 <dd><code>triggerContext</code> - the trigger context</dd>
 <dd><code>externalId</code> - the job external id</dd>
 <dt>Returns:</dt>
-<dd>a future of the trigger context that is evaluated</dd>
+<dd>a future of the transition trigger context that is evaluated</dd>
+<dt>Implementation Note:</dt>
+<dd>If the <code>triggerContext</code> has status <a href="TriggerContext.html#isReadiness()"><code>TriggerContext.isReadiness()</code></a> is <code>false</code>,
+     the evaluation operation is stopped immediately, means the follow evaluators will not be invoked.</dd>
 </dl>
 </section>
 </li>

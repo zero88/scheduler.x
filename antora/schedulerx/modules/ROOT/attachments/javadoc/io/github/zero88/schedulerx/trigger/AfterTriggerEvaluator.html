@@ -148,6 +148,9 @@ loadScripts(document, 'script');</script>
 <dd><code>round</code> - the current execution round</dd>
 <dt>Since:</dt>
 <dd>2.0.0</dd>
+<dt>Implementation Note:</dt>
+<dd>Once <code>triggerContext</code> status <a href="TriggerContext.html#isStopped()"><code>TriggerContext.isStopped()</code></a> is <code>true</code>, the
+     evaluation operation is stopped immediately, means the follow evaluators will not be invoked.</dd>
 </dl>
 </section>
 </li>
