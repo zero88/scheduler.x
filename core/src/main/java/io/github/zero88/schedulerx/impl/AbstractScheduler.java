@@ -28,7 +28,6 @@ import io.github.zero88.schedulerx.TimeoutPolicy;
 import io.github.zero88.schedulerx.WorkerExecutorFactory;
 import io.github.zero88.schedulerx.trigger.Trigger;
 import io.github.zero88.schedulerx.trigger.TriggerCondition.ReasonCode;
-import io.github.zero88.schedulerx.trigger.TriggerCondition.TriggerStatus;
 import io.github.zero88.schedulerx.trigger.TriggerContext;
 import io.github.zero88.schedulerx.trigger.TriggerEvaluator;
 import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
@@ -251,8 +250,8 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
     protected final Future<TriggerContext> onEvaluationBeforeTrigger(WorkerExecutor worker, TriggerContext ctx) {
         return executeBlocking(worker, p -> {
             log(Instant.now(), "On before trigger");
-            this.wrapTimeout(timeoutPolicy().evaluationTimeout(), p)
-                .handle(evaluator.beforeTrigger(trigger, ctx, jobData.externalId()));
+            wrapTimeout(timeoutPolicy().evaluationTimeout(), p).handle(
+                evaluator.beforeTrigger(trigger, ctx, jobData.externalId()));
         });
     }
 
@@ -373,10 +372,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger> implements S
         @Override
         protected Future<TriggerContext> internalBeforeTrigger(@NotNull Trigger trigger, @NotNull TriggerContext ctx,
                                                                @Nullable Object externalId) {
-            if (!ctx.isKickoff()) {
-                throw new IllegalStateException("Trigger condition status must be " + TriggerStatus.KICKOFF);
-            }
-            return Future.succeededFuture(doCheck(ctx));
+            return Future.succeededFuture(ctx.isKickoff() ? doCheck(ctx) : ctx);
         }
 
         @NotNull

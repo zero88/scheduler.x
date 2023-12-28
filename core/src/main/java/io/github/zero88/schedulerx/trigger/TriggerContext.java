@@ -62,6 +62,11 @@ public interface TriggerContext extends HasTriggerType {
     default boolean isReady() { return TriggerStatus.READY == condition().status(); }
 
     /**
+     * Check whether the trigger is in kick-off state or ready
+     */
+    default boolean isReadiness() { return isKickoff() || isReady(); }
+
+    /**
      * Check whether the trigger is executed or not.
      */
     default boolean isExecuted() { return TriggerStatus.EXECUTED == condition().status(); }
