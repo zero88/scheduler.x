@@ -1,12 +1,9 @@
-package io.github.zero88.schedulerx.trigger;
+package io.github.zero88.schedulerx;
 
 import org.jetbrains.annotations.NotNull;
 
-import io.github.zero88.schedulerx.Job;
-import io.github.zero88.schedulerx.JobData;
-import io.github.zero88.schedulerx.SchedulerBuilder;
-import io.github.zero88.schedulerx.SchedulingMonitor;
-import io.github.zero88.schedulerx.TimeoutPolicy;
+import io.github.zero88.schedulerx.trigger.IntervalTrigger;
+import io.github.zero88.schedulerx.trigger.TriggerEvaluator;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.codegen.annotations.GenIgnore;
 import io.vertx.codegen.annotations.VertxGen;

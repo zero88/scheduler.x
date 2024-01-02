@@ -1,4 +1,4 @@
-package io.github.zero88.schedulerx.trigger;
+package io.github.zero88.schedulerx;
 
 import java.util.function.Consumer;
 
@@ -6,10 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import io.github.zero88.schedulerx.ExecutionResult;
-import io.github.zero88.schedulerx.Job;
-import io.github.zero88.schedulerx.NoopJob;
-import io.github.zero88.schedulerx.SchedulingAsserter;
+import io.github.zero88.schedulerx.trigger.CronTrigger;
 import io.vertx.core.Vertx;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;

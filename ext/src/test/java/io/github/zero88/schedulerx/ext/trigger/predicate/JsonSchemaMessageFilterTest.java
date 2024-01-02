@@ -8,11 +8,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import io.github.zero88.schedulerx.EventScheduler;
 import io.github.zero88.schedulerx.ExecutionResult;
 import io.github.zero88.schedulerx.NoopJob;
 import io.github.zero88.schedulerx.SchedulingAsserter;
 import io.github.zero88.schedulerx.SchedulingMonitor;
-import io.github.zero88.schedulerx.trigger.EventScheduler;
 import io.github.zero88.schedulerx.trigger.EventTrigger;
 import io.github.zero88.schedulerx.trigger.predicate.AutoCastMessageBody;
 import io.github.zero88.schedulerx.trigger.predicate.EventTriggerPredicate;

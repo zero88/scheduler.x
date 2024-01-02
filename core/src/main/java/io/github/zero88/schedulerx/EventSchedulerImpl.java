@@ -1,4 +1,4 @@
-package io.github.zero88.schedulerx.trigger;
+package io.github.zero88.schedulerx;
 
 import static io.github.zero88.schedulerx.impl.Utils.brackets;
 
@@ -7,16 +7,15 @@ import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import io.github.zero88.schedulerx.Job;
-import io.github.zero88.schedulerx.JobData;
-import io.github.zero88.schedulerx.SchedulingMonitor;
-import io.github.zero88.schedulerx.TimeClock;
-import io.github.zero88.schedulerx.TimeoutPolicy;
 import io.github.zero88.schedulerx.impl.AbstractScheduler;
 import io.github.zero88.schedulerx.impl.AbstractSchedulerBuilder;
 import io.github.zero88.schedulerx.impl.DefaultTriggerEvaluator;
 import io.github.zero88.schedulerx.impl.TriggerContextFactory;
+import io.github.zero88.schedulerx.trigger.EventTrigger;
+import io.github.zero88.schedulerx.trigger.Trigger;
 import io.github.zero88.schedulerx.trigger.TriggerCondition.ReasonCode;
+import io.github.zero88.schedulerx.trigger.TriggerContext;
+import io.github.zero88.schedulerx.trigger.TriggerEvaluator;
 import io.github.zero88.schedulerx.trigger.predicate.EventTriggerPredicate.EventTriggerPredicateException;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;

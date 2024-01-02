@@ -1,4 +1,4 @@
-package io.github.zero88.schedulerx.trigger;
+package io.github.zero88.schedulerx;
 
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -15,12 +15,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import io.github.zero88.schedulerx.ExecutionResult;
-import io.github.zero88.schedulerx.Job;
-import io.github.zero88.schedulerx.NoopJob;
-import io.github.zero88.schedulerx.SchedulingAsserter;
-import io.github.zero88.schedulerx.SchedulingMonitor;
-import io.github.zero88.schedulerx.TestUtils;
+import io.github.zero88.schedulerx.trigger.IntervalTrigger;
 import io.vertx.core.Vertx;
 import io.vertx.core.WorkerExecutor;
 import io.vertx.junit5.Checkpoint;

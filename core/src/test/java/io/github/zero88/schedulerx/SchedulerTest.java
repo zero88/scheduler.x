@@ -15,11 +15,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import io.github.zero88.schedulerx.trigger.CronScheduler;
 import io.github.zero88.schedulerx.trigger.CronTrigger;
-import io.github.zero88.schedulerx.trigger.EventScheduler;
 import io.github.zero88.schedulerx.trigger.EventTrigger;
-import io.github.zero88.schedulerx.trigger.IntervalScheduler;
 import io.github.zero88.schedulerx.trigger.IntervalTrigger;
 import io.github.zero88.schedulerx.trigger.TriggerEvaluator;
 import io.github.zero88.schedulerx.trigger.predicate.EventTriggerPredicate;
