@@ -1,4 +1,4 @@
-package io.github.zero88.schedulerx.ext.trigger.predicate;
+package io.github.zero88.schedulerx.trigger.predicate.jsonschema;
 
 import java.util.function.Supplier;
 

@@ -1,4 +1,4 @@
-package io.github.zero88.schedulerx.ext.trigger.predicate;
+package io.github.zero88.schedulerx.trigger.predicate.jsonschema;
 
 import java.util.Map;
 import java.util.Objects;
@@ -6,8 +6,8 @@ import java.util.Objects;
 import org.jetbrains.annotations.ApiStatus.Experimental;
 import org.jetbrains.annotations.NotNull;
 
-import io.github.zero88.schedulerx.trigger.predicate.EventTriggerExtensionPredicate.MessageExtensionFilter;
 import io.github.zero88.schedulerx.trigger.predicate.EventTriggerPredicate.EventTriggerPredicateException;
+import io.github.zero88.schedulerx.trigger.predicate.EventTriggerExtensionPredicate.MessageExtensionFilter;
 import io.vertx.core.json.JsonObject;
 import io.vertx.json.schema.JsonSchema;
 import io.vertx.json.schema.JsonSchemaOptions;
