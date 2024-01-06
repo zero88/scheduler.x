@@ -1,37 +1,19 @@
-= Bean.x
+= What scheduler.x helps
+:navtitle: What it helps
 zero88
 
-The project template
+A `lightweight plugable scheduler` based on plain https://vertx.io/[Vert.x] core without any external libs for scheduling with _cron-style_ and _interval_ timers with a detail _monitor_ on both sync and async job.
 
-== Installation
+== Overview
 
-`Maven` (in your `pom.xml`):
-
-[source,xml,subs="attributes,verbatim"]
-----
-<dependencies>
-    <dependency>
-        <groupId>{project-group}</groupId>
-        <artifactId>{project-name}</artifactId>
-        <version>{project-version}</version>
-    </dependency>
-</dependencies>
-----
-
-`Gradle` (in your `build.gradle`):
-
-[source,groovy,subs="attributes,verbatim"]
-----
-dependencies {
-    api '{project-group}:{project-name}:{project-version}'
-}
-----
-
-`Gradle` (in your `build.gradle.kts`):
-
-[source,groovy,subs="attributes,verbatim"]
-----
-dependencies {
-  api("{project-group}:{project-name}:{project-version}")
-}
-----
+* `Scheduling` with:
+** `cron-style` based on http://www.quartz-scheduler.org/[Quartz] - `Unix` cron expression and `timezone` available
+on `JVM`
+** `interval` with given `time interval`, given `initial delay time` and `repeating` a given number of times or
+repeating infinitely
+* able to `cancel` schedule event
+* Support `synchronize` job and `async` job
+* Run on `vertx-worker-thread` or dedicated `vertx thread-pool`
+* Monitor `executor event` includes `fire counting`, `fired round`, `event time`, `job result data`, `job error` on
+your need such as `on schedule`, `on misfire`, `on each round`, `on completed`, etc…
+* Easy customize your `job` such as `HTTP client job`, `EventBus job`, `MQTT client job`, `database job`, etc…

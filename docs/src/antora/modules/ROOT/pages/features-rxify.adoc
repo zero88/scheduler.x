@@ -1,0 +1,93 @@
+= Rxify version
+
+Wanna use #schedulerx with #reactivex on #vertx...
+
+Stay tuned, one more step
+
+`scheduler.x` supports out of the box almost reactive version that officially supports by https://vertx.io/docs/#reactive[Vert.x]
+
+- [x] https://vertx.io/docs/vertx-rx/java3/[Vert.x RxJava3]
+- [x] https://smallrye.io/smallrye-mutiny/[Vert.x Mutiny]
+
+== Dependencies setup
+
+To use `scheduler.x API` with reactive version, add the following dependency to the dependencies section of your build descriptor:
+
+=== Maven
+
+In your `pom.xml`
+
+[source,xml,subs="attributes,verbatim"]
+----
+<dependencies>
+    <dependency>
+       <groupId>io.vertx</groupId>
+       <artifactId>vertx-rx-java3</artifactId>                     <1>
+       <version>{vertx-version}</version>
+    </dependency>
+    <dependency>
+       <groupId>io.smallrye.reactive</groupId>
+       <artifactId>smallrye-mutiny-vertx-core</artifactId>         <2>
+       <version>{mutiny-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.github.zero88</groupId>
+      <artifactId>jooqx</artifactId>
+      <version>{jooqx-version}</version>
+    </dependency>
+</dependencies>
+----
+<1> For using `Rx3` version
+<2> For using `mutiny` version
+
+=== Gradle
+
+`Gradle` (in your `build.gradle`):
+
+[source,groovy,subs="attributes,verbatim"]
+----
+dependencies {
+    api 'io.vertx:vertx-core:{vertx-version}'
+    api '{project-group}:{project-name}:{project-version}'
+    // with rx3
+    api 'io.vertx:vertx-rx-java3:{vertx-version}'                               <1>
+    // or with mutiny
+    api 'io.smallrye.reactive:smallrye-mutiny-vertx-core:{mutiny-version}'      <2>
+    // other your libs...
+}
+----
+<1> For using `Rx3` version
+<2> For using `mutiny` version
+
+`Gradle` (in your `build.gradle.kts`):
+
+[source,kotlin,subs="attributes,verbatim"]
+----
+dependencies {
+  api("io.vertx:vertx-core:{vertx-version}")
+  api("{project-group}:{project-name}:{project-version}")
+  // with rx3
+  api("io.vertx:vertx-rx-java3:{vertx-version}")                                <1>
+  // or with mutiny
+  api("io.smallrye.reactive:smallrye-mutiny-vertx-core:{mutiny-version}")       <2>
+  // other your libs...
+}
+----
+<1> For using `Rx3` version
+<2> For using `mutiny` version
+
+Well done, now you can enjoy `Rxify` version with a little effort
+
+== Examples
+
+=== `Rx3` - By `schedulerx` instance
+
+include::partial$features-rxify.adoc[tag=rx3]
+
+=== `Rx3` - By `schedulerx` builder
+
+include::partial$features-rxify.adoc[tag=rx3Builder]
+
+=== `Mutiny` - By `schedulerx` builder
+
+include::partial$features-rxify.adoc[tag=mutinyBuilder]

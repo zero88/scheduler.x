@@ -1,0 +1,6 @@
+= Scheduler.x API Reference
+:navtitle: API Reference
+
+Provides a straightforward API focusing on scalability and low overhead to create and run a time-based scheduler that relies on `Vert.x` timer or an event-based scheduler that relies on `Vert.x` eventbus.
+
+include::partial$nav-api-reference.adoc[]
