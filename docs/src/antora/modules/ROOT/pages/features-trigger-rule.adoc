@@ -1,1 +1,3 @@
 = Trigger rule
+
+An advanced trigger configuration to exclude the blocks of time from the trigger's firing schedule.

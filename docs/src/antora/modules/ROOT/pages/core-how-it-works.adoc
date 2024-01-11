@@ -1,2 +1,23 @@
 = How Scheduler.x works
 :navtitle: How it works
+
+== Terminology
+
+These are key interfaces of `scheduler.x`:
+
+* `Scheduler`: An interface combines `Trigger` and `Job` to run the scheduling and manage its lifecycle.
+* `Trigger`: A component defines the schedule upon which a given `Job` will be executed.
+* `Job`: A place that does your business that you wish to have executed by the scheduler.
+* `JobData`: A holder keeps the initial input data, such as job identity/trigger identity and/or any static/configuration value that helps your job run smoothly in the execution time.
+* `SchedulingMonitor`: A monitor watches lifecycle events in the scheduler, which is used to distribute the execution result per each scheduled fire time.
+* `ExecutionResult`: A result contains the information on each of the `scheduler` lifecycle events.
+
+The `scheduler` lifecycle event is one of:
+
+* The trigger is unable to schedule in `scheduler.x` system.
+* The trigger is scheduled in `scheduler.x` system.
+* The trigger is misfires per each scheduled fire time for some reason.
+* The trigger is run successfully per each scheduled fire time and the job execution is done regardless its result is a success or failure.
+* The trigger is completed, which means no more scheduled fire time in the future.
+
+== Flow

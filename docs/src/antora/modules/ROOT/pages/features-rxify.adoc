@@ -1,6 +1,6 @@
-= Rxify version
+= Rxfified version
 
-Wanna use #schedulerx with #reactivex on #vertx...
+Wanna use #schedulerx with https://reactivex.io/[#reactivex] or https://smallrye.io/smallrye-mutiny[#mutiny] on #vertx...
 
 Stay tuned, one more step
 
