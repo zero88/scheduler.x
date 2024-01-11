@@ -132,6 +132,8 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger>
         }
     }
 
+    public final void start() { start(null); }
+
     @Override
     public final void start(WorkerExecutor workerExecutor) {
         lock.lock();

@@ -13,10 +13,11 @@ import io.vertx.core.json.JsonObject;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
- * Represents for inspecting settings specific to a CronTrigger.
+ * Represents for inspecting settings specific to an Event trigger.
  * <p/>
  * An event trigger is a schedule that runs on receiving a specific event from a {@code Vert.x event-bus} distributed
- * messaging system, in short it acts as a consumer in
+ * messaging system, in short it acts as one of subscriber in publish/subscribe (pub/sub) pattern or a message consumer
+ * in Producer-Consumer pattern.
  *
  * @param <T> Type of event message
  * @since 2.0.0

@@ -30,7 +30,7 @@ public interface IntervalScheduler extends Scheduler<IntervalTrigger> {
     @NotNull IntervalTrigger trigger();
 
     @Override
-    default void start() { start(null); }
+    void start();
 
     @Override
     void start(WorkerExecutor workerExecutor);

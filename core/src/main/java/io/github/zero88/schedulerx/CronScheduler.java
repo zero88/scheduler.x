@@ -30,7 +30,7 @@ public interface CronScheduler extends Scheduler<CronTrigger> {
     @NotNull CronTrigger trigger();
 
     @Override
-    default void start() { start(null); }
+    void start();
 
     @Override
     void start(WorkerExecutor workerExecutor);
