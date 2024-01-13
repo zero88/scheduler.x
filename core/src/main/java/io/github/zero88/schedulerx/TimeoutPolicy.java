@@ -59,12 +59,12 @@ public final class TimeoutPolicy {
             }
             return duration;
         };
-        return new TimeoutPolicy(check.apply(evaluationTimeout, DefaultOptions.getInstance().maxEvaluationTimeout),
-                                 check.apply(executionTimeout, DefaultOptions.getInstance().maxExecutionTimeout));
+        return new TimeoutPolicy(check.apply(evaluationTimeout, DefaultOptions.getInstance().evaluationMaxTimeout),
+                                 check.apply(executionTimeout, DefaultOptions.getInstance().executionMaxTimeout));
     }
 
     /**
-     * Declares the trigger evaluation timeout. Default is {@link DefaultOptions#maxEvaluationTimeout}
+     * Declares the trigger evaluation timeout. Default is {@link DefaultOptions#evaluationMaxTimeout}
      *
      * @return the evaluation timeout
      * @since 2.0.0
@@ -73,7 +73,7 @@ public final class TimeoutPolicy {
     public @NotNull Duration evaluationTimeout() { return evaluationTimeout; }
 
     /**
-     * Declares the execution timeout. Default is {@link DefaultOptions#maxExecutionTimeout}
+     * Declares the execution timeout. Default is {@link DefaultOptions#executionMaxTimeout}
      *
      * @return the execution timeout
      * @since 2.0.0

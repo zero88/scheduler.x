@@ -17,7 +17,7 @@ public interface WorkerExecutorFactory {
 
     static @Nullable WorkerExecutor create(@NotNull Vertx vertx, @NotNull TimeoutPolicy timeoutPolicy) {
         return WorkerExecutorFactory.create(vertx, timeoutPolicy,
-                                            DefaultOptions.getInstance().workerThreadPrefix + "-" +
+                                            DefaultOptions.getInstance().executionThreadPrefix + "-" +
                                             Utils.randomPositiveInt());
     }
 
@@ -25,7 +25,8 @@ public interface WorkerExecutorFactory {
                                            @Nullable String workerThreadName) {
         final long executionTimeout = timeoutPolicy.executionTimeout().toMillis();
         if (executionTimeout != VertxOptions.DEFAULT_MAX_WORKER_EXECUTE_TIME) {
-            return vertx.createSharedWorkerExecutor(workerThreadName, DefaultOptions.getInstance().workerThreadPoolSize,
+            return vertx.createSharedWorkerExecutor(workerThreadName,
+                                                    DefaultOptions.getInstance().executionThreadPoolSize,
                                                     executionTimeout);
         }
         return null;

@@ -2,6 +2,7 @@ package io.github.zero88.schedulerx;
 
 import java.time.Duration;
 import java.time.format.DateTimeParseException;
+import java.util.concurrent.TimeUnit;
 
 import io.github.zero88.schedulerx.impl.Utils;
 import io.github.zero88.schedulerx.trigger.Trigger;
@@ -14,12 +15,17 @@ import io.vertx.core.VertxOptions;
  */
 public final class DefaultOptions {
 
-    public static final String DEFAULT_MAX_EXECUTION_TIMEOUT = "schedulerx.default_max_execution_timeout";
-    public static final String DEFAULT_MAX_EVALUATION_TIMEOUT = "schedulerx.default_max_evaluation_timeout";
-    public static final String DEFAULT_MAX_TRIGGER_RULE_LEEWAY = "schedulerx.default_max_trigger_rule_leeway";
-    public static final String DEFAULT_MAX_TRIGGER_PREVIEW_COUNT = "schedulerx.default_max_trigger_preview_count";
-    public static final String DEFAULT_WORKER_THREAD_PREFIX = "schedulerx.default_worker_thread_prefix";
-    public static final String DEFAULT_WORKER_THREAD_POOL_SIZE = "schedulerx.default_worker_thread_pool_size";
+    public static final String PROP_EVALUATION_MAX_TIMEOUT = "schedulerx.default_evaluation_max_timeout";
+    public static final String PROP_EXECUTION_MAX_TIMEOUT = "schedulerx.default_execution_max_timeout";
+    public static final String PROP_EXECUTION_THREAD_PREFIX = "schedulerx.default_execution_thread_prefix";
+    public static final String PROP_EXECUTION_THREAD_POOL_SIZE = "schedulerx.default_execution_thread_pool_size";
+
+    public static final String PROP_MONITOR_MAX_TIMEOUT = "schedulerx.default_monitor_max_timeout";
+    public static final String PROP_MONITOR_THREAD_PREFIX = "schedulerx.default_monitor_thread_prefix";
+    public static final String PROP_MONITOR_THREAD_POOL_SIZE = "schedulerx.default_monitor_thread_pool_size";
+
+    public static final String PROP_TRIGGER_RULE_PROP_MAX_LEEWAY = "schedulerx.default_trigger_rule_max_leeway";
+    public static final String PROP_TRIGGER_PREVIEW_MAX_COUNT = "schedulerx.default_trigger_preview_max_count";
 
 
     private static class Holder {
@@ -35,95 +41,103 @@ public final class DefaultOptions {
     /**
      * Declares the default max execution timeout. Defaults is {@link VertxOptions#DEFAULT_MAX_WORKER_EXECUTE_TIME}
      *
-     * @apiNote It can be overridden by system property with key {@link #DEFAULT_MAX_EXECUTION_TIMEOUT}
+     * @apiNote It can be overridden by system property with key {@link #PROP_EXECUTION_MAX_TIMEOUT}
      */
-    public final Duration maxExecutionTimeout;
+    public final Duration executionMaxTimeout;
+
     /**
      * Declares the default max trigger evaluation timeout. Defaults is
      * {@link VertxOptions#DEFAULT_MAX_EVENT_LOOP_EXECUTE_TIME}
      *
-     * @apiNote It can be overridden by system property with key {@link #DEFAULT_MAX_EVALUATION_TIMEOUT}
+     * @apiNote It can be overridden by system property with key {@link #PROP_EVALUATION_MAX_TIMEOUT}
      */
-    public final Duration maxEvaluationTimeout;
+    public final Duration evaluationMaxTimeout;
+
     /**
      * Declares the default max trigger rule leeway time. Defaults is {@code 10 seconds}.
      *
-     * @apiNote It can be overridden by system property with key {@link #DEFAULT_MAX_TRIGGER_RULE_LEEWAY}
+     * @apiNote It can be overridden by system property with key {@link #PROP_TRIGGER_RULE_PROP_MAX_LEEWAY}
      */
-    public final Duration maxTriggerRuleLeeway;
+    public final Duration triggerRuleMaxLeeway;
+
     /**
      * Declares the default max number of the trigger preview items. Defaults is {@code 30}.
      *
-     * @apiNote It can be overridden by system property with key {@link #DEFAULT_MAX_TRIGGER_PREVIEW_COUNT}
+     * @apiNote It can be overridden by system property with key {@link #PROP_TRIGGER_PREVIEW_MAX_COUNT}
      */
-    public final int maxTriggerPreviewCount;
+    public final int triggerPreviewMaxCount;
 
     /**
-     * Declares the default worker thread name prefix. Defaults is {@code scheduler.x-worker-thread}.
+     * Declares the default worker thread name prefix for the execution operation. Defaults is
+     * {@code scheduler.x-worker-thread}.
      *
-     * @apiNote It can be overridden by system property with key {@link #DEFAULT_WORKER_THREAD_PREFIX}
+     * @apiNote It can be overridden by system property with key {@link #PROP_EXECUTION_THREAD_PREFIX}
      */
-    public final String workerThreadPrefix;
+    public final String executionThreadPrefix;
 
     /**
-     * Declares the default worker thread pool size. Defaults is {@code 3}.
+     * Declares the default worker thread pool size for the execution operation. Defaults is {@code 5}.
      *
-     * @apiNote It can be overridden by system property with key {@link #DEFAULT_WORKER_THREAD_POOL_SIZE}
+     * @apiNote It can be overridden by system property with key {@link #PROP_EXECUTION_THREAD_POOL_SIZE}
      */
-    public final int workerThreadPoolSize;
+    public final int executionThreadPoolSize;
+
+    /**
+     * Declares the default max scheduling monitor timeout. Defaults is
+     * {@link VertxOptions#DEFAULT_MAX_EVENT_LOOP_EXECUTE_TIME}
+     *
+     * @apiNote It can be overridden by system property with key {@link #PROP_MONITOR_MAX_TIMEOUT}
+     */
+    public final Duration monitorMaxTimeout;
+
+    /**
+     * Declares the default worker thread name prefix for the monitor operation. Defaults is
+     * {@code scheduler.x-monitor-thread}.
+     *
+     * @apiNote It can be overridden by system property with key {@link #PROP_MONITOR_THREAD_PREFIX}
+     */
+    public final String monitorThreadPrefix;
+
+    /**
+     * Declares the default worker thread pool size for the monitor operation. Defaults is {@code 3}.
+     *
+     * @apiNote It can be overridden by system property with key {@link #PROP_MONITOR_THREAD_POOL_SIZE}
+     */
+    public final int monitorThreadPoolSize;
 
     DefaultOptions() {
-        this.maxExecutionTimeout    = loadMaxExecutionTimeout();
-        this.maxEvaluationTimeout   = loadMaxEvaluationTimeout();
-        this.maxTriggerRuleLeeway   = loadTriggerRuleLeeway();
-        this.maxTriggerPreviewCount = loadTriggerPreviewCount();
-        this.workerThreadPrefix     = loadWorkerThreadPrefix();
-        this.workerThreadPoolSize   = loadWorkerThreadPoolSize();
+        this.triggerRuleMaxLeeway   = loadDuration(PROP_TRIGGER_RULE_PROP_MAX_LEEWAY, 10, TimeUnit.SECONDS);
+        this.triggerPreviewMaxCount = loadInteger(PROP_TRIGGER_PREVIEW_MAX_COUNT, 30);
+
+        this.executionThreadPrefix   = System.getProperty(PROP_EXECUTION_THREAD_PREFIX, "scheduler.x-worker-thread");
+        this.executionThreadPoolSize = loadInteger(PROP_EXECUTION_THREAD_POOL_SIZE, 5);
+        this.executionMaxTimeout     = loadDuration(PROP_EXECUTION_MAX_TIMEOUT,
+                                                    VertxOptions.DEFAULT_MAX_WORKER_EXECUTE_TIME,
+                                                    VertxOptions.DEFAULT_MAX_WORKER_EXECUTE_TIME_UNIT);
+        this.evaluationMaxTimeout    = loadDuration(PROP_EVALUATION_MAX_TIMEOUT,
+                                                    VertxOptions.DEFAULT_MAX_EVENT_LOOP_EXECUTE_TIME,
+                                                    VertxOptions.DEFAULT_MAX_EVENT_LOOP_EXECUTE_TIME_UNIT);
+
+        this.monitorThreadPrefix   = System.getProperty(PROP_MONITOR_THREAD_PREFIX, "scheduler.x-monitor-thread");
+        this.monitorThreadPoolSize = loadInteger(PROP_MONITOR_THREAD_POOL_SIZE, 3);
+        this.monitorMaxTimeout     = loadDuration(PROP_MONITOR_MAX_TIMEOUT,
+                                                  VertxOptions.DEFAULT_MAX_EVENT_LOOP_EXECUTE_TIME,
+                                                  VertxOptions.DEFAULT_MAX_EVENT_LOOP_EXECUTE_TIME_UNIT);
     }
 
-    private static Duration loadMaxExecutionTimeout() {
+    private static Duration loadDuration(String prop, long defaultTimeout, TimeUnit defaultTimeUnit) {
         try {
-            return Duration.parse(System.getProperty(DEFAULT_MAX_EXECUTION_TIMEOUT));
+            return Duration.parse(System.getProperty(prop));
         } catch (DateTimeParseException | NullPointerException ex) {
-            return Duration.of(VertxOptions.DEFAULT_MAX_WORKER_EXECUTE_TIME,
-                               Utils.toChronoUnit(VertxOptions.DEFAULT_MAX_WORKER_EXECUTE_TIME_UNIT));
+            return Duration.of(defaultTimeout, Utils.toChronoUnit(defaultTimeUnit));
         }
     }
 
-    private static Duration loadMaxEvaluationTimeout() {
+    private static int loadInteger(String prop, int defaultValue) {
         try {
-            return Duration.parse(System.getProperty(DEFAULT_MAX_EVALUATION_TIMEOUT));
-        } catch (DateTimeParseException | NullPointerException ex) {
-            return Duration.of(VertxOptions.DEFAULT_MAX_EVENT_LOOP_EXECUTE_TIME,
-                               Utils.toChronoUnit(VertxOptions.DEFAULT_MAX_EVENT_LOOP_EXECUTE_TIME_UNIT));
-        }
-    }
-
-    private static Duration loadTriggerRuleLeeway() {
-        try {
-            return Duration.parse(System.getProperty(DEFAULT_MAX_TRIGGER_RULE_LEEWAY));
-        } catch (DateTimeParseException | NullPointerException ex) {
-            return Duration.ofSeconds(10);
-        }
-    }
-
-    private static int loadTriggerPreviewCount() {
-        try {
-            return Integer.parseInt(System.getProperty(DEFAULT_MAX_TRIGGER_PREVIEW_COUNT));
+            return Integer.parseInt(System.getProperty(prop));
         } catch (NumberFormatException | NullPointerException ex) {
-            return 30;
-        }
-    }
-
-    private static String loadWorkerThreadPrefix() {
-        return System.getProperty(DEFAULT_WORKER_THREAD_PREFIX, "scheduler.x-worker-thread");
-    }
-
-    private static int loadWorkerThreadPoolSize() {
-        try {
-            return Integer.parseInt(System.getProperty(DEFAULT_WORKER_THREAD_POOL_SIZE));
-        } catch (NumberFormatException | NullPointerException ex) {
-            return 3;
+            return defaultValue;
         }
     }
 

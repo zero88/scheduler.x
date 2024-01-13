@@ -70,7 +70,7 @@ final class TriggerRuleImpl implements TriggerRule {
         if (given.isNegative()) {
             return Duration.ZERO;
         }
-        final Duration maxLeeway = DefaultOptions.getInstance().maxTriggerRuleLeeway;
+        final Duration maxLeeway = DefaultOptions.getInstance().triggerRuleMaxLeeway;
         return given.compareTo(maxLeeway) > 0 ? maxLeeway : given;
     }
 

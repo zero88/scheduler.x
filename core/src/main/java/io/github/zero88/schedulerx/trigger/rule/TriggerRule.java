@@ -49,7 +49,7 @@ public interface TriggerRule {
      * The leeway time has constraints:
      * <ul>
      * <li>when given argument is negative, the leeway time fallback to {@link Duration#ZERO}</li>
-     * <li>when given argument is greater than {@link DefaultOptions#maxTriggerRuleLeeway}, the leeway time fallback
+     * <li>when given argument is greater than {@link DefaultOptions#triggerRuleMaxLeeway}, the leeway time fallback
      * to max default value</li>
      * </ul>
      *
