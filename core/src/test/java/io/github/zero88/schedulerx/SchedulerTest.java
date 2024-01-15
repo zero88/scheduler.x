@@ -145,6 +145,25 @@ class SchedulerTest {
     }
 
     @Test
+    void test_scheduler_should_monitor_result_in_dedicated_thread(Vertx vertx, VertxTestContext testContext) {
+        final WorkerThreadChecker c0 = WorkerThreadChecker.create(v -> null, "scheduler.x-monitor-thread-2s");
+        final SchedulingMonitor<Object> asserter = SchedulingAsserter.builder()
+                                                                     .setTestContext(testContext)
+                                                                     .setSchedule(r -> c0.doAssert())
+                                                                     .setEach(r -> c0.doAssert())
+                                                                     .setCompleted(r -> c0.doAssert())
+                                                                     .build();
+        final IntervalTrigger trigger = IntervalTrigger.builder().interval(Duration.ofSeconds(2)).repeat(2).build();
+        IntervalScheduler.builder()
+                         .setVertx(vertx)
+                         .setMonitor(asserter)
+                         .setTrigger(trigger)
+                         .setJob(NoopJob.create())
+                         .build()
+                         .start();
+    }
+
+    @Test
     void test_scheduler_should_be_timeout_in_execution(Vertx vertx, VertxTestContext testContext) {
         final Duration timeout = Duration.ofSeconds(2);
         final Duration runningTime = Duration.ofSeconds(3);
