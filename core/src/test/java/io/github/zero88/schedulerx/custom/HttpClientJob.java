@@ -17,8 +17,7 @@ public class HttpClientJob implements Job<JsonObject, JsonObject> {
     public boolean isAsync() { return true; }
 
     @Override
-    public void execute(@NotNull JobData<JsonObject> jobData,
-                        @NotNull ExecutionContext<JsonObject> executionContext) {
+    public void execute(@NotNull JobData<JsonObject> jobData, @NotNull ExecutionContext<JsonObject> executionContext) {
         doExecute(executionContext.vertx(), jobData).onSuccess(executionContext::complete)
                                                     .onFailure(executionContext::fail);
     }

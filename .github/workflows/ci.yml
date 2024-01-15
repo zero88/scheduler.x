@@ -84,6 +84,7 @@ jobs:
       profile: 'ciSonar'
       semanticVersion: ${{ needs.context.outputs.semanticVersion }}
       branch: ${{ needs.context.outputs.branch }}
+      javaVersion: '17'
     secrets:
       githubToken: ${{ secrets.OSS_GITHUB_TOKEN }}
       sonarToken: ${{ secrets.OSS_SONARQUBE_TOKEN }}

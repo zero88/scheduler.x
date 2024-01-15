@@ -54,10 +54,10 @@ public final class PreviewParameter {
     }
 
     /**
-     * @return the number of a preview item, maximum is {@link DefaultOptions#maxTriggerPreviewCount}
+     * @return the number of a preview item, maximum is {@link DefaultOptions#triggerPreviewMaxCount}
      */
     public int getTimes() {
-        return Math.max(1, Math.min(times, DefaultOptions.getInstance().maxTriggerPreviewCount));
+        return Math.max(1, Math.min(times, DefaultOptions.getInstance().triggerPreviewMaxCount));
     }
 
     /**

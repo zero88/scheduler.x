@@ -24,7 +24,6 @@ import io.github.zero88.schedulerx.JobExecutor;
 import io.github.zero88.schedulerx.JobExecutorConfig;
 import io.github.zero88.schedulerx.Scheduler;
 import io.github.zero88.schedulerx.SchedulerConfig;
-import io.github.zero88.schedulerx.SchedulingLogMonitor;
 import io.github.zero88.schedulerx.SchedulingMonitor;
 import io.github.zero88.schedulerx.TimeClock;
 import io.github.zero88.schedulerx.TimeoutBlock;
@@ -58,7 +57,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger>
 
     private final @NotNull Vertx vertx;
     private final @NotNull SchedulerStateInternal<OUT> state;
-    private final @NotNull SchedulingMonitor<OUT> monitor;
+    private final @NotNull SchedulingMonitorInternal<OUT> monitor;
     private final @NotNull JobData<IN> jobData;
     private final @NotNull Job<IN, OUT> job;
     private final @NotNull T trigger;
@@ -74,13 +73,13 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger>
                                 JobData<IN> jobData, TimeoutPolicy timeoutPolicy, T trigger,
                                 TriggerEvaluator evaluator) {
         this.vertx         = Objects.requireNonNull(vertx, "Vertx instance is required");
-        this.clock         = Optional.ofNullable(clock).orElseGet(TimeClockImpl::new);
-        this.monitor       = Optional.ofNullable(monitor).orElseGet(SchedulingLogMonitor::create);
-        this.state         = new SchedulerStateImpl<>(this.clock);
         this.job           = Objects.requireNonNull(job, "Job is required");
+        this.trigger       = Objects.requireNonNull(trigger, "Trigger is required");
+        this.clock         = Optional.ofNullable(clock).orElseGet(TimeClockImpl::new);
         this.jobData       = Optional.ofNullable(jobData).orElseGet(JobData::empty);
         this.timeoutPolicy = Optional.ofNullable(timeoutPolicy).orElseGet(TimeoutPolicy::byDefault);
-        this.trigger       = Objects.requireNonNull(trigger, "Trigger is required");
+        this.monitor       = new SchedulingMonitorImpl<>(vertx, monitor);
+        this.state         = new SchedulerStateImpl<>(this.clock);
         this.evaluator     = new InternalTriggerEvaluator(this, evaluator);
     }
 
@@ -91,7 +90,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger>
     public final @NotNull TimeClock clock() { return clock; }
 
     @Override
-    public final @NotNull SchedulingMonitor<OUT> monitor() { return monitor; }
+    public final @NotNull SchedulingMonitor<OUT> monitor() { return monitor.unwrap(); }
 
     @Override
     public final @NotNull Job<IN, OUT> job() { return job; }
@@ -132,6 +131,8 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger>
         }
     }
 
+    public final void start() { start(null); }
+
     @Override
     public final void start(WorkerExecutor workerExecutor) {
         lock.lock();
@@ -139,7 +140,9 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger>
             if (didStart) {
                 throw new IllegalStateException("The executor is already started!");
             }
-            doStart(workerExecutor == null ? WorkerExecutorFactory.create(vertx, timeoutPolicy) : workerExecutor);
+            doStart(workerExecutor == null
+                    ? WorkerExecutorFactory.createExecutionWorker(vertx, timeoutPolicy)
+                    : workerExecutor);
             didStart = true;
         } finally {
             lock.unlock();
@@ -222,7 +225,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger>
         log(executionContext.triggeredAt(), "On trigger", triggerContext.tick(), round);
         Future.join(onEvaluationAfterTrigger(workerExecutor, triggerContext, round),
                     executeBlocking(workerExecutor, p -> executeJob(executionContext.setup(wrapTimeout(timeout, p)))))
-              .onComplete(ar -> onResult(executionContext, ar.result().cause(1)));
+              .onComplete(ar -> onResult(executionContext, ar.cause()));
     }
 
     protected final void onSchedule(long timerId) {
@@ -264,8 +267,8 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger>
     protected final Future<TriggerContext> onEvaluationBeforeTrigger(WorkerExecutor worker, TriggerContext ctx) {
         return executeBlocking(worker, p -> {
             log(clock.now(), "On before trigger");
-            wrapTimeout(timeoutPolicy().evaluationTimeout(), p).handle(
-                evaluator.beforeTrigger(trigger, ctx, jobData.externalId()));
+            this.wrapTimeout(timeoutPolicy.evaluationTimeout(), p)
+                .handle(evaluator.beforeTrigger(trigger, ctx, jobData.externalId()));
         });
     }
 
@@ -273,10 +276,13 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger>
                                                                     long round) {
         return executeBlocking(worker, p -> {
             log(clock.now(), "On after trigger");
-            wrapTimeout(timeoutPolicy().evaluationTimeout(), p).handle(
-                evaluator.afterTrigger(trigger(), ctx, jobData.externalId(), round)
-                         .onSuccess(c -> doStop(state.timerId(), c))
-                         .onFailure(t -> LOGGER.error(genMsg(ctx.tick(), round, clock.now(), "After evaluate"), t)));
+            this.wrapTimeout(timeoutPolicy.evaluationTimeout(), p)
+                .handle(evaluator.afterTrigger(trigger(), ctx, jobData.externalId(), round)
+                                 .onSuccess(c -> doStop(state.timerId(), c))
+                                 .otherwise(t -> {
+                                     LOGGER.error(genMsg(ctx.tick(), round, clock.now(), "On after trigger::error"), t);
+                                     return ctx;
+                                 }));
         });
     }
 

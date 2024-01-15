@@ -146,7 +146,9 @@ public interface ExecutionResult<OUTPUT> {
      *
      * @return {@code true} if timeout error
      */
-    default boolean isTimeout() { return error() instanceof TimeoutException; }
+    default boolean isTimeout() {
+        return error() instanceof TimeoutException || triggerContext().condition().cause() instanceof TimeoutException;
+    }
 
     /**
      * Check whether the trigger is re-registered in the system timer or not after the trigger is available, only in

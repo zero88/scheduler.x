@@ -12,6 +12,7 @@ interface HasTrigger<TRIGGER extends Trigger> {
      * The trigger
      *
      * @return trigger
+     * @see Trigger
      */
     @NotNull TRIGGER trigger();
 

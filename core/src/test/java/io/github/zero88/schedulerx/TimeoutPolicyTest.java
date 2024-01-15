@@ -35,4 +35,5 @@ class TimeoutPolicyTest {
         Assertions.assertEquals(Duration.ofSeconds(2), t1.evaluationTimeout());
         Assertions.assertEquals(Duration.ofSeconds(60), t1.executionTimeout());
     }
+
 }

@@ -23,7 +23,6 @@ class PreviewParameterTest {
         Assertions.assertNotNull(parameter.getRule());
     }
 
-
     @Test
     void test_byConstructor() {
         final PreviewParameter parameter = new PreviewParameter();
