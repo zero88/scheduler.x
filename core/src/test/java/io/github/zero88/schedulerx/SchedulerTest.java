@@ -44,10 +44,10 @@ class SchedulerTest {
             Assertions.assertEquals(2, result.round());
             Assertions.assertFalse(result.isError());
         };
-        final SchedulingAsserter<Void> asserter = SchedulingAsserter.<Void>builder()
-                                                                    .setTestContext(testCtx)
-                                                                    .setCompleted(completed)
-                                                                    .build();
+        final SchedulingMonitor<Void> asserter = SchedulingAsserter.<Void>builder()
+                                                                   .setTestContext(testCtx)
+                                                                   .setCompleted(completed)
+                                                                   .build();
         final CronScheduler scheduler = CronScheduler.<Void, Void>builder()
                                                      .setVertx(vertx)
                                                      .setTrigger(trigger)
@@ -78,12 +78,12 @@ class SchedulerTest {
                 Assertions.assertSame(declaredId, result.externalId());
             }
         };
-        final SchedulingAsserter<Void> asserter = SchedulingAsserter.<Void>builder()
-                                                                    .setTestContext(ctx)
-                                                                    .setSchedule(ensureExternalIdIsSet)
-                                                                    .setEach(ensureExternalIdIsSet)
-                                                                    .setCompleted(ensureExternalIdIsSet)
-                                                                    .build();
+        final SchedulingMonitor<Void> asserter = SchedulingAsserter.<Void>builder()
+                                                                   .setTestContext(ctx)
+                                                                   .setSchedule(ensureExternalIdIsSet)
+                                                                   .setEach(ensureExternalIdIsSet)
+                                                                   .setCompleted(ensureExternalIdIsSet)
+                                                                   .build();
         final JobData<Void> jobdata = declaredId == null ? JobData.empty() : JobData.empty(declaredId);
         final IntervalTrigger trigger = IntervalTrigger.builder().interval(Duration.ofSeconds(1)).repeat(2).build();
         IntervalScheduler.<Void, Void>builder()
@@ -100,10 +100,10 @@ class SchedulerTest {
     @MethodSource("provide_threads")
     void test_scheduler_should_run_job_in_dedicated_thread(WorkerThreadChecker checker, Vertx vertx,
                                                            VertxTestContext testContext) {
-        final SchedulingAsserter<Object> asserter = SchedulingAsserter.builder()
-                                                                      .setTestContext(testContext)
-                                                                      .setEach(r -> Assertions.assertNull(r.error()))
-                                                                      .build();
+        final SchedulingMonitor<Object> asserter = SchedulingAsserter.builder()
+                                                                     .setTestContext(testContext)
+                                                                     .setEach(r -> Assertions.assertNull(r.error()))
+                                                                     .build();
         final Job<Object, Object> job = (d, ec) -> checker.doAssert();
         final IntervalTrigger trigger = IntervalTrigger.builder().interval(Duration.ofSeconds(2)).repeat(2).build();
         IntervalScheduler.builder()
@@ -127,11 +127,11 @@ class SchedulerTest {
             checker.doAssert();
             return true;
         });
-        final SchedulingAsserter<Object> asserter = SchedulingAsserter.builder()
-                                                                      .setTestContext(testContext)
-                                                                      .setEach(r -> Assertions.assertNull(r.error()))
-                                                                      .setMisfire(r -> Assertions.assertNull(r.error()))
-                                                                      .build();
+        final SchedulingMonitor<Object> asserter = SchedulingAsserter.builder()
+                                                                     .setTestContext(testContext)
+                                                                     .setEach(r -> Assertions.assertNull(r.error()))
+                                                                     .setMisfire(r -> Assertions.assertNull(r.error()))
+                                                                     .build();
         final String address = "dedicated.thread";
         EventScheduler.builder()
                       .setVertx(vertx)
@@ -172,10 +172,10 @@ class SchedulerTest {
             Assertions.assertTrue(result.isTimeout());
             Assertions.assertEquals("Timeout after 2s", result.error().getMessage());
         };
-        final SchedulingAsserter<Object> asserter = SchedulingAsserter.builder()
-                                                                      .setTestContext(testContext)
-                                                                      .setEach(timeoutAsserter)
-                                                                      .build();
+        final SchedulingMonitor<Object> asserter = SchedulingAsserter.builder()
+                                                                     .setTestContext(testContext)
+                                                                     .setEach(timeoutAsserter)
+                                                                     .build();
         final Job<Object, Object> job = (jobData, executionContext) -> TestUtils.block(runningTime, testContext);
         IntervalScheduler.builder()
                          .setVertx(vertx)
@@ -198,10 +198,10 @@ class SchedulerTest {
             Assertions.assertEquals("Timeout after 1s", condition.cause().getMessage());
             testContext.completeNow();
         };
-        final SchedulingAsserter<Object> asserter = SchedulingAsserter.builder()
-                                                                      .setTestContext(testContext)
-                                                                      .setMisfire(timeoutAsserter)
-                                                                      .build();
+        final SchedulingMonitor<Object> asserter = SchedulingAsserter.builder()
+                                                                     .setTestContext(testContext)
+                                                                     .setMisfire(timeoutAsserter)
+                                                                     .build();
         final TriggerEvaluator evaluator = TriggerEvaluator.byBefore((trigger, triggerContext, externalId) -> {
             TestUtils.block(runningTime, testContext);
             return Future.succeededFuture(triggerContext);
@@ -225,10 +225,10 @@ class SchedulerTest {
             Assertions.assertTrue(result.triggerContext().isStopped());
             Assertions.assertEquals("ForceStop", result.triggerContext().condition().reasonCode());
         };
-        final SchedulingAsserter<Object> asserter = SchedulingAsserter.builder()
-                                                                      .setTestContext(testContext)
-                                                                      .setCompleted(completed)
-                                                                      .build();
+        final SchedulingMonitor<Object> asserter = SchedulingAsserter.builder()
+                                                                     .setTestContext(testContext)
+                                                                     .setCompleted(completed)
+                                                                     .build();
         final IntervalTrigger trigger = IntervalTrigger.builder().interval(Duration.ofSeconds(1)).repeat(5).build();
         IntervalScheduler.builder()
                          .setVertx(vertx)
@@ -246,10 +246,10 @@ class SchedulerTest {
             Assertions.assertEquals(result.tick(), result.triggerContext().tick());
             Assertions.assertEquals("TriggerIsCancelled", result.triggerContext().condition().reasonCode());
         };
-        final SchedulingAsserter<Object> asserter = SchedulingAsserter.builder()
-                                                                      .setTestContext(testContext)
-                                                                      .setCompleted(onCompleted)
-                                                                      .build();
+        final SchedulingMonitor<Object> asserter = SchedulingAsserter.builder()
+                                                                     .setTestContext(testContext)
+                                                                     .setCompleted(onCompleted)
+                                                                     .build();
         final IntervalTrigger trigger = IntervalTrigger.builder().interval(Duration.ofSeconds(1)).build();
         final IntervalScheduler scheduler = IntervalScheduler.builder()
                                                              .setVertx(vertx)

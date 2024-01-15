@@ -66,10 +66,10 @@ class IntervalSchedulerTest {
             }
             Assertions.assertNull(result.triggerContext().info());
         };
-        final SchedulingAsserter<String> asserter = SchedulingAsserter.<String>builder()
-                                                                      .setTestContext(context)
-                                                                      .setEach(onEach)
-                                                                      .build();
+        final SchedulingMonitor<String> asserter = SchedulingAsserter.<String>builder()
+                                                                     .setTestContext(context)
+                                                                     .setEach(onEach)
+                                                                     .build();
         final Job<Void, String> job = (jobData, ctx) -> {
             final long round = ctx.round();
             if (round == 1) {
@@ -103,11 +103,11 @@ class IntervalSchedulerTest {
             Assertions.assertTrue(timeLapsed.compareTo(initialDelay) > 0);
         };
         final Consumer<ExecutionResult<Void>> onComplete = result -> Assertions.assertEquals(1, result.round());
-        final SchedulingAsserter<Void> asserter = SchedulingAsserter.<Void>builder()
-                                                                    .setTestContext(ctx)
-                                                                    .setSchedule(onSchedule)
-                                                                    .setCompleted(onComplete)
-                                                                    .build();
+        final SchedulingMonitor<Void> asserter = SchedulingAsserter.<Void>builder()
+                                                                   .setTestContext(ctx)
+                                                                   .setSchedule(onSchedule)
+                                                                   .setCompleted(onComplete)
+                                                                   .build();
         final IntervalTrigger trigger = IntervalTrigger.builder()
                                                        .initialDelay(initialDelay)
                                                        .interval(Duration.ofSeconds(2))
@@ -146,13 +146,13 @@ class IntervalSchedulerTest {
             Assertions.assertEquals(3, result.round());
             flag.flag();
         };
-        final SchedulingAsserter<Void> asserter = SchedulingAsserter.<Void>builder()
-                                                                    .setTestContext(testContext)
-                                                                    .setEach(onEach)
-                                                                    .setMisfire(onMisfire)
-                                                                    .setCompleted(onComplete)
-                                                                    .disableAutoCompleteTest()
-                                                                    .build();
+        final SchedulingMonitor<Void> asserter = SchedulingAsserter.<Void>builder()
+                                                                   .setTestContext(testContext)
+                                                                   .setEach(onEach)
+                                                                   .setMisfire(onMisfire)
+                                                                   .setCompleted(onComplete)
+                                                                   .disableAutoCompleteTest()
+                                                                   .build();
         final IntervalTrigger trigger = IntervalTrigger.builder().interval(Duration.ofSeconds(1)).repeat(3).build();
         final WorkerExecutor worker = vertx.createSharedWorkerExecutor("hello", 3, 1000);
         IntervalScheduler.<Void, Void>builder()
@@ -171,10 +171,10 @@ class IntervalSchedulerTest {
             Assertions.assertTrue(result.triggerContext().isStopped());
             Assertions.assertEquals("StopByTriggerConfig", result.triggerContext().condition().reasonCode());
         };
-        final SchedulingAsserter<String> asserter = SchedulingAsserter.<String>builder()
-                                                                      .setTestContext(context)
-                                                                      .setCompleted(onCompleted)
-                                                                      .build();
+        final SchedulingMonitor<String> asserter = SchedulingAsserter.<String>builder()
+                                                                     .setTestContext(context)
+                                                                     .setCompleted(onCompleted)
+                                                                     .build();
         final IntervalTrigger trigger = IntervalTrigger.builder().interval(Duration.ofSeconds(1)).repeat(3).build();
         IntervalScheduler.<Void, String>builder()
                          .setVertx(vertx)

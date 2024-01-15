@@ -9,7 +9,6 @@ import io.vertx.junit5.VertxTestContext;
 public final class SchedulingAsserterBuilder<OUTPUT> {
 
     private VertxTestContext testContext;
-    private SchedulingMonitor<OUTPUT> logMonitor;
     private Consumer<ExecutionResult<OUTPUT>> unableSchedule;
     private Consumer<ExecutionResult<OUTPUT>> schedule;
     private Consumer<ExecutionResult<OUTPUT>> misfire;
@@ -26,19 +25,6 @@ public final class SchedulingAsserterBuilder<OUTPUT> {
      */
     public SchedulingAsserterBuilder<OUTPUT> setTestContext(@NotNull VertxTestContext testContext) {
         this.testContext = testContext;
-        return this;
-    }
-
-    /**
-     * Set log monitor
-     *
-     * @param logMonitor a log monitor
-     * @return this for fluent API
-     * @see SchedulingMonitor
-     * @since 2.0.0
-     */
-    public SchedulingAsserterBuilder<OUTPUT> setLogMonitor(SchedulingMonitor<OUTPUT> logMonitor) {
-        this.logMonitor = logMonitor;
         return this;
     }
 
@@ -123,9 +109,12 @@ public final class SchedulingAsserterBuilder<OUTPUT> {
      *
      * @return SchedulingAsserter
      */
-    public SchedulingAsserter<OUTPUT> build() {
-        return new SchedulingAsserter<>(testContext, logMonitor, unableSchedule, schedule, misfire, each, completed,
-                                        autoCompleteTest);
+    public SchedulingMonitor<OUTPUT> build() {
+        return SchedulingCompositeMonitor.<OUTPUT>create()
+                                         .register(SchedulingLogMonitor.create())
+                                         .register(
+                                             new SchedulingAsserter<>(testContext, unableSchedule, schedule, misfire,
+                                                                      each, completed, autoCompleteTest));
     }
 
 }

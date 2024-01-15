@@ -1,7 +1,6 @@
 package io.github.zero88.schedulerx;
 
 import java.util.Objects;
-import java.util.Optional;
 import java.util.function.Consumer;
 
 import org.jetbrains.annotations.NotNull;
@@ -23,8 +22,6 @@ public final class SchedulingAsserter<OUT> implements SchedulingMonitor<OUT> {
 
     @NotNull
     private final VertxTestContext testContext;
-    @NotNull
-    private final SchedulingMonitor<OUT> logMonitor;
     private final Consumer<ExecutionResult<OUT>> unableSchedule;
     private final Consumer<ExecutionResult<OUT>> schedule;
     private final Consumer<ExecutionResult<OUT>> misfire;
@@ -32,12 +29,11 @@ public final class SchedulingAsserter<OUT> implements SchedulingMonitor<OUT> {
     private final Consumer<ExecutionResult<OUT>> completed;
     private final boolean autoCompleteTest;
 
-    SchedulingAsserter(@NotNull VertxTestContext testContext, @Nullable SchedulingMonitor<OUT> logMonitor,
-                       Consumer<ExecutionResult<OUT>> unableSchedule, Consumer<ExecutionResult<OUT>> schedule,
-                       Consumer<ExecutionResult<OUT>> misfire, Consumer<ExecutionResult<OUT>> each,
-                       Consumer<ExecutionResult<OUT>> completed, boolean autoCompleteTest) {
+    SchedulingAsserter(@NotNull VertxTestContext testContext, Consumer<ExecutionResult<OUT>> unableSchedule,
+                       Consumer<ExecutionResult<OUT>> schedule, Consumer<ExecutionResult<OUT>> misfire,
+                       Consumer<ExecutionResult<OUT>> each, Consumer<ExecutionResult<OUT>> completed,
+                       boolean autoCompleteTest) {
         this.testContext      = Objects.requireNonNull(testContext, "Vertx Test context is required");
-        this.logMonitor       = Optional.ofNullable(logMonitor).orElse(SchedulingLogMonitor.create());
         this.unableSchedule   = unableSchedule;
         this.schedule         = schedule;
         this.misfire          = misfire;
@@ -48,7 +44,6 @@ public final class SchedulingAsserter<OUT> implements SchedulingMonitor<OUT> {
 
     @Override
     public void onUnableSchedule(@NotNull ExecutionResult<OUT> result) {
-        logMonitor.onUnableSchedule(result);
         verify(result, r -> {
             Assertions.assertNotNull(result.externalId());
             Assertions.assertNotNull(result.unscheduledAt());
@@ -69,7 +64,6 @@ public final class SchedulingAsserter<OUT> implements SchedulingMonitor<OUT> {
 
     @Override
     public void onSchedule(@NotNull ExecutionResult<OUT> result) {
-        logMonitor.onSchedule(result);
         verify(result, r -> {
             Assertions.assertNotNull(result.externalId());
             Assertions.assertNotNull(result.availableAt());
@@ -86,7 +80,6 @@ public final class SchedulingAsserter<OUT> implements SchedulingMonitor<OUT> {
 
     @Override
     public void onMisfire(@NotNull ExecutionResult<OUT> result) {
-        logMonitor.onMisfire(result);
         verify(result, r -> {
             Assertions.assertNotNull(result.externalId());
             Assertions.assertNotNull(result.availableAt());
@@ -105,7 +98,6 @@ public final class SchedulingAsserter<OUT> implements SchedulingMonitor<OUT> {
 
     @Override
     public void onEach(@NotNull ExecutionResult<OUT> result) {
-        logMonitor.onEach(result);
         verify(result, r -> {
             Assertions.assertNotNull(result.externalId());
             Assertions.assertNotNull(result.availableAt());
@@ -122,7 +114,6 @@ public final class SchedulingAsserter<OUT> implements SchedulingMonitor<OUT> {
 
     @Override
     public void onCompleted(@NotNull ExecutionResult<OUT> result) {
-        logMonitor.onCompleted(result);
         verify(result, r -> {
             Assertions.assertNotNull(result.externalId());
             Assertions.assertNotNull(result.availableAt());

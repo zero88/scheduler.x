@@ -10,6 +10,7 @@ import io.github.zero88.schedulerx.ExecutionResult;
 import io.github.zero88.schedulerx.IntervalScheduler;
 import io.github.zero88.schedulerx.JobData;
 import io.github.zero88.schedulerx.SchedulingAsserter;
+import io.github.zero88.schedulerx.SchedulingMonitor;
 import io.github.zero88.schedulerx.trigger.IntervalTrigger;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
@@ -29,10 +30,10 @@ class HttpClientJobTest {
             Assertions.assertEquals(200, response.getValue("status"));
             Assertions.assertTrue(response.getJsonObject("response").getString("url").contains(host + path));
         };
-        final SchedulingAsserter<JsonObject> asserter = SchedulingAsserter.<JsonObject>builder()
-                                                                          .setTestContext(testContext)
-                                                                          .setEach(verification)
-                                                                          .build();
+        final SchedulingMonitor<JsonObject> asserter = SchedulingAsserter.<JsonObject>builder()
+                                                                         .setTestContext(testContext)
+                                                                         .setEach(verification)
+                                                                         .build();
         final JobData<JsonObject> jobData = JobData.create(new JsonObject().put("host", host).put("path", path));
         final IntervalTrigger trigger = IntervalTrigger.builder().interval(3).repeat(2).build();
         IntervalScheduler.<JsonObject, JsonObject>builder()

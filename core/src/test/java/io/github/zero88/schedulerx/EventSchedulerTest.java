@@ -135,10 +135,10 @@ class EventSchedulerTest {
                 Assertions.assertEquals(String.valueOf(data), result.data());
             }
         };
-        final SchedulingAsserter<String> asserter = SchedulingAsserter.<String>builder()
-                                                                      .setTestContext(testContext)
-                                                                      .setEach(each)
-                                                                      .build();
+        final SchedulingMonitor<String> asserter = SchedulingAsserter.<String>builder()
+                                                                     .setTestContext(testContext)
+                                                                     .setEach(each)
+                                                                     .build();
         final String address = "schedulerx.event.2";
         final EventTrigger<Object> trigger = EventTrigger.builder()
                                                          .address(address)

@@ -58,12 +58,12 @@ class CronSchedulerTest {
             Assertions.assertEquals(4, result.round());
             Assertions.assertFalse(result.isError());
         };
-        final SchedulingAsserter<String> asserter = SchedulingAsserter.<String>builder()
-                                                                      .setTestContext(testContext)
-                                                                      .setSchedule(onSchedule)
-                                                                      .setEach(onEach)
-                                                                      .setCompleted(onCompleted)
-                                                                      .build();
+        final SchedulingMonitor<String> asserter = SchedulingAsserter.<String>builder()
+                                                                     .setTestContext(testContext)
+                                                                     .setSchedule(onSchedule)
+                                                                     .setEach(onEach)
+                                                                     .setCompleted(onCompleted)
+                                                                     .build();
         final CronTrigger trigger = CronTrigger.builder().expression("0/2 * * ? * * *").build();
         final Job<Void, String> job = (jobData, ctx) -> {
             final long round = ctx.round();
