@@ -95,53 +95,77 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="#DEFAULT_MAX_EVALUATION_TIMEOUT" class="member-name-link">DEFAULT_MAX_EVALUATION_TIMEOUT</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#DEFAULT_MAX_EXECUTION_TIMEOUT" class="member-name-link">DEFAULT_MAX_EXECUTION_TIMEOUT</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="#DEFAULT_MAX_TRIGGER_PREVIEW_COUNT" class="member-name-link">DEFAULT_MAX_TRIGGER_PREVIEW_COUNT</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#DEFAULT_MAX_TRIGGER_RULE_LEEWAY" class="member-name-link">DEFAULT_MAX_TRIGGER_RULE_LEEWAY</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="#DEFAULT_WORKER_THREAD_POOL_SIZE" class="member-name-link">DEFAULT_WORKER_THREAD_POOL_SIZE</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#DEFAULT_WORKER_THREAD_PREFIX" class="member-name-link">DEFAULT_WORKER_THREAD_PREFIX</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a></code></div>
-<div class="col-second even-row-color"><code><a href="#maxEvaluationTimeout" class="member-name-link">maxEvaluationTimeout</a></code></div>
+<div class="col-second even-row-color"><code><a href="#evaluationMaxTimeout" class="member-name-link">evaluationMaxTimeout</a></code></div>
 <div class="col-last even-row-color">
 <div class="block">Declares the default max trigger evaluation timeout.</div>
 </div>
 <div class="col-first odd-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#maxExecutionTimeout" class="member-name-link">maxExecutionTimeout</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#executionMaxTimeout" class="member-name-link">executionMaxTimeout</a></code></div>
 <div class="col-last odd-row-color">
 <div class="block">Declares the default max execution timeout.</div>
 </div>
 <div class="col-first even-row-color"><code>final int</code></div>
-<div class="col-second even-row-color"><code><a href="#maxTriggerPreviewCount" class="member-name-link">maxTriggerPreviewCount</a></code></div>
+<div class="col-second even-row-color"><code><a href="#executionThreadPoolSize" class="member-name-link">executionThreadPoolSize</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">Declares the default worker thread pool size for the execution operation.</div>
+</div>
+<div class="col-first odd-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#executionThreadPrefix" class="member-name-link">executionThreadPrefix</a></code></div>
+<div class="col-last odd-row-color">
+<div class="block">Declares the default worker thread name prefix for the execution operation.</div>
+</div>
+<div class="col-first even-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a></code></div>
+<div class="col-second even-row-color"><code><a href="#monitorMaxTimeout" class="member-name-link">monitorMaxTimeout</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">Declares the default max scheduling monitor timeout.</div>
+</div>
+<div class="col-first odd-row-color"><code>final int</code></div>
+<div class="col-second odd-row-color"><code><a href="#monitorThreadPoolSize" class="member-name-link">monitorThreadPoolSize</a></code></div>
+<div class="col-last odd-row-color">
+<div class="block">Declares the default worker thread pool size for the monitor operation.</div>
+</div>
+<div class="col-first even-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#monitorThreadPrefix" class="member-name-link">monitorThreadPrefix</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">Declares the default worker thread name prefix for the monitor operation.</div>
+</div>
+<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#PROP_EVALUATION_MAX_TIMEOUT" class="member-name-link">PROP_EVALUATION_MAX_TIMEOUT</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#PROP_EXECUTION_MAX_TIMEOUT" class="member-name-link">PROP_EXECUTION_MAX_TIMEOUT</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#PROP_EXECUTION_THREAD_POOL_SIZE" class="member-name-link">PROP_EXECUTION_THREAD_POOL_SIZE</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#PROP_EXECUTION_THREAD_PREFIX" class="member-name-link">PROP_EXECUTION_THREAD_PREFIX</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#PROP_MONITOR_MAX_TIMEOUT" class="member-name-link">PROP_MONITOR_MAX_TIMEOUT</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#PROP_MONITOR_THREAD_POOL_SIZE" class="member-name-link">PROP_MONITOR_THREAD_POOL_SIZE</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#PROP_MONITOR_THREAD_PREFIX" class="member-name-link">PROP_MONITOR_THREAD_PREFIX</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#PROP_TRIGGER_PREVIEW_MAX_COUNT" class="member-name-link">PROP_TRIGGER_PREVIEW_MAX_COUNT</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#PROP_TRIGGER_RULE_PROP_MAX_LEEWAY" class="member-name-link">PROP_TRIGGER_RULE_PROP_MAX_LEEWAY</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>final int</code></div>
+<div class="col-second even-row-color"><code><a href="#triggerPreviewMaxCount" class="member-name-link">triggerPreviewMaxCount</a></code></div>
 <div class="col-last even-row-color">
 <div class="block">Declares the default max number of the trigger preview items.</div>
 </div>
 <div class="col-first odd-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#maxTriggerRuleLeeway" class="member-name-link">maxTriggerRuleLeeway</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#triggerRuleMaxLeeway" class="member-name-link">triggerRuleMaxLeeway</a></code></div>
 <div class="col-last odd-row-color">
 <div class="block">Declares the default max trigger rule leeway time.</div>
-</div>
-<div class="col-first even-row-color"><code>final int</code></div>
-<div class="col-second even-row-color"><code><a href="#workerThreadPoolSize" class="member-name-link">workerThreadPoolSize</a></code></div>
-<div class="col-last even-row-color">
-<div class="block">Declares the default worker thread pool size.</div>
-</div>
-<div class="col-first odd-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#workerThreadPrefix" class="member-name-link">workerThreadPrefix</a></code></div>
-<div class="col-last odd-row-color">
-<div class="block">Declares the default worker thread name prefix.</div>
 </div>
 </div>
 </section>
@@ -178,153 +202,231 @@ loadScripts(document, 'script');</script>
 <h2>Field Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="DEFAULT_MAX_EXECUTION_TIMEOUT">
-<h3>DEFAULT_MAX_EXECUTION_TIMEOUT</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">DEFAULT_MAX_EXECUTION_TIMEOUT</span></div>
+<section class="detail" id="PROP_EVALUATION_MAX_TIMEOUT">
+<h3>PROP_EVALUATION_MAX_TIMEOUT</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">PROP_EVALUATION_MAX_TIMEOUT</span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
 <ul class="see-list">
-<li><a href="../../../../constant-values.html#io.github.zero88.schedulerx.DefaultOptions.DEFAULT_MAX_EXECUTION_TIMEOUT">Constant Field Values</a></li>
+<li><a href="../../../../constant-values.html#io.github.zero88.schedulerx.DefaultOptions.PROP_EVALUATION_MAX_TIMEOUT">Constant Field Values</a></li>
 </ul>
 </dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="DEFAULT_MAX_EVALUATION_TIMEOUT">
-<h3>DEFAULT_MAX_EVALUATION_TIMEOUT</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">DEFAULT_MAX_EVALUATION_TIMEOUT</span></div>
+<section class="detail" id="PROP_EXECUTION_MAX_TIMEOUT">
+<h3>PROP_EXECUTION_MAX_TIMEOUT</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">PROP_EXECUTION_MAX_TIMEOUT</span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
 <ul class="see-list">
-<li><a href="../../../../constant-values.html#io.github.zero88.schedulerx.DefaultOptions.DEFAULT_MAX_EVALUATION_TIMEOUT">Constant Field Values</a></li>
+<li><a href="../../../../constant-values.html#io.github.zero88.schedulerx.DefaultOptions.PROP_EXECUTION_MAX_TIMEOUT">Constant Field Values</a></li>
 </ul>
 </dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="DEFAULT_MAX_TRIGGER_RULE_LEEWAY">
-<h3>DEFAULT_MAX_TRIGGER_RULE_LEEWAY</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">DEFAULT_MAX_TRIGGER_RULE_LEEWAY</span></div>
+<section class="detail" id="PROP_EXECUTION_THREAD_PREFIX">
+<h3>PROP_EXECUTION_THREAD_PREFIX</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">PROP_EXECUTION_THREAD_PREFIX</span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
 <ul class="see-list">
-<li><a href="../../../../constant-values.html#io.github.zero88.schedulerx.DefaultOptions.DEFAULT_MAX_TRIGGER_RULE_LEEWAY">Constant Field Values</a></li>
+<li><a href="../../../../constant-values.html#io.github.zero88.schedulerx.DefaultOptions.PROP_EXECUTION_THREAD_PREFIX">Constant Field Values</a></li>
 </ul>
 </dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="DEFAULT_MAX_TRIGGER_PREVIEW_COUNT">
-<h3>DEFAULT_MAX_TRIGGER_PREVIEW_COUNT</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">DEFAULT_MAX_TRIGGER_PREVIEW_COUNT</span></div>
+<section class="detail" id="PROP_EXECUTION_THREAD_POOL_SIZE">
+<h3>PROP_EXECUTION_THREAD_POOL_SIZE</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">PROP_EXECUTION_THREAD_POOL_SIZE</span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
 <ul class="see-list">
-<li><a href="../../../../constant-values.html#io.github.zero88.schedulerx.DefaultOptions.DEFAULT_MAX_TRIGGER_PREVIEW_COUNT">Constant Field Values</a></li>
+<li><a href="../../../../constant-values.html#io.github.zero88.schedulerx.DefaultOptions.PROP_EXECUTION_THREAD_POOL_SIZE">Constant Field Values</a></li>
 </ul>
 </dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="DEFAULT_WORKER_THREAD_PREFIX">
-<h3>DEFAULT_WORKER_THREAD_PREFIX</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">DEFAULT_WORKER_THREAD_PREFIX</span></div>
+<section class="detail" id="PROP_MONITOR_MAX_TIMEOUT">
+<h3>PROP_MONITOR_MAX_TIMEOUT</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">PROP_MONITOR_MAX_TIMEOUT</span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
 <ul class="see-list">
-<li><a href="../../../../constant-values.html#io.github.zero88.schedulerx.DefaultOptions.DEFAULT_WORKER_THREAD_PREFIX">Constant Field Values</a></li>
+<li><a href="../../../../constant-values.html#io.github.zero88.schedulerx.DefaultOptions.PROP_MONITOR_MAX_TIMEOUT">Constant Field Values</a></li>
 </ul>
 </dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="DEFAULT_WORKER_THREAD_POOL_SIZE">
-<h3>DEFAULT_WORKER_THREAD_POOL_SIZE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">DEFAULT_WORKER_THREAD_POOL_SIZE</span></div>
+<section class="detail" id="PROP_MONITOR_THREAD_PREFIX">
+<h3>PROP_MONITOR_THREAD_PREFIX</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">PROP_MONITOR_THREAD_PREFIX</span></div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
 <ul class="see-list">
-<li><a href="../../../../constant-values.html#io.github.zero88.schedulerx.DefaultOptions.DEFAULT_WORKER_THREAD_POOL_SIZE">Constant Field Values</a></li>
+<li><a href="../../../../constant-values.html#io.github.zero88.schedulerx.DefaultOptions.PROP_MONITOR_THREAD_PREFIX">Constant Field Values</a></li>
 </ul>
 </dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="maxExecutionTimeout">
-<h3>maxExecutionTimeout</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a></span>&nbsp;<span class="element-name">maxExecutionTimeout</span></div>
+<section class="detail" id="PROP_MONITOR_THREAD_POOL_SIZE">
+<h3>PROP_MONITOR_THREAD_POOL_SIZE</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">PROP_MONITOR_THREAD_POOL_SIZE</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../constant-values.html#io.github.zero88.schedulerx.DefaultOptions.PROP_MONITOR_THREAD_POOL_SIZE">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="PROP_TRIGGER_RULE_PROP_MAX_LEEWAY">
+<h3>PROP_TRIGGER_RULE_PROP_MAX_LEEWAY</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">PROP_TRIGGER_RULE_PROP_MAX_LEEWAY</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../constant-values.html#io.github.zero88.schedulerx.DefaultOptions.PROP_TRIGGER_RULE_PROP_MAX_LEEWAY">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="PROP_TRIGGER_PREVIEW_MAX_COUNT">
+<h3>PROP_TRIGGER_PREVIEW_MAX_COUNT</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">PROP_TRIGGER_PREVIEW_MAX_COUNT</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../constant-values.html#io.github.zero88.schedulerx.DefaultOptions.PROP_TRIGGER_PREVIEW_MAX_COUNT">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="executionMaxTimeout">
+<h3>executionMaxTimeout</h3>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a></span>&nbsp;<span class="element-name">executionMaxTimeout</span></div>
 <div class="block">Declares the default max execution timeout. Defaults is <code>VertxOptions.DEFAULT_MAX_WORKER_EXECUTE_TIME</code></div>
 <dl class="notes">
 <dt>API Note:</dt>
-<dd>It can be overridden by system property with key <a href="#DEFAULT_MAX_EXECUTION_TIMEOUT"><code>DEFAULT_MAX_EXECUTION_TIMEOUT</code></a></dd>
+<dd>It can be overridden by system property with key <a href="#PROP_EXECUTION_MAX_TIMEOUT"><code>PROP_EXECUTION_MAX_TIMEOUT</code></a></dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="maxEvaluationTimeout">
-<h3>maxEvaluationTimeout</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a></span>&nbsp;<span class="element-name">maxEvaluationTimeout</span></div>
+<section class="detail" id="evaluationMaxTimeout">
+<h3>evaluationMaxTimeout</h3>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a></span>&nbsp;<span class="element-name">evaluationMaxTimeout</span></div>
 <div class="block">Declares the default max trigger evaluation timeout. Defaults is
  <code>VertxOptions.DEFAULT_MAX_EVENT_LOOP_EXECUTE_TIME</code></div>
 <dl class="notes">
 <dt>API Note:</dt>
-<dd>It can be overridden by system property with key <a href="#DEFAULT_MAX_EVALUATION_TIMEOUT"><code>DEFAULT_MAX_EVALUATION_TIMEOUT</code></a></dd>
+<dd>It can be overridden by system property with key <a href="#PROP_EVALUATION_MAX_TIMEOUT"><code>PROP_EVALUATION_MAX_TIMEOUT</code></a></dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="maxTriggerRuleLeeway">
-<h3>maxTriggerRuleLeeway</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a></span>&nbsp;<span class="element-name">maxTriggerRuleLeeway</span></div>
+<section class="detail" id="triggerRuleMaxLeeway">
+<h3>triggerRuleMaxLeeway</h3>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a></span>&nbsp;<span class="element-name">triggerRuleMaxLeeway</span></div>
 <div class="block">Declares the default max trigger rule leeway time. Defaults is <code>10 seconds</code>.</div>
 <dl class="notes">
 <dt>API Note:</dt>
-<dd>It can be overridden by system property with key <a href="#DEFAULT_MAX_TRIGGER_RULE_LEEWAY"><code>DEFAULT_MAX_TRIGGER_RULE_LEEWAY</code></a></dd>
+<dd>It can be overridden by system property with key <a href="#PROP_TRIGGER_RULE_PROP_MAX_LEEWAY"><code>PROP_TRIGGER_RULE_PROP_MAX_LEEWAY</code></a></dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="maxTriggerPreviewCount">
-<h3>maxTriggerPreviewCount</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">maxTriggerPreviewCount</span></div>
+<section class="detail" id="triggerPreviewMaxCount">
+<h3>triggerPreviewMaxCount</h3>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">triggerPreviewMaxCount</span></div>
 <div class="block">Declares the default max number of the trigger preview items. Defaults is <code>30</code>.</div>
 <dl class="notes">
 <dt>API Note:</dt>
-<dd>It can be overridden by system property with key <a href="#DEFAULT_MAX_TRIGGER_PREVIEW_COUNT"><code>DEFAULT_MAX_TRIGGER_PREVIEW_COUNT</code></a></dd>
+<dd>It can be overridden by system property with key <a href="#PROP_TRIGGER_PREVIEW_MAX_COUNT"><code>PROP_TRIGGER_PREVIEW_MAX_COUNT</code></a></dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="workerThreadPrefix">
-<h3>workerThreadPrefix</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">workerThreadPrefix</span></div>
-<div class="block">Declares the default worker thread name prefix. Defaults is <code>scheduler.x-worker-thread</code>.</div>
+<section class="detail" id="executionThreadPrefix">
+<h3>executionThreadPrefix</h3>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">executionThreadPrefix</span></div>
+<div class="block">Declares the default worker thread name prefix for the execution operation. Defaults is
+ <code>scheduler.x-worker-thread</code>.</div>
 <dl class="notes">
 <dt>API Note:</dt>
-<dd>It can be overridden by system property with key <a href="#DEFAULT_WORKER_THREAD_PREFIX"><code>DEFAULT_WORKER_THREAD_PREFIX</code></a></dd>
+<dd>It can be overridden by system property with key <a href="#PROP_EXECUTION_THREAD_PREFIX"><code>PROP_EXECUTION_THREAD_PREFIX</code></a></dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="workerThreadPoolSize">
-<h3>workerThreadPoolSize</h3>
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">workerThreadPoolSize</span></div>
-<div class="block">Declares the default worker thread pool size. Defaults is <code>3</code>.</div>
+<section class="detail" id="executionThreadPoolSize">
+<h3>executionThreadPoolSize</h3>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">executionThreadPoolSize</span></div>
+<div class="block">Declares the default worker thread pool size for the execution operation. Defaults is <code>5</code>.</div>
 <dl class="notes">
 <dt>API Note:</dt>
-<dd>It can be overridden by system property with key <a href="#DEFAULT_WORKER_THREAD_POOL_SIZE"><code>DEFAULT_WORKER_THREAD_POOL_SIZE</code></a></dd>
+<dd>It can be overridden by system property with key <a href="#PROP_EXECUTION_THREAD_POOL_SIZE"><code>PROP_EXECUTION_THREAD_POOL_SIZE</code></a></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="monitorMaxTimeout">
+<h3>monitorMaxTimeout</h3>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a></span>&nbsp;<span class="element-name">monitorMaxTimeout</span></div>
+<div class="block">Declares the default max scheduling monitor timeout. Defaults is
+ <code>VertxOptions.DEFAULT_MAX_EVENT_LOOP_EXECUTE_TIME</code></div>
+<dl class="notes">
+<dt>API Note:</dt>
+<dd>It can be overridden by system property with key <a href="#PROP_MONITOR_MAX_TIMEOUT"><code>PROP_MONITOR_MAX_TIMEOUT</code></a></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="monitorThreadPrefix">
+<h3>monitorThreadPrefix</h3>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">monitorThreadPrefix</span></div>
+<div class="block">Declares the default worker thread name prefix for the monitor operation. Defaults is
+ <code>scheduler.x-monitor-thread</code>.</div>
+<dl class="notes">
+<dt>API Note:</dt>
+<dd>It can be overridden by system property with key <a href="#PROP_MONITOR_THREAD_PREFIX"><code>PROP_MONITOR_THREAD_PREFIX</code></a></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="monitorThreadPoolSize">
+<h3>monitorThreadPoolSize</h3>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">monitorThreadPoolSize</span></div>
+<div class="block">Declares the default worker thread pool size for the monitor operation. Defaults is <code>3</code>.</div>
+<dl class="notes">
+<dt>API Note:</dt>
+<dd>It can be overridden by system property with key <a href="#PROP_MONITOR_THREAD_POOL_SIZE"><code>PROP_MONITOR_THREAD_POOL_SIZE</code></a></dd>
 </dl>
 </section>
 </li>

@@ -83,10 +83,11 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">EventTrigger&lt;T&gt;</span><span class="extends-implements">
 extends <a href="Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a></span></div>
-<div class="block">Represents for inspecting settings specific to a CronTrigger.
+<div class="block">Represents for inspecting settings specific to an Event trigger.
  <p/>
  An event trigger is a schedule that runs on receiving a specific event from a <code>Vert.x event-bus</code> distributed
- messaging system, in short it acts as a consumer in</div>
+ messaging system, in short it acts as one of subscriber in publish/subscribe (pub/sub) pattern or a message consumer
+ in Producer-Consumer pattern.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>2.0.0</dd>

@@ -72,16 +72,14 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color">
 <div class="block">The scheduler.x core API</div>
 </div>
-<div class="col-first odd-row-color"><a href="trigger/package-summary.html">io.github.zero88.schedulerx.rxjava3.trigger</a></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><a href="../impl/package-summary.html">io.github.zero88.schedulerx.impl</a></div>
-<div class="col-last even-row-color">
+<div class="col-first odd-row-color"><a href="../impl/package-summary.html">io.github.zero88.schedulerx.impl</a></div>
+<div class="col-last odd-row-color">
 <div class="block">The scheduler.x internal implementation.</div>
 </div>
-<div class="col-first odd-row-color"><a href="../mutiny/package-summary.html">io.github.zero88.schedulerx.mutiny</a></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><a href="../trigger/package-summary.html">io.github.zero88.schedulerx.trigger</a></div>
-<div class="col-last even-row-color">
+<div class="col-first even-row-color"><a href="../mutiny/package-summary.html">io.github.zero88.schedulerx.mutiny</a></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><a href="../trigger/package-summary.html">io.github.zero88.schedulerx.trigger</a></div>
+<div class="col-last odd-row-color">
 <div class="block">Provides the classes and interfaces to define the trigger and its scheduler.</div>
 </div>
 </div>
@@ -93,9 +91,29 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Class</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color class-summary class-summary-tab2"><a href="ExecutionContext.html" title="class in io.github.zero88.schedulerx.rxjava3">ExecutionContext</a>&lt;OUT&gt;</div>
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="CronScheduler.html" title="class in io.github.zero88.schedulerx.rxjava3">CronScheduler</a></div>
 <div class="col-last even-row-color class-summary class-summary-tab2">
-<div class="block">Represents for a runtime context per each execution round.</div>
+<div class="block">A timebase scheduler supports the cron-like scheduling.</div>
+</div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="CronSchedulerBuilder.html" title="class in io.github.zero88.schedulerx.rxjava3">CronSchedulerBuilder</a>&lt;IN,<wbr>OUT&gt;</div>
+<div class="col-last odd-row-color class-summary class-summary-tab2">
+<div class="block">Represents a builder that constructs <a href="CronScheduler.html" title="class in io.github.zero88.schedulerx.rxjava3"><code>CronScheduler</code></a></div>
+</div>
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="EventScheduler.html" title="class in io.github.zero88.schedulerx.rxjava3">EventScheduler</a>&lt;T&gt;</div>
+<div class="col-last even-row-color class-summary class-summary-tab2">
+<div class="block">An event-based scheduler that triggers to run a job when receive an event from specific <code>event-bus</code> address.</div>
+</div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="EventSchedulerBuilder.html" title="class in io.github.zero88.schedulerx.rxjava3">EventSchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr>T&gt;</div>
+<div class="col-last odd-row-color class-summary class-summary-tab2">
+<div class="block">Represents a builder that constructs <a href="EventScheduler.html" title="class in io.github.zero88.schedulerx.rxjava3"><code>EventScheduler</code></a></div>
+</div>
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="IntervalScheduler.html" title="class in io.github.zero88.schedulerx.rxjava3">IntervalScheduler</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab2">
+<div class="block">A timebase scheduler supports the interval schedules.</div>
+</div>
+<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="IntervalSchedulerBuilder.html" title="class in io.github.zero88.schedulerx.rxjava3">IntervalSchedulerBuilder</a>&lt;IN,<wbr>OUT&gt;</div>
+<div class="col-last odd-row-color class-summary class-summary-tab2">
+<div class="block">Represents a builder that constructs <a href="IntervalScheduler.html" title="class in io.github.zero88.schedulerx.rxjava3"><code>IntervalScheduler</code></a></div>
 </div>
 </div>
 </div>
