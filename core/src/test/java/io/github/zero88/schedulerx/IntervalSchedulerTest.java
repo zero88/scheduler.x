@@ -56,8 +56,7 @@ class IntervalSchedulerTest {
         final Consumer<ExecutionResult<String>> onEach = result -> {
             if (result.round() < 3) {
                 Assertions.assertTrue(result.isError());
-                Assertions.assertNotNull(result.error());
-                Assertions.assertInstanceOf(RuntimeException.class, result.error());
+                Assertions.assertInstanceOf(IllegalArgumentException.class, result.error());
                 Assertions.assertNull(result.data());
             }
             if (result.round() == 3) {
@@ -83,7 +82,7 @@ class IntervalSchedulerTest {
                 ctx.complete("OK");
             }
         };
-        final IntervalTrigger trigger = IntervalTrigger.builder().interval(2).repeat(3).build();
+        final IntervalTrigger trigger = IntervalTrigger.builder().interval(Duration.ofSeconds(2)).repeat(3).build();
         IntervalScheduler.<Void, String>builder()
                          .setVertx(vertx)
                          .setMonitor(asserter)
@@ -110,8 +109,8 @@ class IntervalSchedulerTest {
                                                                     .setCompleted(onComplete)
                                                                     .build();
         final IntervalTrigger trigger = IntervalTrigger.builder()
-                                                       .initialDelay(initialDelay.toSeconds())
-                                                       .interval(2)
+                                                       .initialDelay(initialDelay)
+                                                       .interval(Duration.ofSeconds(2))
                                                        .repeat(1)
                                                        .build();
         IntervalScheduler.<Void, Void>builder()
@@ -154,7 +153,7 @@ class IntervalSchedulerTest {
                                                                     .setCompleted(onComplete)
                                                                     .disableAutoCompleteTest()
                                                                     .build();
-        final IntervalTrigger trigger = IntervalTrigger.builder().interval(1).repeat(3).build();
+        final IntervalTrigger trigger = IntervalTrigger.builder().interval(Duration.ofSeconds(1)).repeat(3).build();
         final WorkerExecutor worker = vertx.createSharedWorkerExecutor("hello", 3, 1000);
         IntervalScheduler.<Void, Void>builder()
                          .setVertx(vertx)
@@ -176,7 +175,7 @@ class IntervalSchedulerTest {
                                                                       .setTestContext(context)
                                                                       .setCompleted(onCompleted)
                                                                       .build();
-        final IntervalTrigger trigger = IntervalTrigger.builder().interval(1).repeat(3).build();
+        final IntervalTrigger trigger = IntervalTrigger.builder().interval(Duration.ofSeconds(1)).repeat(3).build();
         IntervalScheduler.<Void, String>builder()
                          .setVertx(vertx)
                          .setMonitor(asserter)

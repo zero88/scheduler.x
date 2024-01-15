@@ -119,7 +119,7 @@ class EventSchedulerTest {
     }
 
     @Test
-    void test_run_job_when_receive_event(Vertx vertx, VertxTestContext testContext) {
+    void test_job_should_be_executed_when_receive_event(Vertx vertx, VertxTestContext testContext) {
         final int message = 10;
         final int totalRound = 4;
         final Consumer<ExecutionResult<String>> each = result -> {

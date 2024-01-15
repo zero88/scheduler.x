@@ -84,7 +84,7 @@ class SchedulerTest {
                                                                     .setCompleted(ensureExternalIdIsSet)
                                                                     .build();
         final JobData<Void> jobdata = declaredId == null ? JobData.empty() : JobData.empty(declaredId);
-        final IntervalTrigger trigger = IntervalTrigger.builder().interval(1).repeat(2).build();
+        final IntervalTrigger trigger = IntervalTrigger.builder().interval(Duration.ofSeconds(1)).repeat(2).build();
         IntervalScheduler.<Void, Void>builder()
                          .setVertx(vertx)
                          .setMonitor(asserter)
@@ -163,7 +163,7 @@ class SchedulerTest {
         IntervalScheduler.builder()
                          .setVertx(vertx)
                          .setMonitor(asserter)
-                         .setTrigger(IntervalTrigger.builder().interval(5).repeat(1).build())
+                         .setTrigger(IntervalTrigger.builder().interval(Duration.ofSeconds(5)).repeat(2).build())
                          .setJob(job)
                          .setTimeoutPolicy(TimeoutPolicy.create(timeout))
                          .build()
@@ -190,7 +190,7 @@ class SchedulerTest {
         IntervalScheduler.builder()
                          .setVertx(vertx)
                          .setMonitor(asserter)
-                         .setTrigger(IntervalTrigger.builder().interval(5).build())
+                         .setTrigger(IntervalTrigger.builder().interval(Duration.ofSeconds(5)).build())
                          .setJob(NoopJob.create())
                          .setTimeoutPolicy(TimeoutPolicy.create(timeout, null))
                          .setTriggerEvaluator(evaluator)
@@ -210,7 +210,7 @@ class SchedulerTest {
                                                                       .setTestContext(testContext)
                                                                       .setCompleted(completed)
                                                                       .build();
-        final IntervalTrigger trigger = IntervalTrigger.builder().interval(1).repeat(5).build();
+        final IntervalTrigger trigger = IntervalTrigger.builder().interval(Duration.ofSeconds(1)).repeat(5).build();
         IntervalScheduler.builder()
                          .setVertx(vertx)
                          .setMonitor(asserter)
@@ -231,7 +231,7 @@ class SchedulerTest {
                                                                       .setTestContext(testContext)
                                                                       .setCompleted(onCompleted)
                                                                       .build();
-        final IntervalTrigger trigger = IntervalTrigger.builder().interval(1).build();
+        final IntervalTrigger trigger = IntervalTrigger.builder().interval(Duration.ofSeconds(1)).build();
         final IntervalScheduler scheduler = IntervalScheduler.builder()
                                                              .setVertx(vertx)
                                                              .setMonitor(asserter)

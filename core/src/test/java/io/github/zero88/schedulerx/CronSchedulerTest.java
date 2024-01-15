@@ -28,7 +28,7 @@ class CronSchedulerTest {
     }
 
     @Test
-    void test_run_job_by_cron(Vertx vertx, VertxTestContext testContext) {
+    void test_job_should_be_executed_in_cron_trigger(Vertx vertx, VertxTestContext testContext) {
         final Consumer<ExecutionResult<String>> onSchedule = result -> {
             if (!result.isReschedule()) {
                 Assertions.assertEquals(0, result.tick());
