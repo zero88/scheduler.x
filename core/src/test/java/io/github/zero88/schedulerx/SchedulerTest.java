@@ -4,15 +4,19 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Named;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import io.github.zero88.schedulerx.trigger.CronTrigger;
@@ -62,51 +66,6 @@ class SchedulerTest {
         }
     }
 
-    @Test
-    void test_scheduler_should_run_job_in_dedicated_thread(Vertx vertx, VertxTestContext testContext) {
-        final String threadName = "HELLO";
-        final WorkerExecutor worker = vertx.createSharedWorkerExecutor(threadName, 1);
-        final SchedulingAsserter<Object> asserter = SchedulingAsserter.builder().setTestContext(testContext).build();
-        final Job<Object, Object> job = (d, ec) -> Assertions.assertEquals(threadName + "-0",
-                                                                           Thread.currentThread().getName());
-        final IntervalTrigger trigger = IntervalTrigger.builder().interval(2).repeat(1).build();
-        IntervalScheduler.builder()
-                         .setVertx(vertx)
-                         .setMonitor(asserter)
-                         .setTrigger(trigger)
-                         .setJob(job)
-                         .build()
-                         .start(worker);
-    }
-
-    @Test
-    void test_scheduler_should_evaluate_trigger_in_dedicated_thread(Vertx vertx, VertxTestContext testContext) {
-        final String threadName = "HEY";
-        final WorkerExecutor worker = vertx.createSharedWorkerExecutor(threadName, 1);
-        final Consumer<String> doAssert = (thread) -> Assertions.assertEquals(thread + "-0",
-                                                                              Thread.currentThread().getName());
-        final EventTriggerPredicate<Object> predicate = EventTriggerPredicate.create((headers, body) -> {
-            doAssert.accept("vert.x-eventloop-thread");
-            return body;
-        }, eventMessage -> {
-            doAssert.accept(threadName);
-            return true;
-        });
-        final EventTrigger<Object> trigger = EventTrigger.builder()
-                                                         .address("dedicated.thread")
-                                                         .predicate(predicate)
-                                                         .build();
-        final SchedulingAsserter<Object> asserter = SchedulingAsserter.builder().setTestContext(testContext).build();
-        EventScheduler.builder()
-                      .setVertx(vertx)
-                      .setMonitor(asserter)
-                      .setTrigger(trigger)
-                      .setJob(NoopJob.create(1))
-                      .build()
-                      .start(worker);
-        vertx.eventBus().publish("dedicated.thread", "test");
-    }
-
     @ParameterizedTest
     @MethodSource("provide_external_ids")
     void test_scheduler_should_maintain_external_id_from_jobData_to_job_result(Object declaredId, Class<?> typeOfId,
@@ -134,6 +93,54 @@ class SchedulerTest {
                          .setJobData(jobdata)
                          .build()
                          .start();
+    }
+
+    @ParameterizedTest
+    @MethodSource("provide_threads")
+    void test_scheduler_should_run_job_in_dedicated_thread(WorkerThreadChecker checker, Vertx vertx,
+                                                           VertxTestContext testContext) {
+        final SchedulingAsserter<Object> asserter = SchedulingAsserter.builder()
+                                                                      .setTestContext(testContext)
+                                                                      .setEach(r -> Assertions.assertNull(r.error()))
+                                                                      .build();
+        final Job<Object, Object> job = (d, ec) -> checker.doAssert();
+        final IntervalTrigger trigger = IntervalTrigger.builder().interval(Duration.ofSeconds(2)).repeat(2).build();
+        IntervalScheduler.builder()
+                         .setVertx(vertx)
+                         .setMonitor(asserter)
+                         .setTrigger(trigger)
+                         .setJob(job)
+                         .setTimeoutPolicy(checker.timeoutPolicy())
+                         .build()
+                         .start(checker.createExecutor(vertx));
+    }
+
+    @ParameterizedTest
+    @MethodSource("provide_threads")
+    void test_scheduler_should_evaluate_trigger_in_dedicated_thread(WorkerThreadChecker checker, Vertx vertx,
+                                                                    VertxTestContext testContext) {
+        final EventTriggerPredicate<Object> predicate = EventTriggerPredicate.create((headers, body) -> {
+            checker.doAssert("vert.x-eventloop-thread-0");
+            return body;
+        }, eventMessage -> {
+            checker.doAssert();
+            return true;
+        });
+        final SchedulingAsserter<Object> asserter = SchedulingAsserter.builder()
+                                                                      .setTestContext(testContext)
+                                                                      .setEach(r -> Assertions.assertNull(r.error()))
+                                                                      .setMisfire(r -> Assertions.assertNull(r.error()))
+                                                                      .build();
+        final String address = "dedicated.thread";
+        EventScheduler.builder()
+                      .setVertx(vertx)
+                      .setMonitor(asserter)
+                      .setTrigger(EventTrigger.builder().address(address).predicate(predicate).build())
+                      .setJob(NoopJob.create(1))
+                      .setTimeoutPolicy(checker.timeoutPolicy())
+                      .build()
+                      .start(checker.createExecutor(vertx));
+        vertx.eventBus().publish(address, "test");
     }
 
     @Test
@@ -236,10 +243,57 @@ class SchedulerTest {
         scheduler.cancel();
     }
 
-    private static Stream<Object> provide_external_ids() {
+    private static Stream<Arguments> provide_external_ids() {
         return Stream.of(arguments(null, Integer.class), arguments(3L, Long.class), arguments("test", String.class),
                          arguments(UUID.randomUUID(), UUID.class), arguments(JsonArray.of(1, 2, 3), JsonArray.class),
                          arguments(JsonObject.of("k1", "v1"), JsonObject.class));
+    }
+
+    private static Stream<Arguments> provide_threads() {
+        final WorkerThreadChecker c0 = WorkerThreadChecker.create(vertx -> null, "scheduler.x-worker-thread-60s");
+        final WorkerThreadChecker c1 = WorkerThreadChecker.create(TimeoutPolicy.create(Duration.ofSeconds(5)),
+                                                                  vertx -> null, "scheduler.x-worker-thread-5s");
+        final WorkerThreadChecker c2 = WorkerThreadChecker.create(v -> v.createSharedWorkerExecutor("custom.thread"),
+                                                                  "custom.thread");
+        return Stream.of(arguments(Named.named("default scheduler.x thread", c0)),
+                         arguments(Named.named("scheduler.x thread by timeout policy", c1)),
+                         arguments(Named.named("given dedicated thread", c2)));
+    }
+
+    interface WorkerThreadChecker {
+
+        TimeoutPolicy timeoutPolicy();
+
+        WorkerExecutor createExecutor(Vertx vertx);
+
+        default void doAssert() { doAssert(null); }
+
+        void doAssert(String expectedThreadName);
+
+        static WorkerThreadChecker create(Function<Vertx, WorkerExecutor> executorProvider, String threadName) {
+            return create(null, executorProvider, threadName);
+        }
+
+        static WorkerThreadChecker create(TimeoutPolicy timeoutPolicy, Function<Vertx, WorkerExecutor> executorProvider,
+                                          String threadName) {
+
+            return new WorkerThreadChecker() {
+                @Override
+                public TimeoutPolicy timeoutPolicy() { return timeoutPolicy; }
+
+                @Override
+                public WorkerExecutor createExecutor(Vertx vertx) { return executorProvider.apply(vertx); }
+
+                public void doAssert(String expectedThread) {
+                    String currentThreadName = Thread.currentThread().getName();
+                    String expectedThreadName = Optional.ofNullable(expectedThread).orElse(threadName);
+                    Assertions.assertTrue(currentThreadName.startsWith(expectedThreadName),
+                                          "Thread name must starts with '" + expectedThreadName +
+                                          "', current thread: '" + currentThreadName + "'");
+                }
+            };
+        }
+
     }
 
 }

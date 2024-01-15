@@ -1,11 +1,11 @@
 package io.github.zero88.schedulerx;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import java.time.Duration;
 
-import io.github.zero88.schedulerx.impl.Utils;
+import org.jetbrains.annotations.ApiStatus.Internal;
+import org.jetbrains.annotations.NotNull;
+
 import io.vertx.core.Vertx;
-import io.vertx.core.VertxOptions;
 import io.vertx.core.WorkerExecutor;
 
 /**
@@ -13,23 +13,28 @@ import io.vertx.core.WorkerExecutor;
  *
  * @since 2.0.0
  */
+@Internal
 public interface WorkerExecutorFactory {
 
-    static @Nullable WorkerExecutor create(@NotNull Vertx vertx, @NotNull TimeoutPolicy timeoutPolicy) {
-        return WorkerExecutorFactory.create(vertx, timeoutPolicy,
-                                            DefaultOptions.getInstance().executionThreadPrefix + "-" +
-                                            Utils.randomPositiveInt());
+    static @NotNull WorkerExecutor createExecutionWorker(@NotNull Vertx vertx, @NotNull TimeoutPolicy timeoutPolicy) {
+        return create(vertx, timeoutPolicy.executionTimeout(), DefaultOptions.getInstance().executionThreadPrefix,
+                      DefaultOptions.getInstance().executionThreadPoolSize);
     }
 
-    static @Nullable WorkerExecutor create(@NotNull Vertx vertx, @NotNull TimeoutPolicy timeoutPolicy,
-                                           @Nullable String workerThreadName) {
-        final long executionTimeout = timeoutPolicy.executionTimeout().toMillis();
-        if (executionTimeout != VertxOptions.DEFAULT_MAX_WORKER_EXECUTE_TIME) {
-            return vertx.createSharedWorkerExecutor(workerThreadName,
-                                                    DefaultOptions.getInstance().executionThreadPoolSize,
-                                                    executionTimeout);
-        }
-        return null;
+    static @NotNull WorkerExecutor createMonitorWorker(@NotNull Vertx vertx) {
+        return create(vertx, DefaultOptions.getInstance().monitorMaxTimeout,
+                      DefaultOptions.getInstance().monitorThreadPrefix,
+                      DefaultOptions.getInstance().monitorThreadPoolSize);
+    }
+
+    private static @NotNull WorkerExecutor create(@NotNull Vertx vertx, Duration timeout, String threadPrefix,
+                                                  int poolSize) {
+        final String threadName = genThreadName(threadPrefix, timeout);
+        return vertx.createSharedWorkerExecutor(threadName, poolSize, timeout.toMillis());
+    }
+
+    private static String genThreadName(@NotNull String threadPrefix, @NotNull Duration timeout) {
+        return threadPrefix + "-" + timeout.getSeconds() + "s";
     }
 
 }

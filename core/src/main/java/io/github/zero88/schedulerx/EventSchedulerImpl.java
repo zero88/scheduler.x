@@ -63,7 +63,7 @@ final class EventSchedulerImpl<IN, OUT, T> extends AbstractScheduler<IN, OUT, Ev
             consumer.unregister()
                     .onComplete(r -> log(clock().now(),
                                          "Unregistered EventBus subscriber on address" + brackets(consumer.address()) +
-                                         brackets(r.succeeded()) + brackets(r.cause())));
+                                         brackets(r.succeeded()) + brackets("Cause: " + r.cause())));
         }
     }
 
@@ -71,12 +71,12 @@ final class EventSchedulerImpl<IN, OUT, T> extends AbstractScheduler<IN, OUT, Ev
         try {
             T eventMsg = trigger().getPredicate().convert(msg.headers(), msg.body());
             return TriggerContextFactory.kickoff(trigger().type(), clock().now(), tick, eventMsg);
-        } catch (Exception ex) {
+        } catch (Throwable ex) {
             return handleException(TriggerContextFactory.kickoff(trigger().type(), clock().now(), tick, msg), ex);
         }
     }
 
-    static TriggerContext handleException(TriggerContext context, Exception cause) {
+    static TriggerContext handleException(TriggerContext context, Throwable cause) {
         String reason = cause instanceof ClassCastException || cause instanceof EventTriggerPredicateException
                         ? ReasonCode.CONDITION_IS_NOT_MATCHED
                         : ReasonCode.UNEXPECTED_ERROR;
@@ -105,7 +105,7 @@ final class EventSchedulerImpl<IN, OUT, T> extends AbstractScheduler<IN, OUT, Ev
                 if (!((EventTrigger<T>) trigger).getPredicate().test((T) ctx.info())) {
                     return Future.succeededFuture(TriggerContextFactory.skip(ctx, ReasonCode.CONDITION_IS_NOT_MATCHED));
                 }
-            } catch (Exception ex) {
+            } catch (Throwable ex) {
                 return Future.succeededFuture(handleException(ctx, ex));
             }
             return Future.succeededFuture(ctx);

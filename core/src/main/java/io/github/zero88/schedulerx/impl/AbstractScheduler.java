@@ -141,7 +141,9 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger>
             if (didStart) {
                 throw new IllegalStateException("The executor is already started!");
             }
-            doStart(workerExecutor == null ? WorkerExecutorFactory.create(vertx, timeoutPolicy) : workerExecutor);
+            doStart(workerExecutor == null
+                    ? WorkerExecutorFactory.createExecutionWorker(vertx, timeoutPolicy)
+                    : workerExecutor);
             didStart = true;
         } finally {
             lock.unlock();
