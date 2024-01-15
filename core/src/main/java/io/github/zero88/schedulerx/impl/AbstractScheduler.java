@@ -226,7 +226,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger>
         log(executionContext.triggeredAt(), "On trigger", triggerContext.tick(), round);
         Future.join(onEvaluationAfterTrigger(workerExecutor, triggerContext, round),
                     executeBlocking(workerExecutor, p -> executeJob(executionContext.setup(wrapTimeout(timeout, p)))))
-              .onComplete(ar -> onResult(executionContext, ar.result().cause(1)));
+              .onComplete(ar -> onResult(executionContext, ar.cause()));
     }
 
     protected final void onSchedule(long timerId) {
@@ -268,8 +268,8 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger>
     protected final Future<TriggerContext> onEvaluationBeforeTrigger(WorkerExecutor worker, TriggerContext ctx) {
         return executeBlocking(worker, p -> {
             log(clock.now(), "On before trigger");
-            wrapTimeout(timeoutPolicy().evaluationTimeout(), p).handle(
-                evaluator.beforeTrigger(trigger, ctx, jobData.externalId()));
+            this.wrapTimeout(timeoutPolicy.evaluationTimeout(), p)
+                .handle(evaluator.beforeTrigger(trigger, ctx, jobData.externalId()));
         });
     }
 
@@ -277,10 +277,13 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger>
                                                                     long round) {
         return executeBlocking(worker, p -> {
             log(clock.now(), "On after trigger");
-            wrapTimeout(timeoutPolicy().evaluationTimeout(), p).handle(
-                evaluator.afterTrigger(trigger(), ctx, jobData.externalId(), round)
-                         .onSuccess(c -> doStop(state.timerId(), c))
-                         .onFailure(t -> LOGGER.error(genMsg(ctx.tick(), round, clock.now(), "After evaluate"), t)));
+            this.wrapTimeout(timeoutPolicy.evaluationTimeout(), p)
+                .handle(evaluator.afterTrigger(trigger(), ctx, jobData.externalId(), round)
+                                 .onSuccess(c -> doStop(state.timerId(), c))
+                                 .otherwise(t -> {
+                                     LOGGER.error(genMsg(ctx.tick(), round, clock.now(), "On after trigger::error"), t);
+                                     return ctx;
+                                 }));
         });
     }
 

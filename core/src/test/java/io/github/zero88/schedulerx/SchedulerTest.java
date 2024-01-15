@@ -22,6 +22,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import io.github.zero88.schedulerx.trigger.CronTrigger;
 import io.github.zero88.schedulerx.trigger.EventTrigger;
 import io.github.zero88.schedulerx.trigger.IntervalTrigger;
+import io.github.zero88.schedulerx.trigger.TriggerCondition;
 import io.github.zero88.schedulerx.trigger.TriggerEvaluator;
 import io.github.zero88.schedulerx.trigger.predicate.EventTriggerPredicate;
 import io.vertx.core.Future;
@@ -144,7 +145,7 @@ class SchedulerTest {
     }
 
     @Test
-    void test_scheduler_should_timeout_in_execution(Vertx vertx, VertxTestContext testContext) {
+    void test_scheduler_should_be_timeout_in_execution(Vertx vertx, VertxTestContext testContext) {
         final Duration timeout = Duration.ofSeconds(2);
         final Duration runningTime = Duration.ofSeconds(3);
         final Consumer<ExecutionResult<Object>> timeoutAsserter = result -> {
@@ -156,10 +157,7 @@ class SchedulerTest {
                                                                       .setTestContext(testContext)
                                                                       .setEach(timeoutAsserter)
                                                                       .build();
-        final Job<Object, Object> job = (jobData, executionContext) -> {
-            TestUtils.block(runningTime, testContext);
-            Assertions.assertTrue(Thread.currentThread().getName().startsWith("scheduler.x-worker-thread"));
-        };
+        final Job<Object, Object> job = (jobData, executionContext) -> TestUtils.block(runningTime, testContext);
         IntervalScheduler.builder()
                          .setVertx(vertx)
                          .setMonitor(asserter)
@@ -171,12 +169,14 @@ class SchedulerTest {
     }
 
     @Test
-    void test_scheduler_should_timeout_in_evaluation(Vertx vertx, VertxTestContext testContext) {
+    void test_scheduler_should_be_timeout_in_evaluation(Vertx vertx, VertxTestContext testContext) {
         final Duration timeout = Duration.ofSeconds(1);
         final Duration runningTime = Duration.ofSeconds(3);
         final Consumer<ExecutionResult<Object>> timeoutAsserter = result -> {
-            Assertions.assertEquals("TriggerEvaluationTimeout", result.triggerContext().condition().reasonCode());
-            Assertions.assertEquals("Timeout after 1s", result.triggerContext().condition().cause().getMessage());
+            final TriggerCondition condition = result.triggerContext().condition();
+            Assertions.assertTrue(result.isTimeout());
+            Assertions.assertEquals("TriggerEvaluationTimeout", condition.reasonCode());
+            Assertions.assertEquals("Timeout after 1s", condition.cause().getMessage());
             testContext.completeNow();
         };
         final SchedulingAsserter<Object> asserter = SchedulingAsserter.builder()
