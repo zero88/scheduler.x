@@ -16,6 +16,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import io.github.zero88.schedulerx.AsyncJob;
 import io.github.zero88.schedulerx.ExecutionContext;
 import io.github.zero88.schedulerx.ExecutionResult;
 import io.github.zero88.schedulerx.Job;
@@ -154,7 +155,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger>
         try {
             log(executionContext.executedAt(), "On execute");
             job.execute(jobData(), executionContext);
-            if (!job.isAsync()) {
+            if (!(job instanceof AsyncJob)) {
                 ((ExecutionContextInternal<OUT>) executionContext).internalComplete();
             }
         } catch (Exception ex) {
