@@ -77,12 +77,18 @@ loadScripts(document, 'script');</script>
 <dd><code>INPUT</code> - Type of job input data</dd>
 <dd><code>OUTPUT</code> - Type of job result data</dd>
 </dl>
+<dl class="notes">
+<dt>All Known Subinterfaces:</dt>
+<dd><code><a href="AsyncJob.html" title="interface in io.github.zero88.schedulerx">AsyncJob</a>&lt;INPUT,<wbr>OUTPUT&gt;</code></dd>
+</dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">Job&lt;INPUT,<wbr>OUTPUT&gt;</span></div>
 <div class="block">Represents for Job to run on each trigger time.
  <p/>
  It is ideal if your concrete class is a class that has a constructor without argument, which makes it easier to init
- a new job object in runtime via the configuration from an external system.</div>
+ a new job object in runtime via the configuration from an external system.
+ <p/>
+ If you want to use the job that returns Vertx <code>Future</code>, please using <a href="AsyncJob.html" title="interface in io.github.zero88.schedulerx"><code>AsyncJob</code></a> for more intuitive API.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>1.0.0</dd>
@@ -97,7 +103,7 @@ loadScripts(document, 'script');</script>
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab3" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab3', 3)" class="table-tab">Abstract Methods</button><button id="method-summary-table-tab5" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab5', 3)" class="table-tab">Default Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab3" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab3', 3)" class="table-tab">Abstract Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel">
 <div class="summary-table three-column-summary" aria-labelledby="method-summary-table-tab0">
 <div class="table-header col-first">Modifier and Type</div>
@@ -108,11 +114,6 @@ loadScripts(document, 'script');</script>
  @NotNull <a href="ExecutionContext.html" title="interface in io.github.zero88.schedulerx">ExecutionContext</a>&lt;<a href="Job.html" title="type parameter in Job">OUTPUT</a>&gt;&nbsp;executionContext)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Execute job.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#isAsync()" class="member-name-link">isAsync</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">Identify job is async or not</div>
 </div>
 </div>
 </div>
@@ -128,19 +129,6 @@ loadScripts(document, 'script');</script>
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
-<li>
-<section class="detail" id="isAsync()">
-<h3>isAsync</h3>
-<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isAsync</span>()</div>
-<div class="block">Identify job is async or not
- <p>
- If async job, then in execution time, job must use <a href="ExecutionContext.html#complete(OUT)"><code>ExecutionContext.complete(Object)</code></a>} or <a href="ExecutionContext.html#fail(java.lang.Throwable)"><code>ExecutionContext.fail(Throwable)</code></a> when handling an async result</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>true if it is async job</dd>
-</dl>
-</section>
-</li>
 <li>
 <section class="detail" id="execute(io.github.zero88.schedulerx.JobData,io.github.zero88.schedulerx.ExecutionContext)">
 <h3>execute</h3>
