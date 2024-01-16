@@ -101,33 +101,41 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color class-summary class-summary-tab1">
 <div class="block">Represents for Async Job to run on each trigger time.</div>
 </div>
-<div class="col-first odd-row-color class-summary class-summary-tab1"><a href="CronScheduler.html" title="interface in io.github.zero88.schedulerx">CronScheduler</a></div>
+<div class="col-first odd-row-color class-summary class-summary-tab1"><a href="CompletionStageJob.html" title="interface in io.github.zero88.schedulerx">CompletionStageJob</a>&lt;INPUT,<wbr>OUTPUT&gt;</div>
 <div class="col-last odd-row-color class-summary class-summary-tab1">
+<div class="block">Job interface for java concurrent <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/CompletionStage.html" title="class or interface in java.util.concurrent" class="external-link"><code>CompletionStage</code></a>.</div>
+</div>
+<div class="col-first even-row-color class-summary class-summary-tab1"><a href="CronScheduler.html" title="interface in io.github.zero88.schedulerx">CronScheduler</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab1">
 <div class="block">A timebase scheduler supports the cron-like scheduling.</div>
 </div>
-<div class="col-first even-row-color class-summary class-summary-tab1"><a href="CronSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">CronSchedulerBuilder</a>&lt;IN,<wbr>OUT&gt;</div>
-<div class="col-last even-row-color class-summary class-summary-tab1">
+<div class="col-first odd-row-color class-summary class-summary-tab1"><a href="CronSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">CronSchedulerBuilder</a>&lt;IN,<wbr>OUT&gt;</div>
+<div class="col-last odd-row-color class-summary class-summary-tab1">
 <div class="block">Represents a builder that constructs <a href="CronScheduler.html" title="interface in io.github.zero88.schedulerx"><code>CronScheduler</code></a></div>
 </div>
-<div class="col-first odd-row-color class-summary class-summary-tab2"><a href="DefaultOptions.html" title="class in io.github.zero88.schedulerx">DefaultOptions</a></div>
-<div class="col-last odd-row-color class-summary class-summary-tab2">
+<div class="col-first even-row-color class-summary class-summary-tab2"><a href="DefaultOptions.html" title="class in io.github.zero88.schedulerx">DefaultOptions</a></div>
+<div class="col-last even-row-color class-summary class-summary-tab2">
 <div class="block">Instances of this class are used to configure the default <a href="trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger"><code>Trigger</code></a> options, and <a href="Job.html" title="interface in io.github.zero88.schedulerx"><code>Job</code></a> options.</div>
 </div>
-<div class="col-first even-row-color class-summary class-summary-tab1"><a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx">EventScheduler</a>&lt;T&gt;</div>
-<div class="col-last even-row-color class-summary class-summary-tab1">
+<div class="col-first odd-row-color class-summary class-summary-tab1"><a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx">EventScheduler</a>&lt;T&gt;</div>
+<div class="col-last odd-row-color class-summary class-summary-tab1">
 <div class="block">An event-based scheduler that triggers to run a job when receive an event from specific <code>event-bus</code> address.</div>
 </div>
-<div class="col-first odd-row-color class-summary class-summary-tab1"><a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">EventSchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr>T&gt;</div>
-<div class="col-last odd-row-color class-summary class-summary-tab1">
+<div class="col-first even-row-color class-summary class-summary-tab1"><a href="EventSchedulerBuilder.html" title="interface in io.github.zero88.schedulerx">EventSchedulerBuilder</a>&lt;IN,<wbr>OUT,<wbr>T&gt;</div>
+<div class="col-last even-row-color class-summary class-summary-tab1">
 <div class="block">Represents a builder that constructs <a href="EventScheduler.html" title="interface in io.github.zero88.schedulerx"><code>EventScheduler</code></a></div>
 </div>
-<div class="col-first even-row-color class-summary class-summary-tab1"><a href="ExecutionContext.html" title="interface in io.github.zero88.schedulerx">ExecutionContext</a>&lt;OUT&gt;</div>
-<div class="col-last even-row-color class-summary class-summary-tab1">
+<div class="col-first odd-row-color class-summary class-summary-tab1"><a href="ExecutionContext.html" title="interface in io.github.zero88.schedulerx">ExecutionContext</a>&lt;OUT&gt;</div>
+<div class="col-last odd-row-color class-summary class-summary-tab1">
 <div class="block">Represents for a runtime context per each execution round.</div>
 </div>
-<div class="col-first odd-row-color class-summary class-summary-tab1"><a href="ExecutionResult.html" title="interface in io.github.zero88.schedulerx">ExecutionResult</a>&lt;OUTPUT&gt;</div>
-<div class="col-last odd-row-color class-summary class-summary-tab1">
+<div class="col-first even-row-color class-summary class-summary-tab1"><a href="ExecutionResult.html" title="interface in io.github.zero88.schedulerx">ExecutionResult</a>&lt;OUTPUT&gt;</div>
+<div class="col-last even-row-color class-summary class-summary-tab1">
 <div class="block">Represents for an execution result will be pass on each event of <a href="SchedulingMonitor.html" title="interface in io.github.zero88.schedulerx"><code>SchedulingMonitor</code></a></div>
+</div>
+<div class="col-first odd-row-color class-summary class-summary-tab1"><a href="FuturableJob.html" title="interface in io.github.zero88.schedulerx">FuturableJob</a>&lt;INPUT,<wbr>OUTPUT,<wbr>R,<wbr>CTX&gt;</div>
+<div class="col-last odd-row-color class-summary class-summary-tab1">
+<div class="block">An interface supports reactive version for <code>Job</code>.</div>
 </div>
 <div class="col-first even-row-color class-summary class-summary-tab1"><a href="HasVertx.html" title="interface in io.github.zero88.schedulerx">HasVertx</a></div>
 <div class="col-last even-row-color class-summary class-summary-tab1">&nbsp;</div>
