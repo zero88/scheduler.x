@@ -2,8 +2,6 @@ package io.github.zero88.schedulerx;
 
 import org.jetbrains.annotations.NotNull;
 
-import io.vertx.codegen.annotations.GenIgnore;
-import io.vertx.codegen.annotations.VertxGen;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 
@@ -15,7 +13,6 @@ import io.vertx.core.Handler;
  *
  * @since 2.0.0
  */
-@VertxGen
 public interface AsyncJob<INPUT, OUTPUT> extends Job<INPUT, OUTPUT> {
 
     /**
@@ -32,7 +29,6 @@ public interface AsyncJob<INPUT, OUTPUT> extends Job<INPUT, OUTPUT> {
      * @see JobData
      * @see ExecutionContext
      */
-    @GenIgnore
     @Override
     default void execute(@NotNull JobData<INPUT> jobData, @NotNull ExecutionContext<OUTPUT> executionContext) {
         asyncExecute(jobData, executionContext).onSuccess(executionContext::complete).onFailure(executionContext::fail);
@@ -52,7 +48,6 @@ public interface AsyncJob<INPUT, OUTPUT> extends Job<INPUT, OUTPUT> {
      * @see JobData
      * @see ExecutionContext
      */
-    @GenIgnore(GenIgnore.PERMITTED_TYPE)
     Future<OUTPUT> asyncExecute(@NotNull JobData<INPUT> jobData, @NotNull ExecutionContext<OUTPUT> executionContext);
 
 }
