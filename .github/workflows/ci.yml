@@ -52,6 +52,7 @@ jobs:
     with:
       profile: 'schedulerx'
       version: ${{ needs.context.outputs.version }}
+      semanticVersion: ${{ needs.context.outputs.semanticVersion }}
       hashVersion: ${{ needs.context.outputs.commitId }}
       sha: ${{ needs.context.outputs.sha }}
       isRelease: ${{ needs.context.outputs.isRelease }}
