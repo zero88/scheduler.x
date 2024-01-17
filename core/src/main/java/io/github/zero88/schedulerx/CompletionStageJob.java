@@ -24,7 +24,7 @@ public interface CompletionStageJob<INPUT, OUTPUT>
         return Future.fromCompletionStage(result);
     }
 
-    CompletionStage<OUTPUT> doAsync(@NotNull JobData<INPUT> jobData,
-                                    @NotNull ExecutionContext<OUTPUT> executionContext);
+    CompletionStage<OUTPUT> doExecute(@NotNull JobData<INPUT> jobData,
+                                      @NotNull ExecutionContext<OUTPUT> executionContext);
 
 }

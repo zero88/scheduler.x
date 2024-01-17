@@ -17,7 +17,7 @@ public interface Rx3MaybeJob<INPUT, OUTPUT> extends Rx3Job<INPUT, OUTPUT, Maybe<
     @Override
     default Future<OUTPUT> transformResult(Maybe<OUTPUT> result) { return MaybeHelper.toFuture(result); }
 
-    Maybe<OUTPUT> doAsync(@NotNull JobData<INPUT> jobData,
-                          @NotNull io.github.zero88.schedulerx.rxjava3.ExecutionContext<OUTPUT> executionContext);
+    Maybe<OUTPUT> doExecute(@NotNull JobData<INPUT> jobData,
+                            @NotNull io.github.zero88.schedulerx.rxjava3.ExecutionContext<OUTPUT> executionContext);
 
 }

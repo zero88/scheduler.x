@@ -22,7 +22,7 @@ public interface FuturableJob<INPUT, OUTPUT, R, CTX> extends AsyncJob<INPUT, OUT
     @Override
     default Future<OUTPUT> asyncExecute(@NotNull JobData<INPUT> jobData,
                                         @NotNull ExecutionContext<OUTPUT> executionContext) {
-        return transformResult(doAsync(jobData, transformContext(executionContext)));
+        return transformResult(doExecute(jobData, transformContext(executionContext)));
     }
 
     /**
@@ -49,6 +49,6 @@ public interface FuturableJob<INPUT, OUTPUT, R, CTX> extends AsyncJob<INPUT, OUT
      * @param executionContext job execution context
      * @return the {@code Rxified} execution result
      */
-    R doAsync(@NotNull JobData<INPUT> jobData, @NotNull CTX executionContext);
+    R doExecute(@NotNull JobData<INPUT> jobData, @NotNull CTX executionContext);
 
 }

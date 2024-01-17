@@ -24,7 +24,7 @@ public interface MutinyJob<INPUT, OUTPUT> extends FuturableJob<INPUT, OUTPUT, Un
     @Override
     default Future<OUTPUT> transformResult(Uni<OUTPUT> result) { return UniHelper.toFuture(result); }
 
-    Uni<OUTPUT> doAsync(@NotNull JobData<INPUT> jobData,
-                        @NotNull io.github.zero88.schedulerx.mutiny.ExecutionContext<OUTPUT> executionContext);
+    Uni<OUTPUT> doExecute(@NotNull JobData<INPUT> jobData,
+                          @NotNull io.github.zero88.schedulerx.mutiny.ExecutionContext<OUTPUT> executionContext);
 
 }
