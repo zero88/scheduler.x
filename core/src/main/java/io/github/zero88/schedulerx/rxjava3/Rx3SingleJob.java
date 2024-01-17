@@ -17,7 +17,7 @@ public interface Rx3SingleJob<INPUT, OUTPUT> extends Rx3Job<INPUT, OUTPUT, Singl
     @Override
     default Future<OUTPUT> transformResult(Single<OUTPUT> result) { return SingleHelper.toFuture(result); }
 
-    Single<OUTPUT> doAsync(@NotNull JobData<INPUT> jobData,
-                           @NotNull io.github.zero88.schedulerx.rxjava3.ExecutionContext<OUTPUT> executionContext);
+    Single<OUTPUT> doExecute(@NotNull JobData<INPUT> jobData,
+                             @NotNull io.github.zero88.schedulerx.rxjava3.ExecutionContext<OUTPUT> executionContext);
 
 }

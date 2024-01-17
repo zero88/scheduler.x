@@ -1,0 +1,80 @@
+= Use scheduler.x in your project
+:navtitle: Usage
+
+To use `scheduler.x` add the following https://search.maven.org/artifact/{project-group}/{project-name}/{project-version}/jar[dependency]
+to the `dependencies` section of your build descriptor:
+
+== Maven
+
+In your `pom.xml`,
+
+[source,xml,subs="attributes,verbatim"]
+----
+<dependencies>
+    <dependency>
+        <groupId>io.vertx</groupId>
+        <artifactId>vertx-core</artifactId>
+        <version>{vertx-version}</version>
+    </dependency>
+    <dependency>
+        <groupId>{project-group}</groupId>
+        <artifactId>{project-name}</artifactId>
+        <version>{project-version}</version>
+    </dependency>
+</dependencies>
+----
+
+== Gradle
+
+In your `build.gradle`,
+
+`Gradle` (in your `build.gradle`):
+
+[source,groovy,subs="attributes,verbatim"]
+----
+dependencies {
+    api 'io.vertx:vertx-core:{vertx-version}'
+    api '{project-group}:{project-name}:{project-version}'
+}
+----
+
+`Gradle` (in your `build.gradle.kts`):
+
+[source,groovy,subs="attributes,verbatim"]
+----
+dependencies {
+  api("io.vertx:vertx-core:{vertx-version}")
+  api("{project-group}:{project-name}:{project-version}")
+}
+----
+
+== Remarks
+
+:icons: font
+[TIP]
+.`scheduler.x` is only depended on main libraries
+====
+- `io.vertx:vertx-core`
+====
+
+== Reactive version
+
+Reference to xref:features-rxify.adoc[reactive version] for more detail.
+
+== Logging
+
+`scheduler.x` reuses the Vert.x logging mechanism. Please, refers to https://vertx.io/docs/vertx-core/java/#_logging
+
+So in short, you can use `slf4j`, `log4j2`, or `jdk logging` by simple below configuration before start your application. Remember add your flavor log library in your classpath.
+
+[source,java]
+----
+// for slf4j
+System.setProperty("vertx.logger-delegate-factory-class-name", "io.vertx.core.logging.SLF4JLogDelegateFactory");
+
+// for log4j2
+System.setProperty("vertx.logger-delegate-factory-class-name", "io.vertx.core.logging.Log4j2LogDelegateFactory");
+
+// fallback to jdk logging or config explicitly
+System.setProperty("vertx.logger-delegate-factory-class-name", "io.vertx.core.logging.JULLogDelegateFactory");
+----

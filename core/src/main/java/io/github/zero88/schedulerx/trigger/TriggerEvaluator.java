@@ -6,10 +6,10 @@ import org.jetbrains.annotations.Nullable;
 import io.github.zero88.schedulerx.impl.DefaultTriggerEvaluator;
 
 /**
- * Represents for the trigger evaluator to assess in 2 cases:
+ * Represents the trigger evaluator to assess in 2 cases:
  * <ul>
- *     <li>if the trigger is can run before each execution round is started.</li>
- *     <li>if the trigger should stop executing immediately after one round of execution begins.</li>
+ *     <li>whether the trigger can run before each execution round is started.</li>
+ *     <li>whether the trigger should stop executing immediately after one round of execution begins.</li>
  * </ul>
  *
  * @see BeforeTriggerEvaluator

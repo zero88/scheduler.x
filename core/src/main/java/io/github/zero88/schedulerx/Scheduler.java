@@ -17,7 +17,7 @@ public interface Scheduler<TRIGGER extends Trigger> extends HasTrigger<TRIGGER>,
     /**
      * Start and run the {@code scheduler} in {@code Vertx worker thread pool}.
      */
-    default void start() { start(null); }
+    void start();
 
     /**
      * Start and run the {@code scheduler} in a dedicated thread pool that is provided by a customized worker executor

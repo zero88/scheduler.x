@@ -10,6 +10,7 @@ dependencies {
     compileOnly(project(":schedulerx"))
     compileOnly(VertxLibs.rx3)
     compileOnly(MutinyLibs.core)
+    compileOnly(UtilLibs.jetbrainsAnnotations)
 }
 
 documentation {
@@ -20,7 +21,8 @@ documentation {
             mapOf(
                 "project-group" to project.group,
                 "project-name" to mainProject,
-                "project-version" to project.version
+                "project-version" to project.version,
+                "vertx-version" to VertxLibs.Version.defaultVersion,
             )
         )
         javadocTitle.set("${project.ext["title"]} ${project.version} API")

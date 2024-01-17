@@ -5,9 +5,8 @@ import org.jetbrains.annotations.NotNull;
 import io.github.zero88.schedulerx.trigger.Trigger;
 
 /**
- * Represents for a monitor that watches lifecycle event in the scheduler.
- * <p/>
- * It can be used to distribute and persist the execution result per each round to an external system.
+ * A monitor watches lifecycle events in the scheduler, which is used to distribute the execution result per each
+ * scheduled fire time.
  *
  * @param <OUT> Type of job result data
  * @apiNote This interface is renamed from {@code TaskExecutorMonitor} since {@code 2.0.0}
