@@ -388,9 +388,13 @@ loadScripts(document, 'script');</script>
 <div class="block">Obtains an instance of Timeframe</div>
 </dd>
 <dt><a href="io/github/zero88/schedulerx/WorkerExecutorFactory.html#createExecutionWorker(io.vertx.core.Vertx,io.github.zero88.schedulerx.TimeoutPolicy)" class="member-name-link">createExecutionWorker(Vertx, TimeoutPolicy)</a> - Static method in interface io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/WorkerExecutorFactory.html" title="interface in io.github.zero88.schedulerx">WorkerExecutorFactory</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Create a worker executor on which the scheduling execution operation runs.</div>
+</dd>
 <dt><a href="io/github/zero88/schedulerx/WorkerExecutorFactory.html#createMonitorWorker(io.vertx.core.Vertx)" class="member-name-link">createMonitorWorker(Vertx)</a> - Static method in interface io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/WorkerExecutorFactory.html" title="interface in io.github.zero88.schedulerx">WorkerExecutorFactory</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Create a worker executor on which the scheduling monitor operation runs.</div>
+</dd>
 <dt><a href="io/github/zero88/schedulerx/trigger/CronExpression.html" class="type-name-link" title="class in io.github.zero88.schedulerx.trigger">CronExpression</a> - Class in <a href="io/github/zero88/schedulerx/trigger/package-summary.html">io.github.zero88.schedulerx.trigger</a></dt>
 <dd>
 <div class="block">Provides a parser and evaluator for unix-like cron expressions.</div>
@@ -492,18 +496,22 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="io/github/zero88/schedulerx/trigger/Trigger.html#display(java.lang.String)" class="member-name-link">display(String)</a> - Method in interface io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io/github/zero88/schedulerx/CompletionStageJob.html#doAsync(io.github.zero88.schedulerx.JobData,io.github.zero88.schedulerx.ExecutionContext)" class="member-name-link">doAsync(JobData&lt;INPUT&gt;, ExecutionContext&lt;OUTPUT&gt;)</a> - Method in interface io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/CompletionStageJob.html" title="interface in io.github.zero88.schedulerx">CompletionStageJob</a></dt>
+<dt><a href="io/github/zero88/schedulerx/CompletionStageJob.html#doExecute(io.github.zero88.schedulerx.JobData,io.github.zero88.schedulerx.ExecutionContext)" class="member-name-link">doExecute(JobData&lt;INPUT&gt;, ExecutionContext&lt;OUTPUT&gt;)</a> - Method in interface io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/CompletionStageJob.html" title="interface in io.github.zero88.schedulerx">CompletionStageJob</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io/github/zero88/schedulerx/FuturableJob.html#doAsync(io.github.zero88.schedulerx.JobData,CTX)" class="member-name-link">doAsync(JobData&lt;INPUT&gt;, CTX)</a> - Method in interface io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/FuturableJob.html" title="interface in io.github.zero88.schedulerx">FuturableJob</a></dt>
+<dt><a href="io/github/zero88/schedulerx/FuturableJob.html#doExecute(io.github.zero88.schedulerx.JobData,CTX)" class="member-name-link">doExecute(JobData&lt;INPUT&gt;, CTX)</a> - Method in interface io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/FuturableJob.html" title="interface in io.github.zero88.schedulerx">FuturableJob</a></dt>
 <dd>
 <div class="block">Async execute</div>
 </dd>
-<dt><a href="io/github/zero88/schedulerx/mutiny/MutinyJob.html#doAsync(io.github.zero88.schedulerx.JobData,io.github.zero88.schedulerx.mutiny.ExecutionContext)" class="member-name-link">doAsync(JobData&lt;INPUT&gt;, ExecutionContext&lt;OUTPUT&gt;)</a> - Method in interface io.github.zero88.schedulerx.mutiny.<a href="io/github/zero88/schedulerx/mutiny/MutinyJob.html" title="interface in io.github.zero88.schedulerx.mutiny">MutinyJob</a></dt>
+<dt><a href="io/github/zero88/schedulerx/mutiny/MutinyJob.html#doExecute(io.github.zero88.schedulerx.JobData,io.github.zero88.schedulerx.mutiny.ExecutionContext)" class="member-name-link">doExecute(JobData&lt;INPUT&gt;, ExecutionContext&lt;OUTPUT&gt;)</a> - Method in interface io.github.zero88.schedulerx.mutiny.<a href="io/github/zero88/schedulerx/mutiny/MutinyJob.html" title="interface in io.github.zero88.schedulerx.mutiny">MutinyJob</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io/github/zero88/schedulerx/rxjava3/Rx3MaybeJob.html#doAsync(io.github.zero88.schedulerx.JobData,io.github.zero88.schedulerx.rxjava3.ExecutionContext)" class="member-name-link">doAsync(JobData&lt;INPUT&gt;, ExecutionContext&lt;OUTPUT&gt;)</a> - Method in interface io.github.zero88.schedulerx.rxjava3.<a href="io/github/zero88/schedulerx/rxjava3/Rx3MaybeJob.html" title="interface in io.github.zero88.schedulerx.rxjava3">Rx3MaybeJob</a></dt>
+<dt><a href="io/github/zero88/schedulerx/rxjava3/Rx3MaybeJob.html#doExecute(io.github.zero88.schedulerx.JobData,io.github.zero88.schedulerx.rxjava3.ExecutionContext)" class="member-name-link">doExecute(JobData&lt;INPUT&gt;, ExecutionContext&lt;OUTPUT&gt;)</a> - Method in interface io.github.zero88.schedulerx.rxjava3.<a href="io/github/zero88/schedulerx/rxjava3/Rx3MaybeJob.html" title="interface in io.github.zero88.schedulerx.rxjava3">Rx3MaybeJob</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io/github/zero88/schedulerx/rxjava3/Rx3SingleJob.html#doAsync(io.github.zero88.schedulerx.JobData,io.github.zero88.schedulerx.rxjava3.ExecutionContext)" class="member-name-link">doAsync(JobData&lt;INPUT&gt;, ExecutionContext&lt;OUTPUT&gt;)</a> - Method in interface io.github.zero88.schedulerx.rxjava3.<a href="io/github/zero88/schedulerx/rxjava3/Rx3SingleJob.html" title="interface in io.github.zero88.schedulerx.rxjava3">Rx3SingleJob</a></dt>
+<dt><a href="io/github/zero88/schedulerx/rxjava3/Rx3SingleJob.html#doExecute(io.github.zero88.schedulerx.JobData,io.github.zero88.schedulerx.rxjava3.ExecutionContext)" class="member-name-link">doExecute(JobData&lt;INPUT&gt;, ExecutionContext&lt;OUTPUT&gt;)</a> - Method in interface io.github.zero88.schedulerx.rxjava3.<a href="io/github/zero88/schedulerx/rxjava3/Rx3SingleJob.html" title="interface in io.github.zero88.schedulerx.rxjava3">Rx3SingleJob</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/github/zero88/schedulerx/SyncJob.html#doExecute(io.github.zero88.schedulerx.JobData,io.github.zero88.schedulerx.ExecutionContext)" class="member-name-link">doExecute(JobData&lt;INPUT&gt;, ExecutionContext&lt;OUTPUT&gt;)</a> - Method in interface io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/SyncJob.html" title="interface in io.github.zero88.schedulerx">SyncJob</a></dt>
+<dd>
+<div class="block">Do execute job</div>
+</dd>
 <dt><a href="io/github/zero88/schedulerx/impl/AbstractScheduler.html#doStart(io.vertx.core.WorkerExecutor)" class="member-name-link">doStart(WorkerExecutor)</a> - Method in class io.github.zero88.schedulerx.impl.<a href="io/github/zero88/schedulerx/impl/AbstractScheduler.html" title="class in io.github.zero88.schedulerx.impl">AbstractScheduler</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/github/zero88/schedulerx/impl/AbstractScheduler.html#doStop(long,io.github.zero88.schedulerx.trigger.TriggerContext)" class="member-name-link">doStop(long, TriggerContext)</a> - Method in class io.github.zero88.schedulerx.impl.<a href="io/github/zero88/schedulerx/impl/AbstractScheduler.html" title="class in io.github.zero88.schedulerx.impl">AbstractScheduler</a></dt>
@@ -681,6 +689,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Execute job.</div>
 </dd>
+<dt><a href="io/github/zero88/schedulerx/SyncJob.html#execute(io.github.zero88.schedulerx.JobData,io.github.zero88.schedulerx.ExecutionContext)" class="member-name-link">execute(JobData&lt;INPUT&gt;, ExecutionContext&lt;OUTPUT&gt;)</a> - Method in interface io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/SyncJob.html" title="interface in io.github.zero88.schedulerx">SyncJob</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/github/zero88/schedulerx/impl/TriggerContextFactory.html#executed(io.github.zero88.schedulerx.trigger.TriggerContext)" class="member-name-link">executed(TriggerContext)</a> - Static method in class io.github.zero88.schedulerx.impl.<a href="io/github/zero88/schedulerx/impl/TriggerContextFactory.html" title="class in io.github.zero88.schedulerx.impl">TriggerContextFactory</a></dt>
 <dd>
 <div class="block">Transition trigger context to <a href="io/github/zero88/schedulerx/trigger/TriggerCondition.TriggerStatus.html#EXECUTED"><code>TriggerCondition.TriggerStatus.EXECUTED</code></a> state.</div>
@@ -1720,7 +1730,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="io/github/zero88/schedulerx/SchedulingMonitor.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">SchedulingMonitor</a>&lt;<a href="io/github/zero88/schedulerx/SchedulingMonitor.html" title="type parameter in SchedulingMonitor">OUT</a>&gt; - Interface in <a href="io/github/zero88/schedulerx/package-summary.html">io.github.zero88.schedulerx</a></dt>
 <dd>
-<div class="block">Represents for a monitor that watches lifecycle event in the scheduler.</div>
+<div class="block">A monitor watches lifecycle events in the scheduler, which is used to distribute the execution result per each
+ scheduled fire time.</div>
 </dd>
 <dt><a href="io/github/zero88/schedulerx/trigger/predicate/jsonschema/SchemaRepositoryHolder.html" class="type-name-link" title="class in io.github.zero88.schedulerx.trigger.predicate.jsonschema">SchemaRepositoryHolder</a> - Class in <a href="io/github/zero88/schedulerx/trigger/predicate/jsonschema/package-summary.html">io.github.zero88.schedulerx.trigger.predicate.jsonschema</a></dt>
 <dd>&nbsp;</dd>
@@ -2004,6 +2015,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="io/github/zero88/schedulerx/trigger/CronExpression.html#storeExpressionVals(int,java.lang.String,int)" class="member-name-link">storeExpressionVals(int, String, int)</a> - Method in class io.github.zero88.schedulerx.trigger.<a href="io/github/zero88/schedulerx/trigger/CronExpression.html" title="class in io.github.zero88.schedulerx.trigger">CronExpression</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/github/zero88/schedulerx/SyncJob.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">SyncJob</a>&lt;<a href="io/github/zero88/schedulerx/SyncJob.html" title="type parameter in SyncJob">INPUT</a>,<wbr><a href="io/github/zero88/schedulerx/SyncJob.html" title="type parameter in SyncJob">OUTPUT</a>&gt; - Interface in <a href="io/github/zero88/schedulerx/package-summary.html">io.github.zero88.schedulerx</a></dt>
+<dd>
+<div class="block">Represents for Sync Job to run on each trigger time.</div>
+</dd>
 </dl>
 <h2 class="title" id="I:T">T</h2>
 <dl class="index">
@@ -2260,10 +2275,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="io/github/zero88/schedulerx/trigger/TriggerEvaluator.html" class="type-name-link" title="interface in io.github.zero88.schedulerx.trigger">TriggerEvaluator</a> - Interface in <a href="io/github/zero88/schedulerx/trigger/package-summary.html">io.github.zero88.schedulerx.trigger</a></dt>
 <dd>
-<div class="block">Represents for the trigger evaluator to assess in 2 cases:
+<div class="block">Represents the trigger evaluator to assess in 2 cases:
  
-     if the trigger is can run before each execution round is started.
-     if the trigger should stop executing immediately after one round of execution begins.
+     whether the trigger can run before each execution round is started.
+     whether the trigger should stop executing immediately after one round of execution begins.
  </div>
 </dd>
 <dt><a href="io/github/zero88/schedulerx/DefaultOptions.html#triggerPreviewMaxCount" class="member-name-link">triggerPreviewMaxCount</a> - Variable in class io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/DefaultOptions.html" title="class in io.github.zero88.schedulerx">DefaultOptions</a></dt>
@@ -2416,7 +2431,7 @@ the order they are declared.</div>
 <dl class="index">
 <dt><a href="io/github/zero88/schedulerx/WorkerExecutorFactory.html" class="type-name-link" title="interface in io.github.zero88.schedulerx">WorkerExecutorFactory</a> - Interface in <a href="io/github/zero88/schedulerx/package-summary.html">io.github.zero88.schedulerx</a></dt>
 <dd>
-<div class="block">A factory to create <code>WorkerExecutor</code> based on the execution timeout policy.</div>
+<div class="block">A factory to create <code>WorkerExecutor</code>.</div>
 </dd>
 <dt><a href="io/github/zero88/schedulerx/TimeoutBlock.html#wrap(io.vertx.core.Promise)" class="member-name-link">wrap(Promise&lt;T&gt;)</a> - Method in class io.github.zero88.schedulerx.<a href="io/github/zero88/schedulerx/TimeoutBlock.html" title="class in io.github.zero88.schedulerx">TimeoutBlock</a></dt>
 <dd>

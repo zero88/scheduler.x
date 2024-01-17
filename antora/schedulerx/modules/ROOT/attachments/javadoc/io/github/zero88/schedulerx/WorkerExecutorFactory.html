@@ -71,7 +71,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="annotations">@Internal
 </span><span class="modifiers">public interface </span><span class="element-name type-name-label">WorkerExecutorFactory</span></div>
-<div class="block">A factory to create <code>WorkerExecutor</code> based on the execution timeout policy.</div>
+<div class="block">A factory to create <code>WorkerExecutor</code>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>2.0.0</dd>
@@ -92,10 +92,14 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1"><code>static @NotNull io.vertx.core.WorkerExecutor</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#createExecutionWorker(io.vertx.core.Vertx,io.github.zero88.schedulerx.TimeoutPolicy)" class="member-name-link">createExecutionWorker</a><wbr>(@NotNull io.vertx.core.Vertx&nbsp;vertx,
  @NotNull <a href="TimeoutPolicy.html" title="class in io.github.zero88.schedulerx">TimeoutPolicy</a>&nbsp;timeoutPolicy)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1">
+<div class="block">Create a worker executor on which the scheduling execution operation runs.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1"><code>static @NotNull io.vertx.core.WorkerExecutor</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#createMonitorWorker(io.vertx.core.Vertx)" class="member-name-link">createMonitorWorker</a><wbr>(@NotNull io.vertx.core.Vertx&nbsp;vertx)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1">
+<div class="block">Create a worker executor on which the scheduling monitor operation runs.</div>
+</div>
 </div>
 </div>
 </section>
@@ -117,6 +121,20 @@ loadScripts(document, 'script');</script>
  @NotNull io.vertx.core.Vertx&nbsp;vertx,
  @NotNull
  @NotNull <a href="TimeoutPolicy.html" title="class in io.github.zero88.schedulerx">TimeoutPolicy</a>&nbsp;timeoutPolicy)</span></div>
+<div class="block">Create a worker executor on which the scheduling execution operation runs.
+ <p/>
+ <em><strong>Note</strong></em>:
+ <ul>
+     <li>The thread-name prefix is retrieved from <a href="DefaultOptions.html#executionThreadPrefix"><code>DefaultOptions.executionThreadPrefix</code></a></li>
+     <li>The thread pool size is retrieved from <a href="DefaultOptions.html#executionThreadPoolSize"><code>DefaultOptions.executionThreadPoolSize</code></a></li>
+ </ul></div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>vertx</code> - Vert.x</dd>
+<dd><code>timeoutPolicy</code> - the timeout policy</dd>
+<dt>Returns:</dt>
+<dd>new instance of worker executor</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -125,6 +143,20 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="annotations">@NotNull
 </span><span class="modifiers">static</span>&nbsp;<span class="return-type">@NotNull io.vertx.core.WorkerExecutor</span>&nbsp;<span class="element-name">createMonitorWorker</span><wbr><span class="parameters">(@NotNull
  @NotNull io.vertx.core.Vertx&nbsp;vertx)</span></div>
+<div class="block">Create a worker executor on which the scheduling monitor operation runs.
+ <p/>
+ <em><strong>Note</strong></em>:
+ <ul>
+     <li>The timeout is retrieved from <a href="DefaultOptions.html#monitorMaxTimeout"><code>DefaultOptions.monitorMaxTimeout</code></a></li>
+     <li>The thread-name prefix is retrieved from <a href="DefaultOptions.html#monitorThreadPrefix"><code>DefaultOptions.monitorThreadPrefix</code></a></li>
+     <li>The thread pool size is retrieved from <a href="DefaultOptions.html#monitorThreadPoolSize"><code>DefaultOptions.monitorThreadPoolSize</code></a></li>
+ </ul></div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>vertx</code> - Vert.x</dd>
+<dt>Returns:</dt>
+<dd>new instance of worker executor</dd>
+</dl>
 </section>
 </li>
 </ul>

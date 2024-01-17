@@ -1,37 +1,39 @@
-= Bean.x
+= What scheduler.x helps
+:navtitle: What it helps
 zero88
 
-The project template
+A pluggable `lightweight scheduler` based on plain https://vertx.io/[Vert.x] core without any external libs for scheduling on *time-based*: _cron_ and _interval_ or on *event-based*.
 
-== Installation
+`Scheduler.x` follows an event-driven architecture.
 
-`Maven` (in your `pom.xml`):
+== Overview
 
-[source,xml,subs="attributes,verbatim"]
-----
-<dependencies>
-    <dependency>
-        <groupId>{project-group}</groupId>
-        <artifactId>{project-name}</artifactId>
-        <version>{project-version}</version>
-    </dependency>
-</dependencies>
-----
+=== Trigger
 
-`Gradle` (in your `build.gradle`):
+`Trigger` is a component defines the schedule upon which a given `Job` will be executed.
 
-[source,groovy,subs="attributes,verbatim"]
-----
-dependencies {
-    api '{project-group}:{project-name}:{project-version}'
-}
-----
+In `scheduler.x`, there are some out-of-the-box triggers:
 
-`Gradle` (in your `build.gradle.kts`):
+* `cron-trigger` based on http://www.quartz-scheduler.org/[Quartz] - `Unix` cron expression and `timezone` available on `JVM`
+* `interval-trigger` with the following parameters: `time interval`, `initial delay time` and `repeating` to specify the number of scheduling repetitions.
+* `event-trigger` a trigger that is scheduled to run on receiving a specific event from a `Vert.x event-bus` distributed messaging system.
 
-[source,groovy,subs="attributes,verbatim"]
-----
-dependencies {
-  api("{project-group}:{project-name}:{project-version}")
-}
-----
+=== Job
+
+`Job` is a place that does your business that you wish to have executed by the scheduler.
+
+`Scheduler.x` supports 2 kind of Job:
+
+* `Async job`: a job that does an asynchronous computation and returns an asynchronous result
+in a non-blocking mode in Vert.x `Future` as an event-loop pattern or Java `Future` as a thread-based pattern.
+* `Sync job`: a job that does a simple calculation or complex calculation that takes some significant time in a blocking mode of the current thread.
+
+You can easily extend these interfaces to explore your task in the business model.
+
+=== Monitor
+
+`Scheduler.x` is an event-driven system that decouple the job execution and job reporting.
+
+Without requiring explicit notifications from the `Job` itself, the client application can register a scheduling monitor.
+Then, `Scheduler.x` can uniformly notify the client of any events occurring within the scheduler.
+These events may include the execution result after the trigger is fired and the job is executed, a trigger misfiring for some reason and so on.

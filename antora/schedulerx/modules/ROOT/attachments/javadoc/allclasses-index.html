@@ -327,88 +327,93 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/SchedulingMonitor.html" title="interface in io.github.zero88.schedulerx">SchedulingMonitor</a>&lt;<a href="io/github/zero88/schedulerx/SchedulingMonitor.html" title="type parameter in SchedulingMonitor">OUT</a>&gt;</div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">
-<div class="block">Represents for a monitor that watches lifecycle event in the scheduler.</div>
+<div class="block">A monitor watches lifecycle events in the scheduler, which is used to distribute the execution result per each
+ scheduled fire time.</div>
 </div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/github/zero88/schedulerx/trigger/predicate/jsonschema/SchemaRepositoryHolder.html" title="class in io.github.zero88.schedulerx.trigger.predicate.jsonschema">SchemaRepositoryHolder</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/trigger/predicate/jsonschema/SchemaRepositoryProvider.html" title="interface in io.github.zero88.schedulerx.trigger.predicate.jsonschema">SchemaRepositoryProvider</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/TimeClock.html" title="interface in io.github.zero88.schedulerx">TimeClock</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/SyncJob.html" title="interface in io.github.zero88.schedulerx">SyncJob</a>&lt;<a href="io/github/zero88/schedulerx/SyncJob.html" title="type parameter in SyncJob">INPUT</a>,<wbr><a href="io/github/zero88/schedulerx/SyncJob.html" title="type parameter in SyncJob">OUTPUT</a>&gt;</div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
+<div class="block">Represents for Sync Job to run on each trigger time.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/TimeClock.html" title="interface in io.github.zero88.schedulerx">TimeClock</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Represents for time clock</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/trigger/rule/Timeframe.html" title="interface in io.github.zero88.schedulerx.trigger.rule">Timeframe</a>&lt;<a href="io/github/zero88/schedulerx/trigger/rule/Timeframe.html" title="type parameter in Timeframe">T</a>&gt;</div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/trigger/rule/Timeframe.html" title="interface in io.github.zero88.schedulerx.trigger.rule">Timeframe</a>&lt;<a href="io/github/zero88/schedulerx/trigger/rule/Timeframe.html" title="type parameter in Timeframe">T</a>&gt;</div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">A particular period of time in which a trigger can be emitted.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/trigger/rule/TimeframeValidator.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TimeframeValidator</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/trigger/rule/TimeframeValidator.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TimeframeValidator</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Represents for a validator to ensure Timeframe is valid to use.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/github/zero88/schedulerx/TimeoutBlock.html" title="class in io.github.zero88.schedulerx">TimeoutBlock</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/github/zero88/schedulerx/TimeoutBlock.html" title="class in io.github.zero88.schedulerx">TimeoutBlock</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Represents for a helper to create a timeout block.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/github/zero88/schedulerx/TimeoutPolicy.html" title="class in io.github.zero88.schedulerx">TimeoutPolicy</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/github/zero88/schedulerx/TimeoutPolicy.html" title="class in io.github.zero88.schedulerx">TimeoutPolicy</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Represents for holder to keep timeout configuration.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/trigger/rule/TimeParser.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TimeParser</a>&lt;<a href="io/github/zero88/schedulerx/trigger/rule/TimeParser.html" title="type parameter in TimeParser">T</a>&gt;</div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/trigger/rule/TimeParser.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TimeParser</a>&lt;<a href="io/github/zero88/schedulerx/trigger/rule/TimeParser.html" title="type parameter in TimeParser">T</a>&gt;</div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Represents for a time parser</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/trigger/rule/TimeRangeConstraint.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TimeRangeConstraint</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/trigger/rule/TimeRangeConstraint.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TimeRangeConstraint</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Represents for inspecting settings specific to a Trigger, which is used to fire a <code><a href="io/github/zero88/schedulerx/Job.html" title="interface in io.github.zero88.schedulerx"><code>Job</code></a></code> at given
  moments in time.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/trigger/TriggerCondition.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerCondition</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/trigger/TriggerCondition.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerCondition</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Represents the trigger condition to describe more insights when the trigger is ready, skipped, or stopped.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/github/zero88/schedulerx/trigger/TriggerCondition.ReasonCode.html" title="class in io.github.zero88.schedulerx.trigger">TriggerCondition.ReasonCode</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab3"><a href="io/github/zero88/schedulerx/trigger/TriggerCondition.TriggerStatus.html" title="enum class in io.github.zero88.schedulerx.trigger">TriggerCondition.TriggerStatus</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/github/zero88/schedulerx/trigger/TriggerCondition.ReasonCode.html" title="class in io.github.zero88.schedulerx.trigger">TriggerCondition.ReasonCode</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab3"><a href="io/github/zero88/schedulerx/trigger/TriggerCondition.TriggerStatus.html" title="enum class in io.github.zero88.schedulerx.trigger">TriggerCondition.TriggerStatus</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">A runtime trigger information</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/github/zero88/schedulerx/impl/TriggerContextFactory.html" title="class in io.github.zero88.schedulerx.impl">TriggerContextFactory</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/github/zero88/schedulerx/impl/TriggerContextFactory.html" title="class in io.github.zero88.schedulerx.impl">TriggerContextFactory</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">The factory to create trigger context.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/trigger/TriggerEvaluator.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerEvaluator</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
-<div class="block">Represents for the trigger evaluator to assess in 2 cases:
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/trigger/TriggerEvaluator.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerEvaluator</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
+<div class="block">Represents the trigger evaluator to assess in 2 cases:
  
-     if the trigger is can run before each execution round is started.
-     if the trigger should stop executing immediately after one round of execution begins.
+     whether the trigger can run before each execution round is started.
+     whether the trigger should stop executing immediately after one round of execution begins.
  </div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/trigger/repr/TriggerRepresentation.html" title="interface in io.github.zero88.schedulerx.trigger.repr">TriggerRepresentation</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/trigger/repr/TriggerRepresentation.html" title="interface in io.github.zero88.schedulerx.trigger.repr">TriggerRepresentation</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">A trigger representation that</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/trigger/repr/TriggerRepresentationMapper.html" title="interface in io.github.zero88.schedulerx.trigger.repr">TriggerRepresentationMapper</a>&lt;<a href="io/github/zero88/schedulerx/trigger/repr/TriggerRepresentationMapper.html" title="type parameter in TriggerRepresentationMapper">T</a> extends <a href="io/github/zero88/schedulerx/trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a>&gt;</div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/github/zero88/schedulerx/trigger/repr/TriggerRepresentationServiceLoader.html" title="class in io.github.zero88.schedulerx.trigger.repr">TriggerRepresentationServiceLoader</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/trigger/repr/TriggerRepresentationMapper.html" title="interface in io.github.zero88.schedulerx.trigger.repr">TriggerRepresentationMapper</a>&lt;<a href="io/github/zero88/schedulerx/trigger/repr/TriggerRepresentationMapper.html" title="type parameter in TriggerRepresentationMapper">T</a> extends <a href="io/github/zero88/schedulerx/trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a>&gt;</div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/github/zero88/schedulerx/trigger/repr/TriggerRepresentationServiceLoader.html" title="class in io.github.zero88.schedulerx.trigger.repr">TriggerRepresentationServiceLoader</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Represents the service loader <code>META-INF/services</code> for <a href="io/github/zero88/schedulerx/trigger/repr/TriggerRepresentationMapper.html" title="interface in io.github.zero88.schedulerx.trigger.repr"><code>TriggerRepresentationMapper</code></a> providers</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/trigger/rule/TriggerRule.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TriggerRule</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/trigger/rule/TriggerRule.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TriggerRule</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Represents a rule that sets advanced conditions to allow the trigger to run or not.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/github/zero88/schedulerx/impl/Utils.html" title="class in io.github.zero88.schedulerx.impl">Utils</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/github/zero88/schedulerx/impl/Utils.HumanReadableTimeFormat.html" title="class in io.github.zero88.schedulerx.impl">Utils.HumanReadableTimeFormat</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/github/zero88/schedulerx/impl/Utils.html" title="class in io.github.zero88.schedulerx.impl">Utils</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/WorkerExecutorFactory.html" title="interface in io.github.zero88.schedulerx">WorkerExecutorFactory</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
-<div class="block">A factory to create <code>WorkerExecutor</code> based on the execution timeout policy.</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/github/zero88/schedulerx/impl/Utils.HumanReadableTimeFormat.html" title="class in io.github.zero88.schedulerx.impl">Utils.HumanReadableTimeFormat</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/github/zero88/schedulerx/WorkerExecutorFactory.html" title="interface in io.github.zero88.schedulerx">WorkerExecutorFactory</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="block">A factory to create <code>WorkerExecutor</code>.</div>
 </div>
 </div>
 </div>

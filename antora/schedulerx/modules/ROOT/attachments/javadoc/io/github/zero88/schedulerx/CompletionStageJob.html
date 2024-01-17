@@ -99,7 +99,7 @@ extends <a href="FuturableJob.html" title="interface in io.github.zero88.schedul
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/CompletionStage.html" title="class or interface in java.util.concurrent" class="external-link">CompletionStage</a>&lt;<a href="CompletionStageJob.html" title="type parameter in CompletionStageJob">OUTPUT</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#doAsync(io.github.zero88.schedulerx.JobData,io.github.zero88.schedulerx.ExecutionContext)" class="member-name-link">doAsync</a><wbr>(@NotNull <a href="JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;<a href="CompletionStageJob.html" title="type parameter in CompletionStageJob">INPUT</a>&gt;&nbsp;jobData,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#doExecute(io.github.zero88.schedulerx.JobData,io.github.zero88.schedulerx.ExecutionContext)" class="member-name-link">doExecute</a><wbr>(@NotNull <a href="JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;<a href="CompletionStageJob.html" title="type parameter in CompletionStageJob">INPUT</a>&gt;&nbsp;jobData,
  @NotNull <a href="ExecutionContext.html" title="interface in io.github.zero88.schedulerx">ExecutionContext</a>&lt;<a href="CompletionStageJob.html" title="type parameter in CompletionStageJob">OUTPUT</a>&gt;&nbsp;executionContext)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Async execute</div>
@@ -174,17 +174,17 @@ extends <a href="FuturableJob.html" title="interface in io.github.zero88.schedul
 </section>
 </li>
 <li>
-<section class="detail" id="doAsync(io.github.zero88.schedulerx.JobData,io.github.zero88.schedulerx.ExecutionContext)">
-<h3>doAsync</h3>
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/CompletionStage.html" title="class or interface in java.util.concurrent" class="external-link">CompletionStage</a>&lt;<a href="CompletionStageJob.html" title="type parameter in CompletionStageJob">OUTPUT</a>&gt;</span>&nbsp;<span class="element-name">doAsync</span><wbr><span class="parameters">(@NotNull
+<section class="detail" id="doExecute(io.github.zero88.schedulerx.JobData,io.github.zero88.schedulerx.ExecutionContext)">
+<h3>doExecute</h3>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/CompletionStage.html" title="class or interface in java.util.concurrent" class="external-link">CompletionStage</a>&lt;<a href="CompletionStageJob.html" title="type parameter in CompletionStageJob">OUTPUT</a>&gt;</span>&nbsp;<span class="element-name">doExecute</span><wbr><span class="parameters">(@NotNull
  @NotNull <a href="JobData.html" title="interface in io.github.zero88.schedulerx">JobData</a>&lt;<a href="CompletionStageJob.html" title="type parameter in CompletionStageJob">INPUT</a>&gt;&nbsp;jobData,
  @NotNull
  @NotNull <a href="ExecutionContext.html" title="interface in io.github.zero88.schedulerx">ExecutionContext</a>&lt;<a href="CompletionStageJob.html" title="type parameter in CompletionStageJob">OUTPUT</a>&gt;&nbsp;executionContext)</span></div>
-<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="FuturableJob.html#doAsync(io.github.zero88.schedulerx.JobData,CTX)">FuturableJob</a></code></span></div>
+<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="FuturableJob.html#doExecute(io.github.zero88.schedulerx.JobData,CTX)">FuturableJob</a></code></span></div>
 <div class="block">Async execute</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="FuturableJob.html#doAsync(io.github.zero88.schedulerx.JobData,CTX)">doAsync</a></code>&nbsp;in interface&nbsp;<code><a href="FuturableJob.html" title="interface in io.github.zero88.schedulerx">FuturableJob</a>&lt;<a href="CompletionStageJob.html" title="type parameter in CompletionStageJob">INPUT</a>,<wbr><a href="CompletionStageJob.html" title="type parameter in CompletionStageJob">OUTPUT</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/CompletionStage.html" title="class or interface in java.util.concurrent" class="external-link">CompletionStage</a>&lt;<a href="CompletionStageJob.html" title="type parameter in CompletionStageJob">OUTPUT</a>&gt;,<wbr><a href="ExecutionContext.html" title="interface in io.github.zero88.schedulerx">ExecutionContext</a>&lt;<a href="CompletionStageJob.html" title="type parameter in CompletionStageJob">OUTPUT</a>&gt;&gt;</code></dd>
+<dd><code><a href="FuturableJob.html#doExecute(io.github.zero88.schedulerx.JobData,CTX)">doExecute</a></code>&nbsp;in interface&nbsp;<code><a href="FuturableJob.html" title="interface in io.github.zero88.schedulerx">FuturableJob</a>&lt;<a href="CompletionStageJob.html" title="type parameter in CompletionStageJob">INPUT</a>,<wbr><a href="CompletionStageJob.html" title="type parameter in CompletionStageJob">OUTPUT</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/concurrent/CompletionStage.html" title="class or interface in java.util.concurrent" class="external-link">CompletionStage</a>&lt;<a href="CompletionStageJob.html" title="type parameter in CompletionStageJob">OUTPUT</a>&gt;,<wbr><a href="ExecutionContext.html" title="interface in io.github.zero88.schedulerx">ExecutionContext</a>&lt;<a href="CompletionStageJob.html" title="type parameter in CompletionStageJob">OUTPUT</a>&gt;&gt;</code></dd>
 <dt>Parameters:</dt>
 <dd><code>jobData</code> - job data</dd>
 <dd><code>executionContext</code> - job execution context</dd>

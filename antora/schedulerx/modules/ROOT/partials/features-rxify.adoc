@@ -1,0 +1,49 @@
+// tag::rx3[]
+[source,java,subs="attributes,verbatim"]
+----
+io.github.zero88.schedulerx.IntervalScheduler scheduler
+    = io.github.zero88.schedulerx.IntervalScheduler.builder()
+                                                   .setVertx(vertx)
+                                                   .setTrigger(trigger)
+                                                   .setJob(job)
+                                                   .build();
+// create rx3 schedulerx by non-rxify version
+io.github.zero88.schedulerx.rxjava3.IntervalScheduler rxScheduler
+    = io.github.zero88.schedulerx.rxjava3.IntervalScheduler.newInstance(scheduler);
+rxScheduler.start();
+----
+// end::rx3[]
+// tag::rx3Builder[]
+[source,java,subs="attributes,verbatim"]
+----
+io.vertx.rxjava3.core.Vertx vertxRx3 = io.vertx.rxjava3.core.Vertx.newInstance(vertx);
+io.vertx.rxjava3.core.WorkerExecutor workerExecutor = vertxRx3.createSharedWorkerExecutor("hello-rx3");
+
+// Create rx3 schedulerx by builder
+io.github.zero88.schedulerx.rxjava3.CronScheduler rxScheduler
+    = io.github.zero88.schedulerx.rxjava3.CronScheduler.builder()
+                                                       .setVertx(vertxRx3)
+                                                       .setTrigger(trigger)
+                                                       .setJob(job)
+                                                       .build();
+// Start scheduler with rx3 worker
+rxScheduler.start(workerExecutor);
+----
+// end::rx3Builder[]
+// tag::mutinyBuilder[]
+[source,java,subs="attributes,verbatim"]
+----
+io.vertx.mutiny.core.Vertx vertxMutiny = io.vertx.mutiny.core.Vertx.newInstance(vertx);
+io.vertx.mutiny.core.WorkerExecutor workerExecutor = vertxMutiny.createSharedWorkerExecutor("hello-mutiny");
+
+// Create mutiny schedulerx by builder
+io.github.zero88.schedulerx.mutiny.EventScheduler<JsonObject> mutinyScheduler
+    = io.github.zero88.schedulerx.mutiny.EventScheduler.<Object, Object, JsonObject>builder()
+                                                       .setVertx(vertxMutiny)
+                                                       .setTrigger(trigger)
+                                                       .setJob(job)
+                                                       .build();
+// Start scheduler with mutiny worker
+mutinyScheduler.start(workerExecutor);
+----
+// end::mutinyBuilder[]

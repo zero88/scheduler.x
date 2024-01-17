@@ -1,0 +1,3 @@
+= Trigger representation
+
+`Scheduler.x` provides an extension point to describe the trigger in a human-readable description.
