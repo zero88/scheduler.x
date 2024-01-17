@@ -1,6 +1,6 @@
 base=CHANGELOG.md
 breaking-labels=breaking-changes
-bug-labels=T: Bug
+bug-labels=T: Bug,bug
 exclude-tags-regex=
-exclude-labels=R: Duplicate,R: Invalid,R: Wontfix,T: Question,!release-note,Project: jpa,Project: rsql
-enhancement-labels=T: Improvement,T: Feature
+exclude-labels=R: Duplicate,R: Invalid,R: Wontfix,T: Question,!release-note
+enhancement-labels=T: Improvement,T: Feature,enhancement
