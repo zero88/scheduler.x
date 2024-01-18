@@ -48,7 +48,7 @@ jobs:
   docs:
     uses: zero88/shared-ghactions/.github/workflows/antora-docs.yml@main
     needs: [ context, build ]
-    if: needs.context.outputs.shouldPublish == 'true'
+    if: needs.context.outputs.shouldBuild == 'true'
     with:
       profile: 'schedulerx'
       version: ${{ needs.context.outputs.version }}
@@ -57,6 +57,7 @@ jobs:
       sha: ${{ needs.context.outputs.sha }}
       isRelease: ${{ needs.context.outputs.isRelease }}
       antoraBuildDir: docs/build/docs/antora
+      syncDoc: ${{ needs.context.outputs.shouldPublish }}
       docBranch: ${{ needs.context.outputs.docBranch }}
       docVersion: ${{ needs.context.outputs.docVersion }}
       docCommitMsg: ${{ needs.context.outputs.docCommitMsg }}
