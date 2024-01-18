@@ -1,6 +1,6 @@
 # Changelog
 
-## [v2.0.0-rc.1](https://github.com/zero88/scheduler.x/tree/v2.0.0-rc.1) (2024-01-17)
+## [v2.0.0-rc.1](https://github.com/zero88/scheduler.x/tree/v2.0.0-rc.1) (2024-01-18)
 
 [Full Changelog](https://github.com/zero88/scheduler.x/compare/925dfb386184b7a6eb1b22e59d6e3125d85f5e1b...v2.0.0-rc.1)
 
@@ -22,7 +22,7 @@
 - Add TriggerCondition [\#69](https://github.com/zero88/scheduler.x/issues/69)
 - EventTrigger should be able to persist [\#67](https://github.com/zero88/scheduler.x/issues/67)
 - Class naming convention [\#66](https://github.com/zero88/scheduler.x/issues/66)
-- Trigger should able to control its executor to start or stop [\#64](https://github.com/zero88/scheduler.x/issues/64)
+- Trigger should be able to control its executor to start or stop [\#64](https://github.com/zero88/scheduler.x/issues/64)
 - Trigger representation [\#63](https://github.com/zero88/scheduler.x/issues/63)
 - Add event trigger [\#60](https://github.com/zero88/scheduler.x/issues/60)
 - Add advance trigger rule [\#57](https://github.com/zero88/scheduler.x/issues/57)
