@@ -1,0 +1,162 @@
+== Changelog
+
+=== https://github.com/zero88/scheduler.x/tree/v2.0.0-rc.1[v2.0.0-rc.1] (2024-01-18)
+
+https://github.com/zero88/scheduler.x/compare/925dfb386184b7a6eb1b22e59d6e3125d85f5e1b...v2.0.0-rc.1[Full
+Changelog]
+
+*Breaking changes:*
+
+* Rename `Task` to `Job`
+https://github.com/zero88/scheduler.x/issues/92[#92]
+
+*Implemented enhancements:*
+
+* Add AsyncJob https://github.com/zero88/scheduler.x/issues/105[#105]
+* Improve SchedulingMonitor
+https://github.com/zero88/scheduler.x/issues/103[#103]
+* Wrap `Instant.now()` to interface and make it injectable into
+`Scheduler` https://github.com/zero88/scheduler.x/issues/100[#100]
+* Improve Trigger https://github.com/zero88/scheduler.x/issues/97[#97]
+* Add TriggerEvaluator
+https://github.com/zero88/scheduler.x/issues/93[#93]
+* Add TriggerContext condition state `executed`
+https://github.com/zero88/scheduler.x/issues/91[#91]
+* Add Timeout configuration in execution
+https://github.com/zero88/scheduler.x/issues/88[#88]
+* Add leeway time for trigger rule
+https://github.com/zero88/scheduler.x/issues/82[#82]
+* Change `the evaluation on the trigger before run` to async operation
+https://github.com/zero88/scheduler.x/issues/77[#77]
+* Add TriggerCondition
+https://github.com/zero88/scheduler.x/issues/69[#69]
+* EventTrigger should be able to persist
+https://github.com/zero88/scheduler.x/issues/67[#67]
+* Class naming convention
+https://github.com/zero88/scheduler.x/issues/66[#66]
+* Trigger should be able to control its executor to start or stop
+https://github.com/zero88/scheduler.x/issues/64[#64]
+* Trigger representation
+https://github.com/zero88/scheduler.x/issues/63[#63]
+* Add event trigger https://github.com/zero88/scheduler.x/issues/60[#60]
+* Add advance trigger rule
+https://github.com/zero88/scheduler.x/issues/57[#57]
+* Add external id in JobData
+https://github.com/zero88/scheduler.x/issues/2[#2]
+* Cron task with repeating until a given time / date
+https://github.com/zero88/scheduler.x/issues/1[#1]
+
+*Fixed bugs:*
+
+* Cron Trigger still run one more round after invoking force stop in
+current round https://github.com/zero88/scheduler.x/issues/68[#68]
+* Prevent to start the executor many times
+https://github.com/zero88/scheduler.x/issues/62[#62]
+
+*Closed issues:*
+
+* Change Timeframe#from to minimum allowed value (inclusive)
+https://github.com/zero88/scheduler.x/issues/84[#84]
+* Preview schedule https://github.com/zero88/scheduler.x/issues/56[#56]
+* Make contract between Task and TaskExecutionState + TaskResult
+https://github.com/zero88/scheduler.x/issues/53[#53]
+* Make contract between Task and JobData
+https://github.com/zero88/scheduler.x/issues/52[#52]
+* Upgrade vertx https://github.com/zero88/scheduler.x/issues/48[#48]
+* Rename artifact https://github.com/zero88/scheduler.x/issues/47[#47]
+* Upgrade gradle https://github.com/zero88/scheduler.x/issues/46[#46]
+* Remove lombok https://github.com/zero88/scheduler.x/issues/45[#45]
+
+*Merged pull requests:*
+
+* feat(#105): Add reactive Job interface
+https://github.com/zero88/scheduler.x/pull/108[#108]
+(https://github.com/zero88[zero88])
+* Doc/prepare release 2.0.0
+https://github.com/zero88/scheduler.x/pull/107[#107]
+(https://github.com/zero88[zero88])
+* feat(#105): Add AsyncJob and reactive version (rx3/mutiny)
+https://github.com/zero88/scheduler.x/pull/106[#106]
+(https://github.com/zero88[zero88])
+* Feature/improve scheduling monitor
+https://github.com/zero88/scheduler.x/pull/104[#104]
+(https://github.com/zero88[zero88])
+* refactor(Scheduler): Simplify Scheduler interface
+https://github.com/zero88/scheduler.x/pull/102[#102]
+(https://github.com/zero88[zero88])
+* feature(#100): TimeClock interface
+https://github.com/zero88/scheduler.x/pull/101[#101]
+(https://github.com/zero88[zero88])
+* fix(#93): the evaluation chaining operation must stop when reach a
+trigger target status https://github.com/zero88/scheduler.x/pull/99[#99]
+(https://github.com/zero88[zero88])
+* Feature/improve interval trigger
+https://github.com/zero88/scheduler.x/pull/98[#98]
+(https://github.com/zero88[zero88])
+* Feature/refactor internal api
+https://github.com/zero88/scheduler.x/pull/96[#96]
+(https://github.com/zero88[zero88])
+* Feature/trigger evaluation
+https://github.com/zero88/scheduler.x/pull/95[#95]
+(https://github.com/zero88[zero88])
+* Feature/rename task to job
+https://github.com/zero88/scheduler.x/pull/94[#94]
+(https://github.com/zero88[zero88])
+* Feature/add trigger state executed
+https://github.com/zero88/scheduler.x/pull/90[#90]
+(https://github.com/zero88[zero88])
+* Feature/add timeout https://github.com/zero88/scheduler.x/pull/89[#89]
+(https://github.com/zero88[zero88])
+* chore(gradle): update build dependencies
+https://github.com/zero88/scheduler.x/pull/87[#87]
+(https://github.com/zero88[zero88])
+* feat(Timeframe): change `from` to an inclusive value [#84]
+https://github.com/zero88/scheduler.x/pull/85[#85]
+(https://github.com/zero88[zero88])
+* feat(TriggerRule): Add leeway configuration
+https://github.com/zero88/scheduler.x/pull/83[#83]
+(https://github.com/zero88[zero88])
+* Feature/evaluate trigger in blocking thread
+https://github.com/zero88/scheduler.x/pull/80[#80]
+(https://github.com/zero88[zero88])
+* Bugfix/fix cron trigger still run one more round
+https://github.com/zero88/scheduler.x/pull/79[#79]
+(https://github.com/zero88[zero88])
+* Implement serialization/deserialization
+https://github.com/zero88/scheduler.x/pull/76[#76]
+(https://github.com/zero88[zero88])
+* Refactor/misc https://github.com/zero88/scheduler.x/pull/75[#75]
+(https://github.com/zero88[zero88])
+* feat(#57): Add Trigger rule
+https://github.com/zero88/scheduler.x/pull/74[#74]
+(https://github.com/zero88[zero88])
+* feat(#69): Add TriggerCondition
+https://github.com/zero88/scheduler.x/pull/73[#73]
+(https://github.com/zero88[zero88])
+* feat(#63): Trigger representation
+https://github.com/zero88/scheduler.x/pull/72[#72]
+(https://github.com/zero88[zero88])
+* Naming convention https://github.com/zero88/scheduler.x/pull/70[#70]
+(https://github.com/zero88[zero88])
+* Feature/some improvements
+https://github.com/zero88/scheduler.x/pull/65[#65]
+(https://github.com/zero88[zero88])
+* Feature/add event trigger
+https://github.com/zero88/scheduler.x/pull/61[#61]
+(https://github.com/zero88[zero88])
+* Add Trigger#preview https://github.com/zero88/scheduler.x/pull/58[#58]
+(https://github.com/zero88[zero88])
+* Add generic parameter to make contract between Task and Input/Output
+https://github.com/zero88/scheduler.x/pull/54[#54]
+(https://github.com/zero88[zero88])
+* Feature/upgrade vertx
+https://github.com/zero88/scheduler.x/pull/51[#51]
+(https://github.com/zero88[zero88])
+* Feature/remove lombok
+https://github.com/zero88/scheduler.x/pull/50[#50]
+(https://github.com/zero88[zero88])
+* Feature/upgrade https://github.com/zero88/scheduler.x/pull/49[#49]
+(https://github.com/zero88[zero88])
+
+_This Changelog was automatically generated by
+https://github.com/github-changelog-generator/github-changelog-generator[github_changelog_generator]_

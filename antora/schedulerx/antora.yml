@@ -3,5 +3,5 @@ title: Scheduler.x
 version: main
 nav: [modules/ROOT/nav.adoc]
 asciidoc:
-  attributes: {project-group: io.github.zero88, project-name: schedulerx, project-version: 2.0.0-SNAPSHOT,
+  attributes: {project-group: io.github.zero88, project-name: schedulerx, project-version: 2.0.0-rc.1-SNAPSHOT,
     vertx-version: 4.4.4}
