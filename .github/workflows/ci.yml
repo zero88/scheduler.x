@@ -93,7 +93,7 @@ jobs:
 
   publish:
     uses: zero88/shared-ghactions/.github/workflows/gradle-publish.yml@main
-    needs: [ context, test, webdocs ]
+    needs: [ context, test, docs ]
     if: needs.context.outputs.shouldPublish == 'true'
     with:
       profile: 'schedulerx'
@@ -109,7 +109,7 @@ jobs:
 
   release:
     runs-on: ubuntu-latest
-    needs: [ context, publish ]
+    needs: [ context, webdocs, publish ]
     if: needs.context.outputs.isRelease == 'true'
     steps:
       - name: Create GitHub Release
