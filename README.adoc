@@ -5,7 +5,7 @@ zero88
 :sonarKey: zero88_scheduler.x
 
 image:https://github.com/{repo}/actions/workflows/ci.yml/badge.svg[{repo},link=https://github.com/{repo}/actions/workflows/ci.yml]
-image:https://img.shields.io/github/v/release/{repo}?sort=semver[GitHub release (latest SemVer)]
+image:https://img.shields.io/github/v/release/{repo}?include_prereleases&sort=semver[GitHub Release]
 image:https://img.shields.io/nexus/r/{artifact}?server=https%3A%2F%2Foss.sonatype.org[Sonatype Nexus (Releases)]
 image:https://img.shields.io/nexus/s/{artifact}?server=https%3A%2F%2Foss.sonatype.org[Sonatype Nexus (Snapshots)]
 
@@ -20,4 +20,4 @@ A pluggable `lightweight scheduler` based on plain https://vertx.io/[Vert.x] cor
 
 `Scheduler.x` follows an event-driven architecture.
 
-Please check out full documentation at https://zero88.github.io/jooqx-webdocs/schedulerx/main/index.html[web-docs]
+Please check out full documentation at https://zero88.github.io/webdocs/schedulerx/main/index.html[web-docs]

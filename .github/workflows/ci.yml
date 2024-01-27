@@ -71,7 +71,7 @@ jobs:
     needs: [ context, docs ]
     if: needs.context.outputs.shouldPublish == 'true'
     with:
-      webdocsRepo: 'zero88/jooqx-webdocs'
+      webdocsRepo: 'zero88/webdocs'
       webdocsRef: 'main'
       webdocsWorkflow: 'webdocs.yml'
       docCommitMsg: ${{ needs.context.outputs.docCommitMsg }}
