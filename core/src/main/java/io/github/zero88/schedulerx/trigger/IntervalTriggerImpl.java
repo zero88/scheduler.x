@@ -12,7 +12,7 @@ import java.util.Optional;
 
 import org.jetbrains.annotations.NotNull;
 
-import io.github.zero88.schedulerx.impl.Utils.HumanReadableTimeFormat;
+import io.github.zero88.schedulerx.impl.HumanReadableTimeFormat;
 import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
 
 final class IntervalTriggerImpl implements IntervalTrigger {

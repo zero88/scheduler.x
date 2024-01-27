@@ -9,7 +9,7 @@ import io.github.zero88.schedulerx.trigger.Trigger;
 import io.vertx.core.VertxOptions;
 
 /**
- * Instances of this class are used to configure the default {@link Trigger} options, and {@link Job} options.
+ * The class instance is used to configure the default {@link Trigger} options, and {@link Job} options.
  *
  * @since 2.0.0
  */
@@ -41,7 +41,7 @@ public final class DefaultOptions {
     /**
      * Declares the default max execution timeout. Defaults is {@link VertxOptions#DEFAULT_MAX_WORKER_EXECUTE_TIME}
      *
-     * @apiNote It can be overridden by system property with key {@link #PROP_EXECUTION_MAX_TIMEOUT}
+     * @apiNote It can be overridden by system property with key {@value #PROP_EXECUTION_MAX_TIMEOUT}
      */
     public final Duration executionMaxTimeout;
 
@@ -49,21 +49,21 @@ public final class DefaultOptions {
      * Declares the default max trigger evaluation timeout. Defaults is
      * {@link VertxOptions#DEFAULT_MAX_EVENT_LOOP_EXECUTE_TIME}
      *
-     * @apiNote It can be overridden by system property with key {@link #PROP_EVALUATION_MAX_TIMEOUT}
+     * @apiNote It can be overridden by system property with key {@value #PROP_EVALUATION_MAX_TIMEOUT}
      */
     public final Duration evaluationMaxTimeout;
 
     /**
      * Declares the default max trigger rule leeway time. Defaults is {@code 10 seconds}.
      *
-     * @apiNote It can be overridden by system property with key {@link #PROP_TRIGGER_RULE_PROP_MAX_LEEWAY}
+     * @apiNote It can be overridden by system property with key {@value #PROP_TRIGGER_RULE_PROP_MAX_LEEWAY}
      */
     public final Duration triggerRuleMaxLeeway;
 
     /**
      * Declares the default max number of the trigger preview items. Defaults is {@code 30}.
      *
-     * @apiNote It can be overridden by system property with key {@link #PROP_TRIGGER_PREVIEW_MAX_COUNT}
+     * @apiNote It can be overridden by system property with key {@value #PROP_TRIGGER_PREVIEW_MAX_COUNT}
      */
     public final int triggerPreviewMaxCount;
 
@@ -71,14 +71,14 @@ public final class DefaultOptions {
      * Declares the default worker thread name prefix for the execution operation. Defaults is
      * {@code scheduler.x-worker-thread}.
      *
-     * @apiNote It can be overridden by system property with key {@link #PROP_EXECUTION_THREAD_PREFIX}
+     * @apiNote It can be overridden by system property with key {@value #PROP_EXECUTION_THREAD_PREFIX}
      */
     public final String executionThreadPrefix;
 
     /**
      * Declares the default worker thread pool size for the execution operation. Defaults is {@code 5}.
      *
-     * @apiNote It can be overridden by system property with key {@link #PROP_EXECUTION_THREAD_POOL_SIZE}
+     * @apiNote It can be overridden by system property with key {@value #PROP_EXECUTION_THREAD_POOL_SIZE}
      */
     public final int executionThreadPoolSize;
 
@@ -86,7 +86,7 @@ public final class DefaultOptions {
      * Declares the default max scheduling monitor timeout. Defaults is
      * {@link VertxOptions#DEFAULT_MAX_EVENT_LOOP_EXECUTE_TIME}
      *
-     * @apiNote It can be overridden by system property with key {@link #PROP_MONITOR_MAX_TIMEOUT}
+     * @apiNote It can be overridden by system property with key {@value #PROP_MONITOR_MAX_TIMEOUT}
      */
     public final Duration monitorMaxTimeout;
 
@@ -94,14 +94,14 @@ public final class DefaultOptions {
      * Declares the default worker thread name prefix for the monitor operation. Defaults is
      * {@code scheduler.x-monitor-thread}.
      *
-     * @apiNote It can be overridden by system property with key {@link #PROP_MONITOR_THREAD_PREFIX}
+     * @apiNote It can be overridden by system property with key {@value #PROP_MONITOR_THREAD_PREFIX}
      */
     public final String monitorThreadPrefix;
 
     /**
      * Declares the default worker thread pool size for the monitor operation. Defaults is {@code 3}.
      *
-     * @apiNote It can be overridden by system property with key {@link #PROP_MONITOR_THREAD_POOL_SIZE}
+     * @apiNote It can be overridden by system property with key {@value #PROP_MONITOR_THREAD_POOL_SIZE}
      */
     public final int monitorThreadPoolSize;
 

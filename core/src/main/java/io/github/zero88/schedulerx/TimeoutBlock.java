@@ -5,7 +5,7 @@ import java.util.concurrent.TimeoutException;
 
 import org.jetbrains.annotations.NotNull;
 
-import io.github.zero88.schedulerx.impl.Utils.HumanReadableTimeFormat;
+import io.github.zero88.schedulerx.impl.HumanReadableTimeFormat;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;

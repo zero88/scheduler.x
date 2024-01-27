@@ -21,7 +21,7 @@ abstract class SchedulingMonitorAbstract<OUT> implements SchedulingMonitor<OUT> 
             }
         } catch (Throwable ex) {
             logger().warn(
-                "Unexpected error in " + brackets(monitorCls.getName()) + "when dispatching the execution result", ex);
+                "Unexpected error in " + brackets(monitorCls.getName()) + " when dispatching the execution result", ex);
         }
     }
 
