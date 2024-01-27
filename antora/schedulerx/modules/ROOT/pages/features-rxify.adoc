@@ -31,9 +31,9 @@ In your `pom.xml`
        <version>{mutiny-version}</version>
     </dependency>
     <dependency>
-      <groupId>io.github.zero88</groupId>
-      <artifactId>jooqx</artifactId>
-      <version>{jooqx-version}</version>
+      <groupId>{project-group}</groupId>
+      <artifactId>{project-name}</artifactId>
+      <version>{project-version}</version>
     </dependency>
 </dependencies>
 ----
@@ -78,7 +78,7 @@ dependencies {
 
 Well done, now you can enjoy `Rxify` version with a little effort
 
-== Examples
+== Cookbook
 
 === `Rx3` - By `schedulerx` instance
 
@@ -91,3 +91,13 @@ include::partial$features-rxify.adoc[tag=rx3Builder]
 === `Mutiny` - By `schedulerx` builder
 
 include::partial$features-rxify.adoc[tag=mutinyBuilder]
+
+=== `Mutiny` Job
+
+You can create a new `Job` that compatible to `Mutiny` version also
+
+include::partial$features-rxify.adoc[tag=mutinyBuilderWithMutinyJob]
+
+And then, pass it to the `Mutiny` builder
+
+include::partial$features-rxify.adoc[tag=mutinyBuilderWithMutinyJob]

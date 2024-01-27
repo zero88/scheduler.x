@@ -21,3 +21,9 @@ The `scheduler` lifecycle event is one of:
 * The trigger is completed, which means no more scheduled fire time in the future.
 
 == Flow
+
+.How scheduler.x works
+[plantuml, how-it-works, format=svg, options=interactive]
+....
+include::partial$how-it-works.puml[]
+....

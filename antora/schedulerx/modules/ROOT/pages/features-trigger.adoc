@@ -1,0 +1,31 @@
+= Trigger
+
+`Trigger` is a component defines the schedule upon which a given `Job` will be executed.
+There are different types of triggers that you can select from to meet different scheduling needs.
+
+* xref:features-trigger-interval.adoc[Interval trigger]
+* xref:features-trigger-cron.adoc[Cron trigger]
+* xref:features-trigger-event.adoc[Event trigger]
+
+There are some advanced configurations to enforce complex scheduling recurrences
+
+* xref:features-trigger-rule.adoc[Trigger rule]
+* xref:features-trigger-evaluator.adoc[Trigger evaluator]
+
+In order to help humans understand the configuration of triggers, you can utilize its representation.
+
+* xref:features-trigger-repr.adoc[Trigger representation]
+
+== Shutdown trigger
+
+There are several ways to cancel the trigger
+
+- By a specific `repeat` configuration in `IntervalTrigger`
+- By `until` configuration in `TriggerRule`
+- By marking `cancel` flag in the job execution
+
+include::partial$basic.adoc[tag=CancelTriggerInJob]
+
+- By manual `cancel` in `Scheduler`
+
+include::partial$basic.adoc[tag=cancelInScheduler]

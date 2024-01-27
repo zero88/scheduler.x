@@ -78,7 +78,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public final class </span><span class="element-name type-name-label">DefaultOptions</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">Instances of this class are used to configure the default <a href="trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger"><code>Trigger</code></a> options, and <a href="Job.html" title="interface in io.github.zero88.schedulerx"><code>Job</code></a> options.</div>
+<div class="block">The class instance is used to configure the default <a href="trigger/Trigger.html" title="interface in io.github.zero88.schedulerx.trigger"><code>Trigger</code></a> options, and <a href="Job.html" title="interface in io.github.zero88.schedulerx"><code>Job</code></a> options.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>2.0.0</dd>
@@ -334,7 +334,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Declares the default max execution timeout. Defaults is <code>VertxOptions.DEFAULT_MAX_WORKER_EXECUTE_TIME</code></div>
 <dl class="notes">
 <dt>API Note:</dt>
-<dd>It can be overridden by system property with key <a href="#PROP_EXECUTION_MAX_TIMEOUT"><code>PROP_EXECUTION_MAX_TIMEOUT</code></a></dd>
+<dd>It can be overridden by system property with key <a href="#PROP_EXECUTION_MAX_TIMEOUT">"schedulerx.default_execution_max_timeout"</a></dd>
 </dl>
 </section>
 </li>
@@ -346,7 +346,7 @@ loadScripts(document, 'script');</script>
  <code>VertxOptions.DEFAULT_MAX_EVENT_LOOP_EXECUTE_TIME</code></div>
 <dl class="notes">
 <dt>API Note:</dt>
-<dd>It can be overridden by system property with key <a href="#PROP_EVALUATION_MAX_TIMEOUT"><code>PROP_EVALUATION_MAX_TIMEOUT</code></a></dd>
+<dd>It can be overridden by system property with key <a href="#PROP_EVALUATION_MAX_TIMEOUT">"schedulerx.default_evaluation_max_timeout"</a></dd>
 </dl>
 </section>
 </li>
@@ -357,7 +357,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Declares the default max trigger rule leeway time. Defaults is <code>10 seconds</code>.</div>
 <dl class="notes">
 <dt>API Note:</dt>
-<dd>It can be overridden by system property with key <a href="#PROP_TRIGGER_RULE_PROP_MAX_LEEWAY"><code>PROP_TRIGGER_RULE_PROP_MAX_LEEWAY</code></a></dd>
+<dd>It can be overridden by system property with key <a href="#PROP_TRIGGER_RULE_PROP_MAX_LEEWAY">"schedulerx.default_trigger_rule_max_leeway"</a></dd>
 </dl>
 </section>
 </li>
@@ -368,7 +368,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Declares the default max number of the trigger preview items. Defaults is <code>30</code>.</div>
 <dl class="notes">
 <dt>API Note:</dt>
-<dd>It can be overridden by system property with key <a href="#PROP_TRIGGER_PREVIEW_MAX_COUNT"><code>PROP_TRIGGER_PREVIEW_MAX_COUNT</code></a></dd>
+<dd>It can be overridden by system property with key <a href="#PROP_TRIGGER_PREVIEW_MAX_COUNT">"schedulerx.default_trigger_preview_max_count"</a></dd>
 </dl>
 </section>
 </li>
@@ -380,7 +380,7 @@ loadScripts(document, 'script');</script>
  <code>scheduler.x-worker-thread</code>.</div>
 <dl class="notes">
 <dt>API Note:</dt>
-<dd>It can be overridden by system property with key <a href="#PROP_EXECUTION_THREAD_PREFIX"><code>PROP_EXECUTION_THREAD_PREFIX</code></a></dd>
+<dd>It can be overridden by system property with key <a href="#PROP_EXECUTION_THREAD_PREFIX">"schedulerx.default_execution_thread_prefix"</a></dd>
 </dl>
 </section>
 </li>
@@ -391,7 +391,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Declares the default worker thread pool size for the execution operation. Defaults is <code>5</code>.</div>
 <dl class="notes">
 <dt>API Note:</dt>
-<dd>It can be overridden by system property with key <a href="#PROP_EXECUTION_THREAD_POOL_SIZE"><code>PROP_EXECUTION_THREAD_POOL_SIZE</code></a></dd>
+<dd>It can be overridden by system property with key <a href="#PROP_EXECUTION_THREAD_POOL_SIZE">"schedulerx.default_execution_thread_pool_size"</a></dd>
 </dl>
 </section>
 </li>
@@ -403,7 +403,7 @@ loadScripts(document, 'script');</script>
  <code>VertxOptions.DEFAULT_MAX_EVENT_LOOP_EXECUTE_TIME</code></div>
 <dl class="notes">
 <dt>API Note:</dt>
-<dd>It can be overridden by system property with key <a href="#PROP_MONITOR_MAX_TIMEOUT"><code>PROP_MONITOR_MAX_TIMEOUT</code></a></dd>
+<dd>It can be overridden by system property with key <a href="#PROP_MONITOR_MAX_TIMEOUT">"schedulerx.default_monitor_max_timeout"</a></dd>
 </dl>
 </section>
 </li>
@@ -415,7 +415,7 @@ loadScripts(document, 'script');</script>
  <code>scheduler.x-monitor-thread</code>.</div>
 <dl class="notes">
 <dt>API Note:</dt>
-<dd>It can be overridden by system property with key <a href="#PROP_MONITOR_THREAD_PREFIX"><code>PROP_MONITOR_THREAD_PREFIX</code></a></dd>
+<dd>It can be overridden by system property with key <a href="#PROP_MONITOR_THREAD_PREFIX">"schedulerx.default_monitor_thread_prefix"</a></dd>
 </dl>
 </section>
 </li>
@@ -426,7 +426,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Declares the default worker thread pool size for the monitor operation. Defaults is <code>3</code>.</div>
 <dl class="notes">
 <dt>API Note:</dt>
-<dd>It can be overridden by system property with key <a href="#PROP_MONITOR_THREAD_POOL_SIZE"><code>PROP_MONITOR_THREAD_POOL_SIZE</code></a></dd>
+<dd>It can be overridden by system property with key <a href="#PROP_MONITOR_THREAD_POOL_SIZE">"schedulerx.default_monitor_thread_pool_size"</a></dd>
 </dl>
 </section>
 </li>

@@ -1,0 +1,93 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+skinparam ParticipantPadding 30
+skinparam BoxPadding 10
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+
+skinparam sequence {
+    LifeLineBackgroundColor #ddd7ba
+
+    ParticipantBorderColor DeepSkyBlue
+    ParticipantBackgroundColor DodgerBlue
+    ParticipantFontName Impact
+    ParticipantFontSize 17
+    ParticipantFontColor #A9DCDF
+}
+
+actor       dev
+box "Vert.x event-loop threads" #LightYellow
+participant "Scheduler.x" as scheduler
+participant "Vertx Timer" as timer
+end box
+
+box "Scheduler.x threads" #dce8ee
+collections "Worker threads" as worker
+collections "Monitor threads" as monitor
+end box
+participant "External system" as extSys
+extSys++
+
+== Initialization ==
+dev -> scheduler++: Build an instance \nwith trigger and job
+dev -> scheduler: Start scheduler
+
+scheduler -> timer++: register timer
+alt #Lightblue trigger is scheduled
+    timer --> scheduler++#466ede: success
+    scheduler -> monitor++#466ede: notify trigger \n**is scheduled** event
+    monitor -> extSys--: publish **scheduled** result
+    scheduler--
+else #ffe9f0 trigger is unable to scheduled
+    timer --> scheduler++#f00: error
+    scheduler -> monitor++#f00: notify trigger \n**is unscheduled** event
+    monitor -> extSys--: publish **unscheduled** result
+    scheduler--
+end alt
+
+||10||
+== Scheduling Loop ==
+
+loop
+timer -> scheduler++#fbb: tick timing event
+scheduler -> worker++: send trigger \nevaluation event
+||5||
+...evaluating trigger condition...
+    alt #Lightblue trigger is READY
+        worker --> scheduler++#5D935D: accepted
+        worker++#5D935D
+        worker--
+        scheduler -> worker++#5D935D: send execution event
+        ||5||
+        ...executing the job...
+        worker --> scheduler--: returns job result
+        scheduler -> monitor++#5D935D: notify trigger \n**round is finished** event
+        monitor -> extSys--: publish **job** result
+        scheduler--
+    else #ffe9f0 trigger is unable to run
+        worker --> scheduler ++#gold: refused
+        worker++#gold
+        worker--
+        scheduler -> monitor++#gold: notify trigger \n**tick is misfired** event
+        monitor -> extSys--: publish **misfire** result
+        scheduler--
+    end alt
+    worker--
+    scheduler--
+||5||
+end group
+
+||10||
+== Shutdown ==
+dev -> scheduler++#466ede: Cancel scheduler
+scheduler -> timer++#466ede: unregister timer
+return
+timer--
+scheduler -> monitor++#466ede: notify trigger \n**is completed** event
+monitor -> extSys--: publish **complete** result
+scheduler--
+
+||5||
+scheduler--
+extSys--
+@enduml

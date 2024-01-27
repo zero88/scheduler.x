@@ -1,1 +1,3 @@
 = Cron trigger
+
+`CronTrigger` provides cron-based scheduling capabilities, making scheduling periodic jobs that recur based on calendar-like notions easier. It leverages the cron implementation in https://www.quartz-scheduler.org/[Quartz] to parse cron expressions and schedule jobs accordingly in the `Vert.x timer`.

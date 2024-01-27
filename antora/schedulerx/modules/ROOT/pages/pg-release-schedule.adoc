@@ -26,4 +26,4 @@ Once a release candidate (rc) has been thoroughly tested, the stable release wil
 [#roadmap]
 == Roadmap
 
-Refer to https://github.com/zero88/schedulerx/milestones[Scheduler.x’s milestones] and https://github.com/zero88/schedulerx/issues[issue tracker] for a list of the currently scheduled development tasks. The milestones are intended for informational purposes only. The proposed features, their scope, and the release timeframes are estimates, not firm commitments.
+Refer to {project-url}/milestones[Scheduler.x’s milestones] and {project-url}/issues[issue tracker] for a list of the currently scheduled development tasks. The milestones are intended for informational purposes only. The proposed features, their scope, and the release timeframes are estimates, not firm commitments.

@@ -30,13 +30,31 @@ io.github.zero88.schedulerx.rxjava3.CronScheduler rxScheduler
 rxScheduler.start(workerExecutor);
 ----
 // end::rx3Builder[]
+// tag::rx3SingleJob[]
+[source,java,subs="attributes,verbatim"]
+----
+@Source
+public class ExampleSingleJob implements Rx3SingleJob<Void, String> {
+
+    @Override
+    public Single<String> doExecute(@NotNull JobData<Void> jobData,
+                                    @NotNull ExecutionContext<String> executionContext) {
+        final io.vertx.rxjava3.core.Vertx vertx = executionContext.vertx();
+        return vertx.fileSystem().rxCreateTempFile("rx3", "single");
+    }
+
+}
+----
+// end::rx3SingleJob[]
+
+<p/>
 // tag::mutinyBuilder[]
 [source,java,subs="attributes,verbatim"]
 ----
 io.vertx.mutiny.core.Vertx vertxMutiny = io.vertx.mutiny.core.Vertx.newInstance(vertx);
 io.vertx.mutiny.core.WorkerExecutor workerExecutor = vertxMutiny.createSharedWorkerExecutor("hello-mutiny");
 
-// Create mutiny schedulerx by builder
+// Create mutiny scheduler by builder
 io.github.zero88.schedulerx.mutiny.EventScheduler<JsonObject> mutinyScheduler
     = io.github.zero88.schedulerx.mutiny.EventScheduler.<Object, Object, JsonObject>builder()
                                                        .setVertx(vertxMutiny)
@@ -47,3 +65,33 @@ io.github.zero88.schedulerx.mutiny.EventScheduler<JsonObject> mutinyScheduler
 mutinyScheduler.start(workerExecutor);
 ----
 // end::mutinyBuilder[]
+// tag::mutinyJob[]
+[source,java,subs="attributes,verbatim"]
+----
+@Source
+public class ExampleMutinyJob implements MutinyJob<Void, String> {
+
+    @Override
+    public Uni<String> doExecute(@NotNull JobData<Void> jobData, @NotNull ExecutionContext<String> executionContext) {
+        final io.vertx.mutiny.core.Vertx vertx = executionContext.vertx();
+        return vertx.fileSystem().readFile("/tmp/hello-from-mutiny.x").map(Buffer::toString);
+    }
+
+}
+----
+// end::mutinyJob[]
+// tag::mutinyBuilderWithMutinyJob[]
+[source,java,subs="attributes,verbatim"]
+----
+io.vertx.mutiny.core.Vertx vertxMutiny = io.vertx.mutiny.core.Vertx.newInstance(vertx);
+// Create new example mutiny job instance
+ExampleMutinyJob job = new ExampleMutinyJob();
+// Create mutiny scheduler within Mutiny job then start
+io.github.zero88.schedulerx.mutiny.IntervalScheduler.<Void, String>builder()
+                                                    .setVertx(vertxMutiny)
+                                                    .setTrigger(trigger)
+                                                    .setJob(job)
+                                                    .build()
+                                                    .start();
+----
+// end::mutinyBuilderWithMutinyJob[]

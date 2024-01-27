@@ -1,0 +1,44 @@
+= Configuration and Option
+
+== Logging
+
+`scheduler.x` reuses the Vert.x logging mechanism. Please, refers to https://vertx.io/docs/vertx-core/java/#_logging
+
+So in short, you can use `slf4j`, `log4j2`, or `jdk logging` by simple below configuration before start your application. Remember add your flavor log library in your classpath.
+
+[source,java]
+----
+// for slf4j
+System.setProperty("vertx.logger-delegate-factory-class-name", "io.vertx.core.logging.SLF4JLogDelegateFactory");
+
+// for log4j2
+System.setProperty("vertx.logger-delegate-factory-class-name", "io.vertx.core.logging.Log4j2LogDelegateFactory");
+
+// fallback to jdk logging or config explicitly
+System.setProperty("vertx.logger-delegate-factory-class-name", "io.vertx.core.logging.JULLogDelegateFactory");
+----
+
+`scheduler.x` logging in very low level, you can enable it by
+
+[source,xml]
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+  <Loggers>
+    <!-- other logger -->
+    ...
+    <!-- LOG "io.github.zero88.schedulerx*" at TRACE level -->
+    <Logger name="io.github.zero88.schedulerx" level="trace" />
+    <!-- at TRACE level for `Scheduler` lifecycle -->
+    <Logger name="io.github.zero88.schedulerx.Scheduler" level="trace" />
+    <!-- at DEBUG level for `SchedulingLogMonitor` -->
+    <Logger name="io.github.zero88.schedulerx.SchedulingLogMonitor" level="debug" />
+  </Loggers>
+</Configuration>
+---
+
+== Options
+
+You have the power to assert your customization preferences by overriding the default `scheduler.x` configurations to suit your specific application requirements.
+
+Check it out in xref:attachment$javadoc/io/github/zero88/schedulerx/DefaultOptions.html[DefaultOptions] javadoc.

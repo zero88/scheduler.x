@@ -1,1 +1,10 @@
 = Event trigger
+
+An event trigger is a mechanism that initiates a certain action in response to an event or change in state.
+
+`Vert.x` provides a nervous system called https://vertx.io/docs/vertx-core/java/#event_bus[event bus] that distributes the message around different parts of your application, or different applications and services to communicate with each other in a loosely coupled way.
+
+`Scheduler.x` _Event Trigger_ acts as a `subscriber` in `publish/subscriber` messaging pattern of `event bus` system.
+
+The advanced feature allows you to customize a *predicate* that converts event bus messages to expected message data, and then verify that the incoming data matches your configuration. If the condition is met, the `EventTrigger` will be activated to perform your business task.
+

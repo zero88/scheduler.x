@@ -1,0 +1,51 @@
+// tag::getStarted[]
+[source,java,subs="attributes,verbatim"]
+----
+IntervalTrigger trigger = IntervalTrigger.builder().interval(Duration.ofSeconds(5)).build();            // <1>
+Job<Void, Void> job = (jobData, executionContext) -> System.out.println("Get started with scheduler.x");// <2>
+IntervalScheduler scheduler = IntervalScheduler.<Void, Void>builder()                                   // <3>
+                                               .setVertx(vertx).setTrigger(trigger).setJob(job).build();
+// After starting, every 5 seconds, the program will print to
+// the console log with the text `Get started with scheduler.x`
+scheduler.start();                                                                                      // <4>
+// Do other stuff
+System.out.println("Are you ready to explore more?");}
+----
+<1> Create an Interval trigger
+<2> Create simple job
+<3> Create an Interval Scheduler
+<4> Start a scheduler
+// end::getStarted[]
+// tag::CancelTriggerInJob[]
+[source,java,subs="attributes,verbatim"]
+----
+@Source
+public class CancelTriggerInJob implements Job<Void, Void> {
+
+    @Override
+    public void execute(@NotNull JobData<Void> jobData, @NotNull ExecutionContext<Void> executionContext) {
+        // do something
+        // ...
+        if (executionContext.round() == 10) {
+            executionContext.forceStopExecution();
+        }
+    }
+
+}
+----
+// end::CancelTriggerInJob[]
+// tag::cancelInScheduler[]
+[source,java,subs="attributes,verbatim"]
+----
+CronTrigger trigger = CronTrigger.builder().expression("0 0/3 0 ? * * *").build();              // <1>
+CronScheduler scheduler = CronScheduler.<Void, Void>builder()                                   // <2>
+                                       .setVertx(vertx).setTrigger(trigger).setJob(job).build();
+// Start scheduler
+scheduler.start();                                                                              // <3>
+// Do other stuff
+// ...
+// after a while later, you can cancel the `scheduler`.
+// And the `trigger` is no longer to fire in the future.
+scheduler.cancel();                                                                             // <4>
+----
+// end::cancelInScheduler[]

@@ -4,7 +4,7 @@ zero88
 
 A pluggable `lightweight scheduler` based on plain https://vertx.io/[Vert.x] core without any external libs for scheduling on *time-based*: _cron_ and _interval_ or on *event-based*.
 
-`Scheduler.x` follows an event-driven architecture.
+`Scheduler.x` follows a modularization design and an event-driven architecture.
 
 == Overview
 
@@ -34,6 +34,26 @@ You can easily extend these interfaces to explore your task in the business mode
 
 `Scheduler.x` is an event-driven system that decouple the job execution and job reporting.
 
-Without requiring explicit notifications from the `Job` itself, the client application can register a scheduling monitor.
+Without requiring explicit notifications from the `Job` itself, the client application(your program) can register a scheduling monitor.
 Then, `Scheduler.x` can uniformly notify the client of any events occurring within the scheduler.
 These events may include the execution result after the trigger is fired and the job is executed, a trigger misfiring for some reason and so on.
+
+=== Data JSON serializable
+
+The component API in `scheduler.x` is designed to be friendly with https://vertx.io/docs/vertx-core/java/#_json[Vert.x JSON], is also compatible with https://github.com/FasterXML/jackson[Jackson].
+
+This makes it easy to serialize all objects into a JSON-formatted string with minimal effort. The resulting string can be transmitted over a network or stored in a file or database, allowing you to store the work data configuration in your desired storage.
+
+Once you restart your program, `scheduler.x` will deserialize the JSON data into appropriate objects, which will enable your scheduling work to continue seamlessly.
+
+This allows `scheduler.x` to function in both stateful and stateless modes.
+
+=== Modularization, fluent API and type-safe programming
+
+`scheduler.x` is designed based on
+
+* https://en.wikipedia.org/wiki/Modular_programming[modularity]  mechanism is by breaking down the functionality into smaller independent parts that are extensible and interchangeable.
+* a https://martinfowler.com/bliki/FluentInterface.html[fluent API concept], where multiple methods calls can be chained together
+* type-safe programming, which enforces rules to ensure that operations are performed on compatible types.
+
+I strongly believe that implementing this approach significantly reduces the likelihood of errors, enhances code clarity, maximizes extensibility, and simplifies maintenance for the client application.

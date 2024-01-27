@@ -1,1 +1,5 @@
 = Interval trigger
+
+An interval trigger is a type of timer repeatedly at specified intervals.
+
+For example, if you want the trigger to fire at exactly 00:30:00 AM on January 01, 2024, or if you want it to fire at that time, and then fire ten more times, every thirty seconds.
