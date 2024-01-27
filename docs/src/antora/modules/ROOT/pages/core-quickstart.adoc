@@ -1,4 +1,8 @@
 = Scheduler.x Quickstart
 :navtitle: Quickstart
 
-== Prerequisite
+`Scheduler.x` provides a builder pattern that allows you to create custom schedules for different business applications.
+
+You can design a loop of recurrence from simple to complex in the `Trigger` object, step by step. After that, you can build a corresponding `Scheduler` object to manage the scheduling lifecycle, which contains a `Job` that performs your business operations.
+
+include::partial$basic.adoc[tag=getStarted]

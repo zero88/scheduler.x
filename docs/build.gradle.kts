@@ -1,5 +1,6 @@
 import cloud.playio.gradle.antora.tasks.AntoraCopyTask
 import cloud.playio.gradle.generator.docgen.AsciidocGenTask
+import cloud.playio.gradle.shared.prop
 
 plugins {
     id(PlayioPlugin.antora)
@@ -19,10 +20,12 @@ documentation {
     antora {
         asciiAttributes.set(
             mapOf(
+                "project-url" to "https://github.com/${prop(rootProject, "github.repo")}",
                 "project-group" to project.group,
                 "project-name" to mainProject,
                 "project-version" to project.version,
                 "vertx-version" to VertxLibs.Version.defaultVersion,
+                "mutiny-version" to MutinyLibs.Version.mutiny,
             )
         )
         javadocTitle.set("${project.ext["title"]} ${project.version} API")

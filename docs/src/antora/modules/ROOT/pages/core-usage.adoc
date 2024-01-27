@@ -60,21 +60,3 @@ dependencies {
 == Reactive version
 
 Reference to xref:features-rxify.adoc[reactive version] for more detail.
-
-== Logging
-
-`scheduler.x` reuses the Vert.x logging mechanism. Please, refers to https://vertx.io/docs/vertx-core/java/#_logging
-
-So in short, you can use `slf4j`, `log4j2`, or `jdk logging` by simple below configuration before start your application. Remember add your flavor log library in your classpath.
-
-[source,java]
-----
-// for slf4j
-System.setProperty("vertx.logger-delegate-factory-class-name", "io.vertx.core.logging.SLF4JLogDelegateFactory");
-
-// for log4j2
-System.setProperty("vertx.logger-delegate-factory-class-name", "io.vertx.core.logging.Log4j2LogDelegateFactory");
-
-// fallback to jdk logging or config explicitly
-System.setProperty("vertx.logger-delegate-factory-class-name", "io.vertx.core.logging.JULLogDelegateFactory");
-----

@@ -8,7 +8,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.docgen.Source;
 
 @Source
-class ExampleReactivex {
+public class ExampleReactivex {
 
     public void rx3(io.vertx.core.Vertx vertx, IntervalTrigger trigger, Job<Object, Object> job) {
         io.github.zero88.schedulerx.IntervalScheduler scheduler
@@ -42,7 +42,7 @@ class ExampleReactivex {
         io.vertx.mutiny.core.Vertx vertxMutiny = io.vertx.mutiny.core.Vertx.newInstance(vertx);
         io.vertx.mutiny.core.WorkerExecutor workerExecutor = vertxMutiny.createSharedWorkerExecutor("hello-mutiny");
 
-        // Create mutiny schedulerx by builder
+        // Create mutiny scheduler by builder
         io.github.zero88.schedulerx.mutiny.EventScheduler<JsonObject> mutinyScheduler
             = io.github.zero88.schedulerx.mutiny.EventScheduler.<Object, Object, JsonObject>builder()
                                                                .setVertx(vertxMutiny)
@@ -51,6 +51,19 @@ class ExampleReactivex {
                                                                .build();
         // Start scheduler with mutiny worker
         mutinyScheduler.start(workerExecutor);
+    }
+
+    public void mutinyBuilderWithMutinyJob(io.vertx.core.Vertx vertx, IntervalTrigger trigger) {
+        io.vertx.mutiny.core.Vertx vertxMutiny = io.vertx.mutiny.core.Vertx.newInstance(vertx);
+        // Create new example mutiny job instance
+        ExampleMutinyJob job = new ExampleMutinyJob();
+        // Create mutiny scheduler within Mutiny job then start
+        io.github.zero88.schedulerx.mutiny.IntervalScheduler.<Void, String>builder()
+                                                            .setVertx(vertxMutiny)
+                                                            .setTrigger(trigger)
+                                                            .setJob(job)
+                                                            .build()
+                                                            .start();
     }
 
 }
