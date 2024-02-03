@@ -17,6 +17,7 @@ import io.vertx.core.Future;
  * @apiNote This interface is renamed from {@code Task} since {@code 2.0.0}
  * @since 1.0.0
  */
+@FunctionalInterface
 public interface Job<INPUT, OUTPUT> {
 
     /**

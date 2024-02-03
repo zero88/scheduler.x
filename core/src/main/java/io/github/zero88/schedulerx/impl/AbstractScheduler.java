@@ -411,6 +411,9 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger>
             }
             final Instant firedAt = Objects.requireNonNull(ctx.firedAt());
             final TriggerRule rule = scheduler.trigger().rule();
+            if (rule.isPending(firedAt)) {
+                return TriggerContextFactory.unready(ctx, ReasonCode.CONDITION_IS_NOT_MATCHED);
+            }
             if (rule.isExceeded(firedAt)) {
                 return TriggerContextFactory.stop(ctx, ReasonCode.STOP_BY_CONFIG);
             }
