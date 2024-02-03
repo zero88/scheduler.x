@@ -45,6 +45,12 @@ class IntervalTriggerTest {
                                                             .until(Instant.parse("2023-10-20T10:10:00Z"))
                                                             .build();
         final JsonObject ruleWithoutBeginTimeJson = JsonObject.of("until", "2023-10-20T10:10:00Z");
+        final TriggerRule ruleWithBeginTime = TriggerRule.builder()
+                                                         .beginTime(Instant.parse("2023-10-18T10:10:00Z"))
+                                                         .until(Instant.parse("2023-10-20T10:10:00Z"))
+                                                         .build();
+        final JsonObject ruleWithBeginTimeJson = JsonObject.of("beginTime", "2023-10-18T10:10:00Z", "until",
+                                                               "2023-10-20T10:10:00Z");
         // @formatter:off
         return Stream.of(
             arguments(IntervalTrigger.builder().interval(10).build(),
@@ -59,6 +65,8 @@ class IntervalTriggerTest {
                       JsonObject.of("type", "interval", "repeat", 15, "initialDelay", "PT1S","interval", "PT60S")),
             arguments(IntervalTrigger.builder().interval(Duration.ofHours(1)).initialDelay(Duration.ofSeconds(3)).rule(ruleWithoutBeginTime).build(),
                       JsonObject.of("interval", "PT1H", "initialDelay", "PT3S", "rule", ruleWithoutBeginTimeJson)),
+            arguments(IntervalTrigger.builder().interval(Duration.ofHours(1)).initialDelay(Duration.ofSeconds(3)).rule(ruleWithBeginTime).build(),
+                      JsonObject.of("interval", "PT1H", "rule", ruleWithBeginTimeJson)));
         // @formatter:on
     }
 

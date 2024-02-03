@@ -3,9 +3,7 @@ package io.github.zero88.schedulerx.trigger;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.OffsetDateTime;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -23,10 +21,12 @@ final class IntervalTriggerImpl implements IntervalTrigger {
     private final TriggerRule rule;
 
     IntervalTriggerImpl(Duration initialDelay, Duration interval, long repeat, TriggerRule rule) {
-        this.initialDelay = Optional.ofNullable(initialDelay).orElse(Duration.ZERO);
-        this.interval     = Objects.requireNonNull(interval, "Interval configuration is required");
         this.repeat       = repeat;
-        this.rule         = Optional.ofNullable(rule).orElseGet(IntervalTrigger.super::rule);
+        this.rule         = Optional.ofNullable(rule).orElse(TriggerRule.NOOP);
+        this.interval     = Objects.requireNonNull(interval, "Interval configuration is required");
+        this.initialDelay = this.rule.beginTime() == null
+                            ? Optional.ofNullable(initialDelay).orElse(Duration.ZERO)
+                            : Duration.ZERO;
     }
 
     @Override
@@ -56,24 +56,19 @@ final class IntervalTriggerImpl implements IntervalTrigger {
         return this;
     }
 
+    public @NotNull Instant nextTriggerTime(@NotNull Instant time) {
+        validate();
+        return time.plus(interval);
+    }
+
     @Override
     public @NotNull List<OffsetDateTime> preview(@NotNull PreviewParameter parameter) {
-        final List<OffsetDateTime> result = new ArrayList<>();
-        final long count = Math.min(repeat, parameter.getTimes());
-        final TriggerRule theRule = parameter.getRule();
-        final ZoneId zoneId = Optional.ofNullable(parameter.getTimeZone()).orElse(ZoneOffset.UTC);
-        Instant next = parameter.getStartedAt();
-        next = next.plus(initialDelay);
-        do {
-            next = next.plus(interval);
-            if (theRule.isExceeded(next)) {
-                break;
-            }
-            if (theRule.satisfy(next)) {
-                result.add(next.atZone(zoneId).toOffsetDateTime());
-            }
-        } while (result.size() != count);
-        return result;
+        final PreviewParameter normalized = PreviewHelper.normalize(parameter, rule, ZoneOffset.UTC,
+                                                                    initialDelay);
+        if (repeat != REPEAT_INDEFINITELY) {
+            normalized.setTimes((int) Math.min(repeat, parameter.getTimes()));
+        }
+        return PreviewHelper.preview(this, normalized);
     }
 
     @Override

@@ -20,9 +20,9 @@ import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
 public final class PreviewParameter {
 
     private int times;
-    private Instant startedAt = Instant.now();
+    private Instant startedAt;
     private ZoneId timeZone;
-    private TriggerRule rule = TriggerRule.NOOP;
+    private TriggerRule rule;
 
     /**
      * Create default the preview parameter with startedAt is now and times = 10
@@ -36,7 +36,7 @@ public final class PreviewParameter {
     /**
      * @return the started at time to generate the preview results
      */
-    public @NotNull Instant getStartedAt() {
+    public @Nullable Instant getStartedAt() {
         return startedAt;
     }
 
@@ -47,9 +47,7 @@ public final class PreviewParameter {
      * @return this for fluent API
      */
     public @NotNull PreviewParameter setStartedAt(Instant startedAt) {
-        if (startedAt != null) {
-            this.startedAt = startedAt;
-        }
+        this.startedAt = startedAt;
         return this;
     }
 
@@ -115,7 +113,7 @@ public final class PreviewParameter {
      * @return the trigger rule
      * @see TriggerRule
      */
-    public @NotNull TriggerRule getRule() {
+    public @Nullable TriggerRule getRule() {
         return rule;
     }
 
@@ -126,9 +124,7 @@ public final class PreviewParameter {
      * @return this for fluent API
      */
     public @NotNull PreviewParameter setRule(TriggerRule rule) {
-        if (rule != null) {
-            this.rule = rule;
-        }
+        this.rule = rule;
         return this;
     }
 

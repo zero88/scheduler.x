@@ -30,9 +30,8 @@ final class CronSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, CronTr
     protected @NotNull Future<Long> registerTimer(WorkerExecutor workerExecutor) {
         try {
             final Instant now = clock().now();
-            final long nextTriggerAfter = trigger().nextTriggerAfter(now);
-            final Instant nextTriggerTime = now.plus(nextTriggerAfter, ChronoUnit.MILLIS);
-            nextTimerId = vertx().setTimer(nextTriggerAfter, tId -> {
+            final Instant nextTriggerTime = trigger().nextTriggerTime(now);
+            nextTimerId = vertx().setTimer(ChronoUnit.MILLIS.between(now, nextTriggerTime), tId -> {
                 onProcess(workerExecutor, TriggerContextFactory.kickoff(trigger().type(), clock().now(), onFire(tId)));
                 doStart(workerExecutor);
             });

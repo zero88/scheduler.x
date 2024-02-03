@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  * @since 1.0.0
  */
 @JsonDeserialize(builder = CronTriggerBuilder.class)
-public interface CronTrigger extends Trigger {
+public interface CronTrigger extends Trigger, TimebasedTrigger {
 
     String TRIGGER_TYPE = "cron";
 
@@ -38,14 +38,6 @@ public interface CronTrigger extends Trigger {
      * Returns the time zone for which the {@code cronExpression} of this {@code CronTrigger} will be resolved.
      */
     @NotNull TimeZone getTimeZone();
-
-    /**
-     * Computes a next trigger time duration based on given time which satisfies the cron expression
-     *
-     * @param time the given time
-     * @return the duration in milliseconds
-     */
-    long nextTriggerAfter(@NotNull Instant time);
 
     @Override
     @NotNull CronTrigger validate();

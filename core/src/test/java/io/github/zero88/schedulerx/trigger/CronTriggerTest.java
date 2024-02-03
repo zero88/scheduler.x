@@ -104,8 +104,8 @@ class CronTriggerTest {
 
         Assertions.assertEquals("GMT", trigger.getTimeZone().getID());
         Assertions.assertEquals(cronExpression.getTimeZone(), trigger.getTimeZone());
-        Assertions.assertEquals(2 * 60 * 1000, trigger.nextTriggerAfter(parse));
-        Assertions.assertThrows(NullPointerException.class, () -> trigger.nextTriggerAfter(null));
+        Assertions.assertEquals(Instant.parse("2021-02-25T00:02:00Z"), trigger.nextTriggerTime(parse));
+        Assertions.assertThrows(NullPointerException.class, () -> trigger.nextTriggerTime(null));
     }
 
     @Test

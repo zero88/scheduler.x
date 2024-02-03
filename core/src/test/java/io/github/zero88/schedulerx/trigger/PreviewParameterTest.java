@@ -18,18 +18,18 @@ class PreviewParameterTest {
     void test_byDefault() {
         final PreviewParameter parameter = PreviewParameter.byDefault();
         Assertions.assertEquals(10, parameter.getTimes());
-        Assertions.assertNotNull(parameter.getStartedAt());
+        Assertions.assertNull(parameter.getStartedAt());
         Assertions.assertNull(parameter.getTimeZone());
-        Assertions.assertNotNull(parameter.getRule());
+        Assertions.assertNull(parameter.getRule());
     }
 
     @Test
     void test_byConstructor() {
         final PreviewParameter parameter = new PreviewParameter();
         Assertions.assertEquals(1, parameter.getTimes());
-        Assertions.assertNotNull(parameter.getStartedAt());
+        Assertions.assertNull(parameter.getStartedAt());
         Assertions.assertNull(parameter.getTimeZone());
-        Assertions.assertNotNull(parameter.getRule());
+        Assertions.assertNull(parameter.getRule());
     }
 
     @ParameterizedTest
