@@ -103,6 +103,32 @@ public interface TriggerRule {
     }
 
     /**
+     * Calculates the appropriate duration time to register the trigger into the scheduler.
+     * <p/>
+     * The calculation ensures that the registration time is ahead of the rule {@link #beginTime()} during a
+     * {@link #leeway()} duration.
+     * <br/>
+     * In case of the leeway duration is {@link Duration#ZERO}, the {@link DefaultOptions#triggerRuleMaxLeeway} will be
+     * picked.
+     * <p/>
+     * If the returned value is {@link Duration#ZERO}, that means the system timer is going to register the trigger
+     * immediately.
+     *
+     * @param systemTime a clock time is when the system timer starts registering the trigger.
+     * @return the duration until the system timer registers the trigger
+     */
+    default Duration calculateRegisterTime(@NotNull Instant systemTime) {
+        if (isPending(systemTime)) {
+            final Instant beginTime = beginTime();
+            final Duration duration = Duration.between(systemTime, beginTime);
+            final Duration leeway = leeway().isZero() ? DefaultOptions.getInstance().triggerRuleMaxLeeway : leeway();
+            final Duration registerAfter = duration.minus(leeway);
+            return registerAfter.isNegative() ? Duration.ZERO : registerAfter;
+        }
+        return Duration.ZERO;
+    }
+
+    /**
      * Create a builder
      *
      * @return the trigger rule builder

@@ -29,13 +29,13 @@ final class IntervalSchedulerImpl<IN, OUT> extends AbstractScheduler<IN, OUT, In
 
     protected @NotNull Future<Long> registerTimer(WorkerExecutor workerExecutor) {
         try {
-            if (Duration.ZERO.compareTo(trigger().initialDelay()) == 0) {
+            final Duration delay = trigger().initialDelay();
+            if (delay.isZero()) {
                 return Future.succeededFuture(createPeriodicTimer(workerExecutor));
             }
             final Promise<Long> promise = Promise.promise();
-            final long delay = trigger().initialDelay().toMillis();
-            log(clock().now(), "Delay " + brackets(delay + "ms") + " then register the trigger in the scheduler");
-            vertx().setTimer(delay, ignore -> promise.complete(createPeriodicTimer(workerExecutor)));
+            log(clock().now(), "Delay " + brackets(delay) + " before registering the trigger in the scheduler");
+            vertx().setTimer(delay.toMillis(), ignore -> promise.complete(createPeriodicTimer(workerExecutor)));
             return promise.future();
         } catch (Exception e) {
             return Future.failedFuture(e);

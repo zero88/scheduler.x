@@ -86,7 +86,7 @@ class TriggerRuleTest {
             arguments(Instant.parse("2023-09-24T01:00:00Z"), Instant.parse("2023-09-24T02:00:00Z"), true),
             arguments(Instant.parse("2023-09-24T02:00:00Z"), Instant.parse("2023-09-24T01:00:00Z"), false),
             arguments(Instant.parse("2023-09-24T01:00:00Z"), Instant.parse("2023-09-24T01:00:00Z"), false)
-                        );
+        );
         //@formatter:on
     }
 
@@ -99,17 +99,41 @@ class TriggerRuleTest {
 
     private static Stream<Arguments> untilTestData() {
         final Instant until = Instant.parse("2023-09-24T03:31:48Z");
+        //@formatter:off
         return Stream.of(arguments(until, FiredAtArgument.of(Instant.parse("2023-09-22T00:00:48Z"), false)),
                          arguments(until, FiredAtArgument.of(Instant.parse("2023-09-24T00:00:48Z"), false)),
                          arguments(until, FiredAtArgument.of(Instant.parse("2023-09-24T03:31:48Z"), false)),
-                         arguments(until,
-                                   FiredAtArgument.of(Duration.ofSeconds(3), Instant.parse("2023-09-24T03:31:50Z"),
-                                                      false)),
                          arguments(until, FiredAtArgument.of(Instant.parse("2023-09-24T04:31:48Z"), true)),
                          arguments(until, FiredAtArgument.of(Instant.parse("2023-09-25T03:31:48Z"), true)),
-                         arguments(until,
-                                   FiredAtArgument.of(Duration.ofSeconds(3), Instant.parse("2023-09-24T03:31:52Z"),
-                                                      true)));
+                         arguments(until, FiredAtArgument.of(Duration.ofSeconds(3), Instant.parse("2023-09-24T03:31:50Z"), false)),
+                         arguments(until, FiredAtArgument.of(Duration.ofSeconds(3), Instant.parse("2023-09-24T03:31:52Z"), true)));
+        //@formatter:on
+    }
+
+    private static Stream<Arguments> beginTestData() {
+        final Instant beginTime = Instant.parse("2023-09-24T10:00:00Z");
+        final Duration leeway = Duration.ofSeconds(5);
+        //@formatter:off
+        return Stream.of(
+            arguments(null, Duration.ZERO, FiredAtArgument.of(beginTime, false)),
+            arguments(beginTime, Duration.parse("PT59M50S"), FiredAtArgument.of(Instant.parse("2023-09-24T09:00:00Z"), true)),
+            arguments(beginTime, Duration.parse("PT1S"), FiredAtArgument.of(Instant.parse("2023-09-24T09:59:49Z"), true)),
+            arguments(beginTime, Duration.ZERO, FiredAtArgument.of(Instant.parse("2023-09-24T09:59:50Z"), true)),
+            arguments(beginTime, Duration.parse("PT6S"), FiredAtArgument.of(leeway, Instant.parse("2023-09-24T09:59:49Z"), true)),
+            arguments(beginTime, Duration.ZERO, FiredAtArgument.of(leeway, Instant.parse("2023-09-24T09:59:55Z"), true)),
+            arguments(beginTime, Duration.ZERO, FiredAtArgument.of(Instant.parse("2023-09-24T10:00:00Z"), false)),
+            arguments(beginTime, Duration.ZERO, FiredAtArgument.of(Instant.parse("2023-09-24T10:01:00Z"), false))
+        );
+        //@formatter:on
+    }
+
+    @ParameterizedTest
+    @MethodSource("beginTestData")
+    void test_calculate_the_register_time(Instant beginTime, Duration durationToRegister, FiredAtArgument arg) {
+        TriggerRule rule = TriggerRule.builder().beginTime(beginTime).leeway(arg.leeway).build();
+        Assertions.assertEquals(arg.expected, rule.isPending(arg.firedAt),
+                                "the fired-at time should be before the begin time");
+        Assertions.assertEquals(durationToRegister, rule.calculateRegisterTime(arg.firedAt));
     }
 
     private static Stream<Arguments> leewayTestData() {

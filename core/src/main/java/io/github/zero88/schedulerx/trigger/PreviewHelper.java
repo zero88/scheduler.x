@@ -1,6 +1,5 @@
 package io.github.zero88.schedulerx.trigger;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
@@ -10,26 +9,19 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
 
 class PreviewHelper {
 
-    @NotNull
-    static PreviewParameter normalize(@NotNull PreviewParameter parameter, @NotNull TriggerRule defaultRule,
-                                      @NotNull ZoneId defaultZoneId) {
-        return normalize(parameter, defaultRule, defaultZoneId, null);
-    }
+    private PreviewHelper() { }
 
     @NotNull
     static PreviewParameter normalize(@NotNull PreviewParameter parameter, @NotNull TriggerRule defaultRule,
-                                      @NotNull ZoneId defaultZoneId, @Nullable Duration delayTime) {
-        final Duration delay = Optional.ofNullable(delayTime).orElse(Duration.ZERO);
-        final Instant startedAt = Optional.ofNullable(parameter.getStartedAt()).orElseGet(Instant::now).plus(delay);
+                                      @NotNull ZoneId defaultZoneId) {
         return parameter.setRule(Optional.ofNullable(parameter.getRule()).orElse(defaultRule))
                         .setTimeZone(Optional.ofNullable(parameter.getTimeZone()).orElse(defaultZoneId))
-                        .setStartedAt(startedAt);
+                        .setStartedAt(Optional.ofNullable(parameter.getStartedAt()).orElseGet(Instant::now));
     }
 
     @NotNull

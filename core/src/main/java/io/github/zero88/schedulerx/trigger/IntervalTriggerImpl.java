@@ -24,9 +24,8 @@ final class IntervalTriggerImpl implements IntervalTrigger {
         this.repeat       = repeat;
         this.rule         = Optional.ofNullable(rule).orElse(TriggerRule.NOOP);
         this.interval     = Objects.requireNonNull(interval, "Interval configuration is required");
-        this.initialDelay = this.rule.beginTime() == null
-                            ? Optional.ofNullable(initialDelay).orElse(Duration.ZERO)
-                            : Duration.ZERO;
+        this.initialDelay = Optional.ofNullable(this.rule.beginTime() == null ? initialDelay : Duration.ZERO)
+                                    .orElse(Duration.ZERO);
     }
 
     @Override
@@ -63,12 +62,11 @@ final class IntervalTriggerImpl implements IntervalTrigger {
 
     @Override
     public @NotNull List<OffsetDateTime> preview(@NotNull PreviewParameter parameter) {
-        final PreviewParameter normalized = PreviewHelper.normalize(parameter, rule, ZoneOffset.UTC,
-                                                                    initialDelay);
+        final PreviewParameter normalized = PreviewHelper.normalize(parameter, rule, ZoneOffset.UTC);
         if (repeat != REPEAT_INDEFINITELY) {
             normalized.setTimes((int) Math.min(repeat, parameter.getTimes()));
         }
-        return PreviewHelper.preview(this, normalized);
+        return PreviewHelper.preview(this, normalized.setStartedAt(normalized.getStartedAt().plus(initialDelay)));
     }
 
     @Override

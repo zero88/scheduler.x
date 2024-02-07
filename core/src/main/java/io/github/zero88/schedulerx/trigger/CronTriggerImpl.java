@@ -55,8 +55,7 @@ final class CronTriggerImpl implements CronTrigger {
 
     @Override
     public @NotNull List<OffsetDateTime> preview(@NotNull PreviewParameter parameter) {
-        return PreviewHelper.preview(this,
-                                     PreviewHelper.normalize(parameter, rule, timeZone.toZoneId()));
+        return PreviewHelper.preview(this, PreviewHelper.normalize(parameter, rule, timeZone.toZoneId()));
     }
 
     @Override
