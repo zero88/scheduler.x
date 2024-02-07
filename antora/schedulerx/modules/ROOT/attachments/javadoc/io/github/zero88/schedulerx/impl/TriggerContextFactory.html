@@ -166,6 +166,12 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Transition trigger context to <a href="../trigger/TriggerCondition.TriggerStatus.html#STOPPED"><code>TriggerCondition.TriggerStatus.STOPPED</code></a> state.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#unready(io.github.zero88.schedulerx.trigger.TriggerContext,java.lang.String)" class="member-name-link">unready</a><wbr>(@NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a>&nbsp;ctx,
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;reason)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Transition trigger context to <a href="../trigger/TriggerCondition.TriggerStatus.html#UNREADY"><code>TriggerCondition.TriggerStatus.UNREADY</code></a> state.</div>
+</div>
 </div>
 </div>
 </div>
@@ -303,6 +309,22 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>ctx</code> - the current trigger context</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="unready(io.github.zero88.schedulerx.trigger.TriggerContext,java.lang.String)">
+<h3>unready</h3>
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a></span>&nbsp;<span class="element-name">unready</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="../trigger/TriggerContext.html" title="interface in io.github.zero88.schedulerx.trigger">TriggerContext</a>&nbsp;ctx,
+ @NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;reason)</span></div>
+<div class="block">Transition trigger context to <a href="../trigger/TriggerCondition.TriggerStatus.html#UNREADY"><code>TriggerCondition.TriggerStatus.UNREADY</code></a> state.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>ctx</code> - the current trigger context</dd>
+<dd><code>reason</code> - the transition reason</dd>
 </dl>
 </section>
 </li>

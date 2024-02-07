@@ -129,10 +129,10 @@ extends <a href="Trigger.html" title="interface in io.github.zero88.schedulerx.t
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns the time zone for which the <code>cronExpression</code> of this <code>CronTrigger</code> will be resolved.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>long</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#nextTriggerAfter(java.time.Instant)" class="member-name-link">nextTriggerAfter</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;time)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#nextTriggerTime(java.time.Instant)" class="member-name-link">nextTriggerTime</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;time)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Computes a next trigger time duration based on given time which satisfies the cron expression</div>
+<div class="block">Calculates the next valid trigger time from a given time and the trigger configuration</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default io.vertx.core.json.JsonObject</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#toJson()" class="member-name-link">toJson</a>()</code></div>
@@ -237,20 +237,6 @@ extends <a href="Trigger.html" title="interface in io.github.zero88.schedulerx.t
 </section>
 </li>
 <li>
-<section class="detail" id="nextTriggerAfter(java.time.Instant)">
-<h3>nextTriggerAfter</h3>
-<div class="member-signature"><span class="return-type">long</span>&nbsp;<span class="element-name">nextTriggerAfter</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;time)</span></div>
-<div class="block">Computes a next trigger time duration based on given time which satisfies the cron expression</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>time</code> - the given time</dd>
-<dt>Returns:</dt>
-<dd>the duration in milliseconds</dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="validate()">
 <h3>validate</h3>
 <div class="member-signature"><span class="annotations">@NotNull
@@ -276,6 +262,21 @@ extends <a href="Trigger.html" title="interface in io.github.zero88.schedulerx.t
 <dd><code><a href="Trigger.html#toJson()">toJson</a></code>&nbsp;in interface&nbsp;<code><a href="Trigger.html" title="interface in io.github.zero88.schedulerx.trigger">Trigger</a></code></dd>
 <dt>Returns:</dt>
 <dd>trigger in json</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="nextTriggerTime(java.time.Instant)">
+<h3>nextTriggerTime</h3>
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></span>&nbsp;<span class="element-name">nextTriggerTime</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;time)</span></div>
+<div class="block">Calculates the next valid trigger time from a given time and the trigger configuration</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>time</code> - the given time</dd>
+<dt>Returns:</dt>
+<dd>the next trigger time</dd>
 </dl>
 </section>
 </li>

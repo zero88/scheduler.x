@@ -110,37 +110,25 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1"><code>static @NotNull <a href="TriggerRule.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TriggerRule</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#create(java.time.Instant)" class="member-name-link">create</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;until)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1">
-<div class="block">Create a new trigger rule</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#beginTime()" class="member-name-link">beginTime</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Declares the future time that the trigger is scheduled.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1"><code>static @NotNull <a href="TriggerRule.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TriggerRule</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#create(java.time.Instant,java.time.Duration)" class="member-name-link">create</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;until,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;leeway)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1"><code>static <a href="TriggerRuleBuilder.html" title="class in io.github.zero88.schedulerx.trigger.rule">TriggerRuleBuilder</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#builder()" class="member-name-link">builder</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1">
-<div class="block">Create a new trigger rule</div>
+<div class="block">Create a builder</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1"><code>static @NotNull <a href="TriggerRule.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TriggerRule</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#create(java.util.List)" class="member-name-link">create</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Timeframe.html" title="interface in io.github.zero88.schedulerx.trigger.rule">Timeframe</a>&gt;&nbsp;timeframes)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1">
-<div class="block">Create a new trigger rule</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1"><code>static @NotNull <a href="TriggerRule.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TriggerRule</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#create(java.util.List,java.time.Duration)" class="member-name-link">create</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Timeframe.html" title="interface in io.github.zero88.schedulerx.trigger.rule">Timeframe</a>&gt;&nbsp;timeframes,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;leeway)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1">
-<div class="block">Create a new trigger rule</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1"><code>static @NotNull <a href="TriggerRule.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TriggerRule</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#create(java.util.List,java.time.Instant)" class="member-name-link">create</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Timeframe.html" title="interface in io.github.zero88.schedulerx.trigger.rule">Timeframe</a>&gt;&nbsp;timeframes,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;until)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1">
-<div class="block">Create a new trigger rule</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#calculateRegisterTime(java.time.Instant)" class="member-name-link">calculateRegisterTime</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;systemTime)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Calculates the appropriate duration time to register the trigger into the scheduler.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1"><code>static @NotNull <a href="TriggerRule.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TriggerRule</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#create(java.util.List,java.time.Instant,java.time.Duration)" class="member-name-link">create</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Timeframe.html" title="interface in io.github.zero88.schedulerx.trigger.rule">Timeframe</a>&gt;&nbsp;timeframes,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#create(java.time.Instant,java.time.Instant,java.util.List,java.time.Duration)" class="member-name-link">create</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;beginTime,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;until,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Timeframe.html" title="interface in io.github.zero88.schedulerx.trigger.rule">Timeframe</a>&gt;&nbsp;timeframes,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;leeway)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1">
 <div class="block">Create a new trigger rule</div>
@@ -148,26 +136,31 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#isExceeded(java.time.Instant)" class="member-name-link">isExceeded</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;firedAt)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">Check if the fired time is exceeded the registered <a href="#until()"><code>until()</code></a> time.</div>
+<div class="block">Check whether the fired-at time is exceeded the registered <a href="#until()"><code>until()</code></a> time.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#leeway()" class="member-name-link">leeway</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#isPending(java.time.Instant)" class="member-name-link">isPending</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;firedAt)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Check whether the fired-at time is before the registered beginning time(<a href="#beginTime()"><code>beginTime()</code></a>).</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#leeway()" class="member-name-link">leeway</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Declares the allowable margin of time in the time validation of <a href="#satisfy(java.time.Instant)"><code>satisfy(Instant)</code></a> and <a href="#until()"><code>until()</code></a>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#satisfy(java.time.Instant)" class="member-name-link">satisfy</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;firedAt)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">Check if the fired time is satisfied to at least one timeframe.</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#satisfy(java.time.Instant)" class="member-name-link">satisfy</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;firedAt)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Check whether the fired-at time is satisfied to at least one timeframe.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Timeframe.html" title="interface in io.github.zero88.schedulerx.trigger.rule">Timeframe</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#timeframes()" class="member-name-link">timeframes</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Timeframe.html" title="interface in io.github.zero88.schedulerx.trigger.rule">Timeframe</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#timeframes()" class="member-name-link">timeframes</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Declares the timeframe that allows emitting a trigger</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#until()" class="member-name-link">until</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#until()" class="member-name-link">until</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Declares the time that the trigger can run until to.</div>
 </div>
 </div>
@@ -218,6 +211,21 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="beginTime()">
+<h3>beginTime</h3>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></span>&nbsp;<span class="element-name">beginTime</span>()</div>
+<div class="block">Declares the future time that the trigger is scheduled.
+ <ul>
+ <li>when value is <code>null</code> or in the past, the trigger is scheduled immediately</li>
+ <li>when value is in the future, the trigger is pending to the time to schedule</li>
+ </ul></div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the until time</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="until()">
 <h3>until</h3>
 <div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></span>&nbsp;<span class="element-name">until</span>()</div>
@@ -237,9 +245,9 @@ loadScripts(document, 'script');</script>
  <p>
  The leeway time has constraints:
  <ul>
- <li>when given argument is negative, the leeway time fallback to <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html#ZERO" title="class or interface in java.time" class="external-link"><code>Duration.ZERO</code></a></li>
- <li>when given argument is greater than <a href="../../DefaultOptions.html#triggerRuleMaxLeeway"><code>DefaultOptions.triggerRuleMaxLeeway</code></a>, the leeway time fallback
- to max default value</li>
+ <li>when value is negative, the leeway time fallback to <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html#ZERO" title="class or interface in java.time" class="external-link"><code>Duration.ZERO</code></a></li>
+ <li>when value is greater than <a href="../../DefaultOptions.html#triggerRuleMaxLeeway"><code>DefaultOptions.triggerRuleMaxLeeway</code></a>, the leeway time fallback to max
+ default value</li>
  </ul></div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -248,16 +256,31 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="satisfy(java.time.Instant)">
-<h3>satisfy</h3>
-<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">satisfy</span><wbr><span class="parameters">(@NotNull
+<section class="detail" id="isPending(java.time.Instant)">
+<h3>isPending</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isPending</span><wbr><span class="parameters">(@NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;firedAt)</span></div>
-<div class="block">Check if the fired time is satisfied to at least one timeframe.</div>
+<div class="block">Check whether the fired-at time is before the registered beginning time(<a href="#beginTime()"><code>beginTime()</code></a>).
+ If the beginning time has not yet elapsed, the trigger status is still in pending mode.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>firedAt</code> - a clock time that the system timer fires the trigger</dd>
 <dt>Returns:</dt>
-<dd><code>true</code> if the trigger time is satisfied, otherwise is <code>false</code></dd>
+<dd><code>true</code> if the trigger is not yet ready to run, otherwise is <code>false</code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="satisfy(java.time.Instant)">
+<h3>satisfy</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">satisfy</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;firedAt)</span></div>
+<div class="block">Check whether the fired-at time is satisfied to at least one timeframe.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>firedAt</code> - a clock time that the system timer fires the trigger</dd>
+<dt>Returns:</dt>
+<dd><code>true</code> if the fired-at time is satisfied, otherwise is <code>false</code></dd>
 <dt>See Also:</dt>
 <dd>
 <ul class="see-list">
@@ -272,103 +295,63 @@ loadScripts(document, 'script');</script>
 <h3>isExceeded</h3>
 <div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isExceeded</span><wbr><span class="parameters">(@NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;firedAt)</span></div>
-<div class="block">Check if the fired time is exceeded the registered <a href="#until()"><code>until()</code></a> time.</div>
+<div class="block">Check whether the fired-at time is exceeded the registered <a href="#until()"><code>until()</code></a> time.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>firedAt</code> - a clock time that the system timer fires the trigger</dd>
 <dt>Returns:</dt>
-<dd><code>true</code> if the trigger time is exceeded, otherwise is <code>false</code></dd>
+<dd><code>true</code> if the fired-at time is exceeded, otherwise is <code>false</code></dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="create(java.util.List)">
-<h3>create</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">static</span>&nbsp;<span class="return-type">@NotNull <a href="TriggerRule.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TriggerRule</a></span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Timeframe.html" title="interface in io.github.zero88.schedulerx.trigger.rule">Timeframe</a>&gt;&nbsp;timeframes)</span></div>
-<div class="block">Create a new trigger rule</div>
+<section class="detail" id="calculateRegisterTime(java.time.Instant)">
+<h3>calculateRegisterTime</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a></span>&nbsp;<span class="element-name">calculateRegisterTime</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;systemTime)</span></div>
+<div class="block">Calculates the appropriate duration time to register the trigger into the scheduler.
+ <p/>
+ The calculation ensures that the registration time is ahead of the rule <a href="#beginTime()"><code>beginTime()</code></a> during a
+ <a href="#leeway()"><code>leeway()</code></a> duration.
+ <br/>
+ In case of the leeway duration is <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html#ZERO" title="class or interface in java.time" class="external-link"><code>Duration.ZERO</code></a>, the <a href="../../DefaultOptions.html#triggerRuleMaxLeeway"><code>DefaultOptions.triggerRuleMaxLeeway</code></a> will be
+ picked.
+ <p/>
+ If the returned value is <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html#ZERO" title="class or interface in java.time" class="external-link"><code>Duration.ZERO</code></a>, that means the system timer is going to register the trigger
+ immediately.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>timeframes</code> - the given timeframes</dd>
+<dd><code>systemTime</code> - a clock time is when the system timer starts registering the trigger.</dd>
 <dt>Returns:</dt>
-<dd>a new Trigger rule</dd>
+<dd>the duration until the system timer registers the trigger</dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="create(java.util.List,java.time.Duration)">
-<h3>create</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">static</span>&nbsp;<span class="return-type">@NotNull <a href="TriggerRule.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TriggerRule</a></span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Timeframe.html" title="interface in io.github.zero88.schedulerx.trigger.rule">Timeframe</a>&gt;&nbsp;timeframes,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;leeway)</span></div>
-<div class="block">Create a new trigger rule</div>
+<section class="detail" id="builder()">
+<h3>builder</h3>
+<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="TriggerRuleBuilder.html" title="class in io.github.zero88.schedulerx.trigger.rule">TriggerRuleBuilder</a></span>&nbsp;<span class="element-name">builder</span>()</div>
+<div class="block">Create a builder</div>
 <dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>timeframes</code> - the given timeframes</dd>
-<dd><code>leeway</code> - the given leeway</dd>
 <dt>Returns:</dt>
-<dd>a new Trigger rule</dd>
+<dd>the trigger rule builder</dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="create(java.time.Instant)">
+<section class="detail" id="create(java.time.Instant,java.time.Instant,java.util.List,java.time.Duration)">
 <h3>create</h3>
 <div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">static</span>&nbsp;<span class="return-type">@NotNull <a href="TriggerRule.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TriggerRule</a></span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;until)</span></div>
-<div class="block">Create a new trigger rule</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>until</code> - the given until</dd>
-<dt>Returns:</dt>
-<dd>a new Trigger rule</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="create(java.time.Instant,java.time.Duration)">
-<h3>create</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">static</span>&nbsp;<span class="return-type">@NotNull <a href="TriggerRule.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TriggerRule</a></span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;until,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;leeway)</span></div>
-<div class="block">Create a new trigger rule</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>until</code> - the given until</dd>
-<dd><code>leeway</code> - the given leeway</dd>
-<dt>Returns:</dt>
-<dd>a new Trigger rule</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="create(java.util.List,java.time.Instant)">
-<h3>create</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">static</span>&nbsp;<span class="return-type">@NotNull <a href="TriggerRule.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TriggerRule</a></span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Timeframe.html" title="interface in io.github.zero88.schedulerx.trigger.rule">Timeframe</a>&gt;&nbsp;timeframes,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;until)</span></div>
-<div class="block">Create a new trigger rule</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>timeframes</code> - the given timeframes</dd>
-<dd><code>until</code> - the given until</dd>
-<dt>Returns:</dt>
-<dd>a new trigger rule</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="create(java.util.List,java.time.Instant,java.time.Duration)">
-<h3>create</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">static</span>&nbsp;<span class="return-type">@NotNull <a href="TriggerRule.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TriggerRule</a></span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Timeframe.html" title="interface in io.github.zero88.schedulerx.trigger.rule">Timeframe</a>&gt;&nbsp;timeframes,
+</span><span class="modifiers">static</span>&nbsp;<span class="return-type">@NotNull <a href="TriggerRule.html" title="interface in io.github.zero88.schedulerx.trigger.rule">TriggerRule</a></span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;beginTime,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;until,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Timeframe.html" title="interface in io.github.zero88.schedulerx.trigger.rule">Timeframe</a>&gt;&nbsp;timeframes,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;leeway)</span></div>
 <div class="block">Create a new trigger rule</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>timeframes</code> - the given timeframes</dd>
+<dd><code>beginTime</code> - the given begin time</dd>
 <dd><code>until</code> - the given until</dd>
+<dd><code>timeframes</code> - the given timeframes</dd>
 <dd><code>leeway</code> - the given leeway</dd>
 <dt>Returns:</dt>
 <dd>a new trigger rule</dd>

@@ -166,19 +166,24 @@ extends <a href="Trigger.html" title="interface in io.github.zero88.schedulerx.t
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#interval()" class="member-name-link">interval</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default io.vertx.core.json.JsonObject</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#toJson()" class="member-name-link">toJson</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#nextTriggerTime(java.time.Instant)" class="member-name-link">nextTriggerTime</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;time)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Calculates the next valid trigger time from a given time and the trigger configuration</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default io.vertx.core.json.JsonObject</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#toJson()" class="member-name-link">toJson</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Serialize this trigger to json object that helps to persist in external system</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#type()" class="member-name-link">type</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#type()" class="member-name-link">type</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Declares the trigger type</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="IntervalTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTrigger</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#validate()" class="member-name-link">validate</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NotNull <a href="IntervalTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTrigger</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#validate()" class="member-name-link">validate</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Do validate trigger in runtime.</div>
 </div>
 </div>
@@ -392,6 +397,21 @@ extends <a href="Trigger.html" title="interface in io.github.zero88.schedulerx.t
 <section class="detail" id="create(java.util.Map)">
 <h3>create</h3>
 <div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="IntervalTrigger.html" title="interface in io.github.zero88.schedulerx.trigger">IntervalTrigger</a></span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;properties)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="nextTriggerTime(java.time.Instant)">
+<h3>nextTriggerTime</h3>
+<div class="member-signature"><span class="annotations">@NotNull
+</span><span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a></span>&nbsp;<span class="element-name">nextTriggerTime</span><wbr><span class="parameters">(@NotNull
+ @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link">Instant</a>&nbsp;time)</span></div>
+<div class="block">Calculates the next valid trigger time from a given time and the trigger configuration</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>time</code> - the given time</dd>
+<dt>Returns:</dt>
+<dd>the next trigger time</dd>
+</dl>
 </section>
 </li>
 </ul>
