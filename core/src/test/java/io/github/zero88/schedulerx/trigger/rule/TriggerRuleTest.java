@@ -37,7 +37,8 @@ class TriggerRuleTest {
     @BeforeAll
     static void setup() {
         mapper = new ObjectMapper().findAndRegisterModules()
-                                   .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+                                   .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+                                   .disable(SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS)
                                    .setSerializationInclusion(Include.NON_NULL);
     }
 
@@ -46,36 +47,93 @@ class TriggerRuleTest {
         final String expected =
             "{\"timeframes\":[{\"from\":\"2023-09-24\",\"to\":\"2023-09-26\",\"type\":\"java.time.LocalDate\"}," +
             "{\"from\":\"09:39:33.514\",\"to\":\"11:39:33.514\",\"type\":\"java.time.LocalTime\"}]," +
-            "\"until\":\"2023-09-24T03:31:48Z\",\"leeway\":0.0}";
+            "\"beginTime\":\"2023-09-01T00:00:00Z\",\"until\":\"2023-09-24T03:31:48Z\",\"leeway\":\"PT5S\"}";
         final Timeframe<?> tf1 = Timeframe.of(LocalDate.parse("2023-09-24"), LocalDate.parse("2023-09-26"));
         final Timeframe<?> tf2 = Timeframe.of(LocalTime.parse("09:39:33.514"), LocalTime.parse("11:39:33.514"));
+        final Instant beginTime = Instant.parse("2023-09-01T00:00:00Z");
         final Instant until = Instant.parse("2023-09-24T03:31:48Z");
-        final TriggerRule triggerRule = TriggerRule.create(Arrays.asList(tf1, tf2), until);
+        final TriggerRule triggerRule = TriggerRule.builder()
+                                                   .beginTime(beginTime)
+                                                   .timeframes(tf1, tf2)
+                                                   .until(until)
+                                                   .leeway(Duration.ofSeconds(5))
+                                                   .build();
         final String data = mapper.writeValueAsString(triggerRule);
         final TriggerRule fromJson = mapper.readerFor(TriggerRule.class).readValue(data);
         Assertions.assertEquals(expected, data);
         Assertions.assertEquals(triggerRule, fromJson);
     }
 
-    private static Stream<Arguments> untilTestData() {
-        final Instant until = Instant.parse("2023-09-24T03:31:48Z");
-        return Stream.of(arguments(until, FiredAtArgument.of(Instant.parse("2023-09-22T00:00:48Z"), false)),
-                         arguments(until, FiredAtArgument.of(Instant.parse("2023-09-24T00:00:48Z"), false)),
-                         arguments(until, FiredAtArgument.of(Instant.parse("2023-09-24T03:31:48Z"), false)),
-                         arguments(until,
-                                   FiredAtArgument.of(Duration.ofSeconds(3), Instant.parse("2023-09-24T03:31:50Z"),
-                                                      false)),
-                         arguments(until, FiredAtArgument.of(Instant.parse("2023-09-24T04:31:48Z"), true)),
-                         arguments(until, FiredAtArgument.of(Instant.parse("2023-09-25T03:31:48Z"), true)),
-                         arguments(until,
-                                   FiredAtArgument.of(Duration.ofSeconds(3), Instant.parse("2023-09-24T03:31:52Z"),
-                                                      true)));
+    @ParameterizedTest
+    @MethodSource("beginUntilData")
+    void test_begin_must_be_before_until(Instant beginTime, Instant until, boolean isValid) {
+        try {
+            TriggerRule.builder().beginTime(beginTime).until(until).build();
+        } catch (Exception ex) {
+            if (!isValid) {
+                Assertions.assertInstanceOf(IllegalArgumentException.class, ex);
+                Assertions.assertEquals("The 'begin time' must be before the 'until time'", ex.getMessage());
+            }
+        }
+    }
+
+    private static Stream<Arguments> beginUntilData() {
+        //@formatter:off
+        return Stream.of(
+            arguments(null, null, true),
+            arguments(null, Instant.parse("2023-09-24T01:00:00Z"), true),
+            arguments(Instant.parse("2023-09-24T01:00:00Z"), null, true),
+            arguments(Instant.parse("2023-09-24T01:00:00Z"), Instant.parse("2023-09-24T02:00:00Z"), true),
+            arguments(Instant.parse("2023-09-24T02:00:00Z"), Instant.parse("2023-09-24T01:00:00Z"), false),
+            arguments(Instant.parse("2023-09-24T01:00:00Z"), Instant.parse("2023-09-24T01:00:00Z"), false)
+        );
+        //@formatter:on
     }
 
     @ParameterizedTest
     @MethodSource("untilTestData")
     void test_until(Instant until, FiredAtArgument arg) {
-        Assertions.assertEquals(arg.expected, TriggerRule.create(until, arg.leeway).isExceeded(arg.firedAt));
+        TriggerRule rule = TriggerRule.builder().until(until).leeway(arg.leeway).build();
+        Assertions.assertEquals(arg.expected, rule.isExceeded(arg.firedAt));
+    }
+
+    private static Stream<Arguments> untilTestData() {
+        final Instant until = Instant.parse("2023-09-24T03:31:48Z");
+        //@formatter:off
+        return Stream.of(arguments(until, FiredAtArgument.of(Instant.parse("2023-09-22T00:00:48Z"), false)),
+                         arguments(until, FiredAtArgument.of(Instant.parse("2023-09-24T00:00:48Z"), false)),
+                         arguments(until, FiredAtArgument.of(Instant.parse("2023-09-24T03:31:48Z"), false)),
+                         arguments(until, FiredAtArgument.of(Instant.parse("2023-09-24T04:31:48Z"), true)),
+                         arguments(until, FiredAtArgument.of(Instant.parse("2023-09-25T03:31:48Z"), true)),
+                         arguments(until, FiredAtArgument.of(Duration.ofSeconds(3), Instant.parse("2023-09-24T03:31:50Z"), false)),
+                         arguments(until, FiredAtArgument.of(Duration.ofSeconds(3), Instant.parse("2023-09-24T03:31:52Z"), true)));
+        //@formatter:on
+    }
+
+    private static Stream<Arguments> beginTestData() {
+        final Instant beginTime = Instant.parse("2023-09-24T10:00:00Z");
+        final Duration leeway = Duration.ofSeconds(5);
+        //@formatter:off
+        return Stream.of(
+            arguments(null, Duration.ZERO, FiredAtArgument.of(beginTime, false)),
+            arguments(beginTime, Duration.parse("PT59M50S"), FiredAtArgument.of(Instant.parse("2023-09-24T09:00:00Z"), true)),
+            arguments(beginTime, Duration.parse("PT1S"), FiredAtArgument.of(Instant.parse("2023-09-24T09:59:49Z"), true)),
+            arguments(beginTime, Duration.ZERO, FiredAtArgument.of(Instant.parse("2023-09-24T09:59:50Z"), true)),
+            arguments(beginTime, Duration.parse("PT6S"), FiredAtArgument.of(leeway, Instant.parse("2023-09-24T09:59:49Z"), true)),
+            arguments(beginTime, Duration.ZERO, FiredAtArgument.of(leeway, Instant.parse("2023-09-24T09:59:55Z"), true)),
+            arguments(beginTime, Duration.ZERO, FiredAtArgument.of(Instant.parse("2023-09-24T10:00:00Z"), false)),
+            arguments(beginTime, Duration.ZERO, FiredAtArgument.of(Instant.parse("2023-09-24T10:01:00Z"), false))
+        );
+        //@formatter:on
+    }
+
+    @ParameterizedTest
+    @MethodSource("beginTestData")
+    void test_calculate_the_register_time(Instant beginTime, Duration durationToRegister, FiredAtArgument arg) {
+        TriggerRule rule = TriggerRule.builder().beginTime(beginTime).leeway(arg.leeway).build();
+        Assertions.assertEquals(arg.expected, rule.isPending(arg.firedAt),
+                                "the fired-at time should be before the begin time");
+        Assertions.assertEquals(durationToRegister, rule.calculateRegisterTime(arg.firedAt));
     }
 
     private static Stream<Arguments> leewayTestData() {
@@ -90,10 +148,7 @@ class TriggerRuleTest {
         if (leeway instanceof String) {
             leeway = "\"" + leeway + "\"";
         }
-        final String data =
-            "{\"timeframes\":[{\"from\":\"2023-09-24\",\"to\":\"2023-09-26\",\"type\":\"java.time.LocalDate\"}," +
-            "{\"from\":\"09:39:33.514\",\"to\":\"11:39:33.514\",\"type\":\"java.time.LocalTime\"}]," +
-            "\"until\":\"2023-09-24T03:31:48Z\",\"leeway\":" + leeway + "}";
+        final String data = "{\"timeframes\":[],\"until\":\"2023-09-24T03:31:48Z\",\"leeway\":" + leeway + "}";
         final TriggerRule rule = mapper.readerFor(TriggerRule.class).readValue(data);
         Assertions.assertEquals(expected, rule.leeway());
     }
@@ -130,11 +185,12 @@ class TriggerRuleTest {
 
     @CartesianTest
     @CartesianTest.MethodFactory("timeframesTestData")
-    void test_TimeFrames_statisfy(ZoneId zoneId, List<Timeframe> timeframes, FiredAtArgument arg) {
+    void test_TimeFrames_satisfy(ZoneId zoneId, List<Timeframe> timeframes, FiredAtArgument arg) {
         final TimeZone systemTimeZone = TimeZone.getDefault();
         try {
             TimeZone.setDefault(TimeZone.getTimeZone(zoneId));
-            Assertions.assertEquals(arg.expected, TriggerRule.create(timeframes, arg.leeway).satisfy(arg.firedAt));
+            TriggerRule rule = TriggerRule.builder().timeframes(timeframes).leeway(arg.leeway).build();
+            Assertions.assertEquals(arg.expected, rule.satisfy(arg.firedAt));
         } finally {
             TimeZone.setDefault(systemTimeZone);
         }

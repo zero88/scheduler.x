@@ -3,10 +3,7 @@ package io.github.zero88.schedulerx.trigger;
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.OffsetDateTime;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -30,20 +27,18 @@ final class CronTriggerImpl implements CronTrigger {
     CronTriggerImpl(@NotNull String expression, TimeZone timeZone, TriggerRule rule) {
         this.expression = Objects.requireNonNull(expression, "Cron expression is required");
         this.timeZone   = timeZone == null ? TimeZone.getTimeZone(ZoneOffset.UTC.getId()) : timeZone;
-        this.rule       = Optional.ofNullable(rule).orElseGet(CronTrigger.super::rule);
+        this.rule       = Optional.ofNullable(rule).orElse(TriggerRule.NOOP);
     }
 
-    @Override
-    public @NotNull TriggerRule rule() { return rule; }
+    public @NotNull TriggerRule rule()     { return rule; }
 
     public @NotNull String getExpression() { return this.expression; }
 
     public @NotNull TimeZone getTimeZone() { return this.timeZone; }
 
-    public long nextTriggerAfter(@NotNull Instant time) {
+    public @NotNull Instant nextTriggerTime(@NotNull Instant time) {
         validate();
-        final Instant next = cronExpression.getNextValidTimeAfter(Date.from(time)).toInstant();
-        return Math.max(1, ChronoUnit.MILLIS.between(time, next));
+        return cronExpression.getNextValidTimeAfter(Date.from(time)).toInstant();
     }
 
     @Override
@@ -60,21 +55,7 @@ final class CronTriggerImpl implements CronTrigger {
 
     @Override
     public @NotNull List<OffsetDateTime> preview(@NotNull PreviewParameter parameter) {
-        validate();
-        final List<OffsetDateTime> result = new ArrayList<>();
-        final TriggerRule theRule = parameter.getRule();
-        final ZoneId zoneId = Optional.ofNullable(parameter.getTimeZone()).orElseGet(timeZone::toZoneId);
-        Instant next = parameter.getStartedAt();
-        do {
-            next = cronExpression.getNextValidTimeAfter(Date.from(next)).toInstant();
-            if (theRule.isExceeded(next)) {
-                break;
-            }
-            if (theRule.satisfy(next)) {
-                result.add(next.atZone(zoneId).toOffsetDateTime());
-            }
-        } while (result.size() != parameter.getTimes());
-        return result;
+        return PreviewHelper.preview(this, PreviewHelper.normalize(parameter, rule, timeZone.toZoneId()));
     }
 
     @Override

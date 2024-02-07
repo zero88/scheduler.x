@@ -3,7 +3,6 @@ package io.github.zero88.schedulerx.trigger;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.time.LocalTime;
-import java.util.Collections;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
@@ -35,7 +34,7 @@ class EventTriggerTest {
     }
 
     static Stream<Arguments> validData() {
-        final TriggerRule rule = TriggerRule.create(Collections.singletonList(Timeframe.of(LocalTime.of(2, 30), null)));
+        final TriggerRule rule = TriggerRule.builder().timeframe(Timeframe.of(LocalTime.of(2, 30), null)).build();
         // @formatter:off
         return Stream.of(
             arguments(EventTrigger.builder().address("s1.a2.b3").predicate(EventTriggerPredicate.any()).build(),

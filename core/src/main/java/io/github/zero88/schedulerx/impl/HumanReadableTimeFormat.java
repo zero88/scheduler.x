@@ -5,7 +5,7 @@ import java.time.Duration;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 /**
- * The utility helps to a temporal value to the human-readable text.
+ * The utility helps to format a temporal value to the human-readable text.
  */
 @Internal
 public final class HumanReadableTimeFormat {

@@ -120,6 +120,16 @@ public final class TriggerContextFactory {
     }
 
     /**
+     * Transition trigger context to {@link TriggerStatus#UNREADY} state.
+     *
+     * @param ctx    the current trigger context
+     * @param reason the transition reason
+     */
+    public static @NotNull TriggerContext unready(@NotNull TriggerContext ctx, @NotNull String reason) {
+        return transition(ctx, TriggerStatus.UNREADY, reason, null);
+    }
+
+    /**
      * Transition trigger context to {@link TriggerStatus#SKIPPED} state.
      *
      * @param ctx    the current trigger context

@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
  *
  * @since 1.0.0
  */
-public interface IntervalTrigger extends Trigger {
+public interface IntervalTrigger extends Trigger, TimebasedTrigger {
 
     String TRIGGER_TYPE = "interval";
 

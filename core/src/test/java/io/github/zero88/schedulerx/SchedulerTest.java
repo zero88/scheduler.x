@@ -63,7 +63,7 @@ class SchedulerTest {
         Assertions.assertEquals(nbOfFailed, store.size());
         for (int i = 0; i < nbOfFailed; i++) {
             Assertions.assertInstanceOf(IllegalStateException.class, store.get(i));
-            Assertions.assertEquals("The executor is already started!", store.get(i).getMessage());
+            Assertions.assertEquals("The scheduler is already started!", store.get(i).getMessage());
         }
     }
 

@@ -2,7 +2,6 @@ package io.github.zero88.schedulerx.trigger.rule;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Collections;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +23,7 @@ public interface TriggerRule {
     /**
      * A no-op trigger rule.
      */
-    TriggerRule NOOP = create(Collections.emptyList());
+    TriggerRule NOOP = builder().build();
 
     /**
      * Declares the timeframe that allows emitting a trigger
@@ -34,6 +33,18 @@ public interface TriggerRule {
      */
     @JsonGetter
     @NotNull List<Timeframe> timeframes();
+
+    /**
+     * Declares the future time that the trigger is scheduled.
+     * <ul>
+     * <li>when value is {@code null} or in the past, the trigger is scheduled immediately</li>
+     * <li>when value is in the future, the trigger is pending to the time to schedule</li>
+     * </ul>
+     *
+     * @return the until time
+     */
+    @JsonGetter
+    Instant beginTime();
 
     /**
      * Declares the time that the trigger can run until to.
@@ -48,9 +59,9 @@ public interface TriggerRule {
      * <p>
      * The leeway time has constraints:
      * <ul>
-     * <li>when given argument is negative, the leeway time fallback to {@link Duration#ZERO}</li>
-     * <li>when given argument is greater than {@link DefaultOptions#triggerRuleMaxLeeway}, the leeway time fallback
-     * to max default value</li>
+     * <li>when value is negative, the leeway time fallback to {@link Duration#ZERO}</li>
+     * <li>when value is greater than {@link DefaultOptions#triggerRuleMaxLeeway}, the leeway time fallback to max
+     * default value</li>
      * </ul>
      *
      * @return the leeway time
@@ -59,10 +70,21 @@ public interface TriggerRule {
     @NotNull Duration leeway();
 
     /**
-     * Check if the fired time is satisfied to at least one timeframe.
+     * Check whether the fired-at time is before the registered beginning time({@link #beginTime()}).
+     * If the beginning time has not yet elapsed, the trigger status is still in pending mode.
      *
      * @param firedAt a clock time that the system timer fires the trigger
-     * @return {@code true} if the trigger time is satisfied, otherwise is {@code false}
+     * @return {@code true} if the trigger is not yet ready to run, otherwise is {@code false}
+     */
+    default boolean isPending(@NotNull Instant firedAt) {
+        return beginTime() != null && firedAt.isBefore(beginTime());
+    }
+
+    /**
+     * Check whether the fired-at time is satisfied to at least one timeframe.
+     *
+     * @param firedAt a clock time that the system timer fires the trigger
+     * @return {@code true} if the fired-at time is satisfied, otherwise is {@code false}
      * @see #timeframes()
      */
     default boolean satisfy(@NotNull Instant firedAt) {
@@ -71,80 +93,63 @@ public interface TriggerRule {
     }
 
     /**
-     * Check if the fired time is exceeded the registered {@link #until()} time.
+     * Check whether the fired-at time is exceeded the registered {@link #until()} time.
      *
      * @param firedAt a clock time that the system timer fires the trigger
-     * @return {@code true} if the trigger time is exceeded, otherwise is {@code false}
+     * @return {@code true} if the fired-at time is exceeded, otherwise is {@code false}
      */
     default boolean isExceeded(@NotNull Instant firedAt) {
         return until() != null && firedAt.isAfter(until().plus(leeway()));
     }
 
     /**
-     * Create a new trigger rule
+     * Calculates the appropriate duration time to register the trigger into the scheduler.
+     * <p/>
+     * The calculation ensures that the registration time is ahead of the rule {@link #beginTime()} during a
+     * {@link #leeway()} duration.
+     * <br/>
+     * In case of the leeway duration is {@link Duration#ZERO}, the {@link DefaultOptions#triggerRuleMaxLeeway} will be
+     * picked.
+     * <p/>
+     * If the returned value is {@link Duration#ZERO}, that means the system timer is going to register the trigger
+     * immediately.
      *
-     * @param timeframes the given timeframes
-     * @return a new Trigger rule
+     * @param systemTime a clock time is when the system timer starts registering the trigger.
+     * @return the duration until the system timer registers the trigger
      */
-    static @NotNull TriggerRule create(List<Timeframe> timeframes) {
-        return create(timeframes, null, null);
+    default Duration calculateRegisterTime(@NotNull Instant systemTime) {
+        if (isPending(systemTime)) {
+            final Instant beginTime = beginTime();
+            final Duration duration = Duration.between(systemTime, beginTime);
+            final Duration leeway = leeway().isZero() ? DefaultOptions.getInstance().triggerRuleMaxLeeway : leeway();
+            final Duration registerAfter = duration.minus(leeway);
+            return registerAfter.isNegative() ? Duration.ZERO : registerAfter;
+        }
+        return Duration.ZERO;
     }
+
+    /**
+     * Create a builder
+     *
+     * @return the trigger rule builder
+     */
+    static TriggerRuleBuilder builder() { return new TriggerRuleBuilder(); }
 
     /**
      * Create a new trigger rule
      *
-     * @param timeframes the given timeframes
-     * @param leeway     the given leeway
-     * @return a new Trigger rule
-     */
-    static @NotNull TriggerRule create(List<Timeframe> timeframes, Duration leeway) {
-        return create(timeframes, null, leeway);
-    }
-
-    /**
-     * Create a new trigger rule
-     *
-     * @param until the given until
-     * @return a new Trigger rule
-     */
-    static @NotNull TriggerRule create(Instant until) {
-        return create(null, until, null);
-    }
-
-    /**
-     * Create a new trigger rule
-     *
-     * @param until  the given until
-     * @param leeway the given leeway
-     * @return a new Trigger rule
-     */
-    static @NotNull TriggerRule create(Instant until, Duration leeway) {
-        return create(null, until, leeway);
-    }
-
-    /**
-     * Create a new trigger rule
-     *
-     * @param timeframes the given timeframes
+     * @param beginTime  the given begin time
      * @param until      the given until
-     * @return a new trigger rule
-     */
-    static @NotNull TriggerRule create(List<Timeframe> timeframes, Instant until) {
-        return create(timeframes, until, null);
-    }
-
-    /**
-     * Create a new trigger rule
-     *
      * @param timeframes the given timeframes
-     * @param until      the given until
      * @param leeway     the given leeway
      * @return a new trigger rule
      */
     @JsonCreator
-    static @NotNull TriggerRule create(@JsonProperty("timeframes") List<Timeframe> timeframes,
-                                       @JsonProperty("until") Instant until, @JsonProperty("leeway") Duration leeway) {
-        return new TriggerRuleImpl(timeframes, until, leeway);
+    static @NotNull TriggerRule create(@JsonProperty("beginTime") Instant beginTime,
+                                       @JsonProperty("until") Instant until,
+                                       @JsonProperty("timeframes") List<Timeframe> timeframes,
+                                       @JsonProperty("leeway") Duration leeway) {
+        return builder().beginTime(beginTime).until(until).timeframes(timeframes).leeway(leeway).build();
     }
 
 }

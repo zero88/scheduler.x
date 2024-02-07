@@ -42,6 +42,10 @@ public interface TriggerCondition {
          */
         KICKOFF,
         /**
+         * Identify the trigger is scheduled but not yet ready to execute the job
+         */
+        UNREADY,
+        /**
          * Identify the trigger is satisfied every predicate then ready to execute the job
          */
         READY,

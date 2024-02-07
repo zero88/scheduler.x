@@ -6,7 +6,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
@@ -22,7 +21,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import io.github.zero88.schedulerx.trigger.rule.Timeframe;
 import io.github.zero88.schedulerx.trigger.rule.TriggerRule;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.json.jackson.DatabindCodec;
 
@@ -43,11 +41,16 @@ class IntervalTriggerTest {
     }
 
     static Stream<Arguments> validData() {
-        TriggerRule rule = TriggerRule.create(
-            Collections.singletonList(Timeframe.of(Instant.parse("2023-10-10T10:10:00Z"), null)),
-            Instant.parse("2023-10-20T10:10:00Z"));
-        JsonObject ruleJson = JsonObject.of("until", "2023-10-20T10:10:00Z", "timeframes", JsonArray.of(
-            JsonObject.of("type", "java.time.Instant", "from", "2023-10-10T10:10:00Z")));
+        final TriggerRule ruleWithoutBeginTime = TriggerRule.builder()
+                                                            .until(Instant.parse("2023-10-20T10:10:00Z"))
+                                                            .build();
+        final JsonObject ruleWithoutBeginTimeJson = JsonObject.of("until", "2023-10-20T10:10:00Z");
+        final TriggerRule ruleWithBeginTime = TriggerRule.builder()
+                                                         .beginTime(Instant.parse("2023-10-18T10:10:00Z"))
+                                                         .until(Instant.parse("2023-10-20T10:10:00Z"))
+                                                         .build();
+        final JsonObject ruleWithBeginTimeJson = JsonObject.of("beginTime", "2023-10-18T10:10:00Z", "until",
+                                                               "2023-10-20T10:10:00Z");
         // @formatter:off
         return Stream.of(
             arguments(IntervalTrigger.builder().interval(10).build(),
@@ -58,12 +61,12 @@ class IntervalTriggerTest {
                       new JsonObject("{\"repeat\":10,\"initialDelay\":30,\"interval\":5}")),
             arguments(IntervalTrigger.builder().initialDelay(1).initialDelayTimeUnit(TimeUnit.HOURS).interval(10).intervalTimeUnit(TimeUnit.MINUTES).repeat(3).build(),
                       new JsonObject("{\"repeat\":3,\"initialDelay\":1,\"initialDelayTimeUnit\":\"HOURS\",\"interval\":10,\"intervalTimeUnit\":\"MINUTES\"}")),
-            arguments(IntervalTrigger.builder().interval(30).rule(rule).build(),
-                      JsonObject.of("interval", 30, "rule", ruleJson)),
             arguments(IntervalTrigger.builder().initialDelay(Duration.ofSeconds(1)).interval(Duration.ofSeconds(60)).repeat(15).build(),
                       JsonObject.of("type", "interval", "repeat", 15, "initialDelay", "PT1S","interval", "PT60S")),
-            arguments(IntervalTrigger.builder().interval(Duration.ofSeconds(15)).rule(rule).build(),
-                      JsonObject.of("interval", "PT15S", "rule", ruleJson)));
+            arguments(IntervalTrigger.builder().interval(Duration.ofHours(1)).initialDelay(Duration.ofSeconds(3)).rule(ruleWithoutBeginTime).build(),
+                      JsonObject.of("interval", "PT1H", "initialDelay", "PT3S", "rule", ruleWithoutBeginTimeJson)),
+            arguments(IntervalTrigger.builder().interval(Duration.ofHours(1)).initialDelay(Duration.ofSeconds(3)).rule(ruleWithBeginTime).build(),
+                      JsonObject.of("interval", "PT1H", "rule", ruleWithBeginTimeJson)));
         // @formatter:on
     }
 
@@ -114,7 +117,7 @@ class IntervalTriggerTest {
                                                             OffsetDateTime.parse("2023-07-30T18:31:10+07:00"));
 
         final IntervalTrigger trigger = IntervalTrigger.builder()
-                                                       .initialDelay(10)
+                                                       .initialDelay(Duration.ofSeconds(10))
                                                        .interval(Duration.ofMinutes(10))
                                                        .repeat(3)
                                                        .build();
@@ -133,10 +136,11 @@ class IntervalTriggerTest {
                                                             OffsetDateTime.parse("2023-07-30T20:31:00+07:00"));
 
         final IntervalTrigger trigger = IntervalTrigger.builder().interval(Duration.ofMinutes(30)).build();
-        final TriggerRule rule = TriggerRule.create(Collections.singletonList(
-                                                        Timeframe.of(OffsetDateTime.parse("2023-07-30T19:00:00+07:00"),
-                                                                     OffsetDateTime.parse("2023-07-31T00:00:00+07:00"))),
-                                                    OffsetDateTime.parse("2023-07-30T21:00:00+07:00").toInstant());
+        final TriggerRule rule = TriggerRule.builder()
+                                            .timeframe(Timeframe.of(OffsetDateTime.parse("2023-07-30T19:00:00+07:00"),
+                                                                    OffsetDateTime.parse("2023-07-31T00:00:00+07:00")))
+                                            .until(OffsetDateTime.parse("2023-07-30T21:00:00+07:00").toInstant())
+                                            .build();
         final PreviewParameter parameter = PreviewParameter.byDefault()
                                                            .setStartedAt(startedAt.toInstant())
                                                            .setTimeZone(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"))

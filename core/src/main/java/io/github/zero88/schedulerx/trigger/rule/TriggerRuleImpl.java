@@ -15,19 +15,25 @@ import io.github.zero88.schedulerx.DefaultOptions;
 final class TriggerRuleImpl implements TriggerRule {
 
     private final List<Timeframe> timeframes;
+    private final Instant beginTime;
     private final Instant until;
     private final Duration leeway;
     private final int hashCode;
 
-    TriggerRuleImpl(List<Timeframe> timeframes, Instant until, Duration leeway) {
-        this.timeframes = Optional.ofNullable(timeframes).orElseGet(Collections::emptyList);
+    TriggerRuleImpl(Instant beginTime, Instant until, List<Timeframe> timeframes, Duration leeway) {
+        validateBeginUntil(beginTime, until);
+        this.beginTime  = beginTime;
         this.until      = until;
+        this.timeframes = Optional.ofNullable(timeframes).orElseGet(Collections::emptyList);
         this.leeway     = validateLeewayTime(leeway);
         this.hashCode   = computeHashCode();
     }
 
     @Override
     public @NotNull List<Timeframe> timeframes() { return timeframes; }
+
+    @Override
+    public Instant beginTime() { return beginTime; }
 
     @Override
     public Instant until() { return until; }
@@ -37,14 +43,12 @@ final class TriggerRuleImpl implements TriggerRule {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+        if (this == o) { return true; }
+        if (o == null || getClass() != o.getClass()) { return false; }
 
         TriggerRuleImpl that = (TriggerRuleImpl) o;
-        return Objects.equals(until, that.until) && Objects.equals(leeway, that.leeway) &&
-               timeframes.equals(that.timeframes);
+        return Objects.equals(beginTime, that.beginTime) && Objects.equals(until, that.until) &&
+               Objects.equals(leeway, that.leeway) && timeframes.equals(that.timeframes);
     }
 
     @Override
@@ -54,11 +58,12 @@ final class TriggerRuleImpl implements TriggerRule {
 
     @Override
     public String toString() {
-        return "TriggerRule{until=" + until + ", leeway=" + leeway + ", " + timeframes + "}";
+        return "TriggerRule{begin=" + beginTime + ",until=" + until + ", leeway=" + leeway + ", " + timeframes + "}";
     }
 
     private int computeHashCode() {
-        int result = Optional.ofNullable(until).map(Instant::hashCode).orElse(0);
+        int result = Optional.ofNullable(beginTime).map(Instant::hashCode).orElse(0);
+        result = 31 * result + Optional.ofNullable(until).map(Instant::hashCode).orElse(0);
         result = 31 * result + leeway.hashCode();
         result = 31 * result + timeframes.hashCode();
         return result;
@@ -72,6 +77,15 @@ final class TriggerRuleImpl implements TriggerRule {
         }
         final Duration maxLeeway = DefaultOptions.getInstance().triggerRuleMaxLeeway;
         return given.compareTo(maxLeeway) > 0 ? maxLeeway : given;
+    }
+
+    private static void validateBeginUntil(Instant beginTime, Instant until) {
+        if (beginTime == null || until == null) {
+            return;
+        }
+        if (beginTime.compareTo(until) >= 0) {
+            throw new IllegalArgumentException("The 'begin time' must be before the 'until time'");
+        }
     }
 
 }

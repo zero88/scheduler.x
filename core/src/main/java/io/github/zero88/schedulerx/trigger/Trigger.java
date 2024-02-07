@@ -31,9 +31,7 @@ public interface Trigger extends HasTriggerType, TriggerRepresentation {
      * @since 2.0.0
      */
     @JsonProperty
-    default @NotNull TriggerRule rule() {
-        return TriggerRule.NOOP;
-    }
+    @NotNull TriggerRule rule();
 
     /**
      * Do validate trigger in runtime.
@@ -51,7 +49,7 @@ public interface Trigger extends HasTriggerType, TriggerRepresentation {
      * @return the list of the next trigger time
      * @since 2.0.0
      */
-    default @NotNull List<OffsetDateTime> preview() { return preview(PreviewParameter.byDefault().setRule(rule())); }
+    default @NotNull List<OffsetDateTime> preview() { return preview(PreviewParameter.byDefault()); }
 
     /**
      * Simulate the next trigger times based on given preview parameter

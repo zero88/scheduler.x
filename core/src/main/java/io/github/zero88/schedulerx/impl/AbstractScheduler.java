@@ -118,12 +118,12 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger>
                 return (T) this.trigger.validate();
             } catch (Exception ex) {
                 if (ex instanceof IllegalArgumentException) {
-                    this.invalidTrigger = (IllegalArgumentException) ex;
+                    invalidTrigger = (IllegalArgumentException) ex;
                 } else {
-                    this.invalidTrigger = new IllegalArgumentException(
+                    invalidTrigger = new IllegalArgumentException(
                         "Encounter an unexpected exception when validating trigger", ex);
                 }
-                throw this.invalidTrigger;
+                throw invalidTrigger;
             } finally {
                 didTriggerValidation = true;
             }
@@ -136,14 +136,30 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger>
 
     @Override
     public final void start(WorkerExecutor workerExecutor) {
+        TriggerRule rule;
+        try {
+            rule = trigger().rule();
+        } catch (Exception ex) {
+            onUnableSchedule(ex);
+            return;
+        }
         lock.lock();
         try {
             if (didStart) {
-                throw new IllegalStateException("The executor is already started!");
+                throw new IllegalStateException("The scheduler is already started!");
             }
-            doStart(workerExecutor == null
-                    ? WorkerExecutorFactory.createExecutionWorker(vertx, timeoutPolicy)
-                    : workerExecutor);
+            final WorkerExecutor executor = workerExecutor == null
+                                            ? WorkerExecutorFactory.createExecutionWorker(vertx, timeoutPolicy)
+                                            : workerExecutor;
+            final Instant now = clock.now();
+            final Duration delay = rule.calculateRegisterTime(now);
+            if (delay.isZero()) {
+                doStart(executor);
+            } else {
+                log(now, "Wait for " + brackets(delay) + " before registering the trigger " +
+                         "in the scheduler at the beginning time in the trigger rule");
+                state.timerId(vertx().setTimer(delay.toMillis(), ignore -> doStart(executor)));
+            }
             didStart = true;
         } finally {
             lock.unlock();
@@ -221,12 +237,11 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger>
         }
         final long round = state.increaseRound();
         final Duration timeout = timeoutPolicy().executionTimeout();
-        final ExecutionContextInternal<OUT> executionContext = new ExecutionContextImpl<>(vertx, clock, triggerContext,
-                                                                                          round);
-        log(executionContext.triggeredAt(), "On trigger", triggerContext.tick(), round);
+        final ExecutionContextInternal<OUT> exeCtx = new ExecutionContextImpl<>(vertx, clock, triggerContext, round);
+        log(exeCtx.triggeredAt(), "On trigger", triggerContext.tick(), round);
         Future.join(onEvaluationAfterTrigger(workerExecutor, triggerContext, round),
-                    executeBlocking(workerExecutor, p -> executeJob(executionContext.setup(wrapTimeout(timeout, p)))))
-              .onComplete(ar -> onResult(executionContext, ar.cause()));
+                    executeBlocking(workerExecutor, p -> executeJob(exeCtx.setup(wrapTimeout(timeout, p)))))
+              .onComplete(ar -> onResult(exeCtx, ar.cause()));
     }
 
     protected final void onSchedule(long timerId) {
@@ -366,7 +381,7 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger>
     }
 
     private String genMsg(long tick, long round, @NotNull Instant at, @NotNull String event) {
-        String tId = state.pending() ? "-" : String.valueOf(state.timerId());
+        String tId = String.valueOf(state.timerId());
         String tickAndRound = state.pending() ? "-/-" : (tick + "/" + round);
         return MessageFormat.format("Scheduling{0}{1}::{2} - {3}",
                                     brackets(tId + "::" + trigger.type() + "::" + jobData.externalId()),
@@ -411,6 +426,9 @@ public abstract class AbstractScheduler<IN, OUT, T extends Trigger>
             }
             final Instant firedAt = Objects.requireNonNull(ctx.firedAt());
             final TriggerRule rule = scheduler.trigger().rule();
+            if (rule.isPending(firedAt)) {
+                return TriggerContextFactory.unready(ctx, ReasonCode.CONDITION_IS_NOT_MATCHED);
+            }
             if (rule.isExceeded(firedAt)) {
                 return TriggerContextFactory.stop(ctx, ReasonCode.STOP_BY_CONFIG);
             }
