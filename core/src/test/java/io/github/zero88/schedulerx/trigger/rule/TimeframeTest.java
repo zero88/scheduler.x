@@ -20,6 +20,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import io.github.zero88.schedulerx.TestUtils;
 import io.github.zero88.schedulerx.trigger.rule.custom.SimpleDateTimeTimeframe;
+import io.vertx.core.json.JsonObject;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -109,7 +110,7 @@ class TimeframeTest {
                                 "\"timeZone\":\"Europe/Paris\",\"type\":\"java.util.Date\"}";
         final Timeframe<?> timeframe = mapper.readValue(expected, Timeframe.class);
         Assertions.assertInstanceOf(SimpleDateTimeTimeframe.class, timeframe);
-        Assertions.assertEquals(expected, mapper.writeValueAsString(timeframe));
+        Assertions.assertEquals(new JsonObject(expected), new JsonObject(mapper.writeValueAsString(timeframe)));
     }
 
 }
