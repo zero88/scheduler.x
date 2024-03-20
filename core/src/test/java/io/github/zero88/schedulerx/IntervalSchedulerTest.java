@@ -14,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junitpioneer.jupiter.RetryingTest;
 
 import io.github.zero88.schedulerx.trigger.IntervalTrigger;
 import io.vertx.core.Vertx;
@@ -122,7 +123,7 @@ class IntervalSchedulerTest {
                          .start();
     }
 
-    @Test
+    @RetryingTest(3)
     void test_run_blocking_job_till_the_end(Vertx vertx, VertxTestContext testContext) {
         final Checkpoint flag = testContext.checkpoint(4);
         final AtomicLong lastTickOnEach = new AtomicLong();

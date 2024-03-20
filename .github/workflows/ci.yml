@@ -38,12 +38,17 @@ jobs:
     uses: zero88/shared-ghactions/.github/workflows/gradle-build.yml@main
     needs: context
     if: needs.context.outputs.shouldBuild == 'true'
+    strategy:
+      matrix:
+        java: [ '11', '17', '21' ]
+        os: [ 'ubuntu-latest', 'windows-latest' ]
+      fail-fast: false
+    name: With Java-${{ matrix.java }} on ${{ matrix.os }}
     with:
       profile: 'ciBuild'
       version: ${{ needs.context.outputs.version }}
       semanticVersion: ${{ needs.context.outputs.semanticVersion }}
       hashVersion: ${{ needs.context.outputs.commitId }}
-      buildArgs: 'clean build -x test'
 
   docs:
     uses: zero88/shared-ghactions/.github/workflows/antora-docs.yml@main
@@ -86,7 +91,6 @@ jobs:
       profile: 'ciSonar'
       semanticVersion: ${{ needs.context.outputs.semanticVersion }}
       branch: ${{ needs.context.outputs.branch }}
-      javaVersion: '17'
     secrets:
       githubToken: ${{ secrets.OSS_GITHUB_TOKEN }}
       sonarToken: ${{ secrets.OSS_SONARQUBE_TOKEN }}
