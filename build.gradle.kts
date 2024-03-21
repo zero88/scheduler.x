@@ -16,8 +16,7 @@ project.ext.set("baseName", (gradle as ExtensionAware).extensions["BASE_NAME"] a
 project.ext.set(NexusConfig.NEXUS_VERSION_KEY, NexusVersion.BEFORE_2021_02_24)
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
 }
 
 allprojects {
@@ -53,9 +52,6 @@ subprojects {
     oss {
         zero88.set(true)
         github.set(true)
-        publishing {
-            homepage.set("https://github.com/zero88/scheduler.x")
-        }
         testLogger {
             slowThreshold = 7000
         }
