@@ -89,8 +89,10 @@ jobs:
     if: needs.context.outputs.shouldBuild == 'true'
     with:
       profile: 'ciSonar'
-      semanticVersion: ${{ needs.context.outputs.semanticVersion }}
       branch: ${{ needs.context.outputs.branch }}
+      version: ${{ needs.context.outputs.version }}
+      semanticVersion: ${{ needs.context.outputs.semanticVersion }}
+      hashVersion: ${{ needs.context.outputs.commitId }}
     secrets:
       githubToken: ${{ secrets.OSS_GITHUB_TOKEN }}
       sonarToken: ${{ secrets.OSS_SONARQUBE_TOKEN }}
