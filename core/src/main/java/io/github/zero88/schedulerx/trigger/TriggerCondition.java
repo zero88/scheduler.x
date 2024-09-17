@@ -77,6 +77,7 @@ public interface TriggerCondition {
         public static final String STOP_BY_JOB = "ForceStop";
         public static final String STOP_BY_CONFIG = "StopByTriggerConfig";
         public static final String JOB_IS_RUNNING = "JobIsRunning";
+        public static final String RATE_LIMIT = "RateLimit";
         public static final String UNEXPECTED_ERROR = "UnexpectedError";
 
         private ReasonCode() { }

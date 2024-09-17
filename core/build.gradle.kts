@@ -20,6 +20,7 @@ codegen {
 
 dependencies {
     api(VertxLibs.core)
+    api(project(":ratelimit:api"))
     compileOnly(JacksonLibs.annotations)
     compileOnly(JacksonLibs.databind)
     compileOnly(UtilLibs.jetbrainsAnnotations)
