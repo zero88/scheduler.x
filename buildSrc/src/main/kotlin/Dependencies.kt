@@ -29,7 +29,7 @@ object LogLibs {
 
     object Version {
 
-        const val logback = "1.5.3"
+        const val logback = "1.5.12"
     }
 
     const val logback = "ch.qos.logback:logback-classic:${Version.logback}"
