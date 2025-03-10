@@ -53,6 +53,7 @@ class EventTriggerTest {
         Assertions.assertEquals(t3, trigger);
         Assertions.assertEquals(t3.toJson(), trigger.toJson());
         Assertions.assertEquals(t3.toJson().encode(), mapper.writeValueAsString(trigger));
+        System.out.println(t3.toJson());
     }
 
     static Stream<Arguments> invalidData() {

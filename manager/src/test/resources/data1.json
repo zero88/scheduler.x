@@ -1,0 +1,18 @@
+[
+  {
+    "job": {},
+    "trigger": {
+      "type": "interval",
+      "rule": {
+        "timeframes": [],
+        "beginTime": null,
+        "until": "2023-10-20T10:10:00Z",
+        "leeway": "PT0S"
+      },
+      "repeat": -1,
+      "initialDelay": "PT3S",
+      "interval": "PT1H"
+    }
+  },
+  {}
+]

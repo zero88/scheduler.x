@@ -65,6 +65,7 @@ class CronTriggerTest {
         Assertions.assertEquals(t2, trigger);
         Assertions.assertEquals(t2.toJson(), trigger.toJson());
         Assertions.assertEquals(t2.toJson().encode(), mapper.writeValueAsString(trigger));
+        System.out.println(t2.toJson());
     }
 
     static Stream<Arguments> invalidExpression() {
