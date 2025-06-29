@@ -51,7 +51,7 @@ object TestLibs {
 
     object Version {
 
-        const val junit5 = "5.10.2"
+        const val junit5 = "5.13.2"
         const val pioneer = "2.3.0"
     }
 
