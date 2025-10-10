@@ -1,7 +1,6 @@
 package io.github.zero88.schedulerx.impl;
 
 import java.security.SecureRandom;
-import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 
@@ -10,18 +9,12 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 @Internal
 public final class Utils {
 
-    public static String brackets(Object any) { return "[" + any + "]"; }
-
-    /*
-     * The random number generator, in a holder class to defer initialization until needed.
-     */
-    private static class Holder {
-
-        static final SecureRandom numberGenerator = new SecureRandom();
-
+    private Utils() {
     }
 
-    private Utils() { }
+    public static String brackets(Object any) {
+        return "[" + any + "]";
+    }
 
     public static int randomPositiveInt() {
         return Utils.Holder.numberGenerator.nextInt() & Integer.MAX_VALUE;
@@ -60,6 +53,15 @@ public final class Utils {
             throw ex;
             // @formatter:on
         }
+    }
+
+    /*
+     * The random number generator, in a holder class to defer initialization until needed.
+     */
+    private static class Holder {
+
+        static final SecureRandom numberGenerator = new SecureRandom();
+
     }
 
 }

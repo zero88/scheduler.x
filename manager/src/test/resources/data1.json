@@ -1,6 +1,14 @@
-[
-  {
-    "job": {},
+{
+  "scheduler-1": {
+    "job": {
+      "classType": "http"
+    },
+    "jobData": {
+      "url": "https://example.com/api",
+      "method": "GET",
+      "headers": {
+      }
+    },
     "trigger": {
       "type": "interval",
       "rule": {
@@ -13,6 +21,5 @@
       "initialDelay": "PT3S",
       "interval": "PT1H"
     }
-  },
-  {}
-]
+  }
+}

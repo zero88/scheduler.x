@@ -6,7 +6,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents for time clock
+ * Represents for a time clock
  *
  * @since 2.0.0
  */
@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 public interface TimeClock {
 
     /**
-     * Obtains the current instant from the system clock.
+     * Gets the current instant from the system clock.
      *
      * @return the current instant using the system clock, not null
      */

@@ -18,6 +18,9 @@ public class HttpClientJob implements AsyncJob<JsonObject, JsonObject> {
                                            @NotNull ExecutionContext<JsonObject> executionContext) {
         Vertx vertx = executionContext.vertx();
         JsonObject config = jobData.get();
+        if (config == null) {
+            return Future.failedFuture("Missing job data");
+        }
         return vertx.createHttpClient()
                     .request(HttpMethod.GET, config.getString("host"), config.getString("path"))
                     .map(req -> req.setFollowRedirects(true))

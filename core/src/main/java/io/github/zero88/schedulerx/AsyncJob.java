@@ -37,7 +37,7 @@ public interface AsyncJob<INPUT, OUTPUT> extends Job<INPUT, OUTPUT> {
     /**
      * Async execute job
      * <p>
-     * <em><strong>WARNING</strong></em>: After execution, be aware to call a terminal operation of {@link Future} such
+     * <em><strong>CAUTION</strong></em>: After execution, be aware to call a terminal operation of {@link Future} such
      * as {@link Future#onSuccess(Handler)}, {@link Future#onFailure(Handler)} or {@link Future#onComplete(Handler)}.
      * The async job is already registered these handlers, if several {@code handler}s are registered, there is no
      * guarantee that they will be invoked in order of registration.

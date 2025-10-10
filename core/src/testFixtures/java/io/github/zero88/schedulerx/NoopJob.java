@@ -1,7 +1,7 @@
 package io.github.zero88.schedulerx;
 
 /**
- * Represents for dummy job that do nothing
+ * Represents for a fake job that does nothing
  *
  * @param <IN>  Type of job input data
  * @param <OUT> Type of job result data

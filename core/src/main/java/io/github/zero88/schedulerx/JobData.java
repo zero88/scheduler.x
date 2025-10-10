@@ -1,5 +1,7 @@
 package io.github.zero88.schedulerx;
 
+import java.util.Optional;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,27 +15,6 @@ import io.github.zero88.schedulerx.impl.Utils;
  * @since 1.0.0
  */
 public interface JobData<T> {
-
-    /**
-     * Get an input data.
-     * <p/>
-     * It might be a static input value or a preloaded value from an external system
-     * or a configuration to instruct how to get actual input data of the job in runtime execution.
-     *
-     * @return input data
-     */
-    @Nullable T get();
-
-    /**
-     * Declares a unique id in an external system that will be propagated to the job result.
-     * <p/>
-     * That makes the integration between the job monitoring and the external system seamless and easier.
-     *
-     * @return an external id
-     * @see ExecutionResult#externalId()
-     * @since 2.0.0
-     */
-    default @Nullable Object externalId() { return null; }
 
     /**
      * Create emtpy data with random external id in integer.
@@ -51,12 +32,13 @@ public interface JobData<T> {
      * @return JobData contains null data
      * @since 2.0.0
      */
-    static <D> JobData<D> empty(@NotNull Object externalId) {
+    static <D> JobData<D> empty(Object externalId) {
+        Object id = Optional.ofNullable(externalId).orElseGet(Utils::randomPositiveInt);
         return new JobData<>() {
             public @Nullable D get() { return null; }
 
             @Override
-            public Object externalId() { return externalId; }
+            public Object externalId() { return id; }
         };
     }
 
@@ -78,13 +60,35 @@ public interface JobData<T> {
      * @return JobData
      * @since 2.0.0
      */
-    static <D> JobData<D> create(@NotNull D data, @NotNull Object externalId) {
+    static <D> JobData<D> create(@NotNull D data, Object externalId) {
+        Object id = Optional.ofNullable(externalId).orElseGet(Utils::randomPositiveInt);
         return new JobData<>() {
             public D get() { return data; }
 
             @Override
-            public Object externalId() { return externalId; }
+            public Object externalId() { return id; }
         };
     }
+
+    /**
+     * Get an input data.
+     * <p/>
+     * It might be a static input value or a preloaded value from an external system
+     * or a configuration to instruct how to get actual input data of the job in runtime execution.
+     *
+     * @return input data
+     */
+    @Nullable T get();
+
+    /**
+     * Declares a unique id in an external system that will be propagated to the job result.
+     * <p/>
+     * That makes the integration between the job monitoring and the external system seamless and easier.
+     *
+     * @return an external id
+     * @see ExecutionResult#externalId()
+     * @since 2.0.0
+     */
+    @Nullable Object externalId();
 
 }
