@@ -7,6 +7,8 @@ import java.util.function.BinaryOperator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import io.vertx.core.json.JsonObject;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -36,16 +38,6 @@ public final class TimeoutPolicy {
     /**
      * Create timeout policy with execution timeout
      *
-     * @param executionTimeout given execution timeout
-     * @return timeout policy
-     */
-    public static TimeoutPolicy create(@NotNull Duration executionTimeout) {
-        return create(null, executionTimeout);
-    }
-
-    /**
-     * Create timeout policy with execution timeout
-     *
      * @param evaluationTimeout given evaluation timeout
      * @param executionTimeout  given execution timeout
      * @return timeout policy
@@ -61,6 +53,20 @@ public final class TimeoutPolicy {
         };
         return new TimeoutPolicy(check.apply(evaluationTimeout, DefaultOptions.getInstance().evaluationMaxTimeout),
                                  check.apply(executionTimeout, DefaultOptions.getInstance().executionMaxTimeout));
+    }
+
+    /**
+     * Create timeout policy with execution timeout
+     *
+     * @param executionTimeout given execution timeout
+     * @return timeout policy
+     */
+    public static TimeoutPolicy create(@NotNull Duration executionTimeout) {
+        return create(null, executionTimeout);
+    }
+
+    public static TimeoutPolicy create(JsonObject timeoutPolicy) {
+        return timeoutPolicy.mapTo(TimeoutPolicy.class);
     }
 
     /**
@@ -82,6 +88,13 @@ public final class TimeoutPolicy {
     public @NotNull Duration executionTimeout() { return executionTimeout; }
 
     @Override
+    public int hashCode() {
+        int result = evaluationTimeout != null ? evaluationTimeout.hashCode() : 0;
+        result = 31 * result + (executionTimeout != null ? executionTimeout.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
@@ -92,13 +105,6 @@ public final class TimeoutPolicy {
 
         return Objects.equals(evaluationTimeout, that.evaluationTimeout) &&
                Objects.equals(executionTimeout, that.executionTimeout);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = evaluationTimeout != null ? evaluationTimeout.hashCode() : 0;
-        result = 31 * result + (executionTimeout != null ? executionTimeout.hashCode() : 0);
-        return result;
     }
 
 }

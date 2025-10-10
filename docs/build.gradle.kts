@@ -1,10 +1,14 @@
 import cloud.playio.gradle.antora.tasks.AntoraCopyTask
 import cloud.playio.gradle.generator.docgen.AsciidocGenTask
+import cloud.playio.gradle.pandoc.FormatFrom
+import cloud.playio.gradle.pandoc.FormatTo
+import cloud.playio.gradle.pandoc.tasks.PandocTask
 import cloud.playio.gradle.shared.prop
 
 plugins {
     id(PlayioPlugin.antora)
     id(PlayioPlugin.docgen)
+    id(PlayioPlugin.pandoc)
 }
 
 dependencies {
@@ -32,19 +36,19 @@ documentation {
         javadocProjects.set((extensions["PROJECT_POOL"] as Map<*, Array<String>>)[mainProject]!!.map(project::project))
     }
 
-//    pandoc {
-//        from.set(FormatFrom.markdown)
-//        to.set(FormatTo.asciidoc)
-//        inputFile.set(rootDir.resolve("CHANGELOG.md"))
-//        outFile.set("pg-changelog.adoc")
-//        config {
-//            arguments.set(arrayOf("--trace"))
-//        }
-//    }
+    pandoc {
+        from.set(FormatFrom.markdown)
+        to.set(FormatTo.asciidoc)
+        inputFile.set(rootDir.resolve("CHANGELOG.md"))
+        outFile.set("pg-changelog.adoc")
+        config {
+            arguments.set(arrayOf("--trace"))
+        }
+    }
 }
 
 tasks {
-//    named<AntoraCopyTask>("antoraPages") { from(withType<PandocTask>()) }
+    named<AntoraCopyTask>("antoraPages") { from(withType<PandocTask>()) }
     named<AntoraCopyTask>("antoraPartials") {
         from(withType<AsciidocGenTask>())
         include("*.adoc")

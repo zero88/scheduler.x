@@ -22,19 +22,6 @@ public final class TestUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TestUtils.class);
 
-    private TestUtils() { }
-
-    @SuppressWarnings("java:S2925")
-    public static void block(Duration duration, VertxTestContext testContext) {
-        try {
-            LOGGER.info("Doing a mock stuff in " + brackets(duration) + "...");
-            TimeUnit.MILLISECONDS.sleep(duration.toMillis());
-            LOGGER.info("Wake up after " + brackets(duration) + "!!!");
-        } catch (InterruptedException e) {
-            testContext.failNow(e);
-        }
-    }
-
     public static List<Exception> simulateRunActionInParallel(VertxTestContext testContext, Runnable action,
                                                               int nbOfThreads) {
         final List<Exception> store = new ArrayList<>();
@@ -45,6 +32,16 @@ public final class TestUtils {
         block(Duration.ofMillis(10), testContext);
         latch.countDown();
         return store;
+    }
+
+    public static void block(Duration duration, VertxTestContext testContext) {
+        try {
+            LOGGER.info("Doing a mock stuff in " + brackets(duration) + "...");
+            TimeUnit.MILLISECONDS.sleep(duration.toMillis());
+            LOGGER.info("Wake up after " + brackets(duration) + "!!!");
+        } catch (InterruptedException e) {
+            testContext.failNow(e);
+        }
     }
 
     public static ObjectMapper defaultMapper() {

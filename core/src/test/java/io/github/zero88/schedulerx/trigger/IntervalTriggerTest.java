@@ -37,7 +37,8 @@ class IntervalTriggerTest {
     static void setup() {
         mapper = DatabindCodec.mapper()
                               .findAndRegisterModules()
-                              .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+                              .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,
+                                       SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS);
     }
 
     static Stream<Arguments> validData() {
@@ -78,6 +79,7 @@ class IntervalTriggerTest {
         Assertions.assertEquals(t1.toJson(), trigger.toJson());
         Assertions.assertEquals(t1.toJson().encode(), mapper.writeValueAsString(trigger));
         Assertions.assertEquals(json.mapTo(IntervalTrigger.class), trigger);
+        System.out.println(t1.toJson());
     }
 
     static Stream<Arguments> invalidData() {
